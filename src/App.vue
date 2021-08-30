@@ -1,7 +1,10 @@
 <template>
-  <div class="absolute left-0 top-0 text-lg font-bold">
-    <span></span>
-  </div>
+  <!-- <div class="w-[425px] bg-gray-100 opacity-90 left-1/2 -translate-x-1/2 absolute h-[10000px] z-[-1]"></div> -->
+  <!-- <div class="w-[320px] bg-white left-1/2 -translate-x-1/2 absolute h-[10000px] z-[-1]"></div> -->
+
+  <svg id="gallery-svg" width="100%" height="5000px" class="absolute top-0 left-0">
+    <path fill="none" stroke="orange" stroke-width="26" :d="d"/>
+  </svg>
 
   <header class="w-full h-screen max-h-[1000px] relative shadow-2xl border-b relative border-gray-400">
     <!-- background image -->
@@ -15,9 +18,9 @@
 
     <main class="max-w-screen-xl h-full mx-auto relative">
       <!-- the long stripe -->
-      <svg class="hidden md:block absolute bottom-[-2676px] left-[-612px]" width="1378" height="3822" viewBox="0 0 1378 3822" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- <svg class="hidden md:block absolute bottom-[-2676px] left-[-612px]" width="1378" height="3822" viewBox="0 0 1378 3822" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M1 3770C299.527 3784.61 804.418 3806.83 991.627 3808C1108.63 3809.46 1107.37 3713.5 1112.74 3475C1120.79 3117.16 1112.74 2757.99 1112.74 2399.99H1364.96V1680.5H990.735V0" stroke="#EEAF0C" stroke-width="26"/>
-      </svg>
+      </svg> -->
 
       <nav class="flex justify-between p-16">
         <section class="">
@@ -74,6 +77,7 @@
 
 
   <section class="grid h-[434px] md:h-[534px] overflow-hidden justify-center shadow-xl md:shadow-none" style="grid-template-columns: 1fr minmax(0, 1280px) 1fr;">
+
     <aside class="hidden 2xl:flex col-start-1 flex-grow justify-center gap-5">
         <img src="/notch.svg" class="translate-y-[-50px] object-none object-bottom w-[fit-content] h-[fit-content]">
         <img src="/tie.svg" class="translate-y-[-0px] object-none object-bottom w-[fit-content] h-[fit-content]">
@@ -81,13 +85,16 @@
 
     <main class="flex w-full col-start-2 justify-around md:justify-start xl:w-[1280px] --gap-10 md:--gap-7">
       <div class="hidden md:flex h-[533px] overflow-hidden flex-shrink-0 md:w-[384px] justify-center gap-3">
+        <div class="flex-grow"></div>
         <img src="/wiggly45.svg" class="ml-4 translate-y-[-500px] object-none object-bottom w-[fit-content] h-[fit-content]">
         <img src="/wiggly90.svg" class="ml-4 translate-y-[-125px] object-none object-bottom w-[fit-content] h-[fit-content]">
         <img src="/holey2.svg" class="ml-4 translate-y-[-550px] object-none object-bottom w-[fit-content] h-[fit-content]">
         <img src="/twisted.svg" class="ml-4 translate-y-[-80px] object-none object-bottom w-[fit-content] h-[fit-content]">
+        <div class="flex-grow"></div>
       </div>
    
-      <div class="text-left flex-shrink-0 md:w-[384px] p-16">
+      <div id="beacon-0" class="left-0 top-0 h-3 w-3 bg-red-500"></div>
+      <div class="text-left flex-shrink-0 md:w-[384px] p-16 relative">
         <div class="w-max mx-auto">
           <div class="font-pacifico text-4xl mb-4">Only 100%</div>
           <div class="font-pressstart text-4xl mb-3">digital</div>
@@ -123,17 +130,17 @@
 
   <section class="flex flex-row-reverse px-6 md:hidden overflow-hidden justify-around sm:justify-start gap-6 flex-wrap h-[450px]">
     <!-- <img src="/notch.svg" class="mx-2 mb-[500px] translate-y-[-50px] object-none object-bottom w-[fit-content] h-[fit-content]"> -->
-    <img src="/twisted.svg" class="mb-96 translate-y-[-80px] object-none object-bottom w-[fit-content] h-[fit-content]">
-    <img src="/holey2.svg" class="mb-96 translate-y-[-550px] object-none object-bottom w-[fit-content] h-[fit-content]">
-    <img src="/wiggly90.svg" class="mb-96 translate-y-[-125px] object-none object-bottom w-[fit-content] h-[fit-content]">
-    <img src="/wiggly45.svg" class="mb-96 translate-y-[-500px] object-none object-bottom w-[fit-content] h-[fit-content]">
+    <img src="/twisted.svg" class="mb-96 translate-y-[-180px] object-none object-bottom w-[fit-content] h-[fit-content]">
+    <img src="/holey2.svg" class="mb-96 translate-y-[-650px] object-none object-bottom w-[fit-content] h-[fit-content]">
+    <img src="/wiggly90.svg" class="mb-96 translate-y-[-225px] object-none object-bottom w-[fit-content] h-[fit-content]">
+    <img src="/wiggly45.svg" class="mb-96 translate-y-[-600px] object-none object-bottom w-[fit-content] h-[fit-content]">
 
-    <img src="/wiggly1.svg" class="mr-auto mb-96 translate-y-[-200px] object-none object-bottom w-[fit-content] h-[fit-content]">
-    <img src="/dashed.svg" class="mb-96 translate-y-[-250px] object-none object-bottom w-[fit-content] h-[fit-content]">
-    <img src="/zigzaggy.svg" class="ml-auto mb-96 ml-0 translate-y-[-300px] object-none object-bottom w-[fit-content] h-[fit-content]">
+    <img src="/wiggly1.svg" class="mr-auto mb-96 translate-y-[-250px] object-none object-bottom w-[fit-content] h-[fit-content]">
+    <img src="/dashed.svg" class="mb-96 translate-y-[-350px] object-none object-bottom w-[fit-content] h-[fit-content]">
+    <img src="/zigzaggy.svg" class="ml-auto mb-96 ml-0 translate-y-[-400px] object-none object-bottom w-[fit-content] h-[fit-content]">
         
-    <img src="/curvy2.svg" class="hidden sm:block mr-auto mb-[500px] translate-y-[-30px] object-none object-bottom w-[fit-content] h-[fit-content]">
-    <img src="/tie.svg" class="mr-auto mb-96 translate-y-[-20px] object-none object-bottom w-[fit-content] h-[fit-content]">
+    <img src="/curvy2.svg" class="hidden sm:block mr-auto mb-[500px] translate-y-[-80px] object-none object-bottom w-[fit-content] h-[fit-content]">
+    <img src="/tie.svg" class="opacity-0 mr-auto mb-96 translate-y-[-20px] object-none object-bottom w-[fit-content] h-[fit-content]">
 
   </section>
 
@@ -142,28 +149,105 @@
 
 
 
-
-  <section class="max-w-screen-xl h-[2140px] mx-auto relative">
-    <div class="grid" style="grid-template-columns: repeat(4, 256px);
-                             grid-template-rows: repeat(4, 360px);
-                             grid-auto-columns: auto;">
-      <div class="row-start-1 col-start-2 col-end-4 text-[36px] font-sigmar text-right mt-4 flex justify-center items-center">
-        <div>
-          <div class="leading-[1] mb-6">unlimited <br> utility</div>
-          <div class="leading-[1]">countless <br> applications</div>
+  <section class="w-full mt-32 relative">
+    <GalleryCarousel :initial="-2331" :height="250">
+        <div class="flex-shrink-0 h-[calc(100%-5em)] opacity-0 w-56 bg-red-200"></div>
+        <div class="flex-shrink-0 h-[calc(100%-5em)] opacity-0 w-56 bg-red-200"></div>
+        <div class="flex-shrink-0 h-[calc(100%-5em)] opacity-0 w-56 bg-red-200"></div>
+        <div class="flex-shrink-0 h-[calc(100%-5em)] opacity-0 w-56 bg-red-200"></div>
+        <div class="flex-shrink-0 h-[calc(100%-5em)] opacity-0 w-56 bg-red-200"></div>
+        <div class="flex-shrink-0 h-[calc(100%-5em)] opacity-0 w-56 bg-red-200"></div>
+        <img src="/road.png" class="h-full py-10">
+        <img src="/motorcycle.png" class="h-full py-10">
+        <div class="flex-shrink-0  text-[32px] font-sigmar text-right flex justify-center items-center">
+          <div>
+            <div class="leading-[1] mb-6">unlimited <br> utility</div>
+            <div class="leading-[1]">countless <br> applications</div>
+          </div>
         </div>
+        <div class="w-[26px] h-full relative">
+          <div id="beacon-1" class="svg-beacon absolute top-0 left-1/2 h-0 w-0 bg-red-600"></div>
+          <div id="beacon-2" class="svg-beacon absolute bottom-0 left-1/2 h-0 w-0 bg-red-600"></div>
+        </div>
+        <div class="hidden flex-shrink-0 text-2xl md:text-3xl px-2 md:px-10 font-pacifico flex justify-center items-center w-min">
+          in construction
+        </div>
+        <img src="/house.png" class="h-full py-10">
+        <img src="/shirt.png" class="h-full py-10">
+        <div class="flex-shrink-0 h-[calc(100%-5em)] opacity-0 w-56 bg-blue-200"></div>
+        <div class="flex-shrink-0 h-[calc(100%-5em)] opacity-0 w-56 bg-blue-200"></div>
+        <div class="flex-shrink-0 h-[calc(100%-5em)] opacity-0 w-56 bg-blue-200"></div>
+        <div class="flex-shrink-0 h-[calc(100%-5em)] opacity-0 w-56 bg-blue-200"></div>
+        <div class="flex-shrink-0 h-[calc(100%-5em)] opacity-0 w-56 bg-blue-200"></div>
+        <div class="flex-shrink-0 h-[calc(100%-5em)] opacity-0 w-56 bg-blue-200"></div>
+        <div class="flex-shrink-0 h-[calc(100%-5em)] opacity-0 w-56 bg-blue-200"></div>
+    </GalleryCarousel>
+
+    <GalleryCarousel :initial="-2718" :height="400">
+      <div class="flex-shrink-0 h-[calc(100%-5em)] opacity-0 w-56 bg-red-200"></div>
+      <div class="flex-shrink-0 h-[calc(100%-5em)] opacity-0 w-56 bg-red-200"></div>
+      <div class="flex-shrink-0 h-[calc(100%-5em)] opacity-0 w-56 bg-red-200"></div>
+      <div class="flex-shrink-0 h-[calc(100%-5em)] opacity-0 w-56 bg-red-200"></div>
+      <div class="flex-shrink-0 h-[calc(100%-5em)] opacity-0 w-56 bg-red-200"></div>
+      <div class="flex-shrink-0 h-[calc(100%-5em)] opacity-0 w-56 bg-red-200"></div>
+      <img src="/test.png" class="h-full py-10">
+      <img src="/rainbow.png" class="h-full py-10">
+      <div class="w-[26px] h-full relative">
+        <div id="beacon-3" class="svg-beacon absolute top-0 left-1/2 h-0 w-0 bg-red-600"></div>
+        <div id="beacon-4" class="svg-beacon absolute bottom-0 left-1/2 h-0 w-0 bg-red-600"></div>
       </div>
-      <img class="hidden lg:block p-10 xl:pr-0 row-start-1 row-span-1 col-start-4 col-span-1 h-full" src="/motorcycle.png">
-      <img class="p-10 lg:pl-32 lg:pt-0 row-start-2 col-start-2 lg:col-start-1 col-span-2 lg:col-span-3 h-full w-full object-cover" src="/shirt.png">
-      <img class="p-10 row-start-3 lg:row-start-2 col-start-3 lg:col-start-4 col-span-2 h-full object-cover object-right" src="/zebras.png">
-      <img class="p-10 row-start-3 col-start-1 lg:col-start-3 col-span-2 object-cover object-bottom h-full w-full" src="/house.png">
-      <img class="col-start-1 lg:row-start-4 lg:col-start-4 p-10 xl:row-start-3 xl:col-start-5 col-span-1 object-cover object-bottom h-full w-full" src="/road.png">
-      <img class="p-10 pr-0 row-start-4 col-start-3 col-span-1 object-cover h-full w-full" src="/test.png">
-      <img class="p-10 row-start-2 col-span-1 lg:pb-24 lg:ml-auto lg:row-start-3 col-start-1 lg:col-span-2 lg:w-2/3 object-cover h-full" src="/rainbow.png">
-      <img class="p-10 pt-0 row-start-4 row-end-6 col-start-1 col-span-2 object-cover h-full w-full" src="/fish.png">
-      <div class="p-10 text-left row-start-6 row-span-1 font-pacifico text-[36px] col-start-3">
-        Your <br>
-        imaginatioin <br>
+      <div class="flex-shrink-0 text-2xl md:text-3xl px-8 md:px-10 font-pacifico flex justify-center items-center">
+        thousands<br>
+        of species<br>
+        trust us<br>
+        with their<br>
+        camouflage
+      </div>
+      <img src="/fish.png" class="h-full py-10">
+      <div class="hidden flex-shrink-0 text-2xl md:text-3xl px-2 md:px-10 font-pacifico flex justify-center items-center w-min">
+        in music
+      </div>
+      <img src="/zebras.png" class="h-full py-10">
+      <div class="flex-shrink-0 h-[calc(100%-5em)] opacity-0 w-56 bg-blue-200"></div>
+      <div class="flex-shrink-0 h-[calc(100%-5em)] opacity-0 w-56 bg-blue-200"></div>
+      <div class="flex-shrink-0 h-[calc(100%-5em)] opacity-0 w-56 bg-blue-200"></div>
+      <div class="flex-shrink-0 h-[calc(100%-5em)] opacity-0 w-56 bg-blue-200"></div>
+      <div class="flex-shrink-0 h-[calc(100%-5em)] opacity-0 w-56 bg-blue-200"></div>
+      <div class="flex-shrink-0 h-[calc(100%-5em)] opacity-0 w-56 bg-blue-200"></div>
+      <div class="flex-shrink-0 h-[calc(100%-5em)] opacity-0 w-56 bg-blue-200"></div>
+    </GalleryCarousel>
+
+    <GalleryCarousel :initial="-1544" :height="300">
+      <div class="flex-shrink-0 h-[calc(100%-5em)] w-56 bg-red-200"></div>
+      <div class="flex-shrink-0 h-[calc(100%-5em)] w-56 bg-red-200"></div>
+      <div class="flex-shrink-0 h-[calc(100%-5em)] w-56 bg-red-200"></div>
+      <div class="flex-shrink-0 h-[calc(100%-5em)] w-56 bg-red-200"></div>
+      <div class="flex-shrink-0 h-[calc(100%-5em)] w-56 bg-red-200"></div>
+      <div class="flex-shrink-0 text-right text-2xl md:text-3xl px-2 md:px-10 font-pacifico flex justify-center items-center">
+        most<br>
+        countries<br>
+        of the world<br>
+        use our stripes<br>
+        in their identics
+      </div>
+      <div class="w-[26px] h-full relative">
+        <div id="beacon-5" class="svg-beacon absolute top-0 left-1/2 h-0 w-0 bg-red-600"></div>
+        <div id="beacon-6" class="svg-beacon absolute bottom-0 left-1/2 h-0 w-0 bg-red-600"></div>
+      </div>
+      <div class="flex-shrink-0 h-[calc(100%-5em)] w-56 bg-blue-200"></div>
+      <div class="flex-shrink-0 h-[calc(100%-5em)] w-56 bg-blue-200"></div>
+      <div class="flex-shrink-0 h-[calc(100%-5em)] w-56 bg-blue-200"></div>
+      <div class="flex-shrink-0 h-[calc(100%-5em)] w-56 bg-blue-200"></div>
+      <div class="flex-shrink-0 h-[calc(100%-5em)] w-56 bg-blue-200"></div>
+      <div class="flex-shrink-0 h-[calc(100%-5em)] w-56 bg-blue-200"></div>
+      <div class="flex-shrink-0 h-[calc(100%-5em)] w-56 bg-blue-200"></div>
+    </GalleryCarousel>
+
+    <div class="max-w-[320px] min-h-[400px] mx-auto relative flex items-center h-[400px]">
+      <div id="beacon-7" class="absolute bottom-[380px] w-3 h-3 bg-red-300"></div>
+      <div class="font-pacifico text-3xl leading-[1.7em] ml-20 -mt-10">
+        Your<br>
+        imagination<br>
         is the limit!
       </div>
     </div>
@@ -175,27 +259,29 @@
 
 
 
-  <section class="h-[746px] relative">
-    <div class="relative left-1/2 top-0 bg-red-200 w-[1920px]">
-      <div class="absolute h-3 w-3 top-0 left-0 rounded-full bg-red-400"></div>
+  <section class="sm:hidden relative">
 
-      <img src="/rough.svg" class="absolute rotate-[3deg] translate-y-[-195px] translate-x-[-130%]">
-      <img src="/thicktwisted.svg" class="absolute translate-x-[-210%] translate-y-[-60px]">
-      <img src="/squarebeads.svg"  class="absolute translate-x-[-130%] translate-y-[30px]">
-      <img src="/stripy.svg" class="absolute translate-x-[-103%] translate-y-[90px]">
-      <img src="/thickbraid.svg" class="absolute translate-x-[-120%] translate-y-[110px]">
-      <img src="/bricky2.svg" class="absolute translate-x-[-140%] translate-y-[180px] ">
-
-      <img src="/thickbraid.svg" class="absolute scale-x-[-1] translate-x-[40%] translate-y-[130px] rotate-[5deg]">
-      <img src="/kurva.svg" class="absolute translate-x-[-5%] translate-y-[5px] scale-[0.6]">
-      <img src="/monobraid.svg" class="absolute translate-x-[-8%] translate-y-[-10px] scale-[0.45] rotate-3">
-      <img src="/barky.svg" class="absolute translate-x-[-15%] translate-y-[-70px] scale-[0.6] rotate-[7deg]">
-      <img src="/brushy.svg" class="absolute translate-x-[-10%] translate-y-[-230px] scale-[0.5] rotate-[16deg]">
+    <div class="font-pacifico text-3xl mt-16 text-center">
+      All sorts, <span class="font-sigmar text-4xl inline-block rotate-6">any</span> kind
     </div>
 
-    <div class="font-pacifico text-[42px] mt-28 text-center">
-      All sorts, any kind, <br>
-      for any kind of cause
+    <div class="relative mt-10 w-[1920px] scale-90 origin-top-left h-[340px] translate-x-[-40px]">
+      <img src="/squarebeads.svg"  class="absolute ">
+      <img src="/stripy.svg" class="absolute -rotate-3 translate-y-[40px]">
+      <img src="/rough.svg" class="absolute rotate-[3deg] translate-y-[60px]">
+      <img src="/bricky2.svg" class="absolute translate-y-[203px] rotate-6">
+      <img src="/thickbraid.svg" class="absolute translate-y-[210px] -rotate-3">
+    </div>
+    
+    <div class="font-pacifico text-3xl text-center mt-">
+      for <span class="font-sigmar text-4xl inline-block -rotate-6">any</span> kind of cause <span class="font-sigmar text-4xl rotate-6 inline-block">!</span>
+    </div>
+
+    <div class="relative w-[1920px] scale-[0.85] origin-top-left h-[400px] mt-10">
+      <img src="/barky.svg" class="scale-[0.6] absolute translate-x-[-40%] rotate-[2deg]">
+      <img src="/monobraid.svg" class="absolute scale-[0.45] translate-x-[-30%] translate-y-[60px] rotate-3">
+      <img src="/kurva.svg" class="absolute scale-[0.6] rotate-[0deg] translate-x-[-30%] translate-y-[70px] rotate-[2deg]">
+      <img src="/thickbraid.svg" class="absolute scale-x-[-1] translate-x-[10%] translate-y-[155px] rotate-[10deg]">
     </div>
   </section>
 
@@ -205,73 +291,121 @@
 
 
 
-  <section class=" h-[1400px] z-10 relative">
-    <div class="absolute w-3 h-3 top-0 left-1/2">
-      <svg xmlns="http://www.w3.org/2000/svg" width="1368" height="2118" fill="none" class="translate-x-[-25%] translate-y-[-620px]">
-        <path id="zhopka" d="M248.428 2115.09c-31-182.5-203.6861-211-220.5015-440-12.7147-192.5-26.0082-882.938.0003-1064.792 31.6545-221.332 777.4992-101.001 546.4992-484.5C495.628-5.0209 1151.87 13.2621 1366.93 14.5915" stroke="#EEAF0C" stroke-width="26"/>
+  <section class="hidden sm:block h-[746px] relative mt-32">
 
-        <text style="fill: currentColor;" class="font-pacifico text-[42px] translate-y-[-35px]">
-            <textPath href="#zhopka" startOffset="51%" text-anchor="">
+    <div class="font-pacifico text-3xl md:text-4xl lg:text-[42px] text-center">
+      All sorts, any kind
+    </div>
+
+    <div class="relative left-1/2 top-[-30px] w-[1920px] scale-90 lg:scale-100 md:translate-x-[-20px] lg:translate-x-[30px] xl:translate-x-0">
+      <img src="/rough.svg" class="absolute rotate-[3deg] translate-y-[-200px] translate-x-[-130%]">
+      <img src="/thicktwisted.svg" class="absolute translate-x-[-170%] translate-y-[-40px] xl:translate-x-[-210%] xl:translate-y-[-60px]">
+      <img src="/squarebeads.svg"  class="absolute translate-x-[-137%] translate-y-[30px]">
+      <img src="/stripy.svg" class="absolute -rotate-3 translate-x-[-103%] translate-y-[80px]">
+      <img src="/thickbraid.svg" class="absolute translate-x-[-120%] translate-y-[110px]">
+      <img src="/bricky2.svg" class="absolute translate-x-[-127%] xl:translate-x-[-140%] translate-y-[180px] ">
+    </div>
+    
+    <div class="font-pacifico text-3xl md:text-4xl lg:text-[42px] text-center mt-4 ml-4">
+      for any kind of cause
+    </div>
+
+    <div class="relative left-1/2 top-[-90px] w-[1920px] scale-90 lg:scale-100 translate-y-[10px] lg:translate-y-0 translate-x-[-200px] lg:translate-x-[-30px] xl:translate-x-0">
+      <img src="/thickbraid.svg" class="hidden md:block absolute scale-x-[-1] translate-x-[50%] lg:translate-x-[40%] translate-y-[130px] rotate-[5deg]">
+      <img src="/kurva.svg" class="absolute scale-[0.6] rotate-0 translate-x-[-5%] translate-y-[5px]">
+      <img src="/monobraid.svg" class="absolute scale-[0.45] translate-x-[-8%] translate-y-[-10px] rotate-3">
+      <img src="/barky.svg" class="scale-[0.6] absolute translate-x-[-15%] translate-y-[-70px] rotate-[7deg]">
+      <img src="/brushy.svg" class="absolute scale-[0.5] translate-x-[-10%] translate-y-[-230px] rotate-[16deg]">
+    </div>
+  </section>
+
+
+
+
+
+
+
+  <section class="z-10 relative">
+    <div class="hidden sm:block w-3 h-3 mx-auto">
+      <svg fill="none" xmlns="http://www.w3.org/2000/svg" width="1331" height="2173" viewBox="0 0 1331 2173" class="absolute translate-x-[-25%] translate-y-[-580px]">
+        <path id="zhopka" stroke="#EEAF0C" stroke-width="26" d="m 429.5,2111.5 c 6,-9.5 40.5,-44 -173.5,35.5 C 42,2226.5 45.3142,1904.49 28.4988,1675.5 15.7841,1483 2.4906,792.561 28.4991,610.706 60.1535,389.374 805.998,509.706 574.999,126.206 496.2,-4.6125 1152.44,13.6705 1367.5,15"/>
+
+        <text style="fill: currentColor;" class="font-pacifico text-4xl lg:text-[42px] translate-y-[-35px]">
+            <textPath href="#zhopka" startOffset="55%" text-anchor="">
               See what our
             </textPath>
           </text>
-        <text style="fill: currentColor;" class="font-pacifico text-[42px] translate-y-[50px] translate-x-[40px]">
-            <textPath href="#zhopka" startOffset="54%" text-anchor="">
+        <text style="fill: currentColor;" class="font-pacifico text-4xl lg:text-[42px] translate-y-[50px] translate-x-[40px]">
+            <textPath href="#zhopka" startOffset="59%" text-anchor="">
               customers have to say!
             </textPath>
         </text>
       </svg>
     </div>
 
-    <div class="w-[530px]  mx-auto mb-8 mt-8">
-      <div class="flex items-center gap-6">
-        <div class="rounded-full bg-gray-400 w-12 h-12"></div>
-        <div class="text-xl">John Knopkins</div>
+    <div class="sm:hidden font-pacifico text-3xl mt-16 mb-16 mx-auto w-max">
+      <div class="ml-6 rotate-3">
+        See what <span class="inline-block rotate-[-9deg]">our</span>
       </div>
-      <div class="ml-[73px] text-left">
-        This is not a bad stripe per se, just not really my cup of tea. Too plain for my taste. I hoped it would give it this solid serious kinda look, but in the hindsight I can say that it needs something else to play off of. Bit boring on it own, if I’m honest.
+      <div class="font-sigmar text-center text-5xl -rotate-6">
+        customers
       </div>
-    </div>    
-    <div class="w-[530px]  mx-auto mb-8 mt-8">
-      <div class="flex items-center gap-6">
-        <div class="rounded-full bg-gray-400 w-12 h-12"></div>
-        <div class="text-xl">John Knopkins</div>
-      </div>
-      <div class="ml-[73px] text-left">
-        This is not a bad stripe per se, just not really my cup of tea. Too plain for my taste. I hoped it would give it this solid serious kinda look, but in the hindsight I can say that it needs something else to play off of. Bit boring on it own, if I’m honest.
-      </div>
-    </div> 
+      <div class="text-right mr-6 -rotate-6">
+        have to say!
+      </div>      
+    </div>
 
-    <div class="h-[450px] max-w-screen-xl  mx-auto">
-      <div class="grid grid-cols-8 h-full relative">
-        <img src="/wavy.svg" class="col-start-5 absolute left-[-660px] top-[70px]">
-        <img src="/ring_top.svg" class="col-start-5 absolute top-[289px] left-[-403px]">
-        <img src="/ring_bottom.svg" class="col-start-5 absolute top-[282px] left-[-410px] z-[-1]">
-        <img src="/infinite.svg" class="col-start-5 absolute top-[] left-[-300px]">
-        <img src="/ribbon.svg" class="col-start-5 absolute left-[-140px] top-[200px]">
-        <img src="/littlespiral.svg" class="col-start-6 absolute -rotate-6 top-[] left-[-60px]">
-        <img src="/knot.svg" class="col-start-6 absolute top-[280px] left-[5px] -rotate-6">
-        <img src="/longspiral.svg" class="col-start-6 absolute left-[177px] top-[-330px]">
-        <img src="/spiral.svg" class="col-start-7 absolute left-[100px] top-[230px]">
+    <div class="max-w-[530px] p-4 sm:px-0 mx-auto">
+      <div class="flex items-center gap-7 mb-4">
+        <div class="rounded-full bg-gray-400 w-12 h-12"></div>
+        <div class="text-xl font-sigmar">John Knopkins</div>
+      </div>
+      <div class="text-base sm:text-base text-justif">
+        Uh... I'm really confused as to the purpose of this place? Do they sell... what? Digital images of stripes? Like, one stripe per image? I don't get it. Why the hell would you want to buy one of those? Are they supposed to be useful somehow? I dunno... This is really confusing.
       </div>
     </div>
 
-    <div class="w-[530px]  mx-auto mb-8 mt-8">
-      <div class="flex items-center gap-6">
+    <div class="max-w-[530px] p-4 sm:px-0 mx-auto">
+      <div class="flex items-center gap-7 mb-4">
         <div class="rounded-full bg-gray-400 w-12 h-12"></div>
-        <div class="text-xl">John Knopkins</div>
+        <div class="text-xl font-sigmar">Zoey</div>
       </div>
-      <div class="ml-[73px] text-left">
-        This is not a bad stripe per se, just not really my cup of tea. Too plain for my taste. I hoped it would give it this solid serious kinda look, but in the hindsight I can say that it needs something else to play off of. Bit boring on it own, if I’m honest.
+      <div class="text-base sm:text-base text-justif">
+        Okay, so I actually went and bought one of the stripes. Arrived shortly, as promised. Feels oddly satisfying to have bought it, haha :D What the hell do I do with it now, though?
       </div>
-    </div>   
-    <div class="w-[530px]  mx-auto mb-8 mt-8">
-      <div class="flex items-center gap-6">
+    </div>
+
+    <div class="h-[450px] max-w-screen-xl my-6 md:my-10 md:my-10 mx-auto">
+      <div class="grid grid-cols-8 h-full relative">
+        <img src="/wavy.svg" class="min-w-max scale-[0.75] md:scale-110 col-start-7 md:col-start-5 absolute left-[-50px] top-[250px] md:left-[-650px] md:top-[20px] rotate-[355deg] md:rotate-0">
+        <img src="/ring_top.svg" class="min-w-max scale-[0.85] md:scale-100 col-start-5 absolute left-[-403px] top-[289px]">
+        <img src="/ring_bottom.svg" class="min-w-max scale-[0.85] md:scale-100 col-start-5 absolute top-[282px] left-[-410px] z-[-10]">
+        <img src="/infinite.svg" class="min-w-max scale-[0.85] md:scale-95 rotate-[-14deg] md:rotate-[-15deg] col-start-5 absolute top-[-20px] left-[-320px] md:left-[-310px] md:top-[0px]">
+        <img src="/ribbon.svg" class="min-w-max scale-[0.85] md:scale-110 col-start-5 absolute left-[-135px] top-[95px] md:left-[-140px] md:top-[200px] rotate-[48deg] md:rotate-0">
+        <img src="/littlespiral.svg" class="min-w-max scale-[0.75] md:scale-100 col-start-6 absolute -rotate-6 top-[-48px] left-[-90px] rotate-[-10deg] md:rotate-0">
+        <img src="/knot.svg" class="min-w-max scale-[0.9] md:scale-100 col-start-6 md:col-start-6 absolute left-[-330px] top-[190px] md:left-[-10px] md:top-[280px] rotate-[-14deg] rotate-[-9deg]">
+        <img src="/longspiral.svg" class="min-w-max scale-[0.75] md:scale-110 col-start-7 md:col-start-6 absolute left-[18px] top-[-220px] md:left-[167px] md:top-[-390px] rotate-6">
+        <img src="/spiral.svg" class="min-w-max scale-[0.75] md:scale-110 col-start-6 md:col-start-7 absolute left-[-113px] top-[225px] md:left-[80px] md:top-[200px]">
+      </div>
+    </div>
+
+    <div class="max-w-[530px] p-4 sm:px-0 mx-auto">
+      <div class="flex items-center gap-7 mb-4">
         <div class="rounded-full bg-gray-400 w-12 h-12"></div>
-        <div class="text-xl">John Knopkins</div>
+        <div class="text-xl font-sigmar">Aristarkh Borodulko</div>
       </div>
-      <div class="ml-[73px] text-left">
-        This is not a bad stripe per se, just not really my cup of tea. Too plain for my taste. I hoped it would give it this solid serious kinda look, but in the hindsight I can say that it needs something else to play off of. Bit boring on it own, if I’m honest.
+      <div class="text-base sm:text-base text-justif">
+        Can you imagine spending the effort to make something as useless at this thing... and to such level of polish? I mean, don't you have anything better to do with your life? I guess I'll go buy something... out of pity.
+      </div>
+    </div>
+
+    <div class="max-w-[530px] p-4 sm:px-0 mx-auto">
+      <div class="flex items-center gap-7 mb-4">
+        <div class="rounded-full bg-gray-400 w-12 h-12"></div>
+        <div class="text-xl font-sigmar">Petunya</div>
+      </div>
+      <div class="text-base sm:text-base text-justif">
+        Finally, a shop for an avid stripe lover such as myself! I used to buy stripy patterns from stocks and then meticulously extract individual stripes from there... such an arduous task, I'll tell ya! Now I can buy stripes separately, no more overpaying for the ones I don't need!
       </div>
     </div>
   </section>
@@ -282,18 +416,18 @@
 
 
   <section class="mx-auto max-w-screen-xl ">
-    <h1 class="ml-[calc(50%-271px)] mt-[10px]">
+    <h1 class="pl-8 sm:pl-16 mt-[185px] max-w-[530px] mx-auto">
       <div class="font-pacifico text-5xl">Also,</div>
-      <div class="font-sigmar text-[77px] origin-left rotate-[-10deg] ml-9 mt-2">SA<span class="text-orange">L</span>E!</div>
+      <div class="font-sigmar text-[77px] origin-left rotate-[-10deg] md:rotate-[-16deg] ml-9 mt-2">SA<span class="text-orange">L</span>E!</div>
     </h1>
 
-    <h2 class="text-4xl m-6 font-sigmar -rotate-6 origin-left">-50% off</h2>
+    <h2 class="text-4xl mt-8 m-6 mb-2 font-sigmar -rotate-6 origin-left">-50%</h2>
     <Carousel class=""/>
 
-    <h2 class="text-4xl m-6 mt-24 font-sigmar -rotate-6 origin-left">-25% off</h2>
+    <h2 class="text-4xl m-6 mt-24 mb-2 font-sigmar -rotate-6 origin-left">-25%</h2>
     <Carousel class=""/>
 
-    <h2 class="text-4xl m-6 mt-24 font-sigmar -rotate-6 origin-left">Limited offer!</h2>
+    <h2 class="text-4xl m-6 mt-24 mb-2 font-sigmar -rotate-6 origin-left">Limited offer!</h2>
     <Carousel class=""/>
   </section>
 
@@ -304,7 +438,7 @@
 
 
   <section class="flex justify-center">
-    <div class="m-40">
+    <div class="my-40">
       <div class="font-sigmar text-2xl">our motto</div>
       <div class="font-pacifico text-2xl">&mdash; Are you gonna buy something?</div>
       <div class="font-pacifico text-2xl">&mdash; Nah, I'm just browsing</div>
@@ -329,12 +463,40 @@
 import HelloWorld from './components/HelloWorld.vue'
 import WareCard from './components/WareCard.vue'
 import Carousel from './components/Carousel.vue'
+import GalleryCarousel from './components/GalleryCarousel.vue'
 
-// This starter template is using Vue 3 experimental <script setup> SFCs
-// Check out https://github.com/vuejs/rfcs/blob/master/active-rfcs/0040-script-setup.md
+import {ref, onMounted, computed} from 'vue';
 
-function zhopa () {
-  window.alert('zhopa')
+var beacons = ref(0);
+
+// SVG path's d attribute value
+var d = ref("M0 0");
+
+onMounted(() => {
+  animateSVG();
+})
+
+
+function animateSVG() {
+  let gallerySVG = document.getElementById("gallery-svg");
+  let rectSVG = gallerySVG.getBoundingClientRect();
+
+  beacons.value = [0, 1, 2, 3, 4, 5, 6, 7]
+    .map(i => "beacon-"+i)
+    .map(id => document.getElementById(id))
+    .map(el => el.getBoundingClientRect())
+    .map(rect => {
+      return {
+        x: rect.x - rectSVG.x,
+        y: rect.y - rectSVG.y
+      }
+    });
+  
+  let p = beacons.value; // just for shortness
+  d.value = `M${p[0].x} ${p[0].y} V${p[1].y} H${p[1].x} L${p[2].x} ${p[2].y} H${p[3].x} V${p[4].y} H${p[5].x} V${p[6].y} H${p[7].x} V${p[7].y} 
+c1.109,59.37,1.048,0.46,0,47c3.417,253.24,-4.107,334.46,-121.108,333c-187.208,-1.17,-692.09969,-23.39,-990.627,-38`;
+
+  window.requestAnimationFrame(animateSVG); // loopь
 }
 
 </script>
