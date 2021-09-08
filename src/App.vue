@@ -388,23 +388,27 @@
       All sorts, <span class="font-sigmar text-4xl inline-block rotate-6">any</span> kind
     </div>
 
-    <div class="relative mt-10 w-[1920px] scale-90 origin-top-left h-[300px] translate-x-[-40px]">
-      <img src="/squarebeads.svg"  class="absolute ">
-      <img src="/stripy.svg" class="absolute -rotate-3 translate-y-[30px]">
-      <img src="/rough.svg" class="absolute rotate-[3deg] translate-y-[40px]">
+    <div class="relative mt-8 w-[1920px] scale-90 origin-top-left translate-x-[-40px] translate-y-[-60px]">
+      <!-- <img src="/squarebeads.svg"  class="absolute "> -->
+      <img src="/stripy.svg" class="absolute rotate-[-5deg] translate-y-[30px]">
+      <!-- <img src="/thicktwisted2.svg" class="absolute scale-[0.5] rotate-[6.7deg] translate-x-[-30%] translate-y-[95px] rotate-[2deg]"> -->
+      <img src="/rough.svg" class="absolute rotate-[3deg] translate-y-[44px]">
       <img src="/bricky2.svg" class="absolute translate-y-[180px] rotate-6">
-      <img src="/thickbraid.svg" class="absolute translate-y-[180px] -rotate-3">
+      <img src="/squarebeads2.svg"  class="absolute translate-y-[245px] scale-y-[-1]">
+      <!-- <img src="/thickbraid.svg" class="absolute translate-y-[180px] -rotate-3"> -->
     </div>
     
-    <div class="font-pacifico text-3xl text-center mt-">
+    <div class="font-pacifico text-3xl text-center mt-[300px]">
       for <span class="font-sigmar text-4xl inline-block -rotate-6">any</span> kind of cause <span class="font-sigmar text-4xl rotate-6 inline-block">!</span>
     </div>
 
     <div class="relative w-[1920px] scale-[0.85] origin-top-left h-[400px] mt-8">
       <img src="/barky.svg" class="scale-[0.6] absolute translate-x-[-40%] rotate-[2deg]">
       <img src="/monobraid.svg" class="absolute scale-[0.45] translate-x-[-30%] translate-y-[50px] rotate-2">
-      <img src="/kurva.svg" class="absolute scale-[0.6] rotate-[0deg] translate-x-[-30%] translate-y-[60px] rotate-[2deg]">
-      <img src="/thickbraid.svg" class="absolute scale-x-[-1] translate-x-[10%] translate-y-[140px] rotate-[10deg]">
+      <!-- <img src="/rough.svg" class="absolute rotate-[2deg] translate-y-[45px] translate-x-[-20px]"> -->
+      <img src="/kurva.svg" class="absolute scale-[0.6] scale-x-[-0.6] rotate-[0deg] translate-x-[-30%] translate-y-[57px] rotate-[2deg]">
+      <!-- <img src="/thicktwisted2.svg" class="absolute scale-[0.5] scale-x-[-0.5] rotate-[-1deg] translate-x-[-20%] translate-y-[162px] rotate-[2deg]"> -->
+      <img src="/thickbraid.svg" class="absolute scale-x-[-1] translate-x-[10%] translate-y-[135px] rotate-[10deg]">
     </div>
   </section>
 
@@ -414,28 +418,35 @@
 
 
 
-  <section class="hidden sm:block h-[506px] relative mt-14 xl:mt-32">
+  <section class="hidden sm:block h-[506px] relative mt-14">
 
-    <div class="font-pacifico md:leading-normal text-3xl md:text-4xl text-center">
-      All sorts, any kind<br>
-      for any kind of cause
-    </div>
-
-    <div class="relative left-1/2 top-[-30px] w-[1920px] scale-90 xl:scale-100 md:translate-x-[-0px] lg:translate-x-[-40px] xl:translate-x-0">
-      <img src="/rough.svg" class="absolute rotate-[3deg] translate-y-[-230px] xl:translate-y-[-200px] translate-x-[-130%]">
-      <img src="/thicktwisted.svg" class="absolute translate-x-[-170%] translate-y-[-90px] xl:translate-y-[-40px] xl:translate-x-[-210%] xl:translate-y-[-60px]">
-      <img src="/squarebeads.svg"  class="absolute translate-x-[-137%] translate-y-[-30px] xl:translate-y-[30px]">
-      <img src="/stripy.svg" class="absolute -rotate-3 translate-x-[-103%] translate-y-[10px] xl:translate-y-[80px]">
-      <img src="/thickbraid.svg" class="absolute translate-x-[-100%] xl:translate-x-[-120%] translate-y-[50px] xl:translate-y-[110px]">
-      <img src="/bricky2.svg" class="absolute -rotate-6 xl:rotate-0 translate-x-[-115%] xl:translate-x-[-140%] translate-y-[150px] xl:translate-y-[180px]">
+    <div class="relative left-1/2 h-0 w-[1920px] -rotate-1 scale-[0.8] translate-x-[-130px]
+                lg:translate-x-[-200px]
+                2xl:scale-[1] 2xl:translate-x-[-30px] 2xl:translate-y-[10px]">
+      <img src="/thicktwisted2.svg" class="absolute -rotate-1 scale-[0.55] scale-y-[-0.55] left-[-86%] translate-y-[-130px]">
+      <img src="/rough.svg" class="absolute rotate-1 translate-y-[-117px] translate-x-[-140%]">
+      <img src="/stripy.svg" class="absolute rotate-[-5deg] translate-x-[-130%] translate-y-[-15px]">
+      <img src="/squarebeads3.svg"  class="absolute rotate-2 scale-[0.8] translate-x-[-99%] translate-y-[85px]">
+      <img src="/thickbraid4.svg" class="absolute rotate-3 scale-[0.6] translate-x-[-88%] translate-y-[100px]">
+      <!-- <img src="/holey3.svg" class="absolute rotate-[1deg] scale-[0.6] translate-x-[-96%] translate-y-[105px]"> -->
+      <!-- <img src="/bricky2.svg" class="absolute rotate-[-4deg] translate-x-[-132%] translate-y-[180px]"> -->
     </div>
     
-    <div class="relative left-1/2 top-[-90px] w-[1920px] scale-90 xl:scale-100 translate-y-[10px] lg:translate-y-[-20px] xl:translate-y-0 translate-x-[-200px] lg:translate-x-[-180px] xl:translate-x-0">
-      <img src="/brushy.svg" class="absolute scale-[0.5] translate-x-[-10%] translate-y-[-170px] xl:translate-y-[-230px] rotate-[16deg]">
-      <img src="/barky.svg" class="scale-[0.6] absolute translate-x-[-15%] translate-y-[-30px] xl:translate-y-[-70px] rotate-[7deg] xl:rotate-[7deg]">
-      <img src="/monobraid.svg" class="absolute scale-[0.45] translate-x-[-8%] translate-y-[50px] xl:translate-y-[-10px] rotate-3">
-      <img src="/kurva.svg" class="absolute scale-[0.6] rotate-0 translate-x-[-5%] translate-y-[50px] xl:translate-y-[5px]">
-      <img src="/thickbraid.svg" class="hidden md:block absolute scale-x-[-1] translate-x-[50%] lg:translate-x-[47%] translate-y-[150px] xl:translate-y-[130px] rotate-[5deg]">
+     <div class="relative h-0 left-1/2 w-[1920px] scale-[0.8] translate-x-[-80px] translate-y-[-10px]
+                 lg:translate-x-[-20px]
+                 2xl:scale-[1] 2xl:translate-x-[200px]">
+      <div class="absolute h-3 w-3 bg-red-600 left-[30px] top-[350px] beacon-b"></div>
+      <img src="/thickbraid5.svg" class="absolute rotate-[-0deg] scale-[0.5] left-[-22%] top-[-505px]">
+      <img src="/monobraid3.svg" class="absolute scale-[0.5] left-[-26%] top-[-155px]">
+      <img src="/bricky6.svg" class="absolute scale-[0.6] -rotate-2 left-[-16%] top-[55px]">
+      <img src="/kurva3.svg" class="absolute scale-[0.4] rotate-[-3deg] top-[-10px] left-[-24%]
+                                    lg:left-[-25%]
+                                    2xl:rotate-[0.6deg] 2xl:left-[-25%] 2xl:top-[25px]">
+    </div>
+
+    <div class="font-pacifico md:leading-normal sm:leading-normal lg:leading-normal xl:leading-normal text-3xl lg:text-4xl text-center pt-6 lg:pt-2 2xl:pt-8">
+      All sorts, any kind,<br>
+      for any kind of cause!
     </div>
   </section>
 
@@ -446,10 +457,10 @@
 
 
   <section class="relative">
-    <div class="hidden sm:block w-0 mx-auto mt-96">
+    <div class="hidden sm:block w-0 mx-auto mt-72">
       <svg id="svg2" xmlns="http://www.w3.org/2000/svg" fill="none" width="1304" height="3131" viewBox="0 0 1304 3131" 
            class="absolute translate-x-[-26%] translate-y-[-720px]">
-        <path id="zhopka" d="M19.8334,730.988C44.4087,540.225,536.34,621.7449,617,515.999C698.998,408.5,566.416,253,552.499,196C505.499,3.4997,1122.44,12.6712,1337.5,14.0006" stroke="#eeaf0c" stroke-width="23"/>
+        <path id="zhopka" :d="d3" stroke="#eeaf0c" stroke-width="23"/>
 
         <path stroke="#eeaf0c" stroke-width="23" :d="d2"/>
 
@@ -549,7 +560,7 @@
       </div>
     </h1>
 
-    <h2 class="text-4xl mt-16 sm:mt-16 m-6 mb-2 font-sigmar -rotate-6 origin-left">-50%</h2>
+    <h2 class="text-4xl mt-16 md:mt-8 m-6 mb-2 font-sigmar -rotate-6 origin-left">-50%</h2>
     <Carousel class=""/>
 
     <h2 class="text-4xl m-6 mt-16 mb-2 font-sigmar -rotate-6 origin-left">-25%</h2>
@@ -601,6 +612,7 @@ var d = ref("M0 0");
 onMounted(() => {
   animateSVG();
   animateSVG2();
+  animateSVG3();
 })
 
 function getBeaconById(id) {
@@ -638,10 +650,14 @@ function animateSVG() {
     H${p[5].x}
     V${p[6].y}
     H${p[7].x}
-    V${p[7].y} 
-    c1.109,59.37,1.048,0.46,0,47
-    c3.417,253.24,-4.107,334.46,-121.108,333
-    c-187.208,-1.17,-692.09969,-23.39,-990.627,-38`;
+    V${p[7].y}
+    v35
+    c-5.37,238.5,-7.5,319.04,-121.109,333
+    c-193.03,23.73,-696.1274,-4.36, -990.626,0
+    `;
+    // c1.109,59.37,1.048,0.46,0,47
+    // c3.417,253.24,-4.107,334.46,-121.108,333
+    // c-187.208,-1.17,-692.09969,-23.39,-990.627,-38`;
 
   window.requestAnimationFrame(animateSVG); // loopь
 }
@@ -666,6 +682,29 @@ function animateSVG2() {
     c214,-79.5,179.5,-52,173.5,-38.5`;
   
   window.requestAnimationFrame(animateSVG2); // loopь
+}
+
+
+var d3 = ref("M0,0");
+
+function animateSVG3() {
+  let svg2 = document.getElementById("svg2");
+  let rectSVG = svg2.getBoundingClientRect();
+  let b = getBeaconById("b").getBoundingClientRect();
+  b = {
+    x: b.x - rectSVG.x,
+    y: b.y - rectSVG.y
+  };
+
+
+  d3.value = `
+    M19.8334,730.988
+    C44.4087,540.225,536.34,621.7449,617,515.999
+    C698.998,408.5, ${b.x+13.917},${b.y+57}, ${b.x},${b.y}
+    c-47,-192.5,569.941,-183.329,785.001,-120`;
+    //C505.499,3.4997, 1122.44,12.6712, 1337.5,14.0006`;
+  
+  window.requestAnimationFrame(animateSVG3); // loopь
 }
 
 </script>
