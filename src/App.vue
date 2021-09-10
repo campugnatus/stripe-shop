@@ -4,7 +4,7 @@
 
   <!-- the long stripe -->
   <svg id="gallery-svg" width="100%" height="5000px" class="hidden sm:block absolute top-0 left-0">
-    <path fill="none" stroke="orange" stroke-width="23" :d="d"/>
+    <path fill="none" stroke="#EEAF0C" stroke-width="23" :d="d"/>
   </svg>
 
   <header class="w-full h-screen max-h-[1000px] relative shadow-2xl border-b relative border-gray-400">
@@ -79,12 +79,48 @@
   </header>
 
 
+  <section class="grid overflow-hidden mx-6 h-[560px]" style="grid-template-columns: 1fr auto 1fr;">
+    <div class="flex gap-8 justify-end">
+      <img src="/notch.svg" class="translate-y-[-50px] object-none object-bottom w-[fit-content] h-[fit-content]">
+      <img src="/tie.svg" class="mr-auto translate-y-[-0px] object-none object-bottom w-[fit-content] h-[fit-content]">
+      <img src="/wiggly45.svg" class="translate-y-[-500px] object-none object-bottom w-[fit-content] h-[fit-content]">
+      <img src="/wiggly90.svg" class="translate-y-[-125px] object-none object-bottom w-[fit-content] h-[fit-content]">
+      <img src="/holey2.svg" class="translate-y-[-550px] object-none object-bottom w-[fit-content] h-[fit-content]">
+      <img src="/twisted.svg" class="translate-y-[-80px] object-none object-bottom w-[fit-content] h-[fit-content]">
+    </div>
+    <div class="text-left flex-shrink-0 md:w-[384px] p-16 mx-10 relative">
+      <div class="w-max mx-auto">
+        <div class="font-pacifico text-4xl mb-4">Only 100%</div>
+        <div class="font-pressstart text-4xl mb-3">digital</div>
+        <div class="font-pacifico text-4xl">stripes!</div>
+
+        <ul class="text-xl mt-8 list-disc ml-4">
+          <li>pure vector <b>.SVG</b></li>
+          <li>delivered by email</li>
+          <li>in a .zip archive</li>
+          <li><b>seconds</b> after the purchase</li>
+        </ul>
+      </div>
+    </div>
+    <div class="flex gap-8 justify-start">
+      <img src="/holey.svg" class="translate-y-[-100px] object-none object-bottom w-[fit-content] h-[fit-content]">
+      <div class="beacon-0 hidden md:block h-0 w-0"></div>
+      <img src="/tapered.svg" class="translate-y-[-0px] object-none object-bottom w-[fit-content] h-[fit-content]">
+      <img src="/zebra.svg" class="translate-y-[-300px] object-none object-bottom w-[fit-content] h-[fit-content]">
+      <img src="/braid.svg" class="translate-y-[-200px] object-none object-bottom w-[fit-content] h-[fit-content]">
+      
+      <img src="/curvy2.svg" class="ml-auto hidden md:block mr-4 ml-16 translate-y-[-30px] object-none object-bottom w-[fit-content] h-[fit-content]">
+
+      <img src="/zigzaggy.svg" class="ml-auto translate-y-[-300px] object-none object-bottom w-[fit-content] h-[fit-content]">
+      <img src="/dashed.svg" class="translate-y-[-250px] object-none object-bottom w-[fit-content] h-[fit-content]">
+      <img src="/wiggly1.svg" class="translate-y-[-200px] object-none object-bottom w-[fit-content] h-[fit-content]">
+    </div>
+  </section>
 
 
 
 
-
-  <section class="grid h-[434px] md:h-[534px] overflow-hidden justify-center shadow-xl md:shadow-none" style="grid-template-columns: 1fr minmax(0, 1280px) 1fr;">
+  <section v-if="false" class="grid h-[434px] md:h-[534px] overflow-hidden justify-center shadow-xl md:shadow-none" style="grid-template-columns: 1fr minmax(0, 1280px) 1fr;">
 
     <aside class="hidden 2xl:flex col-start-1 flex-grow justify-center gap-5">
         <img src="/notch.svg" class="translate-y-[-50px] object-none object-bottom w-[fit-content] h-[fit-content]">
@@ -136,7 +172,7 @@
     </aside>
   </section>
 
-  <section class="flex flex-row-reverse px-6 md:hidden overflow-hidden justify-around sm:justify-start gap-6 flex-wrap h-[350px]">
+  <section v-if="false" class="flex flex-row-reverse px-6 md:hidden overflow-hidden justify-around sm:justify-start gap-6 flex-wrap h-[350px]">
     <!-- <img src="/notch.svg" class="mx-2 mb-[500px] translate-y-[-50px] object-none object-bottom w-[fit-content] h-[fit-content]"> -->
     <img src="/twisted.svg" class="mb-96 translate-y-[-180px] object-none object-bottom w-[fit-content] h-[fit-content]">
     <div class="beacon-0 md:hidden mx-3 h-0 w-0"></div>
@@ -160,10 +196,10 @@
 
 
   <section class="w-full xl:mt-32 2xl:mt-44 relative">
-    <GalleryCarousel :initial="-2331" class="h-[300px] w-full">
-        <div class="h-full flex-shrink-0 w-[calc(50%-300px)]"></div>
+    <GalleryCarousel class="h-[200px] 2xl:h-[256px] w-full">
+        <div class="h-full flex-shrink-0 w-[calc(50%-160px)]"></div>
         
-        <div class="flex-shrink-0 text-3xl md:text-4xl 2xl:text-[42px] font-sigmar text-right flex justify-center items-center">
+        <div class="mr-8 flex-shrink-0 text-3xl md:text-3xl 2xl:text-4xl font-sigmar text-right flex justify-center items-center">
           <div>
             <div class="leading-[1] mb-6">unlimited <br> utility</div>
             <div class="leading-[1]">countless <br> applications</div>
@@ -171,7 +207,7 @@
         </div>
 
         
-        <div class="hidden sm:block w-[26px] h-full relative">
+        <div class="hidden sm:block min-w-[26px] 2xl:mx-2 h-full relative">
           <div class="beacon-1 svg-beacon absolute top-0 left-1/2 h-0 w-0 bg-red-600"></div>
           <div class="beacon-2 svg-beacon absolute bottom-0 left-1/2 h-0 w-0 bg-red-600"></div>
         </div>
@@ -222,8 +258,8 @@
         <div class="flex-shrink-0 invisible h-full w-8"></div>
     </GalleryCarousel>
 
-    <GalleryCarousel :initial="-2718" class="h-[400px] w-full">
-      <div class="flex-shrink-0 lg:w-32"></div>
+    <GalleryCarousel class="h-[333px] 2xl:h-[378px] w-full">
+      <div class="flex-shrink-0 xl:w-32"></div>
       <div class="gallery-tile relative">
         <img src="/rainbow.png" class="">
         <div class="absolute bottom-0 w-full h-16 mb-16 font-pacifico text-3xl flex items-center justify-start ml-8 text-white">
@@ -235,17 +271,16 @@
         <img src="https://images.unsplash.com/photo-1513171920216-2640b288471b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" class="h-full">
       </div>
 
+      <div class="hidden sm:block min-w-[26px] 2xl:mx-2 h-full relative">
+        <div class="beacon-3 svg-beacon absolute top-0 left-1/2 h-0 w-0 bg-red-600"></div>
+        <div class="beacon-4 svg-beacon absolute bottom-0 left-1/2 h-0 w-0 bg-red-600"></div>
+      </div>
+
       <div class="gallery-tile relative">
         <img src="https://images.unsplash.com/photo-1577186488794-143f76e79f57?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80" class="h-full">
         <div class="absolute top-0 w-full h-16 mt-10 font-pacifico text-3xl flex items-center justify-center">
           in navigation
         </div>
-      </div>
-
-
-      <div class="hidden sm:block w-[26px] h-full relative">
-        <div class="beacon-3 svg-beacon absolute top-0 left-1/2 h-0 w-0 bg-red-600"></div>
-        <div class="beacon-4 svg-beacon absolute bottom-0 left-1/2 h-0 w-0 bg-red-600"></div>
       </div>
 
       <div class="gallery-tile relative">
@@ -272,7 +307,7 @@
       </div>
 
 
-      <div class="flex-shrink-0 text-2xl md:text-3xl px-8 md:px-10 font-pacifico flex justify-center items-center">
+      <div class="flex-shrink-0 text-2xl md:text-3xl px-8 md:px-10 2xl:px-20 font-pacifico flex justify-center items-center">
         thousands<br>
         of species<br>
         trust us<br>
@@ -298,15 +333,15 @@
       <div class="flex-shrink-0 text-2xl md:text-3xl px-2 md:px-10 font-pacifico flex justify-center items-center w-min">
         ...in bugs
       </div>
-      <div class="gallery-tile py-32">
+      <div class="hidden gallery-tile py-32">
         <img src="/zhuchok2.png" class="h-full">
       </div>
       <div class="flex-shrink-0 invisible h-full w-8"></div>
     </GalleryCarousel>
 
-    <GalleryCarousel :initial="-1544" class="h-[300px] w-full">
+    <GalleryCarousel class="h-[220px] 2xl:h-[256px] w-full">
 
-      <div class="flex-shrink-0 xl:w-72"></div>
+      <div class="flex-shrink-0 xl:w-80"></div>
 
       <div class="gallery-tile">
         <img src="/test.png" class="h-full">
@@ -320,12 +355,9 @@
         </div>
       </div>
 
-      <div class="hidden flex-shrink-0 text-right text-2xl md:text-3xl px-2 md:px-10 font-pacifico flex justify-center items-center">
-        most<br>
-        countries<br>
-        of the world<br>
-        use our stripes<br>
-        in their identics
+      <div class="min-w-[26px] 2xl:mx-2 h-full relative">
+        <div class="beacon-5 svg-beacon absolute top-0 left-1/2 h-0 w-0 bg-red-600"></div>
+        <div class="beacon-6 svg-beacon absolute bottom-0 left-1/2 h-0 w-0 bg-red-600"></div>
       </div>
 
       <div class="gallery-tile">
@@ -347,12 +379,6 @@
       <div class="gallery-tile">
         <img src="https://images.unsplash.com/photo-1530127676576-acdb8fbb5690?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1934&q=80" class="h-full">
       </div>
-
-      <div class="w-[26px] h-full relative">
-        <div class="beacon-5 svg-beacon absolute top-0 left-1/2 h-0 w-0 bg-red-600"></div>
-        <div class="beacon-6 svg-beacon absolute bottom-0 left-1/2 h-0 w-0 bg-red-600"></div>
-      </div>
-
 
       <div class="gallery-tile">
         <img src="https://images.pexels.com/photos/1436697/pexels-photo-1436697.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" class="h-full">
@@ -428,7 +454,7 @@
       <img src="/stripy.svg" class="absolute rotate-[-5deg] translate-x-[-130%] translate-y-[-15px]">
       <img src="/squarebeads3.svg"  class="absolute rotate-2 scale-[0.8] translate-x-[-99%] translate-y-[85px]">
       <img src="/thickbraid4.svg" class="absolute rotate-3 scale-[0.6] translate-x-[-88%] translate-y-[100px]">
-      <!-- <img src="/holey3.svg" class="absolute rotate-[1deg] scale-[0.6] translate-x-[-96%] translate-y-[105px]"> -->
+      <!-- <img src="/holey3.svg" class="absolute rotate-[1deg] scale-[0.5] translate-x-[-93%] translate-y-[110px]"> -->
       <!-- <img src="/bricky2.svg" class="absolute rotate-[-4deg] translate-x-[-132%] translate-y-[180px]"> -->
     </div>
     
@@ -724,7 +750,11 @@ function animateSVG3() {
 }
 
 .gallery-tile {
-  @apply py-3 sm:py-10 h-full flex-shrink-0
+  @apply py-3 2xl:py-6 h-full flex-shrink-0
+}
+
+.gallery-tile + .gallery-tile {
+  @apply ml-6 2xl:ml-8
 }
 
 .gallery-tile img {
