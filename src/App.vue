@@ -79,22 +79,26 @@
   </header>
 
 
-  <section class="grid overflow-hidden mx-6 h-[560px]" style="grid-template-columns: 1fr auto 1fr;">
-    <div class="flex gap-8 justify-end">
-      <img src="/notch.svg" class="translate-y-[-50px] object-none object-bottom w-[fit-content] h-[fit-content]">
+  <section class="grid overflow-hidden pb-10 sm:pb-0 shadow-2xl sm:shadow-none sm:mx-6 sm:h-[560px] grid-cols-ohoho lg:grid-cols-muahaha">
+    <div class="hidden lg:flex flex-row-reverse flex-wrap justify-start">
+      <img src="/tapered.svg" class="ml-3 mr-auto mb-96 translate-y-[-0px] object-none object-bottom w-[fit-content] h-[fit-content]">
+      <img src="/twisted.svg" class="mx-3 translate-y-[-100px] object-none object-bottom w-[fit-content] h-[fit-content]">
+      <img src="/holey2.svg" class="mr-3 ml-6 translate-y-[-666px] object-none object-bottom w-[fit-content] h-[fit-content]">
+      
+      <img src="/wiggly90.svg" class="mr-auto translate-y-[-125px] object-none object-bottom w-[fit-content] h-[fit-content]">
+      <img src="/wiggly45.svg" class="ml-6 mr-6 translate-y-[-500px] object-none object-bottom w-[fit-content] h-[fit-content]">
+      
       <img src="/tie.svg" class="mr-auto translate-y-[-0px] object-none object-bottom w-[fit-content] h-[fit-content]">
-      <img src="/wiggly45.svg" class="translate-y-[-500px] object-none object-bottom w-[fit-content] h-[fit-content]">
-      <img src="/wiggly90.svg" class="translate-y-[-125px] object-none object-bottom w-[fit-content] h-[fit-content]">
-      <img src="/holey2.svg" class="translate-y-[-550px] object-none object-bottom w-[fit-content] h-[fit-content]">
-      <img src="/twisted.svg" class="translate-y-[-80px] object-none object-bottom w-[fit-content] h-[fit-content]">
+      <img src="/notch.svg" class="mr-6 ml-auto translate-y-[-50px] object-none object-bottom w-[fit-content] h-[fit-content]">
     </div>
-    <div class="text-left flex-shrink-0 md:w-[384px] p-16 mx-10 relative">
-      <div class="w-max mx-auto">
-        <div class="font-pacifico text-4xl mb-4">Only 100%</div>
-        <div class="font-pressstart text-4xl mb-3">digital</div>
-        <div class="font-pacifico text-4xl">stripes!</div>
 
-        <ul class="text-xl mt-8 list-disc ml-4">
+    <div class="col-start-1 lg:col-start-2 text-left flex-shrink-0 pt-8 sm:pt-16 mx-8 lg:mx-16 relative">
+      <div class="w-max mx-auto">
+        <div class="font-pacifico text-3xl xl:text-4xl mb-3 xl:mb-4">Only 100%</div>
+        <div class="font-pressstart text-3xl xl:text-4xl mb-2 xl:mb-3">digital</div>
+        <div class="font-pacifico text-3xl xl:text-4xl">stripes!</div>
+
+        <ul class="text-lg xl:text-xl mt-6 xl:mt-8 list-disc ml-4">
           <li>pure vector <b>.SVG</b></li>
           <li>delivered by email</li>
           <li>in a .zip archive</li>
@@ -102,94 +106,53 @@
         </ul>
       </div>
     </div>
-    <div class="flex gap-8 justify-start">
-      <img src="/holey.svg" class="translate-y-[-100px] object-none object-bottom w-[fit-content] h-[fit-content]">
-      <div class="beacon-0 hidden md:block h-0 w-0"></div>
-      <img src="/tapered.svg" class="translate-y-[-0px] object-none object-bottom w-[fit-content] h-[fit-content]">
-      <img src="/zebra.svg" class="translate-y-[-300px] object-none object-bottom w-[fit-content] h-[fit-content]">
-      <img src="/braid.svg" class="translate-y-[-200px] object-none object-bottom w-[fit-content] h-[fit-content]">
-      
-      <img src="/curvy2.svg" class="ml-auto hidden md:block mr-4 ml-16 translate-y-[-30px] object-none object-bottom w-[fit-content] h-[fit-content]">
 
-      <img src="/zigzaggy.svg" class="ml-auto translate-y-[-300px] object-none object-bottom w-[fit-content] h-[fit-content]">
-      <img src="/dashed.svg" class="translate-y-[-250px] object-none object-bottom w-[fit-content] h-[fit-content]">
-      <img src="/wiggly1.svg" class="translate-y-[-200px] object-none object-bottom w-[fit-content] h-[fit-content]">
+    <div class="hidden sm:flex col-start-2 lg:col-start-3 justify-start flex-wrap">
+      <!-- dummy element so that the next one is able to wrap -->
+      <div class="w-0 h-full mb-96"></div> 
+      <img src="/holey.svg" class="ml-auto mr-6 mb-96 translate-y-[-140px] object-none object-bottom w-[fit-content] h-[fit-content]">
+      <img src="/zebra.svg" class="mr-6 mb-96 translate-y-[-300px] object-none object-bottom w-[fit-content] h-[fit-content]">
+      <img src="/braid.svg" class="mr-6 mb-96 translate-y-[-250px] object-none object-bottom w-[fit-content] h-[fit-content]">
+      <div class="hidden sm:block h-32 min-w-[23px] mr-6">
+        <div class="beacon-0 w-[0px] mx-auto"></div>
+      </div>
+      
+      <img src="/curvy2.svg" class="ml-auto mr-6 hidden xl:block mb-96 translate-y-[-30px] object-none object-bottom w-[fit-content] h-[fit-content]">
+
+      <img src="/zigzaggy.svg" class="ml-auto mr-6 mb-96 translate-y-[-300px] object-none object-bottom w-[fit-content] h-[fit-content]">
+      <img src="/dashed.svg" class="mr-6 mb-96 translate-y-[-250px] object-none object-bottom w-[fit-content] h-[fit-content]">
+      <img src="/wiggly1.svg" class="mr-auto mb-96 translate-y-[-200px] object-none object-bottom w-[fit-content] h-[fit-content]">
     </div>
   </section>
 
 
 
 
-  <section v-if="false" class="grid h-[434px] md:h-[534px] overflow-hidden justify-center shadow-xl md:shadow-none" style="grid-template-columns: 1fr minmax(0, 1280px) 1fr;">
 
-    <aside class="hidden 2xl:flex col-start-1 flex-grow justify-center gap-5">
-        <img src="/notch.svg" class="translate-y-[-50px] object-none object-bottom w-[fit-content] h-[fit-content]">
-        <img src="/tie.svg" class="translate-y-[-0px] object-none object-bottom w-[fit-content] h-[fit-content]">
-    </aside>
 
-    <main class="flex w-full col-start-2 justify-around md:justify-start xl:w-[1280px] --gap-10 md:--gap-7">
-      <div class="hidden md:flex h-[533px] overflow-hidden flex-shrink-0 md:w-[384px] justify-center gap-3">
-        <div class="flex-grow"></div>
-        <img src="/wiggly45.svg" class="ml-4 translate-y-[-500px] object-none object-bottom w-[fit-content] h-[fit-content]">
-        <img src="/wiggly90.svg" class="ml-4 translate-y-[-125px] object-none object-bottom w-[fit-content] h-[fit-content]">
-        <img src="/holey2.svg" class="ml-4 translate-y-[-550px] object-none object-bottom w-[fit-content] h-[fit-content]">
-        <img src="/twisted.svg" class="ml-4 translate-y-[-80px] object-none object-bottom w-[fit-content] h-[fit-content]">
-        <div class="flex-grow"></div>
-      </div>
-   
-      <div class="beacon-0 hidden md:block h-0 w-0"></div>
-      <div class="text-left flex-shrink-0 md:w-[384px] p-16 relative">
-        <div class="w-max mx-auto">
-          <div class="font-pacifico text-4xl mb-4">Only 100%</div>
-          <div class="font-pressstart text-4xl mb-3">digital</div>
-          <div class="font-pacifico text-4xl">stripes!</div>
+  <section class="sm:hidden w-full overflow-hidden overflow-x-auto h-[450px]">
+    <div class="flex translate-y-[-50px]">
+      <img src="/notch.svg" class="mr-6 ml-6 translate-y-[-50px] object-none object-bottom w-[fit-content] h-[fit-content]">
+      <img src="/tie.svg" class="mr-auto translate-y-[-0px] object-none object-bottom w-[fit-content] h-[fit-content]">
+      
+      <img src="/wiggly45.svg" class="ml-6 mr-6 translate-y-[-500px] object-none object-bottom w-[fit-content] h-[fit-content]">
+      <img src="/wiggly90.svg" class="mr-auto translate-y-[-125px] object-none object-bottom w-[fit-content] h-[fit-content]">
+      
+      <img src="/holey2.svg" class="mr-3 ml-6 translate-y-[-666px] object-none object-bottom w-[fit-content] h-[fit-content]">
+      <img src="/twisted.svg" class="mx-3 translate-y-[-100px] object-none object-bottom w-[fit-content] h-[fit-content]">
+      <img src="/tapered.svg" class="ml-3 mr-6 translate-y-[-0px] object-none object-bottom w-[fit-content] h-[fit-content]">
 
-          <ul class="text-xl mt-8 list-disc ml-4">
-            <li>pure vector <b>.SVG</b></li>
-            <li>delivered by email</li>
-            <li>in a .zip archive</li>
-            <li><b>seconds</b> after the purchase</li>
-          </ul>
-        </div>
-      </div>
+      <img src="/holey.svg" class="ml-auto mr-6 translate-y-[-140px] object-none object-bottom w-[fit-content] h-[fit-content]">
+      <img src="/zebra.svg" class="mr-6 translate-y-[-300px] object-none object-bottom w-[fit-content] h-[fit-content]">
+      <img src="/braid.svg" class="mr-6 translate-y-[-250px] object-none object-bottom w-[fit-content] h-[fit-content]">
+      
+      <img src="/curvy2.svg" class="ml-auto mr-6 hidden xl:block translate-y-[-30px] object-none object-bottom w-[fit-content] h-[fit-content]">
 
-      <div class="flex -translate-y-32 md:translate-y-0 md:ml-12 md:flex gap-3 flex-wrap overflow-hidden justify-between md:justify-start">
-        <!-- dummy element so that the next one is able to wrap -->
-        <div class="w-0 h-full mb-[800px]"></div> 
-
-        <img src="/holey.svg" class="mb-[500px] mr-4 translate-y-[-100px] object-none object-bottom w-[fit-content] h-[fit-content]">
-        <img src="/tapered.svg" class="mb-[500px] mr-4 translate-y-[-0px] object-none object-bottom w-[fit-content] h-[fit-content]">
-        <img src="/zebra.svg" class="mb-[500px] mr-4 translate-y-[-300px] object-none object-bottom w-[fit-content] h-[fit-content]">
-        <img src="/braid.svg" class="mb-[500px] mr-4 translate-y-[-200px] object-none object-bottom w-[fit-content] h-[fit-content]">
-        <img src="/curvy2.svg" class="hidden md:block mb-[500px] mr-4 ml-16 translate-y-[-30px] object-none object-bottom w-[fit-content] h-[fit-content]">
-      </div>
-    </main>
-
-    <aside class="hidden 2xl:flex col-start-3 flex-grow justify-center gap-5">
-        <img src="/zigzaggy.svg" class="translate-y-[-300px] object-none object-bottom w-[fit-content] h-[fit-content]">
-        <img src="/dashed.svg" class="translate-y-[-250px] object-none object-bottom w-[fit-content] h-[fit-content]">
-        <img src="/wiggly1.svg" class="translate-y-[-200px] object-none object-bottom w-[fit-content] h-[fit-content]">
-    </aside>
+      <img src="/zigzaggy.svg" class="ml-auto mr-6 translate-y-[-300px] object-none object-bottom w-[fit-content] h-[fit-content]">
+      <img src="/dashed.svg" class="mr-6 translate-y-[-250px] object-none object-bottom w-[fit-content] h-[fit-content]">
+      <img src="/wiggly1.svg" class="mr-6 translate-y-[-200px] object-none object-bottom w-[fit-content] h-[fit-content]">
+    </div>
   </section>
-
-  <section v-if="false" class="flex flex-row-reverse px-6 md:hidden overflow-hidden justify-around sm:justify-start gap-6 flex-wrap h-[350px]">
-    <!-- <img src="/notch.svg" class="mx-2 mb-[500px] translate-y-[-50px] object-none object-bottom w-[fit-content] h-[fit-content]"> -->
-    <img src="/twisted.svg" class="mb-96 translate-y-[-180px] object-none object-bottom w-[fit-content] h-[fit-content]">
-    <div class="beacon-0 md:hidden mx-3 h-0 w-0"></div>
-
-    <img src="/holey2.svg" class="mb-96 translate-y-[-650px] object-none object-bottom w-[fit-content] h-[fit-content]">
-    <img src="/wiggly90.svg" class="mb-96 translate-y-[-225px] object-none object-bottom w-[fit-content] h-[fit-content]">
-    <img src="/wiggly45.svg" class="mb-96 translate-y-[-600px] object-none object-bottom w-[fit-content] h-[fit-content]">
-
-    <img src="/wiggly1.svg" class="mr-auto mb-96 translate-y-[-250px] object-none object-bottom w-[fit-content] h-[fit-content]">
-    <img src="/dashed.svg" class="mb-96 translate-y-[-350px] object-none object-bottom w-[fit-content] h-[fit-content]">
-    <img src="/zigzaggy.svg" class="ml-auto mb-96 ml-0 translate-y-[-400px] object-none object-bottom w-[fit-content] h-[fit-content]">
-        
-    <img src="/curvy2.svg" class="hidden sm:block mr-auto mb-[500px] translate-y-[-80px] object-none object-bottom w-[fit-content] h-[fit-content]">
-    <img src="/tie.svg" class="mr-auto mb-96 translate-y-[-20px] object-none object-bottom w-[fit-content] h-[fit-content]">
-
-  </section>
-
 
 
 
@@ -197,9 +160,9 @@
 
   <section class="w-full xl:mt-32 2xl:mt-44 relative">
     <GalleryCarousel class="h-[200px] 2xl:h-[256px] w-full">
-        <div class="h-full flex-shrink-0 w-[calc(50%-160px)]"></div>
+        <div class="h-full flex-shrink-0 w-[calc(50%-130px)]"></div>
         
-        <div class="mr-8 flex-shrink-0 text-3xl md:text-3xl 2xl:text-4xl font-sigmar text-right flex justify-center items-center">
+        <div class="mr-8 flex-shrink-0 text-3xl sm:text-3xl 2xl:text-4xl font-sigmar text-right flex justify-center items-center">
           <div>
             <div class="leading-[1] mb-6">unlimited <br> utility</div>
             <div class="leading-[1]">countless <br> applications</div>
@@ -389,10 +352,15 @@
       <div class="gallery-tile">
         <img src="https://images.pexels.com/photos/1571134/pexels-photo-1571134.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" class="h-full">
       </div>
+      <div class="sm:hidden font-pacifico text-2xl leading-[1.7em] mx-10 min-w-max">
+        Your<br>
+        imagination<br>
+        is the limit!
+      </div>
       <div class="flex-shrink-0 invisible h-full w-8"></div>
     </GalleryCarousel>
 
-    <div class="max-w-[320px] min-h-[400px] mx-auto relative flex items-center h-[600px]">
+    <div class="hidden sm:flex max-w-[320px] min-h-[400px] mx-auto relative flex items-center h-[600px]">
       <div class="beacon-7 absolute bottom-[380px] w-3 h-3 bg-red-300"></div>
       <div class="font-pacifico text-3xl leading-[1.7em] ml-20 -mt-10">
         Your<br>
@@ -408,7 +376,7 @@
 
 
 
-  <section class="sm:hidden relative">
+  <section class="sm:hidden mt-32 relative">
 
     <div class="font-pacifico text-3xl mt-16 text-center">
       All sorts, <span class="font-sigmar text-4xl inline-block rotate-6">any</span> kind
@@ -516,8 +484,8 @@
     </div>
 
     <div class="max-w-[530px] p-4 sm:px-0 mx-auto">
-      <div class="flex items-center gap-7 mb-4">
-        <div class="rounded-full bg-gray-400 w-12 h-12"></div>
+      <div class="flex items-center mb-4">
+        <div class="rounded-full bg-gray-400 w-12 h-12 mr-8"></div>
         <div class="text-xl font-sigmar">John Knopkins</div>
       </div>
       <div class="text-base sm:text-base text-justif">
@@ -526,8 +494,8 @@
     </div>
 
     <div class="max-w-[530px] p-4 sm:px-0 mx-auto">
-      <div class="flex items-center gap-7 mb-4">
-        <div class="rounded-full bg-gray-400 w-12 h-12"></div>
+      <div class="flex items-center mb-4">
+        <div class="rounded-full bg-gray-400 w-12 h-12 mr-8"></div>
         <div class="text-xl font-sigmar">Zoey</div>
       </div>
       <div class="text-base sm:text-base text-justif">
@@ -550,8 +518,8 @@
     </div>
 
     <div class="max-w-[530px] p-4 sm:px-0 mx-auto">
-      <div class="flex items-center gap-7 mb-4">
-        <div class="rounded-full bg-gray-400 w-12 h-12"></div>
+      <div class="flex items-center mb-4">
+        <div class="rounded-full bg-gray-400 w-12 h-12 mr-8"></div>
         <div class="text-xl font-sigmar">Aristarkh Borodulko</div>
       </div>
       <div class="text-base sm:text-base text-justif">
@@ -560,8 +528,8 @@
     </div>
 
     <div class="max-w-[530px] p-4 sm:px-0 mx-auto">
-      <div class="flex items-center gap-7 mb-4">
-        <div class="rounded-full bg-gray-400 w-12 h-12"></div>
+      <div class="flex items-center mb-4">
+        <div class="rounded-full bg-gray-400 w-12 h-12 mr-8"></div>
         <div class="text-xl font-sigmar">Petunya</div>
       </div>
       <div class="text-base sm:text-base text-justif">
@@ -604,9 +572,9 @@
 
   <section class="flex justify-center">
     <div class="my-40">
-      <div class="font-sigmar text-2xl">our motto</div>
-      <div class="font-pacifico text-2xl">&mdash; Are you gonna buy something?</div>
-      <div class="font-pacifico text-2xl">&mdash; Nah, I'm just browsing</div>
+      <div class="font-sigmar text-xl sm:text-2xl">our motto</div>
+      <div class="font-pacifico text-xl sm:text-2xl">&mdash; Are you gonna buy something?</div>
+      <div class="font-pacifico text-xl sm:text-2xl">&mdash; Nah, I'm just browsing</div>
     </div>
   </section>
 
@@ -648,10 +616,15 @@ function getBeaconById(id) {
   if (beacons.length > 1)
     console.error(`Multiple beacons of the same id are visible at the same time (id=${id})! I'll take the first one id=`);
 
+  if (beacons.length < 1)
+    console.error(`Couldn't find beacon-${id}`);
+
   return beacons[0];
 }
 
 function animateSVG() {
+  window.requestAnimationFrame(animateSVG); // loopь
+
   let gallerySVG = document.getElementById("gallery-svg");
   let rectSVG = gallerySVG.getBoundingClientRect();
 
@@ -668,6 +641,13 @@ function animateSVG() {
   let p = beacons; // for brevity
   d.value = `
     M${p[0].x} ${p[0].y}
+
+    V${p[1].y - 138}
+
+    c0,26.5,36,35,0,66s87.002,72,0,72
+
+    H${p[1].x}
+
     V${p[1].y}
     H${p[1].x}
     L${p[2].x} ${p[2].y}
@@ -679,19 +659,15 @@ function animateSVG() {
     V${p[7].y}
     v35
     c-5.37,238.5,-7.5,319.04,-121.109,333
-    c-193.03,23.73,-696.1274,-4.36, -990.626,0
-    `;
-    // c1.109,59.37,1.048,0.46,0,47
-    // c3.417,253.24,-4.107,334.46,-121.108,333
-    // c-187.208,-1.17,-692.09969,-23.39,-990.627,-38`;
-
-  window.requestAnimationFrame(animateSVG); // loopь
+    c-193.03,23.73,-696.1274,-4.36, -990.626,0`;
 }
 
 
 var d2 = ref("M0,0");
 
 function animateSVG2() {
+  window.requestAnimationFrame(animateSVG2); // loopь
+  
   let svg2 = document.getElementById("svg2");
   let rectSVG = svg2.getBoundingClientRect();
   let a = getBeaconById("a").getBoundingClientRect();
@@ -707,13 +683,14 @@ function animateSVG2() {
     C25,2055, ${a.x-214},${a.y+79}, ${a.x},${a.y}
     c214,-79.5,179.5,-52,173.5,-38.5`;
   
-  window.requestAnimationFrame(animateSVG2); // loopь
 }
 
 
 var d3 = ref("M0,0");
 
 function animateSVG3() {
+  window.requestAnimationFrame(animateSVG3); // loopь
+
   let svg2 = document.getElementById("svg2");
   let rectSVG = svg2.getBoundingClientRect();
   let b = getBeaconById("b").getBoundingClientRect();
@@ -729,8 +706,6 @@ function animateSVG3() {
     C698.998,408.5, ${b.x+13.917},${b.y+57}, ${b.x},${b.y}
     c-47,-192.5,569.941,-183.329,785.001,-120`;
     //C505.499,3.4997, 1122.44,12.6712, 1337.5,14.0006`;
-  
-  window.requestAnimationFrame(animateSVG3); // loopь
 }
 
 </script>

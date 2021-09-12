@@ -1,6 +1,6 @@
 <template>
 	<div class="overflow-x-auto scrollbar-off" @mousedown="mousedown" @touchstart="mousedown" ref="container">
-	  <section class="h-full items-center gap-6 sm:gap-10 flex" ref="carousel">
+	  <section class="h-full items-center flex carousel" ref="carousel">
 	  	<slot></slot>
 	  </section>
 	</div>
@@ -93,5 +93,8 @@
 </script>
 
 <style>
-	
+.carousel {
+	/* add nice overscroll on ios  */
+	-webkit-overflow-scrolling: touch; 
+}
 </style>

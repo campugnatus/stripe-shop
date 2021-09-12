@@ -21,6 +21,10 @@ module.exports = {
       },
       boxShadow: {
         '3xl': '0 35px 35px rgba(0, 0, 0, 0.25)',
+      },
+      gridTemplateColumns: {
+        'ohoho': 'minmax(auto, 1fr) 1fr',
+        'muahaha': '1fr auto 1fr',
       }
     },
   },
