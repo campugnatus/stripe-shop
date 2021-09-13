@@ -25,6 +25,9 @@ module.exports = {
       gridTemplateColumns: {
         'ohoho': 'minmax(auto, 1fr) 1fr',
         'muahaha': '1fr auto 1fr',
+      },
+      backgroundImage: {
+        'bds': "url('/bds2.png')"
       }
     },
   },

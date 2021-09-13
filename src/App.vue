@@ -1,57 +1,59 @@
 <template>
-  <!-- <div class="w-[425px] bg-gray-100 opacity-90 left-1/2 -translate-x-1/2 absolute h-[10000px] z-[-1]"></div> -->
-  <!-- <div class="w-[320px] bg-white left-1/2 -translate-x-1/2 absolute h-[10000px] z-[-1]"></div> -->
-
   <!-- the long stripe -->
   <svg id="gallery-svg" width="100%" height="5000px" class="hidden sm:block absolute top-0 left-0">
     <path fill="none" stroke="#EEAF0C" stroke-width="23" :d="d"/>
   </svg>
 
-  <header class="w-full h-screen max-h-[1000px] relative shadow-2xl border-b relative border-gray-400">
-    <!-- background image -->
-<!--     <div class="absolute overflow-hidden inset-0">
-      <img src="https://images.unsplash.com/photo-1536620752150-a7e9e62a62ee?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1951&q=80" class="max-w-none absolute right-0">
-    </div>
- -->
-  
-<!--     <div class="absolute overflow-hidden inset-0">
-      <img src="https://images.unsplash.com/photo-1520633946251-dcf52b0276b9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1950&q=80" class="max-w-none absolute right-0">
-    </div>
- -->
+  <header class="w-full h-[calc(100vh-50px)] max-h-[1000px] overflow-hidden relative shadow-2xl border-b relative border-gray-400">
 
     <div class="absolute overflow-hidden inset-0">
-      <img src="/bds2.png" class="max-w-none absolute right-0 h-4/5 top-[40%] lg:top-[20%] lg:h-full 2xl:h-[120%] 2xl:top-0">
+      <img src="/bds2.png" class="max-w-none absolute right-0 h-[480px] md:h-[640px] xl:h-[920px] top-[calc(44%+60px)] sm:top-[calc(44%+50px)] md:top-[calc(44%+20px)] lg:top-[calc(44%-150px)] xl:top-[calc(44%-270px)] 2xl:top-[calc(44%-360px)]">
     </div>
 
-
-    <div class="absolute font-pacifico text-2xl 2xl:text-3xl rotate-[-31deg] text-white top-[400px] right-[50px] xl:top-[630px] xl:right-[450px]">
+    <div class="absolute font-pacifico text-2xl sm:text-3xl xl:text-4xl rotate-[-31deg] text-white
+                top-[calc(44%+200px)] right-[0px]
+                sm:top-[calc(44%+260px)] sm:right-[80px]
+                md:top-[calc(44%+270px)] md:right-[130px]
+                lg:top-[calc(44%+180px)] lg:right-[160px]
+                xl:top-[calc(44%+170px)] xl:right-[200px]
+                2xl:top-[calc(44%+130px)] 2xl:right-[280px]">
       Your go-to place to shop for stripes
     </div>
 
-    <main class="max-w-screen-xl h-full mx-auto relative">
-      <nav class="flex justify-between p-16">
-        <section class="">
-          
-        </section>
-        <section class="space-x-7">
-          <button class="p-2">
+    <main class="max-w-screen-xl h-full mx-auto relative flex flex-col">
+      <nav class="absolute w-full right-0 grid grid-cols-2 p-10 sm:p-16 z-10">
+        <section class="sm:pl-12 lg:pl-24 flex flex-col justify-center items-start">
+          <a class="hidden sm:inline uppercase">catalogue</a>
+          <a class="hidden sm:inline uppercase">about</a>
+          <a class="hidden sm:inline uppercase">third one</a>
+          <button class="sm:hidden text-sm">
             <div class="flex justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-11 w-11" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 lg:h-11 lg:w-11" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </div>
+            <div class="pt-2">menu</div>
+          </button>
+        </section>
+        <section class="space-x-7 text-right">
+          <button class="lg:p-2 text-sm lg:text-base hidden sm:inline">
+            <div class="flex justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 lg:h-11 lg:w-11" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </div>
             <div class="pt-2">search</div>
           </button>
-          <button class="p-2">
+          <button class="lg:p-2 text-sm lg:text-base hidden sm:inline">
             <div class="flex justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-11 w-11" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 lg:h-11 lg:w-11" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
             </svg>            </div>
             <div class="pt-2">log in</div>
           </button>
-          <button class="p-2">
+          <button class="lg:p-2 text-sm lg:text-base">
             <div class="flex justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-11 w-11" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 lg:h-11 lg:w-11" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
               </svg>
             </div>
@@ -61,25 +63,29 @@
       </nav>
 
       <!-- logo -->
-      <div class="text-left mx-auto sm:ml-[151px] mt-32 relative z-0 w-max">
-        <div class="font-pacifico text-2xl sm:text-[30px] mb-1">Welcome to the</div>
-        <div class="leading-[64px] sm:leading-[88px]">
-          <div class="font-sigmar text-6xl sm:text-[78px] tracking-[0.185em]">
-            STR
-            <span class="inline-block mx-[-0.4em] text-transparent relative">
-              <div class="absolute bg-orange w-[26px] h-[500px] -bottom-4 left-[5px]"></div>
-              I
-            </span>
-            PE
+      <div class="flex-grow relative">
+        <div class="text-left absolute left-[50%] translate-x-[-50%] lg:left-0 lg:translate-x-0 lg:ml-[151px] translate-y-[-50%] top-[44%] w-max">
+          <div class="font-pacifico text-2xl sm:text-[30px] mb-1">Welcome to the</div>
+          <div class="leading-[64px] sm:leading-[88px]">
+            <div class="font-sigmar text-6xl sm:text-[78px] tracking-[0.185em]">
+              STR
+              <span class="inline-block mx-[-0.4em] text-transparent relative">
+                <div class="absolute bg-orange w-[22px] sm:w-[26px] h-[500px] bottom-[5px] left-[3px] sm:left-[5px]">
+                </div>
+                <div class="absolute rotate-45 bg-white w-[26px] h-[26px] bottom-[-14px] left-[1px] sm:left-[5px]"></div>
+                I
+              </span>
+              PE
+            </div>
+            <div class="font-sigmar text-[90px] sm:text-[118px] tracking-[0.075em] relative z-20">SH<span class="">O</span>P</div>
           </div>
-          <div class="font-sigmar text-[90px] sm:text-[118px] tracking-[0.075em] relative z-20">SH<span class="">O</span>P</div>
         </div>
       </div>
     </main>
   </header>
 
 
-  <section class="grid overflow-hidden pb-10 sm:pb-0 shadow-2xl sm:shadow-none sm:mx-6 sm:h-[560px] grid-cols-ohoho lg:grid-cols-muahaha">
+  <section class="grid overflow-hidden pb-10 sm:pb-0 shadow-2xl sm:shadow-none sm:mx-6 sm:h-[460px] grid-cols-ohoho lg:grid-cols-muahaha">
     <div class="hidden lg:flex flex-row-reverse flex-wrap justify-start">
       <img src="/tapered.svg" class="ml-3 mr-auto mb-96 translate-y-[-0px] object-none object-bottom w-[fit-content] h-[fit-content]">
       <img src="/twisted.svg" class="mx-3 translate-y-[-100px] object-none object-bottom w-[fit-content] h-[fit-content]">
@@ -150,7 +156,7 @@
 
       <img src="/zigzaggy.svg" class="ml-auto mr-6 translate-y-[-300px] object-none object-bottom w-[fit-content] h-[fit-content]">
       <img src="/dashed.svg" class="mr-6 translate-y-[-250px] object-none object-bottom w-[fit-content] h-[fit-content]">
-      <img src="/wiggly1.svg" class="mr-6 translate-y-[-200px] object-none object-bottom w-[fit-content] h-[fit-content]">
+      <img src="/wiggly1.svg" class="pr-6 translate-y-[-200px] object-none object-bottom w-[fit-content] h-[fit-content]">
     </div>
   </section>
 
@@ -158,7 +164,7 @@
 
 
 
-  <section class="w-full xl:mt-32 2xl:mt-44 relative">
+  <section class="w-full mt-32 2xl:mt-44 relative">
     <GalleryCarousel class="h-[200px] 2xl:h-[256px] w-full">
         <div class="h-full flex-shrink-0 w-[calc(50%-130px)]"></div>
         
@@ -170,7 +176,7 @@
         </div>
 
         
-        <div class="hidden sm:block min-w-[26px] 2xl:mx-2 h-full relative">
+        <div class="hidden sm:block min-w-[26px] xl:mx-2 h-full relative">
           <div class="beacon-1 svg-beacon absolute top-0 left-1/2 h-0 w-0 bg-red-600"></div>
           <div class="beacon-2 svg-beacon absolute bottom-0 left-1/2 h-0 w-0 bg-red-600"></div>
         </div>
@@ -234,7 +240,7 @@
         <img src="https://images.unsplash.com/photo-1513171920216-2640b288471b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" class="h-full">
       </div>
 
-      <div class="hidden sm:block min-w-[26px] 2xl:mx-2 h-full relative">
+      <div class="hidden sm:block min-w-[26px] xl:mx-2 h-full relative">
         <div class="beacon-3 svg-beacon absolute top-0 left-1/2 h-0 w-0 bg-red-600"></div>
         <div class="beacon-4 svg-beacon absolute bottom-0 left-1/2 h-0 w-0 bg-red-600"></div>
       </div>
@@ -318,7 +324,7 @@
         </div>
       </div>
 
-      <div class="min-w-[26px] 2xl:mx-2 h-full relative">
+      <div class="min-w-[26px] xl:mx-2 h-full relative">
         <div class="beacon-5 svg-beacon absolute top-0 left-1/2 h-0 w-0 bg-red-600"></div>
         <div class="beacon-6 svg-beacon absolute bottom-0 left-1/2 h-0 w-0 bg-red-600"></div>
       </div>
@@ -725,11 +731,11 @@ function animateSVG3() {
 }
 
 .gallery-tile {
-  @apply py-3 2xl:py-6 h-full flex-shrink-0
+  @apply py-3 xl:py-6 h-full flex-shrink-0
 }
 
 .gallery-tile + .gallery-tile {
-  @apply ml-6 2xl:ml-8
+  @apply ml-6 xl:ml-8
 }
 
 .gallery-tile img {
