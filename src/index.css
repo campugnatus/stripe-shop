@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Press+Start+2P&family=Sigmar+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto&family=Press+Start+2P&family=Sigmar+One&display=swap');
 
 /* ./src/index.css */
 @tailwind base;
@@ -6,6 +6,10 @@
 @tailwind utilities;
 
 @layer utilities {
+	.scrollbar-off {
+		/* add nice overscroll on ios  */
+		-webkit-overflow-scrolling: touch; 
+	}
 	.scrollbar-off::-webkit-scrollbar {
 		display: none;
 	}

@@ -12,21 +12,21 @@
 		</button>	
 		<div class="relative overflow-hidden" @mousedown="mousedown" @mouseup="mouseup" @mousemove="mousemove" @mouseleave="mouseleave">
 			<div v-show="showLeftShadow" class="h-full w-5 -ml-5 absolute left-0 shadow-xl z-10 border-r-4 border-red-300"></div>
-			<div class="carousel flex gap-5 w-full overflow-x-auto relative" ref="carousel" @scroll="onscroll">
-				<div class=""></div>
-				<WareCard/>
-				<WareCard/>
-				<WareCard/>
-				<WareCard/>
-				<WareCard/>
-				<WareCard/>
-				<WareCard/>
-				<WareCard/>
-				<WareCard/>
-				<WareCard/>
-				<WareCard/>
-				<WareCard/>
-				<div class=""></div>
+			<div class="scrollbar-off flex gap-5 w-full overflow-x-auto relative px-5" ref="carousel" @scroll="onscroll">
+				<!-- <div class=""></div> -->
+				<WareCard class="w-56"/>
+				<WareCard class="w-56"/>
+				<WareCard class="w-56"/>
+				<WareCard class="w-56"/>
+				<WareCard class="w-56"/>
+				<WareCard class="w-56"/>
+				<WareCard class="w-56"/>
+				<WareCard class="w-56"/>
+				<WareCard class="w-56"/>
+				<WareCard class="w-56"/>
+				<WareCard class="w-56"/>
+				<WareCard class="w-56"/>
+				<!-- <div class=""></div> -->
 			</div>
 			<div v-show="showRightShadow" class="h-full w-5 -mr-5 absolute right-0 top-0 shadow-xl z-10"></div>
 		</div>
@@ -83,15 +83,26 @@ function onscroll(e) {
 	showLeftShadow.value = el.scrollLeft > listMargin;
 	showRightShadow.value = el.scrollLeft < scrollLength - listMargin;
 }
+
+
+
+
+
+
+// Horisontal scrolling vs translate-x discussion
+// ----------------------------------------------
+//
+// Just using the browser's built in scrolling seems to have some benefits.
+// 1) it's already there. Why do anything else?
+// 2) Some mobile nice-to-haves by default:
+//    * Device tries to distinguish between vertical and horizontal scroll, not doing both simultaneously
+//    * Some elasticity on the edges?
+//
+// Scrolling drawbacks:
+// 1) You can only control scroll position through JS, not through CSS (although you can set margin on the element to set the 
+//    initial position in a way)
+
 </script>
 
 <style>
-.carousel {
-	/* add nice overscroll on ios  */
-	-webkit-overflow-scrolling: touch; 
-}
-
-.carousel::-webkit-scrollbar {
-	display: none;
-}
 </style>

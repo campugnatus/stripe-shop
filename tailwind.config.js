@@ -1,3 +1,5 @@
+const defaultTheme = require('tailwindcss/defaultTheme')
+
 module.exports = {
   mode: 'jit',
   purge: [
@@ -5,6 +7,10 @@ module.exports = {
   ],
   darkMode: false, // or 'media' or 'class'
   theme: {
+    screens: {
+      'xs': '375px',
+      ...defaultTheme.screens,
+    },
     extend: {
       colors: {
         primary: '#24282b',
@@ -17,6 +23,7 @@ module.exports = {
       fontFamily: {
         sigmar: ['Sigmar One'],
         pacifico: ['Pacifico'],
+        roboto: ['Roboto'],
         pressstart: ["'Press Start 2P'"], // doesn't work without quotes for some reason
       },
       boxShadow: {
@@ -34,5 +41,7 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/forms'),
+  ],
 }

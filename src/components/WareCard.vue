@@ -1,8 +1,8 @@
 <template>
-  <div class="w-[210px] h-[400px] rounded-lg border overflow-hidden flex-shrink-0">
-    <div class="bg-white h-1/2"></div>
-    <div class="bg-gray-50 h-1/2 border-t p-2 flex flex-col">
-      <h1 class="text-lg truncate">Plain yellow stripe</h1>
+  <div class="w-full rounded-lg border overflow-hidden flex-shrink-0">
+    <div class="bg-white" style="aspect-ratio: 1"></div>
+    <div class="bg-gray-50 border-t p-2 flex flex-col">
+      <router-link to="/product/foobar"><h1 class="text-lg truncate">Plain yellow stripe</h1></router-link>
 
       <div class="flex mt-1 mb-1 justify-between">
         <div class="flex gap-1">
@@ -36,9 +36,9 @@
         </div>
       </div>
 
-      <div class="flex gap-3 mb-2">
-        <span class="text-2xl text-gray-700 font-semibold">$2.99</span>
-        <button class="bg-primary rounded text-sm text-white py-1 px-2 flex-grow">Add to cart</button>
+      <div class="flex mb-2 justify-between">
+        <span class="text-2xl text-gray-700 mr-3 font-semibold">$2.99</span>
+        <button class="bg-primary w-40 rounded text-sm text-white py-1 px-2 flex-shrink">Add to cart</button>
       </div>
     </div>
   </div>
