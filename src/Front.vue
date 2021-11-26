@@ -1,12 +1,12 @@
 <template>
-  <div class="hidden absolute left-1/2 h-[3600px] border-l border-red-600 z-50"></div>
+  <div class="hidden absolute left-1/2 h-[7600px] border-l border-red-300 z-50"></div>
 
   <!-- the long stripe -->
-  <svg id="gallery-svg" width="100%" height="5000px" class="hidden sm:block absolute top-0 left-0">
+  <svg id="gallery-svg" width="100%" height="5000px" class="hidden sm:block absolute top-0 left-0 z-[-1]">
     <path fill="none" stroke="#EEAF0C" stroke-width="23" :d="d"/>
   </svg>
 
-  <header class="w-full h-[calc(100vh-50px)] max-h-[1000px] overflow-hidden relative shadow-2xl border-b relative border-gray-400 bg-white">
+  <header class="w-full h-[calc(100vh+1px)] max-h-[1000px] overflow-hidden relative shadow-2xl border-b relative border-gray-400 bg-white">
 
     <div class="absolute overflow-hidden inset-0">
       <img src="/bds2.png" class="max-w-none absolute right-0 h-[480px] md:h-[640px] lg:h-[920px] top-[calc(44%+60px)] sm:top-[calc(44%+50px)] md:top-[calc(44%+20px)] lg:top-[calc(44%-150px)] xl:top-[calc(44%-270px)] 2xl:top-[calc(44%-360px)]">
@@ -87,8 +87,9 @@
   </header>
 
 
-  <section class="flex ml-[-80px] overflow-scroll">
-    <svg viewBox="0 0 751 632" width="751" height="632" class="mt-[-170px] flex-shrink-0">
+  <section class="flex overflow-scroll sm:justify-center">
+    <div class="w-[908px] hidden sm:flex justify-end flex-shrink-0">
+      <svg viewBox="0 0 751 632" width="751" height="632" class="origin-right scale-[0.7] lg:scale-[0.8] mt-[-165px] 2xl:scale-100 2xl:mt-[-170px]">
        <path d="m 692.189,89.6758 35.922,-3.21 22.7045,466.7152 -35.922,3.21 z" style="fill:#c4c4c4" />
        <path d="m 639.75,34.7402 35.9939,-0.9037 5.39,394.3293 -35.9939,0.9037 z" style="fill:#c4c4c4" />
        <path d="m 567.75,87.1953 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
@@ -100,19 +101,20 @@
        <path d="m 145.875,85.3398 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
        <path d="m 75.875,85.3398 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
        <path d="m 0,84.7031 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
-    </svg>
+     </svg>
+   </div>
 
-    <div class="ml-8">
+    <div class="sm:ml-8">
         <div class="beacon-0 mx-auto"></div>
     </div>
 
-    <div class="flex-shrink-0 pt-12 sm:pt-28 mx-8 lg:mx-32 relative">
+    <div class="flex-shrink-0 pt-12 sm:pt-24 mx-14 lg:mx-24 xl:mx-28 2xl:mx-32 relative">
       <div class="w-max mx-auto">
         <div class="font-pacifico text-3xl xl:text-3xl mb-3 xl:mb-4">Only 100%</div>
         <div class="font-pressstart text-3xl xl:text-3xl mb-2 xl:mb-3">digital</div>
         <div class="font-pacifico text-3xl xl:text-3xl">stripes!</div>
 
-        <ul class="text-lg xl:text-lg mt-6 xl:mt-8 list-disc ml-4">
+        <ul class="sm:text-lg xl:text-lg mt-6 xl:mt-8 list-disc ml-4">
           <li>pure vector <b>.SVG</b></li>
           <li>delivered by email</li>
           <li>in a .zip archive</li>
@@ -121,103 +123,41 @@
       </div>
     </div>
 
-    <svg viewBox="0 0 908 659" width="908" height="659" class="mt-[-245px] flex-shrink-0">
-      <path d="m 754,159.576 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
-      <path d="m 805,116.576 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
-      <path d="m 665.949,65.3652 35.9925,0.9975 -5.9494,394.314 -35.9924,-0.9975 z" style="fill:#c4c4c4" />
-      <path d="m 586.68,159.068 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
-      <path d="m 516.68,159.068 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
-      <path d="M 439.043,2.082 462.342,0 l 31.9536,656.8394 -23.299,2.082 z" style="fill:#c4c4c4" />
-      <path d="m 371.557,97.2227 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
-      <path d="m 234.301,156.111 56.039,4.2611 -16.3005,393.7776 -56.039,-4.261 z" style="fill:#c4c4c4" />
-      <path d="m 68,156.576 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
-      <path d="M 20.1582,90.3652 56.2212,90.7501 36.0626,484.2419 -4e-4,483.857 Z" style="fill:#c4c4c4" />
-    </svg>
-  </section>
-
-
-  <section class="grid overflow-hidden pb-10 sm:pb-0 shadow-2xl sm:shadow-none sm:mx-6 sm:h-[460px] grid-cols-ohoho lg:grid-cols-muahaha" style="display: none">
-    <div class="hidden lg:flex flex-row-reverse flex-wrap justify-start">
-      <img src="/tapered.svg" class="ml-3 mr-auto mb-96 translate-y-[-0px] object-none object-bottom w-[fit-content] h-[fit-content]">
-      <img src="/twisted.svg" class="mx-3 translate-y-[-100px] object-none object-bottom w-[fit-content] h-[fit-content]">
-      <img src="/holey2.svg" class="mr-3 ml-6 translate-y-[-666px] object-none object-bottom w-[fit-content] h-[fit-content]">
-      
-      <img src="/wiggly90.svg" class="mr-auto translate-y-[-125px] object-none object-bottom w-[fit-content] h-[fit-content]">
-      <img src="/wiggly45.svg" class="ml-6 mr-6 translate-y-[-500px] object-none object-bottom w-[fit-content] h-[fit-content]">
-      
-      <img src="/tie.svg" class="mr-auto translate-y-[-0px] object-none object-bottom w-[fit-content] h-[fit-content]">
-      <img src="/notch.svg" class="mr-6 ml-auto translate-y-[-50px] object-none object-bottom w-[fit-content] h-[fit-content]">
+    <div class="sm:w-[908px] flex flex-shrink-0">
+      <svg viewBox="0 0 908 659" width="908" height="659" class="origin-left scale-[0.7] lg:scale-[0.8] mt-[-210px] 2xl:scale-100 2xl:mt-[-245px]">
+        <path d="m 754,159.576 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
+        <path d="m 805,116.576 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
+        <path d="m 665.949,65.3652 35.9925,0.9975 -5.9494,394.314 -35.9924,-0.9975 z" style="fill:#c4c4c4" />
+        <path d="m 586.68,159.068 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
+        <path d="m 516.68,159.068 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
+        <path d="M 439.043,2.082 462.342,0 l 31.9536,656.8394 -23.299,2.082 z" style="fill:#c4c4c4" />
+        <path d="m 371.557,97.2227 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
+        <path d="m 234.301,156.111 56.039,4.2611 -16.3005,393.7776 -56.039,-4.261 z" style="fill:#c4c4c4" />
+        <path d="m 68,156.576 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
+        <path d="M 20.1582,90.3652 56.2212,90.7501 36.0626,484.2419 -4e-4,483.857 Z" style="fill:#c4c4c4" />
+      </svg>
     </div>
-
-    <div class="col-start-1 lg:col-start-2 text-left flex-shrink-0 pt-8 sm:pt-16 mx-8 lg:mx-16 relative">
-      <div class="w-max mx-auto">
-        <div class="font-pacifico text-3xl xl:text-4xl mb-3 xl:mb-4">Only 100%</div>
-        <div class="font-pressstart text-3xl xl:text-4xl mb-2 xl:mb-3">digital</div>
-        <div class="font-pacifico text-3xl xl:text-4xl">stripes!</div>
-
-        <ul class="text-lg xl:text-xl mt-6 xl:mt-8 list-disc ml-4">
-          <li>pure vector <b>.SVG</b></li>
-          <li>delivered by email</li>
-          <li>in a .zip archive</li>
-          <li><b>seconds</b> after the purchase</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="hidden sm:flex col-start-2 lg:col-start-3 justify-start flex-wrap">
-      <!-- dummy element so that the next one is able to wrap -->
-      <div class="w-0 h-full mb-96"></div> 
-      <img src="/holey.svg" class="ml-auto mr-6 mb-96 translate-y-[-140px] object-none object-bottom w-[fit-content] h-[fit-content]">
-      <img src="/zebra.svg" class="mr-6 mb-96 translate-y-[-300px] object-none object-bottom w-[fit-content] h-[fit-content]">
-      <img src="/braid.svg" class="mr-6 mb-96 translate-y-[-250px] object-none object-bottom w-[fit-content] h-[fit-content]">
-      <div class="hidden sm:block h-32 min-w-[23px] mr-6">
-        <!-- <div class="beacon-0 w-[0px] mx-auto"></div> -->
-      </div>
-      
-      <img src="/curvy2.svg" class="ml-auto mr-6 hidden xl:block mb-96 translate-y-[-30px] object-none object-bottom w-[fit-content] h-[fit-content]">
-
-      <img src="/zigzaggy.svg" class="ml-auto mr-6 mb-96 translate-y-[-300px] object-none object-bottom w-[fit-content] h-[fit-content]">
-      <img src="/dashed.svg" class="mr-6 mb-96 translate-y-[-250px] object-none object-bottom w-[fit-content] h-[fit-content]">
-      <img src="/wiggly1.svg" class="mr-auto mb-96 translate-y-[-200px] object-none object-bottom w-[fit-content] h-[fit-content]">
+    <div class="sm:hidden">
+       <svg viewBox="0 0 751 632" width="751" height="632" class="origin-left scale-[0.8] mt-[-170px] 2xl:scale-100 2xl:mt-[-170px]">
+        <path d="m 692.189,89.6758 35.922,-3.21 22.7045,466.7152 -35.922,3.21 z" style="fill:#c4c4c4" />
+        <path d="m 639.75,34.7402 35.9939,-0.9037 5.39,394.3293 -35.9939,0.9037 z" style="fill:#c4c4c4" />
+        <path d="m 567.75,87.1953 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
+        <path d="m 491.877,3.211 35.922,-3.21 27.576,566.8547 -35.9219,3.21 z" style="fill:#c4c4c4" />
+        <path d="m 407.461,42.8008 35.5585,-7.6176 50.8834,436.295 -35.5585,7.6176 z" style="fill:#c4c4c4" />
+        <path d="m 351.949,4.6426 23.3593,-2.0874 30.5018,626.9956 -23.3593,2.0874 z" style="fill:#c4c4c4" />
+        <path d="m 285.875,85.3398 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
+        <path d="m 215.875,85.3398 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
+        <path d="m 145.875,85.3398 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
+        <path d="m 75.875,85.3398 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
+        <path d="m 0,84.7031 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
+      </svg>
     </div>
   </section>
-
-
-
-
-
-
-  <section class="sm:hidden w-full overflow-hidden overflow-x-auto h-[450px]">
-    <div class="flex translate-y-[-50px]">
-      <img src="/notch.svg" class="mr-6 ml-6 translate-y-[-50px] object-none object-bottom w-[fit-content] h-[fit-content]">
-      <img src="/tie.svg" class="mr-auto translate-y-[-0px] object-none object-bottom w-[fit-content] h-[fit-content]">
-      
-      <img src="/wiggly45.svg" class="ml-6 mr-6 translate-y-[-500px] object-none object-bottom w-[fit-content] h-[fit-content]">
-      <img src="/wiggly90.svg" class="mr-auto translate-y-[-125px] object-none object-bottom w-[fit-content] h-[fit-content]">
-      
-      <img src="/holey2.svg" class="mr-3 ml-6 translate-y-[-666px] object-none object-bottom w-[fit-content] h-[fit-content]">
-      <img src="/twisted.svg" class="mx-3 translate-y-[-100px] object-none object-bottom w-[fit-content] h-[fit-content]">
-      <img src="/tapered.svg" class="ml-3 mr-6 translate-y-[-0px] object-none object-bottom w-[fit-content] h-[fit-content]">
-
-      <img src="/holey.svg" class="ml-auto mr-6 translate-y-[-140px] object-none object-bottom w-[fit-content] h-[fit-content]">
-      <img src="/zebra.svg" class="mr-6 translate-y-[-300px] object-none object-bottom w-[fit-content] h-[fit-content]">
-      <img src="/braid.svg" class="mr-6 translate-y-[-250px] object-none object-bottom w-[fit-content] h-[fit-content]">
-      
-      <img src="/curvy2.svg" class="ml-auto mr-6 hidden xl:block translate-y-[-30px] object-none object-bottom w-[fit-content] h-[fit-content]">
-
-      <img src="/zigzaggy.svg" class="ml-auto mr-6 translate-y-[-300px] object-none object-bottom w-[fit-content] h-[fit-content]">
-      <img src="/dashed.svg" class="mr-6 translate-y-[-250px] object-none object-bottom w-[fit-content] h-[fit-content]">
-      <img src="/wiggly1.svg" class="pr-6 translate-y-[-200px] object-none object-bottom w-[fit-content] h-[fit-content]">
-    </div>
-  </section>
-
-
-
 
 
   <section class="w-full sm:mt-32 2xl:mt-44 relative">
     <GalleryCarousel class="h-[200px] 2xl:h-[256px] w-full">
-        <div class="h-full flex-shrink-0 w-[calc(50%-190px)]"></div>
+        <div class="h-full flex-shrink-0 w-[calc(50%-106px)] md:w-[calc(50%-146px)]"></div>
         
         <div class="mr-8 flex-shrink-0 text-3xl sm:text-3xl 2xl:text-4xl font-sigmar text-right flex justify-center items-center">
           <div>
@@ -232,7 +172,7 @@
           <div class="beacon-2 svg-beacon absolute bottom-0 left-1/2 h-0 w-0 bg-red-600"></div>
         </div>
 
-        <div class="ml-6 gallery-tile">
+        <div class="xl:ml-6 gallery-tile">
           <img src="/shirt.png" class="h-full">
         </div>
 
