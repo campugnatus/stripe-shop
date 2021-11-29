@@ -87,32 +87,45 @@
   </header>
 
 
-  <section class="flex overflow-scroll sm:justify-center">
-    <div class="w-[908px] hidden sm:flex justify-end flex-shrink-0">
-      <svg viewBox="0 0 751 632" width="751" height="632" class="origin-right scale-[0.7] lg:scale-[0.8] mt-[-165px] 2xl:scale-100 2xl:mt-[-170px]">
-       <path d="m 692.189,89.6758 35.922,-3.21 22.7045,466.7152 -35.922,3.21 z" style="fill:#c4c4c4" />
-       <path d="m 639.75,34.7402 35.9939,-0.9037 5.39,394.3293 -35.9939,0.9037 z" style="fill:#c4c4c4" />
-       <path d="m 567.75,87.1953 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
-       <path d="m 491.877,3.211 35.922,-3.21 27.576,566.8547 -35.9219,3.21 z" style="fill:#c4c4c4" />
-       <path d="m 407.461,42.8008 35.5585,-7.6176 50.8834,436.295 -35.5585,7.6176 z" style="fill:#c4c4c4" />
-       <path d="m 351.949,4.6426 23.3593,-2.0874 30.5018,626.9956 -23.3593,2.0874 z" style="fill:#c4c4c4" />
-       <path d="m 285.875,85.3398 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
-       <path d="m 215.875,85.3398 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
-       <path d="m 145.875,85.3398 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
-       <path d="m 75.875,85.3398 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
-       <path d="m 0,84.7031 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
-     </svg>
+  <section class="flex overflow-scroll lg:justify-center scrollbar-off">
+    <div class="w-[1700px] hidden lg:flex justify-end flex-shrink-0">
+      <svg viewBox="0 0 1633 659" class="h-[444px] mt-[-80px] lg:h-[500px] lg:mt-[-90px] 2xl:h-[659px] 2xl:mt-[-200px]">
+        <path d="m 313,92.5352 35.9758,-2.5356 11.76,393.8322 -35.9758,2.5357 z" style="fill:#c4c4c4;"/>
+        <path d="m 156.326,30.8828 36.0543,-0.8819 -6.3268,393.9572 -36.0543,0.8819 z" style="fill:#c4c4c4;"/>
+        <path d="m 1574.19,116.676 35.922,-3.21 22.7045,466.7152 -35.922,3.21 z" style="fill:#c4c4c4;"/>
+        <path d="m 1521.75,61.7402 35.9939,-0.9037 5.39,394.3293 -35.9939,0.9037 z" style="fill:#c4c4c4;"/>
+        <path d="m 1449.75,114.195 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4;"/>
+        <path d="m 1373.88,30.2109 35.922,-3.21 27.576,566.8548 -35.9219,3.21 z" style="fill:#c4c4c4;"/>
+        <path d="m 1289.46,69.8008 35.5585,-7.6176 50.8834,436.295 -35.5585,7.6176 z" style="fill:#c4c4c4;"/>
+        <path d="m 1249.6,30.6875 23.4345,-0.917 -0.8807,627.7364 -23.4344,0.917 z" style="fill:#c4c4c4;"/>
+        <path d="m 1167.88,112.34 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4;"/>
+        <path d="m 1097.88,112.34 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4;"/>
+        <path d="m 1040.54,110.969 36.0543,-0.8827 -6.3176,393.9571 -36.0543,0.8828 z" style="fill:#c4c4c4;"/>
+        <path d="m 957.875,112.34 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4;"/>
+        <path d="m 882,111.703 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4;"/>
+        <path d="m 718.023,71.8027 63.2553,-5.6525 25.1212,516.3915 -63.2553,5.6524 z" style="fill:#c4c4c4;"/>
+        <path d="m 825,47.6895 36.0255,-1.69 2.5062,394.0002 -36.0254,1.69 z" style="fill:#c4c4c4;"/>
+        <path d="m 665.949,65.3652 35.9925,0.9975 -5.9494,394.314 -35.9924,-0.9975 z" style="fill:#c4c4c4;"/>
+        <path d="m 586.68,159.068 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4;"/>
+        <path d="m 516.68,159.068 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4;"/>
+        <path d="M 439.043,2.082 462.342,0 l 31.9536,656.8394 -23.299,2.082 z" style="fill:#c4c4c4;"/>
+        <path d="m 371.557,97.2227 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4;"/>
+        <path d="m 234.301,156.111 56.039,4.2611 -16.3005,393.7776 -56.039,-4.261 z" style="fill:#c4c4c4;"/>
+        <path d="m 68,156.576 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4;"/>
+        <path d="M 20.1582,90.3652 56.2212,90.7501 36.0626,484.2419 -4e-4,483.857 Z" style="fill:#c4c4c4;"/>
+      </svg>
    </div>
 
     <div class="sm:ml-8">
         <div class="beacon-0 mx-auto"></div>
     </div>
 
-    <div class="flex-shrink-0 pt-12 sm:pt-24 mx-14 lg:mx-24 xl:mx-28 2xl:mx-32 relative">
+    <div class="flex-shrink-0 pt-20 lg:pt-24 mx-10 xs:mx-12 sm:mx-20 lg:mx-24 xl:mx-28 2xl:mx-32 relative pb-16">
       <div class="w-max mx-auto">
-        <div class="font-pacifico text-3xl xl:text-3xl mb-3 xl:mb-4">Only 100%</div>
-        <div class="font-pressstart text-3xl xl:text-3xl mb-2 xl:mb-3">digital</div>
-        <div class="font-pacifico text-3xl xl:text-3xl">stripes!</div>
+        <div class="font-pacifico text-3xl 2xl:text-4xl mb-3 xl:mb-4">Only 100%</div>
+        <div class="font-pressstart text-3xl 2xl:text-4xl mb-2 xl:mb-3">digital</div>
+        <div class="font-pacifico text-3xl 2xl:text-4xl">stripes!</div>
+        <div class="beacon-babulka svg-beacon absolute bg-red-400 left-0 bottom-0 mx-auto"></div>
 
         <ul class="sm:text-lg xl:text-lg mt-6 xl:mt-8 list-disc ml-4">
           <li>pure vector <b>.SVG</b></li>
@@ -123,33 +136,32 @@
       </div>
     </div>
 
-    <div class="sm:w-[908px] flex flex-shrink-0">
-      <svg viewBox="0 0 908 659" width="908" height="659" class="origin-left scale-[0.7] lg:scale-[0.8] mt-[-210px] 2xl:scale-100 2xl:mt-[-245px]">
-        <path d="m 754,159.576 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
-        <path d="m 805,116.576 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
-        <path d="m 665.949,65.3652 35.9925,0.9975 -5.9494,394.314 -35.9924,-0.9975 z" style="fill:#c4c4c4" />
-        <path d="m 586.68,159.068 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
-        <path d="m 516.68,159.068 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
-        <path d="M 439.043,2.082 462.342,0 l 31.9536,656.8394 -23.299,2.082 z" style="fill:#c4c4c4" />
-        <path d="m 371.557,97.2227 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
-        <path d="m 234.301,156.111 56.039,4.2611 -16.3005,393.7776 -56.039,-4.261 z" style="fill:#c4c4c4" />
-        <path d="m 68,156.576 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
-        <path d="M 20.1582,90.3652 56.2212,90.7501 36.0626,484.2419 -4e-4,483.857 Z" style="fill:#c4c4c4" />
-      </svg>
-    </div>
-    <div class="sm:hidden">
-       <svg viewBox="0 0 751 632" width="751" height="632" class="origin-left scale-[0.8] mt-[-170px] 2xl:scale-100 2xl:mt-[-170px]">
-        <path d="m 692.189,89.6758 35.922,-3.21 22.7045,466.7152 -35.922,3.21 z" style="fill:#c4c4c4" />
-        <path d="m 639.75,34.7402 35.9939,-0.9037 5.39,394.3293 -35.9939,0.9037 z" style="fill:#c4c4c4" />
-        <path d="m 567.75,87.1953 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
-        <path d="m 491.877,3.211 35.922,-3.21 27.576,566.8547 -35.9219,3.21 z" style="fill:#c4c4c4" />
-        <path d="m 407.461,42.8008 35.5585,-7.6176 50.8834,436.295 -35.5585,7.6176 z" style="fill:#c4c4c4" />
-        <path d="m 351.949,4.6426 23.3593,-2.0874 30.5018,626.9956 -23.3593,2.0874 z" style="fill:#c4c4c4" />
-        <path d="m 285.875,85.3398 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
-        <path d="m 215.875,85.3398 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
-        <path d="m 145.875,85.3398 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
-        <path d="m 75.875,85.3398 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
-        <path d="m 0,84.7031 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4" />
+    <div class="sm:w-[1700px] flex flex-shrink-0 overflow-hidden pr-8">
+      <svg viewBox="0 0 1633 659" class="h-[444px] mt-[-110px] lg:h-[500px] lg:mt-[-135px] 2xl:h-[659px] 2xl:mt-[-240px]">
+      <!-- <svg viewBox="0 0 1633 659" width="1633px" class="origin-top-left scale-[0.7] lg:scale-[0.8] xl:scale-100 lg:mt-[-270px] xl:mt-[-290px]"> -->
+        <path class="lg:hidden" d="m 313,92.5352 35.9758,-2.5356 11.76,393.8322 -35.9758,2.5357 z" style="fill:#c4c4c4;"/>
+        <path class="lg:hidden" d="m 156.326,30.8828 36.0543,-0.8819 -6.3268,393.9572 -36.0543,0.8819 z" style="fill:#c4c4c4;"/>
+        <path d="m 1574.19,116.676 35.922,-3.21 22.7045,466.7152 -35.922,3.21 z" style="fill:#c4c4c4;"/>
+        <path d="m 1521.75,61.7402 35.9939,-0.9037 5.39,394.3293 -35.9939,0.9037 z" style="fill:#c4c4c4;"/>
+        <path d="m 1449.75,114.195 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4;"/>
+        <path d="m 1373.88,30.2109 35.922,-3.21 27.576,566.8548 -35.9219,3.21 z" style="fill:#c4c4c4;"/>
+        <path d="m 1289.46,69.8008 35.5585,-7.6176 50.8834,436.295 -35.5585,7.6176 z" style="fill:#c4c4c4;"/>
+        <path d="m 1249.6,30.6875 23.4345,-0.917 -0.8807,627.7364 -23.4344,0.917 z" style="fill:#c4c4c4;"/>
+        <path d="m 1167.88,112.34 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4;"/>
+        <path d="m 1097.88,112.34 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4;"/>
+        <path d="m 1040.54,110.969 36.0543,-0.8827 -6.3176,393.9571 -36.0543,0.8828 z" style="fill:#c4c4c4;"/>
+        <path d="m 957.875,112.34 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4;"/>
+        <path d="m 882,111.703 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4;"/>
+        <path d="m 718.023,71.8027 63.2553,-5.6525 25.1212,516.3915 -63.2553,5.6524 z" style="fill:#c4c4c4;"/>
+        <path d="m 825,47.6895 36.0255,-1.69 2.5062,394.0002 -36.0254,1.69 z" style="fill:#c4c4c4;"/>
+        <path class="hidden" d="m 665.949,65.3652 35.9925,0.9975 -5.9494,394.314 -35.9924,-0.9975 z" style="fill:#c4c4c4;"/>
+        <path d="m 586.68,159.068 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4;"/>
+        <path d="m 516.68,159.068 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4;"/>
+        <path d="M 439.043,2.082 462.342,0 l 31.9536,656.8394 -23.299,2.082 z" style="fill:#c4c4c4;"/>
+        <path d="m 371.557,97.2227 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4;"/>
+        <path d="m 234.301,156.111 56.039,4.2611 -16.3005,393.7776 -56.039,-4.261 z" style="fill:#c4c4c4;"/>
+        <path d="m 68,156.576 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4;"/>
+        <path d="M 20.1582,90.3652 56.2212,90.7501 36.0626,484.2419 -4e-4,483.857 Z" style="fill:#c4c4c4;"/>
       </svg>
     </div>
   </section>
@@ -157,7 +169,7 @@
 
   <section class="w-full sm:mt-32 2xl:mt-44 relative">
     <GalleryCarousel class="h-[200px] 2xl:h-[256px] w-full">
-        <div class="h-full flex-shrink-0 w-[calc(50%-106px)] md:w-[calc(50%-146px)]"></div>
+        <div class="h-full flex-shrink-0 w-[calc(50%-106px)] sm:w-[calc(50%-146px)]"></div>
         
         <div class="mr-8 flex-shrink-0 text-3xl sm:text-3xl 2xl:text-4xl font-sigmar text-right flex justify-center items-center">
           <div>
@@ -168,11 +180,11 @@
 
         
         <div class="hidden sm:block min-w-[26px] xl:mx-2 h-full relative">
-          <div class="beacon-1 svg-beacon absolute top-0 left-1/2"></div>
+          <div class="beacon-1 svg-beacon absolute top-8 2xl:top-0 left-1/2"></div>
           <div class="beacon-2 svg-beacon absolute bottom-0 left-1/2 h-0 w-0 bg-red-600"></div>
         </div>
 
-        <div class="xl:ml-6 gallery-tile">
+        <div class="lg:ml-6 gallery-tile">
           <img src="/shirt.png" class="h-full">
         </div>
 
@@ -357,9 +369,9 @@
       <div class="flex-shrink-0 invisible h-full w-8"></div>
     </GalleryCarousel>
 
-    <div class="hidden sm:flex max-w-[320px] min-h-[400px] mx-auto relative flex items-center h-[600px]">
-      <div class="beacon-7 absolute bottom-[380px] w-3 h-3 bg-red-300"></div>
-      <div class="font-pacifico text-3xl leading-[1.7em] ml-20 -mt-10">
+    <div class="hidden sm:flex max-w-[320px] min-h-[400px] mx-auto relative flex items-center h-[400px] lg:h-[500px] xl:h-[600px]">
+      <div class="beacon-7 absolute bottom-[380px]"></div>
+      <div class="font-pacifico text-2xl lg:text-3xl leading-[1.7em] ml-20 -mt-10">
         Your<br>
         imagination<br>
         is the limit!
@@ -371,49 +383,45 @@
 
 
 
-
-
-  <section class="sm:hidden mt-32 relative">
-
-    <div class="font-pacifico text-3xl mt-16 text-center">
-      All sorts, <span class="font-sigmar text-4xl inline-block rotate-6">any</span> kind
+  <section class="md:hidden mt-28 sm:mt-0 relative z-20">
+    <div class="font-pacifico text-2xl xs:text-3xl mt-16 mb-6 text-center rotate-3">
+      All sorts, <span class="font-sigmar text-4xl inline-block mx-1 rotate-6">any</span> kind
     </div>
+    <svg fill="none" width="751" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 751 372">
+      <path fill="#ADADAD" d="m-99 86.4316 947.6851-24.432.9278 35.988-947.6851 24.432z"/>
+      <path fill="#878181" d="M-136.297 229.766 912.3324 345.5304l-2.853 25.843L-139.15 255.609z"/>
+      <path d="m-171 262.533 1053.375-58.534 1.997 35.945-1053.375 58.534-1.997-35.945Z" fill="#AEAEAE"/>
+      <path fill="#747474" d="m-151.066 180.707 1054.9361 11.6082-.286 25.9984-1054.9362-11.6082z"/>
+      <path fill="#C4C4C4" d="m-95.8633-7.0078 946.3744 55.4927-2.1073 35.9383-946.3744-55.4927zM-115.094 71l945.4498 69.4884-1.9058 25.93-945.4498-69.4883z"/>
+      <path fill="#919191" d="m-93 174.428 920.7126-52.4273 2.0465 35.9418-920.7125 52.4273z"/>
+    </svg>
 
-    <div class="relative mt-8 w-[1920px] scale-90 origin-top-left translate-x-[-40px] translate-y-[-60px]">
-      <!-- <img src="/squarebeads.svg"  class="absolute "> -->
-      <img src="/stripy.svg" class="absolute rotate-[-5deg] translate-y-[30px]">
-      <!-- <img src="/thicktwisted2.svg" class="absolute scale-[0.5] rotate-[6.7deg] translate-x-[-30%] translate-y-[95px] rotate-[2deg]"> -->
-      <img src="/rough.svg" class="absolute rotate-[3deg] translate-y-[44px]">
-      <img src="/bricky2.svg" class="absolute translate-y-[180px] rotate-6">
-      <img src="/squarebeads2.svg"  class="absolute translate-y-[245px] scale-y-[-1]">
-      <!-- <img src="/thickbraid.svg" class="absolute translate-y-[180px] -rotate-3"> -->
+    <div class="font-pacifico text-2xl xs:text-3xl text-center">
+      <span class="inline-block rotate-[15deg] translate-y-[-8px]">
+        for <span class="font-sigmar text-3xl xs:text-4xl inline-block -rotate-6">any</span>
+      </span>
+      <span class="inline-block ml-4 rotate-[-4deg]">
+        kind of cause <span class="font-sigmar text-3xl xs:text-4xl rotate-6 inline-block">!</span>
+      </span>
     </div>
-    
-    <div class="font-pacifico text-3xl text-center mt-[300px]">
-      for <span class="font-sigmar text-4xl inline-block -rotate-6">any</span> kind of cause <span class="font-sigmar text-4xl rotate-6 inline-block">!</span>
-    </div>
-
-    <div class="relative w-[1920px] scale-[0.85] origin-top-left h-[400px] mt-8">
-      <img src="/barky.svg" class="scale-[0.6] absolute translate-x-[-40%] rotate-[2deg]">
-      <img src="/monobraid.svg" class="absolute scale-[0.45] translate-x-[-30%] translate-y-[50px] rotate-2">
-      <!-- <img src="/rough.svg" class="absolute rotate-[2deg] translate-y-[45px] translate-x-[-20px]"> -->
-      <img src="/kurva.svg" class="absolute scale-[0.6] scale-x-[-0.6] rotate-[0deg] translate-x-[-30%] translate-y-[57px] rotate-[2deg]">
-      <!-- <img src="/thicktwisted2.svg" class="absolute scale-[0.5] scale-x-[-0.5] rotate-[-1deg] translate-x-[-20%] translate-y-[162px] rotate-[2deg]"> -->
-      <img src="/thickbraid.svg" class="absolute scale-x-[-1] translate-x-[10%] translate-y-[135px] rotate-[10deg]">
-    </div>
+    <svg fill="none" width="751" class="-mt-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 751 448">
+      <path fill="#6D6C6C" d="m-176 278.342 1201.9519-163.3424 4.8477 35.6721-1201.9518 163.3424z"/>
+      <path fill="#958C8C" d="M-131 217.619 912.0078 59.0007l3.909 25.7044-1043.0077 158.6184z"/>
+      <path fill="#C4C4C4" d="m-251 422.309 1269.138-312.3104 6.2127 25.2468-1269.138 312.3104z"/>
+      <path fill="#C4C4C4" d="m-242.617 121.193 1306.9387 12.6548-.3485 35.9984-1306.9388-12.6549z"/>
+      <path fill="#A5A5A5" d="m-203.301.9727 1284.263 242.729-4.8285 25.5477-1284.263-242.729z"/>
+      <path fill="#C4C4C4" d="m-190.982 87.4902 1305.3183-66.2813 1.8256 35.9537-1305.3182 66.2813z"/>
+    </svg>
   </section>
 
 
-
-
-
-  <section class="relative mt-[-120px] h-[700px] w-full">
-    <h2 class="font-pacifico text-4xl absolute top-[36%] left-1/2 -translate-x-1/2 -translate-y-1/2 leading-snug">
+  <section class="hidden md:block relative mt-[-120px] h-[700px] w-full">
+    <h2 class="font-pacifico text-3xl lg:text-4xl 2xl:text-4xl absolute md:top-[32%] lg:top-[35%] xl:top-[34%] 2xl:top-[36%] left-1/2 -translate-x-1/2 -translate-y-1/2 leading-snug">
       All sorts, any kind<br>
       for any kind of cause
     </h2>
 
-    <svg width="1920" height="702" class="origin-top absolute left-1/2 sm:scale-[0.6] md:scale-[0.7] xl:scale-[0.85] 2xl:scale-100 translate-x-[-50%]" viewBox="0 0 1920 702" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="1920" height="702" class="origin-top absolute left-1/2 md:scale-[0.75] lg:scale-[0.85] 2xl:scale-100 md:translate-y-[35px] lg:translate-y-[30px] xl:translate-y-[25px] 2xl:translate-y-0 translate-x-[-50%]" viewBox="0 0 1920 702" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect x="-219.789" y="111" width="948" height="36" transform="rotate(3.52172 -219.789 111)" fill="#C4C4C4"/>
       <rect x="-281.957" y="131" width="948" height="36" transform="rotate(8.05219 -281.957 131)" fill="#C4C4C4"/>
       <rect x="-580" y="273" width="948" height="26" fill="#C4C4C4"/>
@@ -433,37 +441,6 @@
   </section>
 
 
-  <section class="hidden ---sm:block h-[506px] relative mt-14">
-
-    <div class="relative left-1/2 h-0 w-[1920px] -rotate-1 scale-[0.8] translate-x-[-130px]
-                lg:translate-x-[-200px]
-                2xl:scale-[1] 2xl:translate-x-[-30px] 2xl:translate-y-[10px]">
-      <img src="/thicktwisted2.svg" class="absolute -rotate-1 scale-[0.55] scale-y-[-0.55] left-[-86%] translate-y-[-130px]">
-      <img src="/rough.svg" class="absolute rotate-1 translate-y-[-117px] translate-x-[-140%]">
-      <img src="/stripy.svg" class="absolute rotate-[-5deg] translate-x-[-130%] translate-y-[-15px]">
-      <img src="/squarebeads3.svg"  class="absolute rotate-2 scale-[0.8] translate-x-[-99%] translate-y-[85px]">
-      <img src="/thickbraid4.svg" class="absolute rotate-3 scale-[0.6] translate-x-[-88%] translate-y-[100px]">
-      <!-- <img src="/holey3.svg" class="absolute rotate-[1deg] scale-[0.5] translate-x-[-93%] translate-y-[110px]"> -->
-      <!-- <img src="/bricky2.svg" class="absolute rotate-[-4deg] translate-x-[-132%] translate-y-[180px]"> -->
-    </div>
-    
-    <div class="relative h-0 left-1/2 w-[1920px] scale-[0.8] translate-x-[-80px] translate-y-[-10px]
-                 lg:translate-x-[-20px]
-                 2xl:scale-[1] 2xl:translate-x-[200px]">
-      <!-- <div class="absolute h-3 w-3 bg-red-600 left-[30px] top-[350px] beacon-b"></div> -->
-      <img src="/thickbraid5.svg" class="absolute rotate-[-0deg] scale-[0.5] left-[-22%] top-[-505px]">
-      <img src="/monobraid3.svg" class="absolute scale-[0.5] left-[-26%] top-[-155px]">
-      <img src="/bricky6.svg" class="absolute scale-[0.6] -rotate-2 left-[-16%] top-[55px]">
-      <img src="/kurva3.svg" class="absolute scale-[0.4] rotate-[-3deg] top-[-10px] left-[-24%]
-                                    lg:left-[-25%]
-                                    2xl:rotate-[0.6deg] 2xl:left-[-25%] 2xl:top-[25px]">
-    </div>
-
-    <div class="font-pacifico md:leading-normal sm:leading-normal lg:leading-normal xl:leading-normal text-3xl lg:text-4xl text-center pt-6 lg:pt-2 2xl:pt-8">
-      All sorts, any kind,<br>
-      for any kind of cause!
-    </div>
-  </section>
 
 
 
@@ -471,12 +448,12 @@
 
 
 
-  <section class="relative mt-72">
-    <div class="relative hidden sm:block w-0 h-1 mx-auto">
-      <h1 class="absolute translate-y-[-230px] translate-x-[-200px] rotate-[-15deg] w-max">
-        <div class="font-pacifico text-4xl">See what our</div>
-        <div class="font-sigmar text-5xl mt-14 ml-14">customers</div>
-        <div class="font-pacifico text-4xl mt-2 ml-56">have to <span class="inline-block translate-x-[3px] translate-y-[10px] rotate-[15deg]">say!</span></div>
+  <section class="relative md:mt-56 lg:mt-60 xl:mt-60 2xl:mt-72">
+    <div class="relative hidden mt-48 md:mt-0 sm:block w-0 h-1 mx-auto">
+      <h1 class="absolute translate-y-[-210px] lg:translate-y-[-230px] translate-x-[-200px] rotate-[-15deg] w-max">
+        <div class="font-pacifico text-3xl lg:text-4xl">See what our</div>
+        <div class="font-sigmar text-4xl lg:text-5xl mt-10 lg:mt-14 ml-14">customers</div>
+        <div class="font-pacifico text-3xl lg:text-4xl mt-2 ml-56">have to <span class="inline-block translate-x-[3px] translate-y-[10px] rotate-[15deg]">say!</span></div>
       </h1>
 
       <svg id="comments-line" width="1338" height="2500" class="absolute translate-y-[-610px] translate-x-[-370px]" viewBox="0 0 1338 2500" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -487,7 +464,7 @@
       </svg>
     </div>
 
-    <div class="sm:hidden font-pacifico text-3xl mt-16 mb-12 mx-auto w-max">
+    <div class="sm:hidden font-pacifico text-3xl mt-6 mb-12 mx-auto w-max">
       <div class="ml-6 rotate-3">
         See what <span class="inline-block rotate-[-9deg]">our</span>
       </div>
@@ -656,43 +633,22 @@ function animateSVG() {
   let gallerySVG = document.getElementById("gallery-svg");
   let rectSVG = gallerySVG.getBoundingClientRect();
 
-  let beacons = [0, 1, 2, 3, 4, 5, 6, 7]
-    .map(getBeaconById)
-    .map(el => el.getBoundingClientRect())
-    .map(rect => {
-      return {
-        x: rect.x - rectSVG.x,
-        y: rect.y - rectSVG.y
-      }
-    });
+  let beacons = {};
+  for (let id of [0, 1, 2, 3, 4, 5, 6, 7, "babulka"]) {
+    let el = getBeaconById(id);
+    let rect = el.getBoundingClientRect();
+    beacons[id] = {
+      x: rect.x - rectSVG.x,
+      y: rect.y - rectSVG.y
+    };
+  }
   
   let p = beacons; // for brevity
-  d.value = `
-    M${p[0].x} ${p[0].y}
-
-    V${p[1].y - 138}
-
-    c0,26.5,36,35,0,66s87.002,72,0,72
-
-    H${p[1].x}
-
-    V${p[1].y}
-    H${p[1].x}
-    L${p[2].x} ${p[2].y}
-    H${p[3].x}
-    V${p[4].y}
-    H${p[5].x}
-    V${p[6].y}
-    H${p[7].x}
-    V${p[7].y}
-    v45
-
-    c3.42,253.24,-4.1,334.46,-121.1,333
-    c-187.212,-1.17,-748.103,-42.89,-1046.63,-57.5`;
 
   d.value = `
     M ${p[0].x} ${p[0].y}
-    l 15 470
+
+    L ${p[0].x+15} ${p['babulka'].y}
     L ${p[1].x} ${p[1].y-70}
 
     V${p[1].y}
