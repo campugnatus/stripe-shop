@@ -11,6 +11,9 @@ import Catalogue from './Catalogue.vue'
 
 const router = createRouter({
 	history: createWebHistory(),
+	scrollBehavior (to, from, savedPosition) {
+	  return { top: 0 }
+	},
 	routes: [
 		{ path: '/', component: Front },
 		{ path: '/catalogue', component: Catalogue },
