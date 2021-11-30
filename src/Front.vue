@@ -456,7 +456,7 @@
         <div class="font-pacifico text-3xl lg:text-4xl mt-2 ml-56">have to <span class="inline-block translate-x-[3px] translate-y-[10px] rotate-[15deg]">say!</span></div>
       </h1>
 
-      <svg id="comments-line" width="1338" height="2500" class="absolute translate-y-[-610px] translate-x-[-370px]" viewBox="0 0 1338 2500" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg id="comments-line" width="1338" height="2500" class="absolute translate-y-[-610px] translate-x-[-370px] z-[-1]" viewBox="0 0 1338 2500" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path id="zhopka" d="M43 621.299C74.6544 399.967 820.499 520.298 589.5 136.798C510.702 5.97936 1166.95 24.2621 1382 25.5915" stroke="#eeaf0c" stroke-width="23"/>
         <!-- <path d="M43.5305 621C43.1228 624.164 42.8165 627.676 42.6699 630.992C33.6952 834.23 36.6698 1446.28 42.6699 1695.78C48.6699 1945.28 51.4443 2311.28 265.444 2232.28C479.444 2152.78 444.944 2180.28 438.944 2193.78" stroke="#EEaf0c" stroke-width="23"/> -->
 
@@ -477,23 +477,13 @@
     </div>
 
     <div class="max-w-[530px] mt-14 p-4 sm:px-0 mx-auto">
-      <div class="flex items-center mb-4">
-        <div class="rounded-full bg-gray-400 w-12 h-12 mr-8"></div>
-        <div class="text-xl font-sigmar">John Knopkins</div>
-      </div>
-      <div class="text-base sm:text-base text-justif">
-        Uh... I'm really confused as to the purpose of this place. Do they sell... what? Digital stripes? Like, one stripe per image? I don't get it. Why the hell would you want to buy one of those? Are they supposed to be useful somehow? I dunno... This is really confusing.
-      </div>
+      Uh... I'm really confused as to the purpose of this place. Do they sell... what? Digital stripes? Like, one stripe per image? I don't get it. Why the hell would you want to buy one of those? Are they supposed to be useful somehow? I dunno... This is really confusing.
+      <div class="font-pacifico text-xl float-right m-3 -rotate-3">&mdash; John Knopkins</div>
     </div>
 
-    <div class="max-w-[530px] p-4 sm:px-0 mx-auto">
-      <div class="flex items-center mb-4">
-        <div class="rounded-full bg-gray-400 w-12 h-12 mr-8"></div>
-        <div class="text-xl font-sigmar">Zoey</div>
-      </div>
-      <div class="text-base sm:text-base text-justif">
-        Okay, so I actually went and bought one of the stripes. Arrived shortly, as promised. Feels oddly satisfying to have bought one, haha :D What the hell do I do with it now, though?
-      </div>
+    <div class="max-w-[530px] mt-10 p-4 sm:px-0 mx-auto clear-both">
+      Okay, so I actually went and bought one of the stripes. Arrived shortly, as promised. Feels oddly satisfying to have bought one, haha :D What the hell do I do with it now, though?
+      <div class="font-pacifico text-xl float-right m-3 -rotate-3">&mdash; Arhip</div>
     </div>
 
     <div class="h-[450px] max-w-screen-xl my-6 md:mb-16 md:mt-20 mx-auto">
@@ -510,24 +500,14 @@
       </div>
     </div>
 
-    <div class="max-w-[530px] p-4 sm:px-0 mx-auto">
-      <div class="flex items-center mb-4">
-        <div class="rounded-full bg-gray-400 w-12 h-12 mr-8"></div>
-        <div class="text-xl font-sigmar">Aristarkh Borodulko</div>
-      </div>
-      <div class="text-base sm:text-base text-justif">
-        Dude... I mean, can you imagine spending the effort to make something as useless as this thing... and to such level of polish? Don't you have anything better to do with your life? I guess I'll go buy something... out of pity.
-      </div>
+    <div class="max-w-[530px] mt-10 p-4 sm:px-0 mx-auto">
+      Dude... I mean, can you imagine spending the effort to make something as useless as this thing... and to such level of polish? Don't you have anything better to do with your life? I guess I'll go buy something... out of pity.
+      <div class="font-pacifico text-xl float-right m-3 -rotate-3">&mdash; Aristarkh Borodulko</div>
     </div>
 
-    <div class="max-w-[530px] p-4 sm:px-0 mx-auto">
-      <div class="flex items-center mb-4">
-        <div class="rounded-full bg-gray-400 w-12 h-12 mr-8"></div>
-        <div class="text-xl font-sigmar">Petunya</div>
-      </div>
-      <div class="text-base sm:text-base text-justif">
-        FINALLY, a perfect place for a stripe aficionado such as myself! I used to buy stripy patterns from stocks and then pick out individual stripes out of them... such an effort, I'll tell ya! Here I can buy stripes separately, just the ones that I need!
-      </div>
+    <div class="max-w-[530px] mt-12 p-4 sm:px-0 mx-auto">
+      FINALLY, a perfect place for a stripe aficionado such as myself! I used to buy stripy patterns from stocks and then pick out individual stripes out of them... such an effort, I'll tell ya! Here I can buy stripes separately, just the ones that I need!
+      <div class="font-pacifico text-xl float-right m-3 -rotate-3">&mdash; Petunya</div>
     </div>
   </section>
 
