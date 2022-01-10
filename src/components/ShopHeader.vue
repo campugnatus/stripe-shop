@@ -1,5 +1,5 @@
 <template>
-  <header class="hidden lg:flex px-6 lg:px-8 container max-w-screen-xl mx-auto mt-14 items-center">
+  <header class="hidden lg:flex px-6 lg:px-8 container mx-auto mt-14 items-center">
     <!-- logo -->
     <router-link to="/" class="font-sigmar">
       <div class="text-4xl tracking-[6px] mb-[-4px]">

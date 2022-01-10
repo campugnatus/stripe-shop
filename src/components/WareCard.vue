@@ -2,7 +2,9 @@
   <div class="w-full rounded-lg border overflow-hidden flex-shrink-0">
     <div class="bg-white" style="aspect-ratio: 1"></div>
     <div class="bg-gray-50 border-t p-2 flex flex-col">
-      <router-link to="/product/foobar"><h1 class="text-lg truncate">Plain yellow stripe</h1></router-link>
+      <router-link to="/product/foobar">
+        <h1 class="text-lg truncate">Plain yellow stripe</h1>
+      </router-link>
 
       <div class="flex mt-1 mb-1 justify-between">
         <div class="flex gap-1">

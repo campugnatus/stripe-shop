@@ -101,6 +101,7 @@ function onscroll(e) {
 // Scrolling drawbacks:
 // 1) You can only control scroll position through JS, not through CSS (although you can set margin on the element to set the 
 //    initial position in a way)
+// 2) scrollbar-off is a bit hacky (webkit-scrollbar, wtf)
 
 </script>
 

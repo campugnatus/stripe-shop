@@ -1,9 +1,16 @@
 <template>
   <div class="hidden absolute left-1/2 h-[7600px] border-l border-red-300 z-50"></div>
 
+  <div class="fixed left-0 top-0 z-10 flex-col flex gap-2">
+  <button class="bg-black p-2 rounded text-white text-xl" @click="hide">hide</button>
+  <button class="bg-black p-2 rounded text-white text-xl" @click="play_fromunder_tweens">play</button>
+  <button class="bg-black p-2 rounded text-white text-xl" @click="init_fromsides_tweens">hide side</button>
+  <button class="bg-black p-2 rounded text-white text-xl" @click="play_fromsides_tweens">play side</button>
+  </div>
+
   <!-- the long stripe -->
   <svg id="gallery-svg" width="100%" height="5000px" class="hidden sm:block absolute top-0 left-0 z-[-1]">
-    <path fill="none" stroke="#EEAF0C" stroke-width="23" :d="d"/>
+    <path fill="none" stroke-dashoffset="5000" stroke-dasharray="5000" stroke="#EEAF0C" stroke-width="23" id="long1" ref="long1" :d="d"/>
   </svg>
 
   <header class="w-full h-[calc(100vh+1px)] max-h-[1000px] overflow-hidden relative shadow-2xl border-b relative border-gray-400 bg-white">
@@ -23,7 +30,7 @@
     </div>
 
     <main class="max-w-screen-xl h-full mx-auto relative flex flex-col">
-      <nav class="absolute w-full right-0 grid grid-cols-2 p-10 sm:p-16 z-10">
+      <nav class="absolute w-full right-0 flex justify-between p-10 sm:p-16 z-10">
         <section class="sm:pl-12 lg:pl-24 flex flex-col justify-center items-start">
           <router-link to="/catalogue" class="hidden sm:inline text-lg uppercase">catalogue</router-link>
           <a class="hidden sm:inline text-lg uppercase">about</a>
@@ -37,7 +44,7 @@
             <div class="pt-2">menu</div>
           </button>
         </section>
-        <section class="space-x-7 text-right">
+        <section class="space-x-7 flex">
           <button class="lg:p-2 text-sm lg:text-base hidden sm:inline">
             <div class="flex justify-center">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 lg:h-11 lg:w-11" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -53,7 +60,7 @@
             </svg>            </div>
             <div class="pt-2">log in</div>
           </button>
-          <router-link class="lg:p-2 text-sm lg:text-base inline-block" to="/cart">
+          <router-link class="lg:p-2 text-sm lg:text-base" to="/cart">
             <div class="flex justify-center">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 lg:h-11 lg:w-11" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -89,7 +96,9 @@
 
   <section class="flex overflow-scroll lg:justify-center scrollbar-off">
     <div class="w-[1700px] hidden lg:flex justify-end flex-shrink-0">
-      <svg viewBox="0 0 1633 659" class="h-[444px] mt-[-80px] lg:h-[500px] lg:mt-[-90px] 2xl:h-[659px] 2xl:mt-[-200px]">
+      <object @load="init_fromunder1_tweens" data="fromunder.svg" type="image/svg+xml" ref="fromunder1" class="z-[-1] h-[444px] mt-[-80px] lg:h-[500px] lg:mt-[-90px] 2xl:h-[1250px] 2xl:mt-[-750px]"></object>
+      <!-- <img src="fromunder.svg" ref="fromunder1" class="h-[444px] mt-[-80px] lg:h-[500px] lg:mt-[-90px] 2xl:h-[2059px] 2xl:mt-[-1200px]"> -->
+      <!-- <svg ref="fromunder1" viewBox="0 0 1633 659" class="h-[444px] mt-[-80px] lg:h-[500px] lg:mt-[-90px] 2xl:h-[659px] 2xl:mt-[-200px]">
         <path d="m 313,92.5352 35.9758,-2.5356 11.76,393.8322 -35.9758,2.5357 z" style="fill:#c4c4c4;"/>
         <path d="m 156.326,30.8828 36.0543,-0.8819 -6.3268,393.9572 -36.0543,0.8819 z" style="fill:#c4c4c4;"/>
         <path d="m 1574.19,116.676 35.922,-3.21 22.7045,466.7152 -35.922,3.21 z" style="fill:#c4c4c4;"/>
@@ -113,7 +122,7 @@
         <path d="m 234.301,156.111 56.039,4.2611 -16.3005,393.7776 -56.039,-4.261 z" style="fill:#c4c4c4;"/>
         <path d="m 68,156.576 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4;"/>
         <path d="M 20.1582,90.3652 56.2212,90.7501 36.0626,484.2419 -4e-4,483.857 Z" style="fill:#c4c4c4;"/>
-      </svg>
+      </svg> -->
    </div>
 
     <div class="sm:ml-8">
@@ -121,7 +130,7 @@
     </div>
 
     <div class="flex-shrink-0 pt-20 lg:pt-24 mx-10 xs:mx-12 sm:mx-20 lg:mx-24 xl:mx-28 2xl:mx-32 relative pb-16">
-      <div class="w-max mx-auto">
+      <div class="w-max mx-auto" id="only-digital">
         <div class="font-pacifico text-3xl 2xl:text-4xl mb-3 xl:mb-4">Only 100%</div>
         <div class="font-pressstart text-3xl 2xl:text-4xl mb-2 xl:mb-3">digital</div>
         <div class="font-pacifico text-3xl 2xl:text-4xl">stripes!</div>
@@ -131,14 +140,15 @@
           <li>pure vector <b>.SVG</b></li>
           <li>delivered by email</li>
           <li>in a .zip archive</li>
-          <li><b>seconds</b> after the purchase</li>
+          <li><b v-intersect="grow1">seconds</b> after the purchase</li>
         </ul>
       </div>
     </div>
 
     <div class="sm:w-[1700px] flex flex-shrink-0 overflow-hidden pr-8">
-      <svg viewBox="0 0 1633 659" class="h-[444px] mt-[-110px] lg:h-[500px] lg:mt-[-135px] 2xl:h-[659px] 2xl:mt-[-240px]">
-      <!-- <svg viewBox="0 0 1633 659" width="1633px" class="origin-top-left scale-[0.7] lg:scale-[0.8] xl:scale-100 lg:mt-[-270px] xl:mt-[-290px]"> -->
+      <object @load="init_fromunder2_tweens" data="fromunder.svg" type="image/svg+xml" ref="fromunder2" class="z-[-1] h-[444px] mt-[-80px] lg:h-[500px] lg:mt-[-90px] 2xl:h-[1250px] 2xl:mt-[-850px]"></object>
+
+      <!-- <svg viewBox="0 0 1633 659" class="h-[444px] mt-[-110px] lg:h-[500px] lg:mt-[-135px] 2xl:h-[659px] 2xl:mt-[-240px]" ref="fromunder2">
         <path class="lg:hidden" d="m 313,92.5352 35.9758,-2.5356 11.76,393.8322 -35.9758,2.5357 z" style="fill:#c4c4c4;"/>
         <path class="lg:hidden" d="m 156.326,30.8828 36.0543,-0.8819 -6.3268,393.9572 -36.0543,0.8819 z" style="fill:#c4c4c4;"/>
         <path d="m 1574.19,116.676 35.922,-3.21 22.7045,466.7152 -35.922,3.21 z" style="fill:#c4c4c4;"/>
@@ -161,14 +171,14 @@
         <path d="m 371.557,97.2227 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4;"/>
         <path d="m 234.301,156.111 56.039,4.2611 -16.3005,393.7776 -56.039,-4.261 z" style="fill:#c4c4c4;"/>
         <path d="m 68,156.576 35.922,-3.21 19.1448,393.5427 -35.922,3.21 z" style="fill:#c4c4c4;"/>
-        <path d="M 20.1582,90.3652 56.2212,90.7501 36.0626,484.2419 -4e-4,483.857 Z" style="fill:#c4c4c4;"/>
-      </svg>
+        <path ref="str1" d="M 20.1582,90.3652 56.2212,90.7501 36.0626,484.2419 -4e-4,483.857 Z" style="fill:#c4c4c4;"/>
+      </svg> -->
     </div>
   </section>
 
 
-  <section class="w-full sm:mt-32 2xl:mt-44 relative">
-    <GalleryCarousel class="h-[200px] 2xl:h-[256px] w-full">
+  <section id="galleries" class="w-full sm:mt-32 2xl:mt-44 relative">
+    <GalleryCarousel id="gallery1" ref="gallery1" class="h-[200px] 2xl:h-[256px] w-full">
         <div class="h-full flex-shrink-0 w-[calc(50%-106px)] sm:w-[calc(50%-146px)]"></div>
         
         <div class="mr-8 flex-shrink-0 text-3xl sm:text-3xl 2xl:text-4xl font-sigmar text-right flex justify-center items-center">
@@ -181,7 +191,7 @@
         
         <div class="hidden sm:block min-w-[26px] xl:mx-2 h-full relative">
           <div class="beacon-1 svg-beacon absolute top-8 2xl:top-0 left-1/2"></div>
-          <div class="beacon-2 svg-beacon absolute bottom-0 left-1/2 h-0 w-0 bg-red-600"></div>
+          <div class="beacon-2 svg-beacon absolute bottom-0 left-1/2 h-0 w-0 bg-red-600" id="beacon2" v-intersect="grow2"></div>
         </div>
 
         <div class="lg:ml-6 gallery-tile">
@@ -230,7 +240,7 @@
         <div class="flex-shrink-0 invisible h-full w-8"></div>
     </GalleryCarousel>
 
-    <GalleryCarousel class="h-[333px] 2xl:h-[378px] w-full">
+    <GalleryCarousel id="gallery2" ref="gallery2" class="h-[333px] 2xl:h-[378px] w-full">
       <div class="flex-shrink-0 xl:w-32"></div>
       <div class="gallery-tile relative">
         <img src="/rainbow.png" class="">
@@ -311,7 +321,7 @@
       <div class="flex-shrink-0 invisible h-full w-8"></div>
     </GalleryCarousel>
 
-    <GalleryCarousel class="h-[220px] 2xl:h-[256px] w-full">
+    <GalleryCarousel id="gallery3" ref="gallery3" class="h-[220px] 2xl:h-[256px] w-full">
 
       <div class="flex-shrink-0 xl:w-80"></div>
 
@@ -327,13 +337,13 @@
         </div>
       </div>
 
-      <div class="min-w-[26px] xl:mx-2 h-full relative">
-        <div class="beacon-5 svg-beacon absolute top-0 left-1/2 h-0 w-0 bg-red-600"></div>
-        <div class="beacon-6 svg-beacon absolute bottom-0 left-1/2 h-0 w-0 bg-red-600"></div>
-      </div>
-
       <div class="gallery-tile">
         <img src="/road.png" class="h-full">
+      </div>
+
+      <div class="min-w-[26px] xl:mx-2 h-full relative">
+        <div class="beacon-5 svg-beacon absolute top-0 left-1/2 h-0 w-0 bg-red-600" ref="beacon5"></div>
+        <div class="beacon-6 svg-beacon absolute bottom-0 left-1/2 h-0 w-0 bg-red-600"></div>
       </div>
 
       <div class="gallery-tile relative">
@@ -415,13 +425,17 @@
   </section>
 
 
-  <section class="hidden md:block relative mt-[-120px] h-[700px] w-full">
-    <h2 class="font-pacifico text-3xl lg:text-4xl 2xl:text-4xl absolute md:top-[32%] lg:top-[35%] xl:top-[34%] 2xl:top-[36%] left-1/2 -translate-x-1/2 -translate-y-1/2 leading-snug">
+  <section class="hidden md:block relative mt-[-110px] h-[700px] w-full">
+    <h2 class="font-pacifico text-3xl lg:text-4xl 2xl:text-4xl absolute md:top-[32%] lg:top-[35%] xl:top-[34%] 2xl:top-[36%] left-1/2 -translate-x-1/2 -translate-y-1/2 leading-snug" ref="allsorts">
       All sorts, any kind<br>
       for any kind of cause
     </h2>
 
-    <svg width="1920" height="702" class="origin-top absolute left-1/2 md:scale-[0.75] lg:scale-[0.85] 2xl:scale-100 md:translate-y-[35px] lg:translate-y-[30px] xl:translate-y-[25px] 2xl:translate-y-0 translate-x-[-50%]" viewBox="0 0 1920 702" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <object @load="init_fromleft_tweens" data="fromleft.svg" type="image/svg+xml" ref="fromleft" class="z-[-1] origin-right absolute top-20 right-1/2 translate-x-[-5%]"></object>
+
+    <object @load="init_fromright_tweens" data="fromright2.svg" type="image/svg+xml" ref="fromright" class="z-[-1] translate-y-[-32%] absolute left-1/2 translate-x-[-5%]"></object>
+
+    <svg width="1920" height="702" class="hidden origin-top absolute left-1/2 md:scale-[0.75] lg:scale-[0.85] 2xl:scale-100 md:translate-y-[35px] lg:translate-y-[30px] xl:translate-y-[25px] 2xl:translate-y-0 translate-x-[-50%]" viewBox="0 0 1920 702" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect x="-219.789" y="111" width="948" height="36" transform="rotate(3.52172 -219.789 111)" fill="#C4C4C4"/>
       <rect x="-281.957" y="131" width="948" height="36" transform="rotate(8.05219 -281.957 131)" fill="#C4C4C4"/>
       <rect x="-580" y="273" width="948" height="26" fill="#C4C4C4"/>
@@ -437,7 +451,7 @@
       <rect x="1285.78" y="16" width="1307" height="36" transform="rotate(2.8374 1285.78 16)" fill="#C4C4C4"/>
     </svg>
 
-    <div class="absolute h-3 w-3 bg-red-600 left-2/3 bottom-[15%] beacon-b"></div>
+    <div id="beacon-b" v-intersect="play_fromsides_tweens" class="absolute h-3 w-3 bg-red-600 left-2/3 bottom-[35%] beacon-b"></div>
   </section>
 
 
@@ -448,19 +462,16 @@
 
 
 
-  <section class="relative md:mt-56 lg:mt-60 xl:mt-60 2xl:mt-72">
+  <section class="relative md:mt-56 lg:mt-60 xl:mt-60 2xl:mt-[270px]">
     <div class="relative hidden mt-48 md:mt-0 sm:block w-0 h-1 mx-auto">
-      <h1 class="absolute translate-y-[-210px] lg:translate-y-[-230px] translate-x-[-200px] rotate-[-15deg] w-max">
+      <h1 v-intersect="grow3" class="absolute translate-y-[-210px] lg:translate-y-[-230px] translate-x-[-200px] rotate-[-15deg] w-max" >
         <div class="font-pacifico text-3xl lg:text-4xl">See what our</div>
-        <div class="font-sigmar text-4xl lg:text-5xl mt-10 lg:mt-14 ml-14">customers</div>
-        <div class="font-pacifico text-3xl lg:text-4xl mt-2 ml-56">have to <span class="inline-block translate-x-[3px] translate-y-[10px] rotate-[15deg]">say!</span></div>
+        <div id="customers" class="font-sigmar text-4xl lg:text-5xl mt-10 lg:mt-14 ml-14">customers</div>
+        <div class="font-pacifico text-3xl lg:text-4xl mt-2 ml-56">have to <span ref="say" class="say inline-block translate-x-[3px] origin-left --rotate-[15deg]">say!</span></div>
       </h1>
 
-      <svg id="comments-line" width="1338" height="2500" class="absolute translate-y-[-610px] translate-x-[-370px] z-[-1]" viewBox="0 0 1338 2500" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path id="zhopka" d="M43 621.299C74.6544 399.967 820.499 520.298 589.5 136.798C510.702 5.97936 1166.95 24.2621 1382 25.5915" stroke="#eeaf0c" stroke-width="23"/>
-        <!-- <path d="M43.5305 621C43.1228 624.164 42.8165 627.676 42.6699 630.992C33.6952 834.23 36.6698 1446.28 42.6699 1695.78C48.6699 1945.28 51.4443 2311.28 265.444 2232.28C479.444 2152.78 444.944 2180.28 438.944 2193.78" stroke="#EEaf0c" stroke-width="23"/> -->
-
-        <path stroke="#eeaf0c" stroke-width="23" :d="d2"/>
+      <svg id="comments-line" width="1358" height="2500" class="absolute translate-y-[-600px] translate-x-[-330px] z-[-1]" viewBox="0 0 1358 2500" fill="none">
+        <path stroke="#eeaf0c" stroke-dasharray="4000" stroke-dashoffset="4000" stroke-width="23" ref="long2" id="long2" :d="d2"/>
       </svg>
     </div>
 
@@ -476,8 +487,8 @@
       </div>      
     </div>
 
-    <div class="max-w-[530px] mt-14 p-4 sm:px-0 mx-auto">
-      Uh... I'm really confused as to the purpose of this place. Do they sell... what? Digital stripes? Like, one stripe per image? I don't get it. Why the hell would you want to buy one of those? Are they supposed to be useful somehow? I dunno... This is really confusing.
+    <div id="comments" class="max-w-[530px] mt-14 p-4 sm:px-0 mx-auto" v-intersect="grow2_2">
+      Uh... I'm really confused as to the purpose of this place. Do they sell... what? Images of stripes? Like, one stripe per image? I don't get it. Why the hell would you want to buy one of those? Are they supposed to be useful somehow? I dunno... This is really confusing.
       <div class="font-pacifico text-xl float-right m-3 -rotate-3">&mdash; John Knopkins</div>
     </div>
 
@@ -487,10 +498,10 @@
     </div>
 
     <div class="h-[450px] max-w-screen-xl my-6 md:mb-16 md:mt-20 mx-auto">
-      <div class="grid grid-cols-8 h-full relative">
+      <div id="spirals" ref="spirals" class="grid grid-cols-8 h-full relative">
         <img src="/wavy.svg" class="min-w-max scale-[0.75] md:scale-110 col-start-7 md:col-start-5 absolute left-[-50px] top-[250px] md:left-[-650px] md:top-[20px] rotate-[355deg] md:rotate-0">
-        <img src="/ring_top.svg" class="min-w-max scale-[0.85] md:scale-100 col-start-5 absolute left-[-403px] top-[289px]">
-        <img src="/ring_bottom.svg" class="min-w-max scale-[0.85] md:scale-100 col-start-5 absolute top-[282px] left-[-410px] z-[-10]">
+        <img src="/ring_top.svg" class="skip min-w-max scale-[0.85] md:scale-100 col-start-5 absolute left-[-403px] top-[289px]">
+        <img id="ring" src="/ring_bottom.svg" v-intersect="grow2_3" class="skip min-w-max scale-[0.85] md:scale-100 col-start-5 absolute top-[282px] left-[-410px] z-[-10]">
         <img src="/infinite.svg" class="min-w-max scale-[0.85] md:scale-95 rotate-[-14deg] md:rotate-[-15deg] col-start-5 absolute top-[-20px] left-[-320px] md:left-[-310px] md:top-[0px]">
         <img src="/ribbon.svg" class="min-w-max scale-[0.85] md:scale-110 col-start-5 absolute left-[-135px] top-[95px] md:left-[-140px] md:top-[200px] rotate-[48deg] md:rotate-0">
         <img src="/littlespiral.svg" class="min-w-max scale-[0.75] md:scale-100 col-start-6 absolute -rotate-6 top-[-48px] left-[-90px] rotate-[-10deg] md:rotate-0">
@@ -520,10 +531,10 @@
     <h1 class="flex justify-center">
       <div class="w-max ml-[-10%]">
         <div class="font-pacifico text-4xl">Also,</div>
-        <div class="font-sigmar text-6xl sm:text-7xl origin-left rotate-[-17deg] ml-12 mt-5">
+        <div ref="sale" id="sale" class="font-sigmar text-6xl sm:text-7xl origin-left rotate-[-17deg] ml-12 mt-5">
           SA<span class="text-orange">L</span>E!
         </div>
-        <div class="beacon-a ml-28"></div>
+        <div v-intersect="grow2_4" class="beacon-a ml-28"></div>
       </div>
     </h1>
 
@@ -570,6 +581,15 @@ import HelloWorld from './components/HelloWorld.vue'
 import WareCard from './components/WareCard.vue'
 import Carousel from './components/Carousel.vue'
 import GalleryCarousel from './components/GalleryCarousel.vue'
+import gsap from 'gsap'
+import ScrollTrigger from 'gsap/ScrollTrigger';
+import {nextTick} from 'vue';
+
+gsap.registerPlugin(ScrollTrigger);
+
+window.gsap = gsap;
+
+
 
 import {ref, onMounted, onUnmounted, computed} from 'vue';
 
@@ -628,7 +648,7 @@ function animateSVG() {
   d.value = `
     M ${p[0].x} ${p[0].y}
 
-    L ${p[0].x+15} ${p['babulka'].y}
+    L ${p[0].x+25} ${p['babulka'].y}
     L ${p[1].x} ${p[1].y-70}
 
     V${p[1].y}
@@ -664,23 +684,14 @@ function animateSVG2() {
     y: a.y - rectSVG.y
   };
 
-
   d2.value = `
-    M19.8606,730.7157
-    C19.4529,733.8801,19.1466,737.3917,19,740.708
-    C10.0253,943.946,12.9999,1556,19,1805.5
-    C25,2055, ${a.x-214},${a.y+79}, ${a.x},${a.y}
-    c214,-79.5,179.5,-52,173.5,-38.5`;
-
-// 272.734375 2332
-   // C48.6699 1945.28 51.4443 2311.28 265.444 2232.28      
-  d2.value =`
-    M43.5305 621
-    C43.1228 624.164 42.8165 627.676 42.6699 630.992
-    C33.6952 834.23 36.6698 1446.28 42.6699 1695.78
-    C48.6699 1945.28 ${a.x-214} ${a.y+79} ${a.x} ${a.y}
-    c214,-79.5,179.5,-52,173.5,-38.5
-  `;  
+    M 1357,13.5915
+    C 1141.95,12.2621 485.702,-6.0206 564.5,124.798 
+    C 795.499,508.298 39.282737,386.74897 17.83495,614.1455
+    C -1.7234663,821.51031 11.6698,1434.28 17.6699,1683.78 
+    C23.6699,1933.28 ${a.x-214}, ${a.y+79} ${a.x}, ${a.y}
+    c 214,-79.5 179.5,-52 173.5,-38.5
+  `;
 }
 
 
@@ -706,6 +717,406 @@ function animateSVG3() {
     //C505.499,3.4997, 1122.44,12.6712, 1337.5,14.0006`;
 }
 
+const long1 = ref(null);
+const long2 = ref(null);
+
+function grow1 () {
+  // gsap.to(long1.value, {duration: 0.4, ease: "power1.inOut", strokeDashoffset: 4600});
+  long1.value.classList.add("grow1");
+  play_fromunder_tweens();
+}
+
+function grow2 () {
+  let len = long1.value.getTotalLength();
+  let tail = 1350;
+  long1.value.style.setProperty("--my-var", tail+(5000-len));
+  // gsap.to(long1.value, {duration: 2, ease: "power1.inOut", strokeDashoffset: tail+(5000-len)});
+
+  long1.value.classList.add("grow2");
+}
+
+function grow3 () {
+  // gsap.to(long1.value, {duration: 1, ease: "power1.inOut", strokeDashoffset: 0});
+  // gsap.to(long2.value, {delay: 0.7, duration: 0.3, ease: "power1.inOut", strokeDashoffset: 3700});
+
+  long1.value.classList.add("grow3");
+  long2.value.classList.add("grow2-1");
+}
+
+const say = ref(null);
+function grow2_2 () {
+  long2.value.classList.add("grow2-2");
+}
+
+function grow2_3 () {
+  long2.value.classList.add("grow2-3");
+
+}
+
+const sale = ref(null);
+function grow2_4 () {
+  long2.value.classList.add("grow2-4");
+}
+
+const fromunder1 = ref(null);
+const fromunder2 = ref(null);
+const str1 = ref(null);
+let fromunder1_tweens = [];
+let fromunder2_tweens = [];
+
+function hide () {
+  init_fromunder1_tweens();
+  init_fromunder2_tweens();
+}
+
+function init_fromunder1_tweens() {
+  let svg1 = fromunder1.value.getSVGDocument().getElementsByTagName('svg')[0];
+  fromunder1_tweens = init_tweens(svg1);
+}
+
+function init_fromunder2_tweens () {
+  let svg2 = fromunder2.value.getSVGDocument().getElementsByTagName('svg')[0];
+  fromunder2_tweens = init_tweens(svg2);
+}
+
+function init_tweens(svg) {
+  var tweens = [];
+  for (let path of svg.children) {
+    const delay = Math.random()%0.9; 
+    const angle = Math.random()*20;
+    const sign = Math.sign(Math.random()-0.5);
+    const tween_fall = gsap.from(path, {
+      paused: true,
+      delay: delay,
+      duration: 0.1,
+      y: -500,
+    });
+
+    const tween_rotate = gsap.from(path, {
+      paused: true,
+      delay: delay+0.05,
+      duration: 0.4,
+      ease:"back.out(2)",
+      rotate: sign*angle
+    });
+
+    tweens.push(tween_fall, tween_rotate);
+  }
+  return tweens;
+}
+
+function play_fromunder_tweens() {
+  for (let tween of fromunder1_tweens) {
+    tween.play();
+  }
+  for (let tween of fromunder2_tweens) {
+    tween.play();
+  }
+}
+
+
+const fromleft = ref(null);
+const fromright = ref(null);
+let fromleft_tweens = [];
+let fromright_tweens = [];
+
+function init_fromleft_tweens() {
+  const svg = fromleft.value.getSVGDocument().getElementsByTagName('svg')[0];
+  for (let path of svg.children) {
+    const delay = Math.random()%0.9; 
+    const angle = Math.random()*20;
+    const tween_slide = gsap.from(path, {
+      paused: true,
+      delay: delay,
+      duration: 0.25,
+      ease: "power1.out",
+      x: -900,
+    });
+
+    const tween_rotate = gsap.from(path, {
+      paused: true,
+      delay: delay+0.2,
+      duration: 0.80,
+      //ease: "power2.in",
+      //ease: "bounce.out",
+      ease: "elastic.out(1, 0.5)",
+      rotate: -5
+    });
+
+    fromleft_tweens.push(tween_slide, tween_rotate);
+  }
+}
+
+function init_fromright_tweens() {
+  const svg = fromright.value.getSVGDocument().getElementsByTagName('svg')[0];
+  for (let path of svg.children) {
+    const delay = Math.random()%0.9; 
+    const angle = Math.random()*20;
+    const tween_slide = gsap.from(path, {
+      paused: true,
+      delay: delay,
+      duration: 0.25,
+      ease: "power1.out",
+      x: 1100,
+    });
+
+    const tween_rotate = gsap.from(path, {
+      paused: true,
+      delay: delay+0.2,
+      transformOrigin: "right",
+      duration: 0.80,
+      //ease: "power2.in",
+      //ease: "bounce.out",
+      ease: "elastic.out(1, 0.5)",
+      rotate: 5
+    });
+
+    fromright_tweens.push(tween_slide, tween_rotate);
+  }
+}
+
+function init_fromsides_tweens () {
+  init_fromright_tweens();
+  init_fromleft_tweens();
+}
+
+function play_fromsides_tweens () {
+  for (let tween of fromleft_tweens) {
+    tween.play();
+  }
+  for (let tween of fromright_tweens) {
+    tween.play();
+  }
+}
+
+
+const gallery1 = ref(null);
+const gallery2 = ref(null);
+const gallery3 = ref(null);
+
+function init_gallery_animation () {
+  return;
+  gsap.from("#gallery1 section", {
+    x: -50,
+    duration: 1.5,
+    ease: "elastic",
+    scrollTrigger: {
+      trigger: "#galleries",
+      start: "top center",
+      //scrub: 0.3
+    }
+  })
+
+  gsap.from("#gallery2 section", {
+    x: 50,
+    duration: 1.5,
+    ease: "elastic",
+    scrollTrigger: {
+      trigger: "#galleries",
+      start: "top center",
+      //scrub: 0.3
+    }
+  })
+
+  gsap.from("#gallery3 section", {
+    x: -50,
+    duration: 1.5,
+    ease: "elastic",
+    scrollTrigger: {
+      trigger: "#galleries",
+      start: "top center",
+      //scrub: 0.3
+    }
+  })
+}
+
+const spirals = ref(null);
+function init_spirals_animations () {
+  for (let el of spirals.value.getElementsByTagName('img')) {
+    if (el.classList.contains("skip"))
+      continue;
+    gsap.from(el, {
+      delay: Math.random()%0.5,
+      scale: 0.3,
+      opacity: 0,
+      rotation: 6,
+      ease: "back.out(2)",
+      duration: 0.5,
+      //rotation: -2,
+      scrollTrigger: {
+        trigger: "#spirals",
+        start: "top 80%",
+        //scrub: true,
+      }
+    })
+  }
+}
+
+function init_long1_animations () {
+  gsap.set("#long1", {
+    attr: {
+      'stroke-dashoffset': 5000,
+    }
+  });
+
+  gsap.to("#long1", {
+    attr: {
+      'stroke-dashoffset': 4650,
+    },
+    duration: 0.2,
+    scrollTrigger: {
+      trigger: "#only-digital",
+      start: "bottom bottom"
+    }
+  });
+
+  let len = long1.value.getTotalLength();
+  let tail = 1350;
+
+  // for some reason, creating this tween by itself causes the line to reset
+  // to zero before the animation. OTOH, creating a timeline with this tween works
+  // as expected.
+
+  // gsap.to("#long1", {
+  //   scrollTrigger: {
+  //     trigger: "#beacon2",
+  //     start: "bottom bottom"
+  //   },
+  //   attr: {
+  //     'stroke-dashoffset': tail+(5000-len),
+  //   },
+  //   duration: 222,
+  // });
+
+  gsap.timeline({
+    scrollTrigger: {
+      trigger: "#beacon2",
+      start: "bottom bottom"
+    }    
+  })
+  .to("#long1", {
+    attr: {
+      'stroke-dashoffset': tail+(5000-len)+400,
+    },
+    ease: "power1.inOut",
+    duration: 2,
+  });
+
+  gsap.timeline({
+    scrollTrigger: {
+      trigger: "#beacon-b",
+      start: "bottom bottom"
+    },
+  })
+  .to("#long1", {
+    delay: 1,
+    attr: {
+      'stroke-dashoffset': 0,
+    },
+    ease: "power1.inOut",
+    duration: 0.9,
+  })
+  .to("#long2", {
+    onStart () {
+      console.log("little hvostik start");
+    },
+    onComplete () {
+      console.log("little hvostik end");
+    },
+    attr: {
+      'stroke-dashoffset': 3700,
+    },
+    ease: "power1.inOut",
+    duration: 0.3,
+  })
+
+  gsap.timeline({
+    scrollTrigger: "#comments",
+  })
+  .to("#long2", {
+    attr: {
+      'stroke-dashoffset': 2100,
+    },
+    ease: "power1.inOut",
+    duration: 0.8,
+  });
+
+  gsap.timeline({
+    scrollTrigger: "#ring",
+  })
+  .to("#long2", {
+    attr: {
+      'stroke-dashoffset': 1300,
+    },
+    ease: "power1.inOut",
+    duration: 0.8,
+  });
+
+  gsap.timeline({
+    scrollTrigger: "#sale"
+  })
+  .set("#long2", {
+    attr: {
+      'stroke-dashoffset': 1300,
+    }  
+  })
+  .to("#long2", {
+    onStart () {
+      console.log("sale line start");
+    },
+    onComplete() {
+      console.log("sale line end");
+    },
+    attr: {
+      'stroke-dashoffset': 0,
+    },
+    duration: 1,
+  });
+  
+  gsap.from("#sale", {
+    onStart () {
+      console.log("sale title start");
+    },
+    scrollTrigger: "#sale",
+    delay: 0.35,
+    rotation: 0,
+    duration: 0.4,
+    ease: "back.out(5)",
+  });
+}
+
+
+onMounted(() => {
+  init_gallery_animation();
+  init_spirals_animations();
+
+  nextTick(init_long1_animations);
+
+  let timeline = gsap.timeline({
+    scrollTrigger: "#comments",
+  })
+  .from("#customers", {
+    delay: 0.4,
+    marginTop: 10,
+    duration: 0.21,
+    ease: "back.out(2)"
+  })
+  .to(".say", {
+    duration: 1.5,
+    rotation: 20,
+    ease: "elastic"
+  });
+
+
+  // gsap.from("#sale", {
+  //   rotation: 0,
+  //   delay: 0.5,
+  //   duration: 0.4,
+  //   ease: "back.out(5)",
+  //   scrollTrigger: "#sale"
+  // });
+
+})
 </script>
 
 <style>
@@ -732,5 +1143,97 @@ function animateSVG3() {
 
 .gallery-tile img {
   @apply border-8 border-gray-700 h-full
+}
+
+
+.grow1 {
+  /*animation: grow1 0.4s ease-in-out forwards;*/
+}
+
+.grow2 {
+  /*animation: grow2 2s ease-in-out both;*/
+}
+
+.grow3 {
+  /*animation: grow3 0.9s ease-in-out forwards;*/
+}
+
+.grow2-1 {
+  /*animation: grow2-1 0.3s ease-in-out 0.6s forwards;*/
+}
+
+.grow2-2 {
+  /*animation: grow2-2 0.8s ease-in-out forwards;*/
+}
+
+.grow2-3 {
+  /*animation: grow2-3 0.8s ease-in-out forwards;*/
+}
+
+.grow2-4 {
+  /*animation: grow2-4 1s ease-in-out forwards;*/
+}
+
+@keyframes grow1 {
+  from {
+    stroke-dashoffset: 5000;
+  }
+  to {
+    stroke-dashoffset: 4650;
+  }
+}
+
+@keyframes grow2 {
+  from {
+    stroke-dashoffset: 4650;
+  }
+  to {
+    stroke-dashoffset: var(--my-var);
+  }
+}
+
+@keyframes grow3 {
+  from {
+    stroke-dashoffset: var(--my-var);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes grow2-1 {
+  from {
+    stroke-dashoffset: 4000;
+  }
+  to {
+    stroke-dashoffset: 3700;
+  }
+}
+
+@keyframes grow2-2 {
+  from {
+    stroke-dashoffset: 3700;
+  }
+  to {
+    stroke-dashoffset: 2100;
+  }
+}
+
+@keyframes grow2-3 {
+  from {
+    stroke-dashoffset: 2100;
+  }
+  to {
+    stroke-dashoffset: 1300;
+  }
+}
+
+@keyframes grow2-4 {
+  from {
+    stroke-dashoffset: 1300;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 </style>

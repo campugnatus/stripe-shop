@@ -23,5 +23,31 @@ const router = createRouter({
 })
 
 const app = createApp(App)
+
+
+// A simple wrapper directive around the intersection observer API. Takes a method as
+// an argument, which is supposed to be called when the given element
+// intersects the viewport.
+
+const observers = {};
+app.directive('intersect', {
+  
+  mounted(el, binding) {
+	observers[el] = new IntersectionObserver(function ([evt]) {
+		if (evt.isIntersecting) {
+			binding.value();
+		}
+	});	
+  	observers[el].observe(el);
+  },
+  
+  unmounted(el) {
+  	if (observers[el]) {
+  		observers[el].disconnect();
+  		delete observers[el];
+  	}
+  }
+});
+
 app.use(router)
 app.mount('#app')
