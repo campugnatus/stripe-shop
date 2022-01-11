@@ -8,6 +8,11 @@ import Front from './Front.vue'
 import Product from './Product.vue'
 import Catalogue from './Catalogue.vue'
 
+// import gsap from 'gsap';
+// import ScrollTrigger from 'gsap/ScrollTrigger';
+
+// gsap.registerPlugin(ScrollTrigger);
+
 
 const router = createRouter({
 	history: createWebHistory(),
@@ -23,6 +28,26 @@ const router = createRouter({
 })
 
 const app = createApp(App)
+
+
+  // gsap.to(".govno", {
+  //   x: 900,
+  //   duration: 6,
+  //   scrollTrigger: {
+  //     preventOverlaps: true,
+  //     trigger: ".trigger1",
+  //   }
+  // });
+
+  // gsap.to(".govno", {
+  //   y: 600,
+  //   duration: 6,
+  //   scrollTrigger: {
+  //     preventOverlaps: true,
+  //     trigger: ".trigger2",
+  //   }
+  // });
+
 
 
 // A simple wrapper directive around the intersection observer API. Takes a method as

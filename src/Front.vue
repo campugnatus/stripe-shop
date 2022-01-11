@@ -1,7 +1,7 @@
 <template>
   <div class="hidden absolute left-1/2 h-[7600px] border-l border-red-300 z-50"></div>
 
-  <div class="fixed left-0 top-0 z-10 flex-col flex gap-2">
+  <div id="buttons" class="fixed left-0 top-0 z-10 flex-col flex gap-2">
   <button class="bg-black p-2 rounded text-white text-xl" @click="hide">hide</button>
   <button class="bg-black p-2 rounded text-white text-xl" @click="play_fromunder_tweens">play</button>
   <button class="bg-black p-2 rounded text-white text-xl" @click="init_fromsides_tweens">hide side</button>
@@ -381,7 +381,7 @@
 
     <div class="hidden sm:flex max-w-[320px] min-h-[400px] mx-auto relative flex items-center h-[400px] lg:h-[500px] xl:h-[600px]">
       <div class="beacon-7 absolute bottom-[380px]"></div>
-      <div class="font-pacifico text-2xl lg:text-3xl leading-[1.7em] ml-20 -mt-10">
+      <div class="font-pacifico text-2xl lg:text-3xl leading-[1.7em] lg:leading-[1.7em] ml-20 -mt-10">
         Your<br>
         imagination<br>
         is the limit!
@@ -426,7 +426,7 @@
 
 
   <section class="hidden md:block relative mt-[-110px] h-[700px] w-full">
-    <h2 class="font-pacifico text-3xl lg:text-4xl 2xl:text-4xl absolute md:top-[32%] lg:top-[35%] xl:top-[34%] 2xl:top-[36%] left-1/2 -translate-x-1/2 -translate-y-1/2 leading-snug" ref="allsorts">
+    <h2 class="font-pacifico text-3xl lg:text-4xl absolute md:top-[32%] lg:top-[35%] xl:top-[34%] 2xl:top-[36%] left-1/2 -translate-x-1/2 -translate-y-1/2 leading-snug lg:leading-snug" ref="allsorts">
       All sorts, any kind<br>
       for any kind of cause
     </h2>
@@ -895,7 +895,6 @@ const gallery2 = ref(null);
 const gallery3 = ref(null);
 
 function init_gallery_animation () {
-  return;
   gsap.from("#gallery1 section", {
     x: -50,
     duration: 1.5,
@@ -936,12 +935,12 @@ function init_spirals_animations () {
     if (el.classList.contains("skip"))
       continue;
     gsap.from(el, {
-      delay: Math.random()%0.5,
-      scale: 0.3,
+      delay: Math.random()%1,
+      scale: 0.8,
       opacity: 0,
-      rotation: 6,
+      //rotation: 4,
       ease: "back.out(2)",
-      duration: 0.5,
+      duration: 0.8,
       //rotation: -2,
       scrollTrigger: {
         trigger: "#spirals",
@@ -952,7 +951,10 @@ function init_spirals_animations () {
   }
 }
 
+
 function init_long1_animations () {
+  console.log('init_long1');
+
   gsap.set("#long1", {
     attr: {
       'stroke-dashoffset': 5000,
@@ -963,8 +965,15 @@ function init_long1_animations () {
     attr: {
       'stroke-dashoffset': 4650,
     },
+    onStart () {
+      console.log("st1");
+    },
+    onComplete () {
+      console.log("compl1");
+    },
     duration: 0.2,
     scrollTrigger: {
+      preventOverlaps: "long",
       trigger: "#only-digital",
       start: "bottom bottom"
     }
@@ -991,6 +1000,7 @@ function init_long1_animations () {
   gsap.timeline({
     scrollTrigger: {
       trigger: "#beacon2",
+      preventOverlaps: "long",
       start: "bottom bottom"
     }    
   })
@@ -998,12 +1008,19 @@ function init_long1_animations () {
     attr: {
       'stroke-dashoffset': tail+(5000-len)+400,
     },
+    onStart () {
+      console.log("pre hvostik start");
+    },
+    onComplete () {
+      console.log("pre hvostik end");
+    },
     ease: "power1.inOut",
     duration: 2,
   });
 
   gsap.timeline({
     scrollTrigger: {
+      preventOverlaps: "long",
       trigger: "#beacon-b",
       start: "bottom bottom"
     },
@@ -1012,6 +1029,12 @@ function init_long1_animations () {
     delay: 1,
     attr: {
       'stroke-dashoffset': 0,
+    },
+    onStart () {
+      console.log("big hvostik start");
+    },
+    onComplete () {
+      console.log("big hvostik end");
     },
     ease: "power1.inOut",
     duration: 0.9,
@@ -1031,7 +1054,10 @@ function init_long1_animations () {
   })
 
   gsap.timeline({
-    scrollTrigger: "#comments",
+    scrollTrigger: {
+      preventOverlaps: "long",
+      trigger: "#comments",
+    }
   })
   .to("#long2", {
     attr: {
@@ -1042,7 +1068,10 @@ function init_long1_animations () {
   });
 
   gsap.timeline({
-    scrollTrigger: "#ring",
+    scrollTrigger: {
+      preventOverlaps: "long",
+      trigger: "#ring",
+    }
   })
   .to("#long2", {
     attr: {
@@ -1053,7 +1082,10 @@ function init_long1_animations () {
   });
 
   gsap.timeline({
-    scrollTrigger: "#sale"
+    scrollTrigger: {
+      preventOverlaps: "long",
+      trigger: "#sale"
+    }
   })
   .set("#long2", {
     attr: {
@@ -1085,8 +1117,9 @@ function init_long1_animations () {
   });
 }
 
-
 onMounted(() => {
+
+
   init_gallery_animation();
   init_spirals_animations();
 
@@ -1097,7 +1130,8 @@ onMounted(() => {
   })
   .from("#customers", {
     delay: 0.4,
-    marginTop: 10,
+    y: -40,
+    //marginTop: 10,
     duration: 0.21,
     ease: "back.out(2)"
   })
@@ -1107,6 +1141,24 @@ onMounted(() => {
     ease: "elastic"
   });
 
+
+  gsap.to("#buttons", {
+    x: 1000,
+    duration: 6,
+    scrollTrigger: {
+      preventOverlaps: true,
+      trigger: "#beacon2"
+    }
+  });
+
+  gsap.to("#buttons", {
+    y: 500,
+    duration: 3,
+    scrollTrigger: {
+      preventOverlaps: true,
+      trigger: "#beacon-b"
+    }
+  });
 
   // gsap.from("#sale", {
   //   rotation: 0,
