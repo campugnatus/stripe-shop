@@ -130,7 +130,7 @@
     </div>
 
     <div class="flex-shrink-0 pt-20 lg:pt-24 mx-10 xs:mx-12 sm:mx-20 lg:mx-24 xl:mx-28 2xl:mx-32 relative pb-16">
-      <div class="w-max mx-auto" id="only-digital">
+      <div class="w-max mx-auto" id="only-digital" v-intersect="jumpToStart">
         <div class="font-pacifico text-3xl 2xl:text-4xl mb-3 xl:mb-4">Only 100%</div>
         <div class="font-pressstart text-3xl 2xl:text-4xl mb-2 xl:mb-3">digital</div>
         <div class="font-pacifico text-3xl 2xl:text-4xl">stripes!</div>
@@ -191,7 +191,7 @@
         
         <div class="hidden sm:block min-w-[26px] xl:mx-2 h-full relative">
           <div class="beacon-1 svg-beacon absolute top-8 2xl:top-0 left-1/2"></div>
-          <div class="beacon-2 svg-beacon absolute bottom-0 left-1/2 h-0 w-0 bg-red-600" id="beacon2" v-intersect="grow2"></div>
+          <div class="beacon-2 svg-beacon absolute bottom-0 left-1/2 h-0 w-0 bg-red-600" id="beacon2" v-intersect="jumpToPre"></div>
         </div>
 
         <div class="lg:ml-6 gallery-tile">
@@ -451,7 +451,7 @@
       <rect x="1285.78" y="16" width="1307" height="36" transform="rotate(2.8374 1285.78 16)" fill="#C4C4C4"/>
     </svg>
 
-    <div id="beacon-b" v-intersect="play_fromsides_tweens" class="absolute h-3 w-3 bg-red-600 left-2/3 bottom-[35%] beacon-b"></div>
+    <div id="beacon-b" v-intersect="jumpToHvostik" class="absolute h-3 w-3 bg-red-600 left-2/3 bottom-[35%] beacon-b"></div>
   </section>
 
 
@@ -586,9 +586,6 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 import {nextTick} from 'vue';
 
 gsap.registerPlugin(ScrollTrigger);
-
-window.gsap = gsap;
-
 
 
 import {ref, onMounted, onUnmounted, computed} from 'vue';
@@ -780,6 +777,7 @@ function init_fromunder2_tweens () {
 }
 
 function init_tweens(svg) {
+  return;
   var tweens = [];
   for (let path of svg.children) {
     const delay = Math.random()%0.9; 
@@ -821,6 +819,7 @@ let fromleft_tweens = [];
 let fromright_tweens = [];
 
 function init_fromleft_tweens() {
+  return;
   const svg = fromleft.value.getSVGDocument().getElementsByTagName('svg')[0];
   for (let path of svg.children) {
     const delay = Math.random()%0.9; 
@@ -848,6 +847,7 @@ function init_fromleft_tweens() {
 }
 
 function init_fromright_tweens() {
+  return;
   const svg = fromright.value.getSVGDocument().getElementsByTagName('svg')[0];
   for (let path of svg.children) {
     const delay = Math.random()%0.9; 
@@ -895,6 +895,7 @@ const gallery2 = ref(null);
 const gallery3 = ref(null);
 
 function init_gallery_animation () {
+  
   gsap.from("#gallery1 section", {
     x: -50,
     duration: 1.5,
@@ -931,6 +932,7 @@ function init_gallery_animation () {
 
 const spirals = ref(null);
 function init_spirals_animations () {
+  return;
   for (let el of spirals.value.getElementsByTagName('img')) {
     if (el.classList.contains("skip"))
       continue;
@@ -952,9 +954,28 @@ function init_spirals_animations () {
 }
 
 
-function init_long1_animations () {
-  console.log('init_long1');
+let tl;
 
+function jumpToAnimation (label) {
+  return;
+  console.log(label, tl.time(), tl.progress(), tl.labels[label]);
+  if (tl.labels[label] >= tl.time())
+    tl.seek(label).play();
+}
+
+function jumpToStart() {
+  jumpToAnimation("start")
+}
+
+function jumpToPre() {
+  jumpToAnimation("pre")
+}
+
+function jumpToHvostik() {
+  jumpToAnimation("hvostik")
+}
+
+function init_long_animations_overlaps () {
   gsap.set("#long1", {
     attr: {
       'stroke-dashoffset': 5000,
@@ -962,96 +983,57 @@ function init_long1_animations () {
   });
 
   gsap.to("#long1", {
-    attr: {
-      'stroke-dashoffset': 4650,
-    },
-    onStart () {
-      console.log("st1");
-    },
-    onComplete () {
-      console.log("compl1");
-    },
-    duration: 0.2,
     scrollTrigger: {
       preventOverlaps: "long",
       trigger: "#only-digital",
       start: "bottom bottom"
-    }
+    },
+    attr: {
+      'stroke-dashoffset': 4650,
+    },
+    duration: 0.2,
   });
 
   let len = long1.value.getTotalLength();
-  let tail = 1350;
-
-  // for some reason, creating this tween by itself causes the line to reset
-  // to zero before the animation. OTOH, creating a timeline with this tween works
-  // as expected.
-
-  // gsap.to("#long1", {
-  //   scrollTrigger: {
-  //     trigger: "#beacon2",
-  //     start: "bottom bottom"
-  //   },
-  //   attr: {
-  //     'stroke-dashoffset': tail+(5000-len),
-  //   },
-  //   duration: 222,
-  // });
-
+  let tail = 1600;
   gsap.timeline({
     scrollTrigger: {
-      trigger: "#beacon2",
       preventOverlaps: "long",
+      trigger: "#beacon2",
       start: "bottom bottom"
-    }    
+    }
   })
   .to("#long1", {
     attr: {
-      'stroke-dashoffset': tail+(5000-len)+400,
-    },
-    onStart () {
-      console.log("pre hvostik start");
-    },
-    onComplete () {
-      console.log("pre hvostik end");
+      'stroke-dashoffset': tail+(5000-len),
     },
     ease: "power1.inOut",
     duration: 2,
   });
+
 
   gsap.timeline({
     scrollTrigger: {
       preventOverlaps: "long",
       trigger: "#beacon-b",
       start: "bottom bottom"
-    },
+    }
   })
   .to("#long1", {
-    delay: 1,
     attr: {
       'stroke-dashoffset': 0,
-    },
-    onStart () {
-      console.log("big hvostik start");
-    },
-    onComplete () {
-      console.log("big hvostik end");
     },
     ease: "power1.inOut",
     duration: 0.9,
   })
   .to("#long2", {
-    onStart () {
-      console.log("little hvostik start");
-    },
-    onComplete () {
-      console.log("little hvostik end");
-    },
     attr: {
       'stroke-dashoffset': 3700,
     },
     ease: "power1.inOut",
     duration: 0.3,
-  })
+  }, "-=0.3");
+
 
   gsap.timeline({
     scrollTrigger: {
@@ -1065,13 +1047,27 @@ function init_long1_animations () {
     },
     ease: "power1.inOut",
     duration: 0.8,
-  });
+  })
+  .fromTo("#customers", {
+    marginTop: 15,
+    duration: 0.21,
+  }, {
+    // in my firefox 78 gsap is unable to restore the transform set on the
+    // element by someone else properly, wtf?
+    marginTop: 60,
+    ease: "back.out(2)",
+  }, "-=0.5")
+  .to(".say", {
+    duration: 1.5,
+    rotation: 20,
+    ease: "elastic"
+  }, "-=0.3")
 
   gsap.timeline({
     scrollTrigger: {
       preventOverlaps: "long",
       trigger: "#ring",
-    }
+    },
   })
   .to("#long2", {
     attr: {
@@ -1093,72 +1089,64 @@ function init_long1_animations () {
     }  
   })
   .to("#long2", {
-    onStart () {
-      console.log("sale line start");
-    },
-    onComplete() {
-      console.log("sale line end");
-    },
     attr: {
       'stroke-dashoffset': 0,
     },
     duration: 1,
-  });
-  
-  gsap.from("#sale", {
-    onStart () {
-      console.log("sale title start");
-    },
-    scrollTrigger: "#sale",
-    delay: 0.35,
+  })
+  .fromTo("#sale", {
     rotation: 0,
     duration: 0.4,
+  }, {
     ease: "back.out(5)",
-  });
+    rotation: -18
+  }, "-=0.7");
 }
+
 
 onMounted(() => {
 
 
-  init_gallery_animation();
-  init_spirals_animations();
+  //init_gallery_animation();
+  //init_spirals_animations();
 
-  nextTick(init_long1_animations);
+  //nextTick(init_long1_animations);
+  nextTick(init_long_animations_overlaps);
 
-  let timeline = gsap.timeline({
-    scrollTrigger: "#comments",
-  })
-  .from("#customers", {
-    delay: 0.4,
-    y: -40,
-    //marginTop: 10,
-    duration: 0.21,
-    ease: "back.out(2)"
-  })
-  .to(".say", {
-    duration: 1.5,
-    rotation: 20,
-    ease: "elastic"
-  });
+  // nextTick(() => {
 
+  //   let x1 = gsap.to("#buttons", {
+  //     x: 1000,
+  //     duration: 6,
+  //     onStart () {
+  //       console.log("zzz HORIZONTAL START");
+  //     },
+  //     onComplete () {
+  //       console.log("zzz HORIZONTAL COMPLETE");
+  //     },
+  //     scrollTrigger: {
+  //       //preventOverlaps: true,
+  //       trigger: ".trigger1"
+  //     }
+  //   });
 
-  gsap.to("#buttons", {
-    x: 1000,
-    duration: 6,
-    scrollTrigger: {
-      preventOverlaps: true,
-      trigger: "#beacon2"
-    }
-  });
+  //   let x2 = gsap.to("#buttons", {
+  //     y: 500,
+  //     duration: 3,
+  //     onStart () {
+  //       console.log("zzz VERTICAL START");
+  //       x1.seek(x1.endTime());
+  //     },
+  //     onComplete () {
+  //       console.log("zzz VERTICAL END");
+  //     },
+  //     scrollTrigger: {
+  //       //preventOverlaps: true,
+  //       trigger: ".trigger2"
+  //     }
+  //   });
 
-  gsap.to("#buttons", {
-    y: 500,
-    duration: 3,
-    scrollTrigger: {
-      preventOverlaps: true,
-      trigger: "#beacon-b"
-    }
-  });
+  // });
 
   // gsap.from("#sale", {
   //   rotation: 0,
