@@ -7,10 +7,17 @@
 
 @layer utilities {
 	.scrollbar-off {
-		/* add nice overscroll on ios  */
+		/* supposedly, adds nice overscroll on ios */
 		-webkit-overflow-scrolling: touch; 
+
+		/* firefox 64 */
+		scrollbar-width: none;
+
+		/* IE 11 */
+		-ms-overflow-style: none;
 	}
 	.scrollbar-off::-webkit-scrollbar {
+		/* chrome etc */
 		display: none;
 	}
 }
