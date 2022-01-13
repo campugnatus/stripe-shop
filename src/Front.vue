@@ -140,7 +140,7 @@
           <li>pure vector <b>.SVG</b></li>
           <li>delivered by email</li>
           <li>in a .zip archive</li>
-          <li><b v-intersect="grow1">seconds</b> after the purchase</li>
+          <li><b id="seconds" v-intersect="grow1">seconds</b> after the purchase</li>
         </ul>
       </div>
     </div>
@@ -426,7 +426,7 @@
 
 
   <section class="hidden md:block relative mt-[-110px] h-[700px] w-full">
-    <h2 class="font-pacifico text-3xl lg:text-4xl absolute md:top-[32%] lg:top-[35%] xl:top-[34%] 2xl:top-[36%] left-1/2 -translate-x-1/2 -translate-y-1/2 leading-snug lg:leading-snug" ref="allsorts">
+    <h2 class="font-pacifico text-3xl lg:text-4xl absolute md:top-[32%] lg:top-[35%] xl:top-[34%] 2xl:top-[36%] left-1/2 -translate-x-1/2 -translate-y-1/2 leading-snug lg:leading-snug" ref="allsorts" id="allsorts">
       All sorts, any kind<br>
       for any kind of cause
     </h2>
@@ -500,8 +500,8 @@
     <div class="h-[450px] max-w-screen-xl my-6 md:mb-16 md:mt-20 mx-auto">
       <div id="spirals" ref="spirals" class="grid grid-cols-8 h-full relative">
         <img src="/wavy.svg" class="min-w-max scale-[0.75] md:scale-110 col-start-7 md:col-start-5 absolute left-[-50px] top-[250px] md:left-[-650px] md:top-[20px] rotate-[355deg] md:rotate-0">
-        <img src="/ring_top.svg" class="skip min-w-max scale-[0.85] md:scale-100 col-start-5 absolute left-[-403px] top-[289px]">
-        <img id="ring" src="/ring_bottom.svg" v-intersect="grow2_3" class="skip min-w-max scale-[0.85] md:scale-100 col-start-5 absolute top-[282px] left-[-410px] z-[-10]">
+        <img src="/ring_top.svg" class="oring skip min-w-max scale-[0.85] md:scale-100 col-start-5 absolute left-[-403px] top-[289px]">
+        <img id="ring" src="/ring_bottom.svg" v-intersect="grow2_3" class="oring skip min-w-max scale-[0.85] md:scale-100 col-start-5 absolute top-[282px] left-[-410px] z-[-10]">
         <img src="/infinite.svg" class="min-w-max scale-[0.85] md:scale-95 rotate-[-14deg] md:rotate-[-15deg] col-start-5 absolute top-[-20px] left-[-320px] md:left-[-310px] md:top-[0px]">
         <img src="/ribbon.svg" class="min-w-max scale-[0.85] md:scale-110 col-start-5 absolute left-[-135px] top-[95px] md:left-[-140px] md:top-[200px] rotate-[48deg] md:rotate-0">
         <img src="/littlespiral.svg" class="min-w-max scale-[0.75] md:scale-100 col-start-6 absolute -rotate-6 top-[-48px] left-[-90px] rotate-[-10deg] md:rotate-0">
@@ -720,7 +720,7 @@ const long2 = ref(null);
 function grow1 () {
   // gsap.to(long1.value, {duration: 0.4, ease: "power1.inOut", strokeDashoffset: 4600});
   long1.value.classList.add("grow1");
-  play_fromunder_tweens();
+  //play_fromunder_tweens();
 }
 
 function grow2 () {
@@ -768,39 +768,37 @@ function hide () {
 
 function init_fromunder1_tweens() {
   let svg1 = fromunder1.value.getSVGDocument().getElementsByTagName('svg')[0];
-  fromunder1_tweens = init_tweens(svg1);
+  fromunder1_tweens = init_fromunder_tweens(svg1);
 }
 
 function init_fromunder2_tweens () {
   let svg2 = fromunder2.value.getSVGDocument().getElementsByTagName('svg')[0];
-  fromunder2_tweens = init_tweens(svg2);
+  fromunder2_tweens = init_fromunder_tweens(svg2);
 }
 
-function init_tweens(svg) {
-  return;
-  var tweens = [];
+function init_fromunder_tweens(svg) {
   for (let path of svg.children) {
     const delay = Math.random()%0.9; 
-    const angle = Math.random()*20;
+    const angle = Math.random()*5;
     const sign = Math.sign(Math.random()-0.5);
-    const tween_fall = gsap.from(path, {
-      paused: true,
+
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: "#seconds"
+      }
+    })
+    .from(path, {
       delay: delay,
       duration: 0.1,
       y: -500,
-    });
-
-    const tween_rotate = gsap.from(path, {
-      paused: true,
+    })
+    .from(path, {
       delay: delay+0.05,
       duration: 0.4,
       ease:"back.out(2)",
       rotate: sign*angle
-    });
-
-    tweens.push(tween_fall, tween_rotate);
+    }, 0);
   }
-  return tweens;
 }
 
 function play_fromunder_tweens() {
@@ -819,6 +817,61 @@ let fromleft_tweens = [];
 let fromright_tweens = [];
 
 function init_fromleft_tweens() {
+  const svg = fromleft.value.getSVGDocument().getElementsByTagName('svg')[0];
+  for (let path of svg.children) {
+    const delay = Math.random()%0.9; 
+    const angle = Math.random()*5;
+
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: "#allsorts",
+        start: "bottom 80%"
+      },
+    })
+    .from(path, {
+      delay: delay,
+      duration: 0.25,
+      ease: "power1.out",
+      x: -900,
+    })
+    .from(path, {
+      delay: delay+0.2,
+      duration: 0.80,
+      ease: "elastic.out(1, 0.5)",
+      rotate: -5
+    }, 0)
+  }
+}
+
+function init_fromright_tweens() {
+  const svg = fromright.value.getSVGDocument().getElementsByTagName('svg')[0];
+  for (let path of svg.children) {
+    const delay = Math.random()%0.9; 
+    const angle = Math.random()*5;
+
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: "#allsorts",
+        start: "bottom 80%"
+      }
+    })
+    .from(path, {
+      delay: delay,
+      duration: 0.25,
+      ease: "power1.out",
+      x: 1100,
+    })
+    .from(path, {
+      delay: delay+0.2,
+      transformOrigin: "right",
+      duration: 0.80,
+      ease: "elastic.out(1, 0.5)",
+      rotate: 5
+    }, 0)
+  }
+}
+
+function init_fromleft_tweens_old() {
   return;
   const svg = fromleft.value.getSVGDocument().getElementsByTagName('svg')[0];
   for (let path of svg.children) {
@@ -846,8 +899,7 @@ function init_fromleft_tweens() {
   }
 }
 
-function init_fromright_tweens() {
-  return;
+function init_fromright_tweens_old() {
   const svg = fromright.value.getSVGDocument().getElementsByTagName('svg')[0];
   for (let path of svg.children) {
     const delay = Math.random()%0.9; 
@@ -930,25 +982,31 @@ function init_gallery_animation () {
   })
 }
 
-const spirals = ref(null);
+
+let spirals = ref(null)
 function init_spirals_animations () {
-  return;
   for (let el of spirals.value.getElementsByTagName('img')) {
     if (el.classList.contains("skip"))
       continue;
-    gsap.from(el, {
-      delay: Math.random()%1,
-      scale: 0.8,
-      opacity: 0,
-      //rotation: 4,
-      ease: "back.out(2)",
-      duration: 0.8,
-      //rotation: -2,
+    gsap.timeline({
       scrollTrigger: {
         trigger: "#spirals",
         start: "top 80%",
-        //scrub: true,
       }
+    })
+    .from(el, {
+      onStart () {
+        console.log("sam takoy")
+      },
+      delay: Math.random()%0.7,
+      scale: 0.8,
+      opacity: 0,
+      //y: 1340,
+      //x: 1500,
+      //rotation: 4,
+      ease: "back.out(2)",
+      duration: 0.4,
+      //rotation: -2,
     })
   }
 }
@@ -979,6 +1037,12 @@ function init_long_animations_overlaps () {
   gsap.set("#long1", {
     attr: {
       'stroke-dashoffset': 5000,
+    }
+  });
+
+  gsap.set("#long2", {
+    attr: {
+      'stroke-dashoffset': 4000,
     }
   });
 
@@ -1017,13 +1081,14 @@ function init_long_animations_overlaps () {
       preventOverlaps: "long",
       trigger: "#beacon-b",
       start: "bottom bottom"
-    }
+    },
+    delay: 0.2
   })
   .to("#long1", {
     attr: {
       'stroke-dashoffset': 0,
     },
-    ease: "power1.inOut",
+    ease: "expo.in",
     duration: 0.9,
   })
   .to("#long2", {
@@ -1032,7 +1097,7 @@ function init_long_animations_overlaps () {
     },
     ease: "power1.inOut",
     duration: 0.3,
-  }, "-=0.3");
+  });
 
 
   gsap.timeline({
@@ -1083,16 +1148,13 @@ function init_long_animations_overlaps () {
       trigger: "#sale"
     }
   })
-  .set("#long2", {
-    attr: {
-      'stroke-dashoffset': 1300,
-    }  
-  })
   .to("#long2", {
     attr: {
       'stroke-dashoffset': 0,
     },
-    duration: 1,
+    immediateRender: false,
+    ease: "expo.Out",
+    duration: 1.1,
   })
   .fromTo("#sale", {
     rotation: 0,
@@ -1108,7 +1170,7 @@ onMounted(() => {
 
 
   //init_gallery_animation();
-  //init_spirals_animations();
+  init_spirals_animations();
 
   //nextTick(init_long1_animations);
   nextTick(init_long_animations_overlaps);
