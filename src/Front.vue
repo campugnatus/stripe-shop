@@ -759,9 +759,6 @@ function init_spirals_animations () {
       }
     })
     .from(el, {
-      onStart () {
-        console.log("sam takoy")
-      },
       delay: Math.random()%0.7,
       scale: 0.8,
       opacity: 0,
