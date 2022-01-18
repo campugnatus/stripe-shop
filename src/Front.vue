@@ -91,21 +91,20 @@
   </header>
 
 
-  <section class="flex overflow-scroll lg:justify-center scrollbar-off">
-    <div class="w-[1700px] hidden lg:flex justify-end flex-shrink-0">
-      <object @load="init_fromunder1_tweens" data="fromunder.svg" type="image/svg+xml" ref="fromunder1" class="z-[-1] h-[444px] mt-[-80px] lg:h-[500px] lg:mt-[-90px] 2xl:h-[1250px] 2xl:mt-[-750px]"></object>
-   </div>
-
-    <div class="sm:ml-8">
-        <div id="beacon-0" class="mx-auto"></div>
+  <section class="flex overflow-scroll lg:justify-center scrollbar-off items-start">
+    <div class="lg:w-[1700px] hidden lg:flex justify-end flex-shrink-0">
+      <object @load="init_fromunder1_tweens" data="fromunder.svg" type="image/svg+xml" ref="fromunder1" class="z-[-1] lg:h-[500px] lg:-mt-14 2xl:h-[580px] 2xl:-mt-20"></object>
     </div>
 
-    <div class="flex-shrink-0 pt-20 lg:pt-24 mx-10 xs:mx-12 sm:mx-20 lg:mx-24 xl:mx-28 2xl:mx-32 relative pb-16">
+    <div class="sm:ml-8">
+      <div id="beacon-0" class="mx-auto"></div>
+    </div>
+
+    <div class="relative flex-shrink-0 pb-16 pt-14 mx-10 xs:mx-12 sm:pl-6 lg:pl-0 sm:mx-16 sm:pt-20 lg:pt-16 lg:mx-24 2xl:mx-32 2xl:py-28">
       <div class="w-max mx-auto" id="only-digital">
         <div class="font-pacifico text-3xl 2xl:text-4xl mb-3 xl:mb-4">Only 100%</div>
         <div class="font-pressstart text-3xl 2xl:text-4xl mb-2 xl:mb-3">digital</div>
         <div class="font-pacifico text-3xl 2xl:text-4xl">stripes!</div>
-        <div id="beacon-babulka" class="absolute bg-red-400 left-0 bottom-0 mx-auto"></div>
 
         <ul class="sm:text-lg xl:text-lg mt-6 xl:mt-8 list-disc ml-4">
           <li>pure vector <b>.SVG</b></li>
@@ -113,11 +112,13 @@
           <li>in a .zip archive</li>
           <li><b id="seconds">seconds</b> after the purchase</li>
         </ul>
+
+        <div id="beacon-babulka" class="absolute bg-red-400 left-0 bottom-0 mx-auto"></div>
       </div>
     </div>
 
-    <div class="sm:w-[1700px] flex flex-shrink-0 overflow-hidden pr-8">
-      <object @load="init_fromunder2_tweens" data="fromunder.svg" type="image/svg+xml" ref="fromunder2" class="z-[-1] h-[444px] mt-[-80px] lg:h-[500px] lg:mt-[-90px] 2xl:h-[1250px] 2xl:mt-[-850px]"></object>
+    <div class="w-[1250px] md:w-[1400px] lg:w-[1700px] flex flex-shrink-0 overflow-hidden pr-8">
+      <object @load="init_fromunder2_tweens" data="fromunder.svg" type="image/svg+xml" ref="fromunder2" class="z-[-1] h-[400px] -mt-10 sm:h-[450px] lg:h-[460px] lg:-mt-18 2xl:h-[560px] 2xl:-mt-28"></object>
     </div>
   </section>
 
