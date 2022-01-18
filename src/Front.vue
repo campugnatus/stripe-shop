@@ -372,14 +372,14 @@
 
 
   <section class="hidden md:block relative mt-[-110px] h-[700px] w-full">
-    <h2 class="font-pacifico text-3xl lg:text-4xl absolute md:top-[32%] lg:top-[35%] xl:top-[34%] 2xl:top-[36%] left-1/2 -translate-x-1/2 -translate-y-1/2 leading-snug lg:leading-snug" ref="allsorts" id="allsorts">
+    <h2 class="absolute font-pacifico text-3xl md:top-[32%] xl:text-4xl xl:top-[35%] xl:top-[36%] left-1/2 -translate-x-1/2 -translate-y-1/2 leading-snug lg:leading-snug" ref="allsorts" id="allsorts">
       All sorts, any kind<br>
       for any kind of cause
     </h2>
 
-    <object @load="init_fromleft_tweens" data="fromleft.svg" type="image/svg+xml" ref="fromleft" class="z-[-1] origin-right absolute top-20 right-1/2 translate-x-[-5%]"></object>
+    <object @load="init_fromleft_tweens" data="fromleft.svg" type="image/svg+xml" ref="fromleft" class="absolute z-[-1] origin-right scale-75 xl:scale-100 top-5 -translate-x-10 xl:top-20 right-1/2 xl:translate-x-[-5%]"></object>
 
-    <object @load="init_fromright_tweens" data="fromright2.svg" type="image/svg+xml" ref="fromright" class="z-[-1] translate-y-[-32%] absolute left-1/2 translate-x-[-5%]"></object>
+    <object @load="init_fromright_tweens" data="fromright2.svg" type="image/svg+xml" ref="fromright" class="absolute z-[-1] translate-y-[-32%]  scale-75 xl:scale-100 translate-x-[-14%] left-1/2 xl:translate-x-[-5%]"></object>
 
     <div id="beacon-b" class="absolute h-3 w-3 bg-red-600 left-2/3 bottom-[35%]"></div>
   </section>
@@ -392,7 +392,7 @@
 
 
 
-  <section class="relative md:mt-56 lg:mt-60 xl:mt-60 2xl:mt-[270px]">
+  <section class="relative md:mt-52 xl:mt-[270px]">
     <div class="relative hidden mt-48 md:mt-0 sm:block w-0 h-1 mx-auto">
       <h1 class="absolute translate-y-[-210px] lg:translate-y-[-230px] translate-x-[-200px] rotate-[-15deg] w-max" >
         <div class="font-pacifico text-3xl lg:text-4xl">See what our</div>
