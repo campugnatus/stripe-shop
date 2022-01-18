@@ -381,22 +381,6 @@
 
     <object @load="init_fromright_tweens" data="fromright2.svg" type="image/svg+xml" ref="fromright" class="z-[-1] translate-y-[-32%] absolute left-1/2 translate-x-[-5%]"></object>
 
-    <svg width="1920" height="702" class="hidden origin-top absolute left-1/2 md:scale-[0.75] lg:scale-[0.85] 2xl:scale-100 md:translate-y-[35px] lg:translate-y-[30px] xl:translate-y-[25px] 2xl:translate-y-0 translate-x-[-50%]" viewBox="0 0 1920 702" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="-219.789" y="111" width="948" height="36" transform="rotate(3.52172 -219.789 111)" fill="#C4C4C4"/>
-      <rect x="-281.957" y="131" width="948" height="36" transform="rotate(8.05219 -281.957 131)" fill="#C4C4C4"/>
-      <rect x="-580" y="273" width="948" height="26" fill="#C4C4C4"/>
-      <rect x="-179" y="394.021" width="922.204" height="36" transform="rotate(-4.41687 -179 394.021)" fill="#C4C4C4"/>
-      <rect x="-160" y="440.049" width="1055" height="26" transform="rotate(-2.556 -160 440.049)" fill="#C4C4C4"/>
-      <path d="M-413 522.488L639.775 454L642.112 489.924L-410.663 558.412L-413 522.488Z" fill="#C4C4C4"/>
-      <rect x="-344.906" y="518" width="1055" height="26" transform="rotate(6.83328 -344.906 518)" fill="#C4C4C4"/>
-      <rect x="1518.69" y="449" width="1055" height="26" transform="rotate(3.72683 1518.69 449)" fill="#C4C4C4"/>
-      <rect x="1008" y="345.744" width="1213" height="36" transform="rotate(-3.24882 1008 345.744)" fill="#C4C4C4"/>
-      <rect x="1263.43" y="243" width="1307" height="26" transform="rotate(0.939432 1263.43 243)" fill="#C4C4C4"/>
-      <rect x="1198" y="162" width="1307" height="36" fill="#C4C4C4"/>
-      <rect x="923" y="132.062" width="1307" height="26" transform="rotate(-1.62492 923 132.062)" fill="#C4C4C4"/>
-      <rect x="1285.78" y="16" width="1307" height="36" transform="rotate(2.8374 1285.78 16)" fill="#C4C4C4"/>
-    </svg>
-
     <div id="beacon-b" class="absolute h-3 w-3 bg-red-600 left-2/3 bottom-[35%]"></div>
   </section>
 
