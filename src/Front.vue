@@ -859,7 +859,7 @@ function init_long_animations () {
     // it without setting the starting/ending values explicitly (as can be
     // seen commented above), which is a) ugly, b) doesn't allow for the
     // animation to be responsive
-    marginTop: 0,
+    marginTop: 15,
     ease: "back.out(2)",
   }, "-=0.4")
   .set("#customers", {
