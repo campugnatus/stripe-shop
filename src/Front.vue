@@ -372,7 +372,7 @@
 
 
   <section class="hidden md:block relative mt-[-110px] h-[700px] w-full">
-    <h2 class="absolute font-pacifico text-3xl md:top-[32%] xl:text-4xl xl:top-[35%] xl:top-[36%] left-1/2 -translate-x-1/2 -translate-y-1/2 leading-snug lg:leading-snug" ref="allsorts" id="allsorts">
+    <h2 class="absolute font-pacifico text-3xl md:top-[32%] xl:text-4xl xl:top-[35%] xl:top-[36%] left-1/2 -translate-x-1/2 -translate-y-1/2 leading-normal lg:leading-normal xl:leading-normal" ref="allsorts" id="allsorts">
       All sorts, any kind<br>
       for any kind of cause
     </h2>
