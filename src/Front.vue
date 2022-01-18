@@ -381,7 +381,7 @@
 
     <object @load="init_fromright_tweens" data="fromright2.svg" type="image/svg+xml" ref="fromright" class="absolute z-[-1] translate-y-[-32%]  scale-75 xl:scale-100 translate-x-[-14%] left-1/2 xl:translate-x-[-5%]"></object>
 
-    <div id="beacon-b" class="absolute h-3 w-3 bg-red-600 left-2/3 bottom-[35%]"></div>
+    <div id="beacon-b" class="absolute bg-red-600 left-2/3 bottom-[35%]"></div>
   </section>
 
 
@@ -396,7 +396,7 @@
     <div class="relative hidden mt-48 md:mt-0 sm:block w-0 h-1 mx-auto">
       <h1 class="absolute translate-y-[-210px] lg:translate-y-[-230px] translate-x-[-200px] rotate-[-15deg] w-max" >
         <div class="font-pacifico text-3xl lg:text-4xl">See what our</div>
-        <div id="customers" class="font-sigmar text-4xl lg:text-5xl mt-10 lg:mt-14 ml-14">customers</div>
+        <div id="customers" class="font-sigmar text-4xl mt-10 ml-14 lg:mt-14 lg:text-5xl">customers</div>
         <div class="font-pacifico text-3xl lg:text-4xl mt-2 ml-56">have to <span ref="say" class="say inline-block translate-x-[3px] origin-left --rotate-[15deg]">say!</span></div>
       </h1>
 
@@ -750,6 +750,10 @@ function init_spirals_animations () {
       ease: "back.out(2)",
       duration: 0.4,
     })
+    .set(el, {
+      // reset to allow responsiveness
+      clearProps: "transform"
+    })
   }
 }
 
@@ -812,6 +816,12 @@ function init_long_animations () {
     ease: "expo.in",
     duration: 0.9,
   })
+  .set("#long1", {
+    attr: {
+      // so as to let it resize peacefully after the animation has finished
+      'stroke-dasharray': 0,
+    }
+  })
   .to("#long2", {
     attr: {
       'stroke-dashoffset': 3700,
@@ -834,15 +844,28 @@ function init_long_animations () {
     ease: "power1.inOut",
     duration: 0.8,
   })
-  .fromTo("#customers", {
-    marginTop: 15,
-    duration: 0.21,
-  }, {
-    // in my firefox 78 gsap is unable to restore the transform set on the
-    // element by someone else properly, wtf?
-    marginTop: 60,
+  // .fromTo("#customers", {
+  //   marginTop: 15,
+  //   duration: 0.21,
+  // }, {
+  //   // in my firefox 78 gsap is unable to restore the transform set on the
+  //   // element by someone else properly, wtf?
+  //   marginTop: 60,
+  //   ease: "back.out(2)",
+  // }, "-=0.5")
+  .from("#customers", {
+    // this doesn't work properly in my firefox 78 (ends up at margin-top==0
+    // instead of its initial value), but I wasn't able to find a way to fix
+    // it without setting the starting/ending values explicitly (as can be
+    // seen commented above), which is a) ugly, b) doesn't allow for the
+    // animation to be responsive
+    marginTop: 0,
     ease: "back.out(2)",
-  }, "-=0.5")
+  }, "-=0.4")
+  .set("#customers", {
+    // so as to let it resize peacefully after the animation has finished
+    clearProps: "margin-top"
+  })
   .to(".say", {
     duration: 1.5,
     rotation: 20,
@@ -876,6 +899,12 @@ function init_long_animations () {
     immediateRender: false,
     ease: "expo.Out",
     duration: 1.1,
+  })
+  .set("#long2", {
+    attr: {
+      // so as to let it resize peacefully after the animation has finished
+      strokeDasharray: 0
+    }
   })
   .fromTo("#sale", {
     rotation: 0,
