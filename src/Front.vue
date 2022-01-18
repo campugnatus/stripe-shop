@@ -269,7 +269,7 @@
 
     <GalleryCarousel id="gallery3" ref="gallery3" class="h-[220px] 2xl:h-[256px] w-full">
 
-      <div class="flex-shrink-0 xl:w-80"></div>
+      <div class="flex-shrink-0 xl:w-96"></div>
 
       <div class="gallery-tile">
         <img src="/test.png" class="h-full">
@@ -283,13 +283,13 @@
         </div>
       </div>
 
-      <div class="gallery-tile">
-        <img src="/road.png" class="h-full">
-      </div>
-
       <div class="min-w-[26px] xl:mx-2 h-full relative">
         <div id="beacon-5" class="absolute top-0 left-1/2 h-0 w-0 bg-red-600"></div>
         <div id="beacon-6" class="absolute bottom-0 left-1/2 h-0 w-0 bg-red-600"></div>
+      </div>
+
+      <div class="gallery-tile">
+        <img src="/road.png" class="h-full">
       </div>
 
       <div class="gallery-tile relative">
