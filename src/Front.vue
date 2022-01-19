@@ -649,7 +649,7 @@ function init_fromunder2_tweens () {
 function init_fromunder_tweens(svg) {
   for (let path of svg.children) {
     const delay = Math.random()%0.9; 
-    const angle = Math.random()*5;
+    const angle = Math.random()*10;
     const sign = Math.sign(Math.random()-0.5);
 
     gsap.timeline({
@@ -659,7 +659,7 @@ function init_fromunder_tweens(svg) {
     })
     .from(path, {
       delay: delay,
-      duration: 0.1,
+      duration: 0.2,
       y: -500,
     })
     .from(path, {
@@ -779,7 +779,7 @@ function init_long_animations () {
     attr: {
       'stroke-dashoffset': 4650,
     },
-    duration: 0.2,
+    duration: 0.3,
   });
 
 
@@ -827,7 +827,7 @@ function init_long_animations () {
       'stroke-dashoffset': 3700,
     },
     ease: "power1.inOut",
-    duration: 0.3,
+    duration: 0.5,
   });
 
 
