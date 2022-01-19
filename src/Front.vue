@@ -1,10 +1,4 @@
 <template>
-  <div class="hidden absolute left-1/2 h-[7600px] border-l border-red-300 z-50"></div>
-
-  <div id="buttons" class="fixed left-0 top-0 z-10 flex-col flex gap-2">
-  <!-- <button class="bg-black p-2 rounded text-white text-xl" @click="hide">hide</button> -->
-  </div>
-
   <!-- the long stripe -->
   <svg id="gallery-svg" width="100%" height="5000px" class="hidden sm:block absolute top-0 left-0 z-[-1]">
     <path fill="none" stroke-dashoffset="5000" stroke-dasharray="5000" stroke="#EEAF0C" stroke-width="23" id="long1" ref="long1" :d="d"/>
