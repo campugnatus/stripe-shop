@@ -14,18 +14,18 @@
 			<div v-show="showLeftShadow" class="h-full w-5 -ml-5 absolute left-0 shadow-xl z-10 border-r-4 border-red-300"></div>
 			<div class="scrollbar-off flex gap-5 w-full overflow-x-auto relative px-5" ref="carousel" @scroll="onscroll">
 				<!-- <div class=""></div> -->
-				<WareCard class="w-56"/>
-				<WareCard class="w-56"/>
-				<WareCard class="w-56"/>
-				<WareCard class="w-56"/>
-				<WareCard class="w-56"/>
-				<WareCard class="w-56"/>
-				<WareCard class="w-56"/>
-				<WareCard class="w-56"/>
-				<WareCard class="w-56"/>
-				<WareCard class="w-56"/>
-				<WareCard class="w-56"/>
-				<WareCard class="w-56"/>
+				<WareCard id="617:1384" class="w-56"/>
+				<WareCard id="617:1384" class="w-56"/>
+				<WareCard id="617:1384" class="w-56"/>
+				<WareCard id="617:1384" class="w-56"/>
+				<WareCard id="617:1384" class="w-56"/>
+				<WareCard id="617:1384" class="w-56"/>
+				<WareCard id="617:1384" class="w-56"/>
+				<WareCard id="617:1384" class="w-56"/>
+				<WareCard id="617:1384" class="w-56"/>
+				<WareCard id="617:1384" class="w-56"/>
+				<WareCard id="617:1384" class="w-56"/>
+				<WareCard id="617:1384" class="w-56"/>
 				<!-- <div class=""></div> -->
 			</div>
 			<div v-show="showRightShadow" class="h-full w-5 -mr-5 absolute right-0 top-0 shadow-xl z-10"></div>

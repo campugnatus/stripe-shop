@@ -1,6 +1,8 @@
 import { createApp } from 'vue'
 import './index.css'
 import { createRouter, createWebHistory } from 'vue-router'
+import { createPinia } from 'pinia'
+import { useProductStore } from '@/stores/products.js'
 
 import App from './App.vue'
 import Cart from './Cart.vue'
@@ -8,6 +10,7 @@ import Front from './Front.vue'
 import Product from './Product.vue'
 import Catalogue from './Catalogue.vue'
 
+const app = createApp(App)
 
 const router = createRouter({
 	history: createWebHistory(),
@@ -22,7 +25,6 @@ const router = createRouter({
 	]
 })
 
-const app = createApp(App)
 
 // A simple wrapper directive around the intersection observer API. Takes a method as
 // an argument, which is supposed to be called when the given element
@@ -49,4 +51,9 @@ app.directive('intersect', {
 });
 
 app.use(router)
+app.use(createPinia())
 app.mount('#app')
+
+const productStore = useProductStore()
+productStore.fetchProducts()
+

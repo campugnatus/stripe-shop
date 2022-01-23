@@ -1,28 +1,16 @@
 <template>
-  <div class="w-full rounded-lg border overflow-hidden flex-shrink-0">
-    <div class="bg-white" style="aspect-ratio: 1"></div>
+  <div class="w-full rounded-lg border overflow-hidden flex-shrink-0" v-if="product">
+    <div class="bg-white" style="aspect-ratio: 1">
+      <img :src="'/svg/'+product.filename"/>
+    </div>
     <div class="bg-gray-50 border-t p-2 flex flex-col">
       <router-link to="/product/foobar">
-        <h1 class="text-lg truncate">Plain yellow stripe</h1>
+        <h1 class="text-lg truncate">{{product.title}}</h1>
       </router-link>
 
       <div class="flex mt-1 mb-1 justify-between">
         <div class="flex gap-1">
-          <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 0L12.2451 6.90983H19.5106L13.6327 11.1803L15.8779 18.0902L10 13.8197L4.12215 18.0902L6.36729 11.1803L0.489435 6.90983H7.75486L10 0Z" fill="#24282B"/>
-          </svg>
-          <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 0L12.2451 6.90983H19.5106L13.6327 11.1803L15.8779 18.0902L10 13.8197L4.12215 18.0902L6.36729 11.1803L0.489435 6.90983H7.75486L10 0Z" fill="#24282B"/>
-          </svg>
-          <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 0L12.2451 6.90983H19.5106L13.6327 11.1803L15.8779 18.0902L10 13.8197L4.12215 18.0902L6.36729 11.1803L0.489435 6.90983H7.75486L10 0Z" fill="#24282B"/>
-          </svg>
-          <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 0L12.2451 6.90983H19.5106L13.6327 11.1803L15.8779 18.0902L10 13.8197L4.12215 18.0902L6.36729 11.1803L0.489435 6.90983H7.75486L10 0Z" fill="#24282B"/>
-          </svg>
-          <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 0L12.2451 6.90983H19.5106L13.6327 11.1803L15.8779 18.0902L10 13.8197L4.12215 18.0902L6.36729 11.1803L0.489435 6.90983H7.75486L10 0Z" fill="#24282B"/>
-          </svg>
+          <RatingStars :rating="product.rating" class="h-5 space-x-1.5"/>
         </div>
         <div class="flex gap-2">
           12 
@@ -34,12 +22,12 @@
 
       <div class="flex-grow">
         <div class="h-16 text-sm mt-1 mb-2 multiline-ellipsis">
-          A bright yellow one, for those who find all other colors UNACCEPTABLE. Here's also some filler to test out the ellipsis
+          {{product.description}}
         </div>
       </div>
 
       <div class="flex mb-2 justify-between">
-        <span class="text-2xl text-gray-700 mr-3 font-semibold">$2.99</span>
+        <span class="text-2xl text-gray-700 mr-3 font-semibold">${{product.price}}</span>
         <button class="bg-primary w-40 rounded text-sm text-white py-1 px-2 flex-shrink">Add to cart</button>
       </div>
     </div>
@@ -47,6 +35,19 @@
 </template>
 
 <script setup>
+import RatingStars from '@/components/RatingStars.vue'
+import { useProductStore } from '@/stores/products'
+import {computed} from 'vue'
+
+const props = defineProps({
+  id: {
+    type: String,
+    required: true,
+  }
+})
+
+const productStore = useProductStore()
+const product = computed(() => productStore.all[props.id])
 </script>
 
 <style>

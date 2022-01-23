@@ -58,51 +58,8 @@
 
 		</aside>
 
-		<main class="w-80 mx-auto sm:w-full grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
-			<WareCard/> 
-			<WareCard/> 
-			<WareCard/> 
-			<WareCard/> 
-			<WareCard/> 
-			<WareCard/>
-			
-			<WareCard/> 
-			<WareCard/> 
-			<WareCard/> 
-			<WareCard/> 
-			<WareCard/> 
-			<WareCard/>
-			
-			
-			<WareCard/> 
-			<WareCard/> 
-			<WareCard/> 
-			<WareCard/> 
-			<WareCard/> 
-			<WareCard/>
-			
-			<WareCard/> 
-			<WareCard/> 
-			<WareCard/> 
-			<WareCard/> 
-			<WareCard/> 
-			<WareCard/>
-			
-			
-			<WareCard/> 
-			<WareCard/> 
-			<WareCard/> 
-			<WareCard/> 
-			<WareCard/> 
-			<WareCard/>
-			
-			<WareCard/> 
-			<WareCard/> 
-			<WareCard/> 
-			<WareCard/> 
-			<WareCard/> 
-			<WareCard/>
-			
+		<main class="w-80 mx-auto sm:w-full grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 items-start">
+			<WareCard v-for="product in products" :id="product.id" class=""/>
 		</main>
 	</main>
 
@@ -113,7 +70,11 @@
 import WareCard from '@/components/WareCard.vue'
 import ShopHeader from '@/components/ShopHeader.vue'
 import ShopFooter from '@/components/ShopFooter.vue'
+import {storeToRefs} from 'pinia'
+import { useProductStore } from '@/stores/products'
 
+const productStore = useProductStore()
+const {all: products} = storeToRefs(productStore)
 </script>
 
 <style>
