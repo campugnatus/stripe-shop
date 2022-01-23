@@ -110,9 +110,9 @@
 </template>
 
 <script setup>
-import WareCard from './components/WareCard.vue'
-import ShopHeader from './components/ShopHeader.vue'
-import ShopFooter from './components/ShopFooter.vue'
+import WareCard from '@/components/WareCard.vue'
+import ShopHeader from '@/components/ShopHeader.vue'
+import ShopFooter from '@/components/ShopFooter.vue'
 
 </script>
 
