@@ -1,7 +1,7 @@
 <template>
   <!-- the long stripe -->
   <svg id="gallery-svg" width="100%" height="5000px" class="hidden sm:block absolute top-0 left-0 z-[-1]">
-    <path fill="none" stroke-dashoffset="5000" stroke-dasharray="5000" stroke="#EEAF0C" stroke-width="23" id="long1" ref="long1" :d="d"/>
+    <path fill="none" stroke-dashoffset="5000" stroke-dasharray="5000" stroke="hsl(43deg 97% 61%)" stroke-width="23" id="long1" ref="long1" :d="d"/>
   </svg>
 
   <header class="w-full h-[calc(100vh+1px)] max-h-[1000px] overflow-hidden relative shadow-2xl border-b relative border-gray-400 bg-white">
@@ -70,7 +70,7 @@
             <div class="font-sigmar text-6xl sm:text-[78px] tracking-[0.185em]">
               STR
               <span class="inline-block mx-[-0.4em] text-transparent relative">
-                <div class="absolute bg-orange w-[22px] sm:w-[26px] h-[500px] bottom-[5px] left-[3px] sm:left-[5px]">
+                <div class="absolute bg-[hsl(43deg,97%,61%)] --bg-orange w-[22px] sm:w-[26px] h-[500px] bottom-[5px] left-[3px] sm:left-[5px]">
                 </div>
                 <div class="absolute rotate-45 bg-white w-[26px] h-[26px] bottom-[-14px] left-[1px] sm:left-[5px]"></div>
                 I
@@ -395,7 +395,7 @@
       </h1>
 
       <svg id="comments-line" width="1370" height="2500" class="absolute translate-y-[-600px] translate-x-[-330px] z-[-1]" viewBox="0 0 1358 2500" fill="none">
-        <path stroke="#eeaf0c" stroke-dasharray="4000" stroke-dashoffset="4000" stroke-width="23" ref="long2" id="long2" :d="d2"/>
+        <path stroke="hsl(43deg 97% 61%)" stroke-dasharray="4000" stroke-dashoffset="4000" stroke-width="23" ref="long2" id="long2" :d="d2"/>
       </svg>
     </div>
 
