@@ -501,27 +501,20 @@
 </template>
 
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
 import WareCard from './components/WareCard.vue'
 import Carousel from './components/Carousel.vue'
 import GalleryCarousel from './components/GalleryCarousel.vue'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger';
-import {nextTick} from 'vue';
-import {ref, onMounted, onUnmounted, computed} from 'vue';
+import {nextTick, ref, onMounted, onUnmounted, computed} from 'vue';
 
 
 
 
-
-
-
-
-
-//
-// long1 and long2 paths are responsive: every frame they are made to fit the
-// document based on a number of beacons spread around the document
-//
+/*
+ * long1 and long2 paths are responsive: every frame they are made to fit the
+ * document based on a number of beacons spread around the document
+ */
 
 // SVG path's d attribute value
 var d = ref("M0 0");
