@@ -38,13 +38,13 @@
 			</div>
 
 			<div class="mt-3 mb-6">
-				<span class="p-1 px-2 border-2 border-gray-400 text-gray-700 rounded mr-2">straight</span>
-				<span class="p-1 px-2 border-2 border-gray-400 text-gray-700 rounded mr-2">single</span>
-				<span class="p-1 px-2 border-2 border-gray-400 text-gray-700 rounded mr-2">monochrome</span>
+				<span class="p-1 px-2 border-2 border-gray-400 text-gray-600 rounded mr-2">straight</span>
+				<span class="p-1 px-2 border-2 border-gray-400 text-gray-600 rounded mr-2">single</span>
+				<span class="p-1 px-2 border-2 border-gray-400 text-gray-600 rounded mr-2">monochrome</span>
 			</div>
 
-			<div class="mt-auto text-xl">
-				In stock: <span class="font-bold">5</span>
+			<div class="mt-auto text-lg">
+				<span class="text-2xl font-bold">5</span> left in stock
 			</div>
 
 			<button class="mt-2 bg-primary text-lg w-full sm:w-64 rounded text-white py-1 px-2 flex-shrink">
@@ -54,7 +54,7 @@
 	</main>
 
 	<section class="max-w-screen-xl mx-auto mt-32 px-4 sm:px-6">
-		<h1 class="text-2xl sm:text-4xl">User reviews</h1>
+		<h1 class="text-2xl sm:text-3xl">User reviews</h1>
 
 		<div class="flex gap-2 items-center mt-4">
 		  <svg class="h-6 sm:h-7" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
