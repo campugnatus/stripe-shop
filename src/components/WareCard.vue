@@ -28,7 +28,10 @@
 
       <div class="flex mb-2 justify-between">
         <span class="text-2xl text-gray-700 mr-3 font-semibold">${{product.price}}</span>
-        <button class="bg-primary w-40 rounded text-sm text-white py-1 px-2 flex-shrink">Add to cart</button>
+        <button class="bg-primary w-40 rounded text-sm text-white py-1 px-2 flex-shrink"
+                @click="cartStore.addItem(product.id)">
+          Add to cart
+        </button>
       </div>
     </div>
   </div>
@@ -37,6 +40,7 @@
 <script setup>
 import RatingStars from '@/components/RatingStars.vue'
 import { useProductStore } from '@/stores/products'
+import { useCartStore } from '@/stores/cart'
 import {computed} from 'vue'
 
 const props = defineProps({
@@ -47,6 +51,7 @@ const props = defineProps({
 })
 
 const productStore = useProductStore()
+const cartStore = useCartStore()
 const product = productStore.getProductById(props.id)
 </script>
 
