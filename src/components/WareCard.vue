@@ -4,7 +4,7 @@
       <img :src="'/svg/'+product.filename"/>
     </div>
     <div class="bg-gray-50 border-t p-2 flex flex-col">
-      <router-link to="/product/foobar">
+      <router-link :to="'/product/' + product.id">
         <h1 class="text-lg truncate">{{product.title}}</h1>
       </router-link>
 
