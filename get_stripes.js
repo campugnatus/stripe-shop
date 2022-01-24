@@ -1,4 +1,12 @@
 // import stripes info and images from figma
+//
+// How to call:
+//
+// node get_stripes.js -- download and parse the stripes' metadata and write
+// stripes.json and order.json to the disk
+// 
+// node get_stripes.js svg -- same as above, but also download the stripes'
+// svgs
 
 // TODO: store the secret securely? Or just use OAuth2 instead
 // 208446-68c2c832-cc21-4ad0-84a4-71c895a77859
@@ -11,6 +19,7 @@ const stripesNodeId = '439:1077';
 main();
 
 async function main () {
+
 	console.log("Requesting the stripes' parent node...")
 	let response = await axios({
 		url: 'https://api.figma.com/v1/files/D5DjSlrc7xGKVYe1Ap8XSs/nodes',
@@ -30,35 +39,30 @@ async function main () {
 	})
 	
 	let stripe_declarations = response.data.nodes[stripesNodeId].document.children;
-
-	// for testing, to not overload the server
-	// stripe_declarations = stripe_declarations.slice(0, 3)
+	sort_by_position(stripe_declarations) // in place
 
 	console.log("Parsing stripes declarations...")
-	let id_to_metadata = stripe_declarations.reduce((stripes, decl) => {
-		let parsed = parse_stripe_declaration(decl)
-
-		if (parsed)
-			stripes[parsed.id] = parsed
-	
-		return stripes
-	}, {})
-
-	console.log("Requesting images URLs...")
-	let id_to_url = await get_image_urls(id_to_metadata)
-	
-	console.log("Downloading SVGs...")
-	let id_to_promise = get_svgs(id_to_url)
-	await Promise.all(Object.values(id_to_promise))
-
-	console.log("Writing SVGs to disk...")
-	for (const [id, promise] of Object.entries(id_to_promise)) {
-		let {data: svg} = await promise
-		fs.writeFileSync('svg/' + id + ".svg", svg)
-	}
+	let stripe_metadata = stripe_declarations
+		.map(parse_stripe_declaration)
+		.filter(obj => obj !== null)
 
 	console.log("Writing stripes metadata to disk...")
-	fs.writeFileSync('stripes.json', JSON.stringify(id_to_metadata, null, 4))
+	fs.writeFileSync('stripes.json', JSON.stringify(stripe_metadata, null, 4))
+
+	if (process.argv[2] === "svg") {
+		console.log("Requesting images URLs...")
+		let id_to_url = await get_image_urls(id_to_metadata)
+
+		console.log("Downloading SVGs...")
+		let id_to_promise = get_svgs(id_to_url)
+		await Promise.all(Object.values(id_to_promise))
+
+		console.log("Writing SVGs to disk...")
+		for (const [id, promise] of Object.entries(id_to_promise)) {
+			let {data: svg} = await promise
+			fs.writeFileSync('svg/' + id + ".svg", svg)
+		}
+	}
 
 	console.log("All done... whew!")
 }
@@ -135,4 +139,16 @@ function get_svgs (id_to_url) {
 	}
 
 	return id_to_promise
+}
+
+function sort_by_position(declarations) {
+	declarations.sort((decl1, decl2) => {
+		const {x, y} = decl1.absoluteBoundingBox
+		const {x: x2, y: y2} = decl2.absoluteBoundingBox
+
+		if (y === y2)
+			return x - x2;
+		else
+			return y - y2;
+	})	
 }

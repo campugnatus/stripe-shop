@@ -47,7 +47,7 @@ const props = defineProps({
 })
 
 const productStore = useProductStore()
-const product = computed(() => productStore.all[props.id])
+const product = productStore.getProductById(props.id)
 </script>
 
 <style>

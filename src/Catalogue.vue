@@ -71,6 +71,7 @@ import WareCard from '@/components/WareCard.vue'
 import ShopHeader from '@/components/ShopHeader.vue'
 import ShopFooter from '@/components/ShopFooter.vue'
 import {storeToRefs} from 'pinia'
+import {computed} from 'vue'
 import { useProductStore } from '@/stores/products'
 
 const productStore = useProductStore()

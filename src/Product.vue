@@ -1,10 +1,9 @@
 <template>
 	<ShopHeader/>
 
-	<main class="mx-auto mt-20 lg:mt-32 grid md:grid-cols-2 gap-8 lg:gap-16 px-4 sm:px-6">
+	<main class="mx-auto mt-20 lg:mt-32 grid md:grid-cols-2 gap-8 lg:gap-16 px-4 sm:px-6" v-if="product">
 		<div class="flex flex-col md:items-end">
 			<img :src="'/svg/'+product.filename" class="w-full max-w-[400px]" />
-			<!-- <div class="w-full max-w-[400px] bg-red-200" style="aspect-ratio: 1"> </div> -->
 		</div>
 
 		<div class="min-h-full w-full  flex flex-col max-w-[400px]">
@@ -40,7 +39,7 @@
 		</div>
 	</main>
 
-	<section class="max-w-screen-xl mx-auto mt-32 px-4 sm:px-6">
+	<section class="max-w-screen-xl mx-auto mt-32 px-4 sm:px-6" v-if="product">
 		<h1 class="text-2xl sm:text-3xl">User reviews</h1>
 
 		<div class="flex gap-2 items-center mt-4">
@@ -84,6 +83,7 @@ import ShopFooter from '@/components/ShopFooter.vue'
 import Carousel from '@/components/Carousel.vue'
 import UserComment from '@/components/UserComment.vue'
 import RatingStars from '@/components/RatingStars.vue'
+
 import { useProductStore } from '@/stores/products'
 import { useRouter, useRoute } from 'vue-router'
 import { ref, watch, computed } from 'vue'
@@ -93,8 +93,7 @@ const router = useRouter()
 const route = useRoute()
 
 const productId = route.params.id;
-watch(() => route.params.id, id => console.log(id))
-const product = computed(() => productStore.all[productId])
+const product = computed(() => productStore.getProductById(productId))
 </script>
 
 <style>
