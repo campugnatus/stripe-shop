@@ -33,9 +33,7 @@
 				<span class="text-2xl font-bold">5</span> left in stock
 			</div>
 
-			<button class="mt-2 bg-primary text-lg w-full sm:w-64 rounded text-white py-1 px-2 flex-shrink">
-				Add to cart
-			</button>
+			<AddToCartButton :pid="productId" class="sm:w-64 mt-2 text-lg"/>
 		</div>
 	</main>
 
@@ -83,6 +81,7 @@ import ShopFooter from '@/components/ShopFooter.vue'
 import Carousel from '@/components/Carousel.vue'
 import UserComment from '@/components/UserComment.vue'
 import RatingStars from '@/components/RatingStars.vue'
+import AddToCartButton from '@/components/AddToCartButton.vue'
 
 import { useProductStore } from '@/stores/products'
 import { useRouter, useRoute } from 'vue-router'
