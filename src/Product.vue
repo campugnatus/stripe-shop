@@ -24,7 +24,7 @@
 
 			<div class="mt-3 mb-6">
 				<span v-for="tag in product.tags" 
-				      class="p-1 px-2 border-2 border-gray-400 text-gray-600 rounded mr-2">
+				      class="text-sm p-1 px-2 border- bg-gray-200 text-primary rounded mr-2 text-gray-600">
 					{{tag}}
 				</span>
 			</div>
