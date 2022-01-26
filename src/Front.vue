@@ -35,7 +35,9 @@
             <div class="pt-2">menu</div>
           </button>
         </section>
+
         <section class="space-x-4 md:space-x-7 flex items-center">
+
           <button class="lg:p-2 text-sm lg:text-base hidden sm:inline">
             <div class="flex justify-center">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 lg:h-11 lg:w-11" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -44,6 +46,7 @@
             </div>
             <div class="pt-2">search</div>
           </button>
+
           <button class="lg:p-2 text-sm lg:text-base hidden sm:inline">
             <div class="flex justify-center">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 lg:h-11 lg:w-11" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -496,9 +499,10 @@
 
 <script setup>
 import CartButton from '@/components/CartButton.vue'
-import WareCard from './components/WareCard.vue'
-import Carousel from './components/Carousel.vue'
-import GalleryCarousel from './components/GalleryCarousel.vue'
+import WareCard from '@/components/WareCard.vue'
+import Carousel from '@/components/Carousel.vue'
+import GalleryCarousel from '@/components/GalleryCarousel.vue'
+import ShopHeader from '@/components/ShopHeader.vue'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import {nextTick, ref, onMounted, onUnmounted, computed} from 'vue';
