@@ -44,7 +44,9 @@ import AddToCartButton from '@/components/AddToCartButton.vue'
 
 import { useProductStore } from '@/stores/products'
 import { useCartStore } from '@/stores/cart'
-import {computed} from 'vue'
+import { computed } from 'vue'
+
+
 
 const props = defineProps({
   id: {

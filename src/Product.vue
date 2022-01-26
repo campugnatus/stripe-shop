@@ -87,11 +87,12 @@ import { useProductStore } from '@/stores/products'
 import { useRouter, useRoute } from 'vue-router'
 import { ref, watch, computed } from 'vue'
 
+
 const productStore = useProductStore()
 const router = useRouter()
 const route = useRoute()
 
-const productId = route.params.id;
+const productId = route.params.id
 const product = computed(() => productStore.getProductById(productId))
 </script>
 
