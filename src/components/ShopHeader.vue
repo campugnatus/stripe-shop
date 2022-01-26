@@ -10,10 +10,10 @@
       </div>
     </router-link>
 
-    <div class="flex flex-col justify-between ml-10 xl:ml-20 flex-shrink-0 font-roboto">
-      <a class="" href="#">shipping</a>
-      <a class="" href="#">about</a>
-      <a class="" href="#">third one</a>
+    <div class="flex flex-col justify-between ml-10 xl:ml-20 flex-shrink-0 font-roboto uppercase">
+      <router-link class="hover:text-blue-600" to="/catalogue">catalogue</router-link>
+      <router-link class="hover:text-blue-600" to="#">about</router-link>
+      <router-link class="hover:text-blue-600" to="#">third one</router-link>
     </div>
 
     <div class="mx-16 xl:mx-32 flex-grow flex items-center">
@@ -27,15 +27,16 @@
       </div>
     </div>
 
-    <div class="space-x-7 flex flex-shrink-0">
+    <div class="space-x- flex flex-shrink-0">
       <button class="lg:p-2 text-sm lg:text-base hidden sm:inline">
-        <div class="flex justify-center">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 lg:h-11 lg:w-11 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
-        </svg>            </div>
-        <div class="pt-2">Log in</div>
+        <div class="flex justify-center w-20">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 lg:h-11 lg:w-11 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+          </svg>            
+        </div>
+        <div class="pt-2 text-center">Log in</div>
       </button>
-      <router-link class="lg:p-2 text-sm lg:text-base" to="/cart">
+      <router-link class="lg:p-2 text-sm lg:text-base w-20" to="/cart">
         <div class="flex justify-center">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 lg:h-11 lg:w-11 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -84,9 +85,9 @@
       </div>
     </div>
     <div class="mt-3 space-x-7">
-      <a class="font-roboto leading-snug text-" href="#">shipping </a>
-      <a class="font-roboto leading-snug text-" href="#">about </a>
-      <a class="font-roboto leading-snug text-" href="#">third one</a>
+      <router-link class="font-roboto leading-snug" to="/catalogue">catalogue </router-link>
+      <router-link class="font-roboto leading-snug" to="#">about </router-link>
+      <router-link class="font-roboto leading-snug" to="#">third one</router-link>
     </div>
     <div class="w-full mt-4">
       <div class="relative w-full">
@@ -103,6 +104,7 @@
 
 <script setup>
 import { useCartStore } from '@/stores/cart'
+import { computed } from 'vue'
 
 const cart = useCartStore()
 </script>
