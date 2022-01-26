@@ -1,7 +1,9 @@
 <template>
   <div class="w-full rounded-lg border overflow-hidden flex-shrink-0" v-if="product">
     <div class="bg-white" style="aspect-ratio: 1">
-      <img :src="'/svg/'+product.filename"/>
+      <router-link :to="`/product/`+product.id">
+        <img :src="'/svg/'+product.filename"/>
+      </router-link>
     </div>
     <div class="bg-gray-50 border-t p-2 flex flex-col">
       <router-link :to="'/product/' + product.id">
