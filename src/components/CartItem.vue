@@ -1,17 +1,23 @@
 <template>
-	<div class="h-20 w-full flex" v-if="product">
+	<div class="h-20 w-full flex bg-white" v-if="product">
 		<div class="border border-gray-400 h-full" style="aspect-ratio: 1">
-      		<img :src="'/svg/'+product.filename"/>
+			<router-link :to="`/product/`+product.id">
+				<img :src="'/svg/'+product.filename"/>
+			</router-link>
 		</div>
 		<div class="ml-4 lg:ml-6 py-1 flex flex-col justify-between relative flex-grow overflow-hidden">
 
- 			<div class="font-roboto truncate">{{product.title}}</div>
-			<div class="flex items-center">
-				<div class="text-lg text-gray-500">${{product.price}}</div>
-				<div class="mx-4 text-gray-500">x</div>
+			<div class="font-roboto truncate">
+				<router-link :to="`/product/`+product.id">
+					{{product.title}}
+				</router-link>
+			</div>
+			<div class="flex items-center justify-between max-w-[150px]">
+				<div class="hidden xs:block text-lg text-gray-500">${{product.price}}</div>
+				<div class="hidden xs:block text-gray-500 flex-shrink">x</div>
 				<select class="py-0.5 rounded font-bold text-lg border-gray-400 font-roboto w-16"
-				        :value="item.amount"
-				        @change="setAmount">
+						:value="item.amount"
+						@change="setAmount">
 					<option>0</option>
 					<option selected>1</option>
 					<option>2</option>
@@ -25,11 +31,9 @@
 				</select>
 			</div>
 		</div>
-		<div class="hidden xs:flex py-1 h-full border-l flex-col justify-between items-end pl-5 lg:pl-6 ml-4 lg:ml-6 font-roboto border-primary">
+		<div class="flex py-1 h-full xs:border-l flex-col justify-between items-end pl-5 lg:pl-6 ml-4 lg:ml-6 font-roboto border-gray-500">
 			<button class="" title="Remove from cart" @click="cart.removeItem(item.productId)">
-				<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-				  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-				</svg>
+				<XIcon class="h-6 text-gray-400"/>
 			</button>
 			<div class="text-xl w-14 text-right">${{total}}</div>
 		</div>
@@ -40,6 +44,7 @@
 import { useProductStore } from '@/stores/products'
 import { useCartStore } from '@/stores/cart'
 import { computed, toRefs, ref, reactive } from 'vue'
+import { XIcon } from '@heroicons/vue/outline'
 
 const props = defineProps({
 	item: {
@@ -61,5 +66,11 @@ function setAmount (evt) {
 </script>
 
 <style>
-	
+	/* A little rant about media queries...
+
+	   It would make more sense if I could style this component based on the
+	   width of its root element, instead of the width of the viewport. Cuz
+	   the relationship between the two is nonuniform. E.g. at 768px I
+	   display the cart in two columns, thus leaving less space for this
+	   component than at 767px */
 </style>

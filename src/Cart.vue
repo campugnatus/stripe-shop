@@ -1,35 +1,46 @@
 <template>
 	<ShopHeader/>
 
-	<main class="mx-auto mt-10 md:mt-16 lg:mt-28 max-w-screen-lg px-4 sm:px-6 lg:px-8 md:flex">
-		<div class="md:w-1/2 h-full md:pr-6 lg:pr-16 py-6">
-			<header class="flex justify-between">
+	<div v-if="cart.empty" class="w-full h-[60vh] flex items-center justify-center">
+		<div>
+			<div class="font-pacifico text-2xl">Your cart is...</div>
+			<div class="font-sigmar text-4xl ml-8">
+				empty
+				<span class="rotate-90 inline-block">:-(</span>
+			</div>
+			<div v-if="cart.undoable" class="text-center mt-8" @click="cart.undo">
+				<button class="bg-primary text-white rounded pb-1 px-3 pt-1.5 inline-flex hover:bg-gray-500 active:bg-black">
+					<ReplyIcon class="inline h-5 mr-1"/>
+					<span>Undo</span>
+				</button>
+			</div>
+		</div>
+	</div>
+
+	<main v-else class="mx-auto mt-10 md:mt-16 lg:mt-28 max-w-screen-lg px-2 xs:px-4 sm:px-6 lg:px-8 md:flex items-stretch mb-14 md:mb-32">
+		<div class="md:w-1/2 md:pr-6 lg:pr-16 py-6">
+			<header class="flex justify-between items-center">
 				<h1 class="text-2xl md:text-4xl font-roboto">Cart</h1>
-				<button class="flex gap-2 items-center text-gray-500" title="Clear the cart"
-						@click="cart.items.length = 0">
-					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-					  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-					</svg>
- 					<div class="mt-1">Clear</div>
+				<button v-if="cart.undoable" class="ml-auto" @click="cart.undo">
+					<ReplyIcon class="inline h-5 mr-1 mb-1"/> Undo
+				</button>
+				<button class="flex gap-2 items-center text-gray-500 ml-6" title="Clear the cart"
+						@click="cart.clearCart">
+					<TrashIcon class="inline h-5 mb-1"/> Clear
 				</button>
 			</header>
 
-			<section v-if="cart.items.length === 0"
-				 class="flex justify-center items-center h-28 mt-6 md:mt-10 text-xl t text-gray-400">
-				Your cart is empty!
-			</section>
-
-			<section v-else class="mt-6 md:mt-10 space-y-6">
+			<TransitionGroup tag="ul" name="items" class="mt-6 md:mt-10 relative space-y-6">
 				<CartItem v-for="item in cart.items" :key="item.productId" :item="item"/>
-			</section>
 
-			<footer class="flex justify-between text-2xl md:text-3xl font-roboto mt-8 lg:mt-14">
-				<div>Total</div>
-				<div class="font-bold">${{total}}</div>
-			</footer>
+				<footer key="footer" class="flex justify-between text-2xl md:text-3xl font-roboto pt-2 lg:pt-10">
+					<div>Total</div>
+					<div class="font-bold">$ {{cart.subtotal}}</div>
+				</footer>
+			</TransitionGroup>
 		</div>
 
-		<div class="md:w-1/2 h-full md:pl-6 lg:pl-16 mt-6 md:mt-0 py-6 md:border-l border-primary">
+		<div class="md:w-1/2 md:pl-7 lg:pl-16 mt-6 md:mt-0 py-6 lg:border-l border-gray-500">
 			<h1 class="text-2xl md:text-4xl font-roboto">Checkout</h1>
 
 
@@ -57,7 +68,7 @@
 		</div>
 	</main>
 
-	<section class="max-w-screen-xl mx-auto mt-14 md:mt-32 px-4 sm:px-6 lg:px-8">
+	<section class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
 		<h1 class="text-2xl md:text-4xl font-roboto">You may also like</h1>
 		<Carousel class="mt-6 -mx-4 sm:-mx-6 lg:-mx-8"/>
 	</section>
@@ -70,6 +81,8 @@ import ShopHeader from '@/components/ShopHeader.vue'
 import ShopFooter from '@/components/ShopFooter.vue'
 import Carousel from '@/components/Carousel.vue'
 import CartItem from '@/components/CartItem.vue'
+import {   } from '@heroicons/vue/outline'
+import {ReplyIcon, TrashIcon } from '@heroicons/vue/solid'
 
 import { computed } from 'vue'
 import { useCartStore } from '@/stores/cart'
@@ -77,15 +90,33 @@ import { useProductStore } from '@/stores/products'
 
 const cart = useCartStore()
 const products = useProductStore()
-
-const total = computed(() => {
-	let sum = cart.items.reduce((sum, {productId, amount}) => {
-		let product = products.getProductById(productId)
-		return sum + amount*product.price
-	}, 0)
-	return sum.toFixed(2)
-})
 </script>
 
 <style>
+.items-move,
+.items-leave-active,
+.items-enter-active {
+	transition: all 0.3s ease;
+}
+
+.items-leave-active {
+	/* ensure leaving items are taken out of layout flow so that moving
+	   animations can be calculated correctly. */
+   	position: absolute;
+}
+
+.items-enter-from,
+.items-leave-to {
+	opacity: 0;
+}
+
+.fade-leave-active,
+.fade-enter-active {
+	transition: all 3.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+	opacity: 0;
+}
 </style>
