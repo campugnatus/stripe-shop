@@ -18,6 +18,8 @@
 
     <div class="mx-16 xl:mx-32 flex-grow flex items-center">
       <div class="relative w-full">
+        
+        <!-- search box -->
         <input type="text" name="search" placeholder="Search for stripes" class="text-lg border border-gray-300 rounded-full p-2 pl-5 pr-14 w-full focus:outline-none focus:border-gray-600">
         <div class="absolute right-0 inset-y-0 mr-4 h-full flex items-center">
           <svg xmlns="http://www.w3.org/2000/svg" class="scale-x-[-1] text-gray-400 h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -36,16 +38,7 @@
         </div>
         <div class="pt-2 text-center">Log in</div>
       </button>
-      <router-link class="lg:p-2 text-sm lg:text-base w-20" to="/cart">
-        <div class="flex justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 lg:h-11 lg:w-11 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-          </svg>
-        </div>
-        <div class="pt-2 w-full text-center">
-          <b>{{cart.totalAmount}}</b> item<span :class="{invisible: cart.totalAmount===1}">s</span>
-        </div>
-      </router-link>
+      <CartButton/>
     </div>
   </header>
 
@@ -68,14 +61,7 @@
           </svg>            </div>
           <div class="pt-2">Log in</div>
         </button>
-        <router-link class="text-sm" to="/cart">
-          <div class="flex justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 lg:h-11 lg:w-11 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-            </svg>
-          </div>
-          <div class="pt-2">{{cart.totalAmount}} item{{cart.totalAmount === 1? "":"s"}}</div>
-        </router-link>
+        <CartButton/>
       </div>
 
       <div class="hidden">
@@ -103,6 +89,7 @@
 </template>
 
 <script setup>
+import CartButton from '@/components/CartButton.vue'
 import { useCartStore } from '@/stores/cart'
 import { computed } from 'vue'
 
