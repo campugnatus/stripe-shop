@@ -52,7 +52,7 @@ const props = defineProps({
 
 const productStore = useProductStore()
 const cartStore = useCartStore()
-const product = productStore.getProductById(props.id)
+const product = computed(() => productStore.getProductById(props.id))
 </script>
 
 <style>
