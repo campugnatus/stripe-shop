@@ -21,7 +21,7 @@
     <!-- search box -->
     <section class="row-start-3 col-span-2 lg:mx-16 xl:mx-32 flex-grow flex items-center">
       <div class="relative w-full">
-        <input type="text" name="search" placeholder="Search for stripes" class="lg:text-lg border border-gray-300 rounded lg:rounded-full pl-3 lg:pl-5 pr-14 w-full focus:outline-none focus:border-gray-600">
+        <input type="text" name="search" placeholder="Search for stripes" class="lg:text-lg border border-gray-300 pl-3 lg:pl-5 pr-14 w-full focus:outline-none focus:ring-0 rounded-full focus:border-primary">
         <div class="absolute right-0 inset-y-0 mr-4 h-full flex items-center">
           <svg xmlns="http://www.w3.org/2000/svg" class="scale-x-[-1] text-gray-400 h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
