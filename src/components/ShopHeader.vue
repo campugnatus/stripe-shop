@@ -2,9 +2,10 @@
   <header class="grid grid-cols-2 gap-3 lg:flex px-3 lg:px-6 lg:px-8 lg:container mx-auto mt-2 lg:mt-14 items-center" style="">
 
     <section class="mt-2 lg:mt-0">
-      <router-link to="/" class="font-sigmar">
-        <div class="text-[26px] lg:text-4xl tracking-[5px] lg:tracking-[6px] mb-[-16px] lg:mb-[-4px]">
-          STRIPE
+      <router-link to="/" class="font-sigmar inline-block scale-90 origin-left">
+        <div class="text-[26px] lg:text-4xl tracking-[5px] lg:tracking-[6px] mb-[-16px] lg:mb-[-4px] relative">
+          <div class="w-2 h-52 absolute bg-orange right-[41%] bottom-[14%]"></div>
+          STR<span class="invisible">I</span>PE
         </div>
         <div class="text-[34px] lg:text-5xl tracking-[8px]">
           SHOP
