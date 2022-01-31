@@ -14,7 +14,8 @@ module.exports = {
     extend: {
       colors: {
         primary: '#24282b',
-        orange: 'hsl(43deg 97% 61%)'
+        orange: 'hsl(43deg 97% 61%)',
+        tomato: '#E06756'
       },
       screens: {
         'portrait': {'raw': '(orientation: portrait)'},
