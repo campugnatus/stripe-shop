@@ -59,14 +59,14 @@ function beforeLeave(el) {
 */
 
 .toaster-move {
-	transition: all 0.3s ease 0.3s;
+	transition: all 0.3s ease 0s;
 }
 
 .toaster-leave-active {
 	transition: all 0.3s;
 }
 .toaster-enter-active {
-	transition: all 0.4s;
+	transition: all 0.3s;
 }
 
 .toaster-leave-active {

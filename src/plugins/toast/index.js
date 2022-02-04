@@ -25,7 +25,7 @@ let looping = false
 
 // The queue to buffer the toasts before finally pushing them to the screen
 const toastQueue = []
-const DELAY_MS = 600
+const DELAY_MS = 200
 
 function popQueue() {
 	if (toastQueue.length === 0) {
@@ -33,7 +33,7 @@ function popQueue() {
 		return
 	}
 
-	toasts.list.push(toastQueue.pop())
+	toasts.list.unshift(toastQueue.pop())
 
 	looping = true
 	setTimeout(popQueue, DELAY_MS) // async loop
