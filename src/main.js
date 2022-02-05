@@ -4,6 +4,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { createPinia } from 'pinia'
 import { useProductStore } from '@/stores/products.js'
 
+import ToastPlugin from '@/plugins/toast'
+
 import App from './App.vue'
 import Cart from './Cart.vue'
 import Front from './Front.vue'
@@ -52,6 +54,7 @@ app.directive('intersect', {
 
 app.use(router)
 app.use(createPinia())
+app.use(ToastPlugin)
 app.mount('#app')
 
 const productStore = useProductStore()
