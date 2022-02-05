@@ -1,7 +1,7 @@
 <template>
   <!-- the long stripe -->
-  <svg id="gallery-svg" width="100%" height="5000px" class="hidden sm:block absolute top-0 left-0 z-[-1]">
-    <path fill="none" stroke-dashoffset="5000" stroke-dasharray="5000" stroke="hsl(43deg 97% 61%)" stroke-width="23" id="long1" ref="long1" :d="d"/>
+  <svg id="gallery-svg" width="100%" height="5000px" class="hidden sm:block absolute top-0 left-0 z-[-1] text-orange">
+    <path fill="none" stroke-dashoffset="5000" stroke-dasharray="5000" stroke="currentColor" stroke-width="23" id="long1" ref="long1" :d="d"/>
   </svg>
 
   <header class="w-full h-[calc(100vh+1px)] max-h-[1000px] overflow-hidden relative shadow-2xl border-b relative border-gray-400 bg-white">
@@ -391,8 +391,8 @@
         <div class="font-pacifico text-3xl lg:text-4xl mt-2 ml-56">have to <span ref="say" class="say inline-block translate-x-[3px] origin-left --rotate-[15deg]">say!</span></div>
       </h1>
 
-      <svg id="comments-line" width="1370" height="2500" class="absolute translate-y-[-600px] translate-x-[-330px] z-[-1]" viewBox="0 0 1358 2500" fill="none">
-        <path stroke="hsl(43deg 97% 61%)" stroke-dasharray="4000" stroke-dashoffset="4000" stroke-width="23" ref="long2" id="long2" :d="d2"/>
+      <svg id="comments-line" width="1370" height="2500" class="absolute translate-y-[-600px] translate-x-[-330px] z-[-1] text-orange" viewBox="0 0 1358 2500" fill="none">
+        <path stroke="currentColor" stroke-dasharray="4000" stroke-dashoffset="4000" stroke-width="23" ref="long2" id="long2" :d="d2"/>
       </svg>
     </div>
 

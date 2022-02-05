@@ -7,10 +7,11 @@ import { useProductStore } from '@/stores/products.js'
 import ToastPlugin from '@/plugins/toast'
 
 import App from './App.vue'
-import Cart from './Cart.vue'
-import Front from './Front.vue'
-import Product from './Product.vue'
-import Catalogue from './Catalogue.vue'
+import Cart from './views/Cart.vue'
+import Front from './views/Front.vue'
+import Product from './views/Product.vue'
+import Order from './views/Order.vue'
+import Catalogue from './views/Catalogue.vue'
 
 const app = createApp(App)
 

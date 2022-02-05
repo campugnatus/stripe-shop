@@ -44,7 +44,7 @@
 			<h1 class="text-2xl md:text-4xl font-roboto">Checkout</h1>
 
 
-			<div class="bg-[#E06756] p-4 rounded-xl mt-6 md:mt-10 text-sm text-white">
+			<div class="bg-tomato p-4 rounded-xl mt-6 md:mt-10 text-sm text-white">
 				<p>
 					<b>Please make sure you understand what you’re paying for</b>
 				</p>
@@ -62,9 +62,12 @@
 			<p class="text-sm mt-3">
 				This email address will be used to send you the stripes you’ve ordered, and in no other way ever
 			</p>
-			<input type="text" name="" class="mt-3 w-full rounded border-gray-400">
-			<button class="w-full bg-primary rounded text-white text-sm font-bold p-2 mt-4">G Pay</button>
-			<button class="w-full bg-primary rounded text-white text-sm font-bold p-2 mt-3">Pay with Apple</button>
+			<input type="email" v-model="email" name="" class="mt-3 w-full rounded border-gray-400"
+			       :class="[emailError? 'ring-1 ring-tomato border-tomato':'']"
+			       :title="emailError? 'Email invalid' : ''">
+			<button @click="checkout" class="w-full bg-primary rounded text-white text-sm font-bold p-2 mt-4"
+					:class="{loading: checkoutLoading}">G Pay</button>
+			<button @click="checkout" class="w-full bg-primary rounded text-white text-sm font-bold p-2 mt-3">Pay with Apple</button>
 		</div>
 	</main>
 
@@ -83,20 +86,77 @@ import Carousel from '@/components/Carousel.vue'
 import CartItem from '@/components/CartItem.vue'
 import {   } from '@heroicons/vue/outline'
 import {ReplyIcon, TrashIcon } from '@heroicons/vue/solid'
+import { useRouter, useRoute } from 'vue-router'
+// import {showToast} from '@/plugins/toast'
 
-import { computed } from 'vue'
+
+import { computed, ref, inject } from 'vue'
 import { useCartStore } from '@/stores/cart'
 import { useProductStore } from '@/stores/products'
+import { useUserStore } from '@/stores/user'
 
 const cart = useCartStore()
 const products = useProductStore()
+const router = useRouter()
+const user = useUserStore()
+
+const email = ref(user.profile?.email)
+const emailError = ref(false)
+
+const showToast = inject('showToast')
+
+
+/**
+ * Checkout
+ */ 
+
+const checkoutLoading = ref(false)
+
+async function checkout() {
+
+	emailError.value = !checkEmail()
+	if (emailError.value) {
+		showToast.error("The email address you entered is invalid")
+		return;
+	}
+
+	checkoutLoading.value = true
+
+	try {
+		const orderId = await cart.checkout()
+		showToast.success("OK! Your order has been created and your payment recieved!")
+		router.push("/order/" + orderId)
+	}
+
+	catch (error) {
+		if (!error.response) {
+			showToast.error("Oops! Something went wrong...")
+			throw new Error(error)
+		}
+
+		if (error.response.data.message === "OUT_OF_STOCK") {
+			const ids = error.response.data.ids
+			showToast.error("Oops! Some of the products are already out of stock!")
+			// refetch the products that are out of stock (or are they just included with the error?)
+		}
+	}
+
+	finally {
+		checkoutLoading.value = false
+	}
+}
+
+function checkEmail () {
+	// TODO: probably Vuelidate or something
+	return !!email.value
+}
 </script>
 
 <style>
 .items-move,
 .items-leave-active,
 .items-enter-active {
-	transition: all 0.3s ease;
+		transition: all 0.3s ease;
 }
 
 .items-leave-active {
