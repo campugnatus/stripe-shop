@@ -26,12 +26,15 @@ export const toasts = reactive({
 // Or, to paraphrase... We hide the animation's problems by not allowing
 // toasts to appear on the screen (and thus leave the screen) in too quick of
 // a succession.
+//
+// This delay must be at least as long as the longest single animation of the
+// toast, otherwise all goes to shit.
+const DELAY_MS = 650
 
 let looping = false
 
 // The queue to buffer the toasts before finally pushing them to the screen
 const toastQueue = []
-const DELAY_MS = 750
 
 function popQueue() {
 	if (toastQueue.length === 0) {

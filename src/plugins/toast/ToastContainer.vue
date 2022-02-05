@@ -58,16 +58,16 @@ function beforeLeave(el) {
 
 
 .toaster-move {
-	transition: all 0.3s ease 0.3s;
+	transition: all 0.3s ease 0.2s;
 }
 
 .toaster-leave-active {
 	/*transition: all 0.3s;*/
-	animation: 0.4s ease-in toast-leave;
+	animation: 0.3s ease-in toast-leave;
 }
 .toaster-enter-active {
 	transform: translateX(-120%);
-	animation: 0.4s linear 0.3s toast-enter;
+	animation: 0.4s linear 0.2s toast-enter;
 	/*transition: all 0.3s;*/
 }
 
