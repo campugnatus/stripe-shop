@@ -1,5 +1,5 @@
 <template>
-	<div class=" w-96 text-sm --bg-tomato origin-left flex justify-between w-full items-stretch drop-shadow-lg cursor-pointer"
+	<div class=" w-96 text-sm origin-left flex justify-between w-full items-stretch drop-shadow-lg cursor-pointer"
 		 @click="emits('close')"
 		 :class="[
 			type === 'notification' ? 'bg-gray-600 text-white' :
@@ -21,20 +21,20 @@
 
 		<div class="relative">
 			<div class="absolute left-0 top-0 w-0 h-0 border-[52px] border-transparent -translate-x-1/2"
-			     :class="{
-					'border-t-gray-600':  type === 'notification',
-					'border-t-tomato':    type === 'error',
-					'border-t-orange':    type === 'alert',
-					'border-t-green-600': type === 'success',
-			     }">
+				 :class="[
+					type === 'notification' ? 'border-t-gray-600' :
+					type === 'error'        ? 'border-t-tomato'   :
+					type === 'alert'        ? 'border-t-orange'   :
+					type === 'success'      ? 'border-t-green-600': ''
+				 ]">
 			</div>
-			<div class="absolute left-0 bottom-0 w-0 h-0 border-[52px] border-transparent --border-b-tomato -translate-x-1/2"
-			     :class="{
-					'border-b-gray-600':  type === 'notification',
-					'border-b-tomato':    type === 'error',
-					'border-b-orange':    type === 'alert',
-					'border-b-green-600': type === 'success',
-			     }">
+			<div class="absolute left-0 bottom-0 w-0 h-0 border-[52px] border-transparent -translate-x-1/2"
+				 :class="[
+					type === 'notification' ? 'border-b-gray-600' :
+					type === 'error'        ? 'border-b-tomato'   :
+					type === 'alert'        ? 'border-b-orange'   :
+					type === 'success'      ? 'border-b-green-600': ''
+				 ]">
 			</div>
 		</div>
 	</div>
@@ -54,9 +54,9 @@ const props = defineProps({
 
 const type = computed(() => props.toast.type)
 const emits = defineEmits(['close'])
-const timeout = computed(() => props.toast.message.length*100) 
 
-// setTimeout(() => emits('close'), Math.max(timeout.value, 3000))
+const timeout = computed(() => props.toast.message.length*100) 
+setTimeout(() => emits('close'), Math.max(timeout.value, 3000))
 </script>
 
 <style>
