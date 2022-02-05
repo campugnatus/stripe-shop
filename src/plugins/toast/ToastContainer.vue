@@ -56,15 +56,19 @@ function beforeLeave(el) {
 	the old one. Long story short, WT actual F...
 */
 
+
 .toaster-move {
-	transition: all 0.3s ease 0s;
+	transition: all 0.3s ease 0.3s;
 }
 
 .toaster-leave-active {
-	transition: all 0.3s;
+	/*transition: all 0.3s;*/
+	animation: 0.4s ease-in toast-leave;
 }
 .toaster-enter-active {
-	transition: all 0.3s;
+	transform: translateX(-120%);
+	animation: 0.4s linear 0.3s toast-enter;
+	/*transition: all 0.3s;*/
 }
 
 .toaster-leave-active {
@@ -73,9 +77,35 @@ function beforeLeave(el) {
    	position: absolute;
 }
 
-.toaster-enter-from,
+.toaster-enter-from {
+	/*transform: translateX(-120%);*/
+}
 .toaster-leave-to {
 	/*opacity: 0;*/
-	transform: translate(-120%, 0);
+	/*transform: translate(-120%, 0);*/
+}
+
+@keyframes toast-enter {
+	0% {
+		transform: translateX(-120%);
+	}
+	40% {
+		transform: translateX(0%) scale(1.1, 0.9);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+
+@keyframes toast-leave {
+	0% {
+		transfrom: translate(0, 0) scale(1);
+	}
+	80% {
+		transform: scaleX(1.1) scaleY(0.9);
+	}
+	100% {
+		transform: translate(-120%, 0);
+	}
 }
 </style>

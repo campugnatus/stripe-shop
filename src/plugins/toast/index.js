@@ -31,7 +31,7 @@ let looping = false
 
 // The queue to buffer the toasts before finally pushing them to the screen
 const toastQueue = []
-const DELAY_MS = 200
+const DELAY_MS = 750
 
 function popQueue() {
 	if (toastQueue.length === 0) {
