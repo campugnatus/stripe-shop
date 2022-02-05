@@ -1,15 +1,13 @@
 <template>
-	<div class="fixed top-0 left-0 h-full w-1/2">
-		<TransitionGroup tag="ul" name="toaster"
-		                 class="relative flex flex-col-reverse gap-4 bottom-10 left-0 max-w-full h-full w-1/2"
-		                 @before-leave="beforeLeave">
+	<TransitionGroup tag="ul" name="toaster"
+	                 class="fixed top-0 left-0 pb-10 h-full overflow-visible flex flex-col-reverse gap-4 bottom-10 left-0 h-full"
+	                 @before-leave="beforeLeave">
 
-			<ToastAlert v-for="toast in toasts.list"
-						:key="toast.id"
-						@close="removeToast(toast.id)"
-						:toast="toast"/>
-		</TransitionGroup>	
-	</div>
+		<ToastAlert v-for="toast in toasts.list"
+					:key="toast.id"
+					@close="removeToast(toast.id)"
+					:toast="toast"/>
+	</TransitionGroup>
 </template>
 
 <script setup>
@@ -78,6 +76,6 @@ function beforeLeave(el) {
 .toaster-enter-from,
 .toaster-leave-to {
 	/*opacity: 0;*/
-	transform: translate(-100%, 0);
+	transform: translate(-120%, 0);
 }
 </style>

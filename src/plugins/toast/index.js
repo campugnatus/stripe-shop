@@ -1,6 +1,12 @@
 import {h, render, ref, reactive} from 'vue'
 import ToastContainer from './ToastContainer.vue'
 
+const types = {
+	NOTIFICATION: "notification",
+	ERROR:        "error",
+	ALERT:        "alert",
+	SUCCESS:      "success"
+}
 
 export const toasts = reactive({
 	freeId: 0,
@@ -45,7 +51,6 @@ function popQueue() {
 
 export function showToast ({message, type = "notification"}) {
 	const id = toasts.freeId++
-	message += id
 
 	toastQueue.push({id, message, type})
 	if (!looping) popQueue()
