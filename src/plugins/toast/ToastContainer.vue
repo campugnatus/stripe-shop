@@ -90,7 +90,7 @@ function beforeLeave(el) {
 		transform: translateX(-120%);
 	}
 	40% {
-		transform: translateX(0%) scale(1.1, 0.9);
+		transform: translateX(0%) scale(1.05, 0.95);
 	}
 	100% {
 		transform: scale(1);
