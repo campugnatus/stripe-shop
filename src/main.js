@@ -24,6 +24,7 @@ const router = createRouter({
 		{ path: '/', component: Front },
 		{ path: '/catalogue', component: Catalogue },
 		{ path: '/product/:id', component: Product },
+		{ path: '/order/:id', component: Order },
 		{ path: '/cart', component: Cart },
 	]
 })

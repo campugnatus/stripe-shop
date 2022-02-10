@@ -1,12 +1,72 @@
 <template>
-	<h1 class="text-3xl">Order #{{orderId}}</h1>
+	<ShopHeader/>
+
+	<main v-if="loading" class="h-[70vh] loading-lg"></main>
+
+	<main v-else class="grid grid-cols-2 max-w-screen-lg mx-auto px-4 sm:px-6 mt-20 lg:mt-32">
+		<section class="pr-6">
+			<header class="font-mono">
+				<h1 class="text-3xl">Order details</h1>
+
+				<div class="grid grid-cols-2 mt-4">
+					<div>ID:</div>          <div>{{orderId}}</div>
+					<div>Deliver to:</div>  <div>{{order?.email}}</div>
+					<div>Total price:</div> <div>${{order?.price}}</div>
+				</div>
+			</header>
+		</section>
+
+		<div class="mt-10 row-start-2 col-span-2">
+			<h2 class="text-2xl font-mono">Order contents</h2>
+			<div class="space-y-3 mt-3 flex gap-16">
+				<OrderedItem v-for="item in order.items" :item="item"/>
+			</div>
+		</div>
+
+		<section class="pl-6">
+			<div class="relative">
+				<ul class="space-y-6">
+					<li v-for="upd, i in history" class="flex items-center">
+						<!-- <CheckCircleIcon class="w-8 text-gray-300"/> -->
+
+						<div class="ml-4 text-xs uppercase p-1 px-3 rounded-full"
+						      :class="[i === 0 ? 'bg-blue-300 text-white': 'bg-gray-100 text-gray-500']">
+							{{upd.status}}
+						</div>
+						<div class="ml-3 text-sm text-gray-400">
+							@ {{ new Date(upd.date*1000).toLocaleString() }}
+						</div>
+					</li>
+				</ul>
+			</div>
+		</section>
+	</main>
+
+	<ShopFooter :class="[loading? 'mt-0':'']"/>
 </template>
 
 <script setup>
+import ShopHeader from '@/components/ShopHeader.vue'
+import ShopFooter from '@/components/ShopFooter.vue'
+import OrderedItem from '@/components/OrderedItem.vue'
+import {useTitle} from '@vueuse/core'
+import {CheckCircleIcon} from '@heroicons/vue/solid'
+
+const title = useTitle("Order details", { titleTemplate: '%s | Stripe shop' })
+
+import { computed } from 'vue'
+import { useUserStore } from '@/stores/user'
 import { useRouter, useRoute } from 'vue-router'
-import {computed} from 'vue'
+
+const userStore = useUserStore()
 const router = useRouter()
 const route = useRoute()
 
 const orderId = computed(() => route.params.id)
+const order = computed(() => userStore.orders[orderId.value])
+// const loading = true
+const loading = computed(() => order.value === undefined)
+const history = computed(() => order.value?.status.reverse())
+
+userStore.fetchOrder(orderId)
 </script>

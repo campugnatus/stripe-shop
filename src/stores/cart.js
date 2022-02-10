@@ -2,7 +2,6 @@ import { defineStore } from 'pinia'
 import { useProductStore } from '@/stores/products'
 import api from '@/api.js'
 
-
 export const useCartStore = defineStore('cart', {
 	state: () => ({
 		// [{ productId, amount }]
@@ -15,9 +14,9 @@ export const useCartStore = defineStore('cart', {
 		empty:    (state) => state.items.length === 0,
 		undoable: (state) => state.history.length > 0,
 		subtotal: (state) => {
-			const products = useProductStore()
+			const productStore = useProductStore()
 			return state.items.reduce((sum, {productId, amount}) => {
-				let product = products.getProductById(productId)
+				let product = productStore.getProductById(productId)
 				return sum + amount*product.price
 			}, 0).toFixed(2)
 		},
@@ -84,5 +83,27 @@ export const useCartStore = defineStore('cart', {
 				this.setAmount(id, amount)
 			}
 		},
+
+		async checkout ({email}) {
+			console.log("email", email)
+
+			const orderId = await api.createOrder({
+				email,
+				price: this.subtotal,
+				items: this.items.map(addPrice)
+			})
+
+			// everything went fine, can clear the cart now
+			this.items = []
+
+			return orderId
+
+			function addPrice(item) {
+				const productStore = useProductStore()
+				const product = productStore.getProductById(item.productId)
+				item.price = product.price
+				return item
+			}
+		}
 	}
 })

@@ -120,11 +120,10 @@ async function checkout() {
 		return;
 	}
 
-	checkoutLoading.value = true
-
 	try {
-		const orderId = await cart.checkout()
-		showToast.success("OK! Your order has been created and your payment recieved!")
+		checkoutLoading.value = true
+		const orderId = await cart.checkout({email: email.value})
+		showToast.success("OK! Your order has been created!")
 		router.push("/order/" + orderId)
 	}
 
