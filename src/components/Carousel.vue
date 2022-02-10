@@ -17,18 +17,7 @@
 			<div v-show="showLeftShadow" class="h-full w-5 -ml-5 absolute left-0 shadow-xl z-10 border-r-4 border-red-300"></div>
 			<div class="scrollbar-off flex gap-5 w-full overflow-x-auto relative px-5" ref="carousel" @scroll="onscroll">
 				<!-- <div class=""></div> -->
-				<WareCard id="617:1384" class="w-56"/>
-				<WareCard id="617:1384" class="w-56"/>
-				<WareCard id="617:1384" class="w-56"/>
-				<WareCard id="617:1384" class="w-56"/>
-				<WareCard id="617:1384" class="w-56"/>
-				<WareCard id="617:1384" class="w-56"/>
-				<WareCard id="617:1384" class="w-56"/>
-				<WareCard id="617:1384" class="w-56"/>
-				<WareCard id="617:1384" class="w-56"/>
-				<WareCard id="617:1384" class="w-56"/>
-				<WareCard id="617:1384" class="w-56"/>
-				<WareCard id="617:1384" class="w-56"/>
+				<WareCard v-for="product in randomProducts" :id="product.id" class="w-56"/>
 				<!-- <div class=""></div> -->
 			</div>
 			<div v-show="showRightShadow" class="h-full w-5 -mr-5 absolute right-0 top-0 shadow-xl z-10"></div>
@@ -38,7 +27,40 @@
 
 <script setup>
 import WareCard from './WareCard.vue'
-import {ref, onMounted} from 'vue';
+import { ref, onMounted, computed } from 'vue';
+import { useProductStore } from '@/stores/products'
+
+const productStore = useProductStore()
+
+
+
+/**
+ * Choose random products to show in the carousel
+ */
+
+const carouselLength = 12
+
+const randomProducts = computed(() => {
+	const nproducts = productStore.all.length
+	const res = []
+
+	if (!nproducts) return res
+
+	for (let i = 0; i < carouselLength; i++) {
+		const iproduct = Math.round(Math.random()*nproducts)
+		res[i] = productStore.all[iproduct]
+	}
+	return res
+})
+
+
+
+
+
+
+/**
+ * Dragging/scrolling behaviour
+ */
 
 // true= user is holding the carousel with their mouse
 let holding = false;
