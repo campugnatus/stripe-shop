@@ -1,31 +1,30 @@
 <template>
 	<ShopHeader/>
 
-	<main v-if="loading" class="h-[70vh] loading-lg"></main>
-
-	<main v-else class="grid grid-cols-2 max-w-screen-lg mx-auto px-4 sm:px-6 mt-20 lg:mt-32">
+	<main class="grid grid-cols-2 max-w-screen-lg mx-auto px-4 sm:px-6 mt-20 lg:mt-32">
 		<section class="pr-6">
 			<header class="font-mono">
 				<h1 class="text-3xl">Order details</h1>
 
 				<div class="grid grid-cols-2 mt-4">
 					<div>ID:</div>          <div>{{orderId}}</div>
-					<div>Deliver to:</div>  <div>{{order?.email}}</div>
-					<div>Total price:</div> <div>${{order?.price}}</div>
+					<div>Deliver to:</div>  <div :class="{'grayout': loading}">{{order?.email}}</div>
+					<div>Total price:</div> <div :class="{'grayout': loading}">${{order?.price}}</div>
 				</div>
 			</header>
 		</section>
 
 		<div class="mt-10 row-start-2 col-span-2">
 			<h2 class="text-2xl font-mono">Order contents</h2>
-			<div class="space-y-3 mt-3 flex gap-16">
-				<OrderedItem v-for="item in order.items" :item="item"/>
+			<div class="mt-3 flex items-center gap-16"
+			     :class="{'grayout h-20 w-1/2': loading}">
+				<OrderedItem v-for="item in order?.items" :item="item"/>
 			</div>
 		</div>
 
 		<section class="pl-6">
 			<div class="relative">
-				<ul class="space-y-6">
+				<ul class="space-y-6" :class="{'grayout h-64 w-full': loading}">
 					<li v-for="upd, i in history" class="flex items-center">
 						<!-- <CheckCircleIcon class="w-8 text-gray-300"/> -->
 
@@ -42,7 +41,7 @@
 		</section>
 	</main>
 
-	<ShopFooter :class="[loading? 'mt-0':'']"/>
+	<ShopFooter/>
 </template>
 
 <script setup>
@@ -64,7 +63,6 @@ const route = useRoute()
 
 const orderId = computed(() => route.params.id)
 const order = computed(() => userStore.orders[orderId.value])
-// const loading = true
 const loading = computed(() => order.value === undefined)
 const history = computed(() => order.value?.status.reverse())
 

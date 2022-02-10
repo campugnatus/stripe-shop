@@ -57,4 +57,16 @@
 	    transform: rotate(360deg);
 	  }
 	}
+
+
+
+
+	.grayout {
+		position: relative;
+	}
+
+	.grayout::before {
+		content: "";
+		@apply absolute left-0 top-1/2 -translate-y-1/2 w-full h-[100%] bg-gray-200;
+	}
 }
