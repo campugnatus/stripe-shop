@@ -38,7 +38,7 @@ const productStore = useProductStore()
  * Choose random products to show in the carousel
  */
 
-const carouselLength = 12
+const lcarousel = 12
 
 const randomProducts = computed(() => {
 	const nproducts = productStore.all.length
@@ -46,10 +46,11 @@ const randomProducts = computed(() => {
 
 	if (!nproducts) return res
 
-	for (let i = 0; i < carouselLength; i++) {
+	for (let i = 0; i < lcarousel; i++) {
 		const iproduct = Math.round(Math.random()*nproducts)
 		res[i] = productStore.all[iproduct]
 	}
+
 	return res
 })
 

@@ -85,8 +85,6 @@ export const useCartStore = defineStore('cart', {
 		},
 
 		async checkout ({email}) {
-			console.log("email", email)
-
 			const order = await api.createOrder({
 				email,
 				price: this.subtotal,

@@ -100,7 +100,7 @@ const products = useProductStore()
 const router = useRouter()
 const user = useUserStore()
 
-const email = ref(user.profile?.email)
+const email = ref(user.profile?.email || "hoho@hehe.haha")
 const emailError = ref(false)
 
 const showToast = inject('showToast')

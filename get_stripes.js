@@ -1,6 +1,6 @@
 // import stripes info and images from figma
 //
-// How to call:
+// USAGE
 //
 // node get_stripes.js -- download and parse the stripes' metadata and write
 // stripes.json and order.json to the disk

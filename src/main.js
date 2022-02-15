@@ -29,6 +29,15 @@ const router = createRouter({
 	]
 })
 
+window.log = function () {
+	console.log(...arguments)
+}
+
+window.assert = function (cond, msg = "Assertion failed") {
+	if (!cond)
+		throw new Error(msg)
+}
+
 
 // A simple wrapper directive around the intersection observer API. Takes a method as
 // an argument, which is supposed to be called when the given element

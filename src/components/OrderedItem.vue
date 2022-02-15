@@ -35,10 +35,7 @@ const props = defineProps({
 
 // reactivity question: will item change when the prop changes?
 const item = ref(props.item)
-const product = computed(() => {
-	console.log("product recompute", item.value, item.value.productId, productStore.getProductById(item.value.productId))
-	return productStore.getProductById(item.value.productId)
-})
+const product = computed(() => productStore.getProductById(item.value.productId))
 // TODO: productStore.fetchProduct(item.productId)
 const loading = computed(() => product === undefined)
 

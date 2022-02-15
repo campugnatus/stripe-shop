@@ -9,15 +9,15 @@
 				<div class="grid grid-cols-2 mt-4">
 					<div>ID:</div>          <div>{{orderId}}</div>
 					<div>Deliver to:</div>  <div :class="{'grayout': loading}">{{order?.email}}</div>
-					<div>Total price:</div> <div :class="{'grayout': loading}">${{order?.price}}</div>
+					<div>Total price:</div> <div :class="{'grayout w-16': loading}">${{order?.price}}</div>
 				</div>
 			</header>
 		</section>
 
 		<div class="mt-10 row-start-2 col-span-2">
 			<h2 class="text-2xl font-mono">Order contents</h2>
-			<div class="mt-3 flex items-center gap-16"
-			     :class="{'grayout h-20 w-1/2': loading}">
+			<div class="mt-3 flex flex-wrap items-center gap-x-16 gap-y-8"
+			     :class="{'grayout h-20': loading}">
 				<OrderedItem v-for="item in order?.items" :item="item"/>
 			</div>
 		</div>
@@ -41,6 +41,11 @@
 		</section>
 	</main>
 
+	<section class="mt-40 max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+		<h1 class="text-2xl md:text-3xl font-roboto">Now... how about these?</h1>
+		<Carousel class="mt-6 -mx-4 sm:-mx-6 lg:-mx-8"/>
+	</section>
+
 	<ShopFooter/>
 </template>
 
@@ -48,6 +53,7 @@
 import ShopHeader from '@/components/ShopHeader.vue'
 import ShopFooter from '@/components/ShopFooter.vue'
 import OrderedItem from '@/components/OrderedItem.vue'
+import Carousel from '@/components/Carousel.vue'
 import {useTitle} from '@vueuse/core'
 import {CheckCircleIcon} from '@heroicons/vue/solid'
 
