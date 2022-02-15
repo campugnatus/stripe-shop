@@ -87,7 +87,7 @@ export const useCartStore = defineStore('cart', {
 		async checkout ({email}) {
 			console.log("email", email)
 
-			const orderId = await api.createOrder({
+			const order = await api.createOrder({
 				email,
 				price: this.subtotal,
 				items: this.items.map(addPrice)
@@ -95,8 +95,8 @@ export const useCartStore = defineStore('cart', {
 
 			// everything went fine, can clear the cart now
 			this.items = []
-
-			return orderId
+			
+			return order.id
 
 			function addPrice(item) {
 				const productStore = useProductStore()

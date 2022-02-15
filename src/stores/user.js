@@ -63,8 +63,8 @@ export const useUserStore = defineStore('user', {
 			if (this.orders[id])
 				return Promise.resolve(this.orders[id])
 
-			this.orders[id] = (await api.fetchOrders([id]))[id]
 			console.log("order fetched and stored in pinia", this.orders[id])
+			this.orders[id] = await api.fetchOrder(id)
 		}
 	}
 })
