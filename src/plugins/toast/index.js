@@ -52,7 +52,10 @@ function popQueue() {
 // showToast creates a new toast and puts it in the queue to be processed by
 // popQueue. It also calls popQueue if there isn't one looping already
 
-export function showToast ({message, type = "info"}) {
+export function showToast ({message = ":-)", type = "info"}) {
+	if (typeof arguments[0] === 'string')
+		return showToast({message: arguments[0], type: "info"})
+
 	const id = toasts.freeId++
 
 	toastQueue.push({id, message, type})
