@@ -27,6 +27,8 @@ app.get('/products/all', function (req, res, next) {
 app.post('/orders', function (req, res, next) {
 	// TODO: validate input
 
+	console.log("new order payment token:", req.body.paymentToken)
+
 	const orderId = newId()
 	let order = {
 		id: orderId,
@@ -37,10 +39,23 @@ app.post('/orders', function (req, res, next) {
 			{
 				status: "created",
 				date: new Date().getTime()
+			},
+			{
+				status: "waiting for payment",
+				date: new Date().getTime()
 			}
 		]
 	}
 	db.orders[orderId] = order
+
+	setTimeout(() => {
+		order.status.push({
+			status: "paid",
+			date: new Date().getTime()
+		})
+		shipOrder(order.id)
+	}, 5000)
+
 	res.json(order)
 })
 
@@ -79,7 +94,14 @@ app.listen(port, () => {
 
 
 
-
+function shipOrder (id) {
+	let order = db.orders[id]
+	console.log("order shipped:", id)
+	order.status.push({
+		status: "shipped",
+		date: new Date().getTime()
+	})
+}
 
 function newId () {
 	return new Date().getTime().toString() + '-' + Math.random().toString().substr(-4)

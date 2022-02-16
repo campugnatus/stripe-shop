@@ -2,7 +2,7 @@ import axios from "axios"
 
 
 // TODO: get this from an ENV variable or somethin 
-axios.defaults.baseURL = "http://192.168.58.23:3002"
+axios.defaults.baseURL = "http://localhost:3002"
 
 
 import products from '/stripes.json'
@@ -25,8 +25,8 @@ export default {
 		       .then(response => response.data)
 	},
 
-	async createOrder ({email, items, price}) {
-		return axios.post("/orders", {email, items, price})
+	async createOrder ({email, items, price, paymentToken}) {
+		return axios.post("/orders", {email, items, price, paymentToken})
 					.then(response => response.data)
 	}
 }

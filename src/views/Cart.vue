@@ -65,9 +65,10 @@
 			<input type="email" v-model="email" name="" class="mt-3 w-full rounded border-gray-400"
 			       :class="[emailError? 'ring-1 ring-tomato border-tomato':'']"
 			       :title="emailError? 'Email invalid' : ''">
-			<button @click="checkout" class="w-full bg-primary rounded text-white text-sm font-bold p-2 mt-4"
-					:class="{loading: checkoutLoading}">G Pay</button>
-			<button @click="checkout" class="w-full bg-primary rounded text-white text-sm font-bold p-2 mt-3">Pay with Apple</button>
+			<GooglePayButton :price="cart.subtotal" @paid="checkout" class="mt-4"/>
+			<button @click="showToast.error('Not yet, sorry')" class="w-full bg-primary rounded text-white text-sm font-bold p-2 mt-3">
+				Pay with Apple
+			</button>
 		</div>
 	</main>
 
@@ -84,6 +85,7 @@ import ShopHeader from '@/components/ShopHeader.vue'
 import ShopFooter from '@/components/ShopFooter.vue'
 import Carousel from '@/components/Carousel.vue'
 import CartItem from '@/components/CartItem.vue'
+import GooglePayButton from '@/components/GooglePayButton.vue'
 import {   } from '@heroicons/vue/outline'
 import {ReplyIcon, TrashIcon } from '@heroicons/vue/solid'
 import { useRouter, useRoute } from 'vue-router'
@@ -106,13 +108,16 @@ const emailError = ref(false)
 const showToast = inject('showToast')
 
 
+
+
+
 /**
  * Checkout
  */ 
 
 const checkoutLoading = ref(false)
 
-async function checkout() {
+async function checkout(paymentToken) {
 
 	emailError.value = !checkEmail()
 	if (emailError.value) {
@@ -122,7 +127,7 @@ async function checkout() {
 
 	try {
 		checkoutLoading.value = true
-		const orderId = await cart.checkout({email: email.value})
+		const orderId = await cart.checkout({email: email.value, paymentToken})
 		showToast.success("OK! Your order has been created!")
 		router.push("/order/" + orderId)
 	}
@@ -150,6 +155,12 @@ function checkEmail () {
 	return !!email.value
 }
 </script>
+
+
+
+
+
+
 
 <style>
 .items-move,
