@@ -1,11 +1,9 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
-  mode: 'jit',
-  purge: [
+  content: [
     './index.html', './src/**/*.{js,vue}',
   ],
-  darkMode: false, // or 'media' or 'class'
   theme: {
     screens: {
       'xs': '375px',
@@ -39,9 +37,6 @@ module.exports = {
         'bds': "url('/bds2.png')"
       }
     },
-  },
-  variants: {
-    extend: {},
   },
   plugins: [
     require('@tailwindcss/forms'),
