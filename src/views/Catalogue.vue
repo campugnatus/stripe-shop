@@ -19,7 +19,7 @@
 		</button>
 	</section>
 
-	<main class="md:px-6 flex container mx-auto lg:mt-32">
+	<section class="md:px-6 flex container mx-auto lg:mt-32 items-start">
 		<aside class="w-64 h-screen font-roboto flex-shrink-0 hidden lg:block">
 			<h2 class="text-2xl mb-2">Sort by</h2>
 			<select class="bg-white border px-2 py-1 rounded border-gray-400">
@@ -58,10 +58,30 @@
 
 		</aside>
 
-		<main class="w-80 mx-auto sm:w-full grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 items-start">
+		<div v-if="loading" class="h-[50vh] w-full loading-lg"></div>
+
+		<main v-else class="w-80 mx-auto sm:w-full grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 items-start">
+			<WareCard fake class=""/>
 			<WareCard v-for="product in products" :id="product.id" class=""/>
+
+			<button @click="loadMore" class="relative"
+			        v-if="products.length">
+		        
+		        <!-- this is a pretty terrible markup ^_^
+		        	 this invisible card is to make the 
+		        	 button the same size as the cards -->
+
+		        <WareCard :id="products[0].id" class="invisible"/>
+
+		        <div class="absolute h-full w-full top-0 left-0">
+		             <div class="h-full w-full rounded border-2 border-dashed flex justify-center items-center text-4xl font-pacifico text-gray-400 hover:text-gray-500"
+		                  :class="{'loading-lg': loadingMore}">
+						Load<br> more<br>
+		             </div>
+	        	</div>
+			</button>
 		</main>
-	</main>
+	</section>
 
 	<ShopFooter/>
 </template>
@@ -71,11 +91,27 @@ import WareCard from '@/components/WareCard.vue'
 import ShopHeader from '@/components/ShopHeader.vue'
 import ShopFooter from '@/components/ShopFooter.vue'
 import {storeToRefs} from 'pinia'
-import {computed} from 'vue'
+import {computed, ref} from 'vue'
 import { useProductStore } from '@/stores/products'
 
 const productStore = useProductStore()
-const {all: products} = storeToRefs(productStore)
+const products = computed(() => {
+	let res = []
+	productStore.order.forEach(id => res.push(productStore.products[id]))
+	return res
+})
+const loading = computed(() => products.value.length === 0)
+const loadingMore = ref(false)
+
+async function loadMore () {
+	loadingMore.value = true
+	await productStore.search({reset: false, append: true})
+	loadingMore.value = false
+}
+
+// TODO: this will run everytime, no caching... also, we should obviously run
+// searh from the searchbox, which is elsewhere
+// productStore.search(/* just the default */)
 </script>
 
 <style>

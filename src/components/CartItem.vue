@@ -57,7 +57,7 @@ const item = props.item
 const productStore = useProductStore()
 const cart = useCartStore()
 
-const product = productStore.getProductById(item.productId)
+const product = productStore.products[item.productId]
 const total = computed(() => (item.amount*product.price).toFixed(2))
 
 function setAmount (evt) {

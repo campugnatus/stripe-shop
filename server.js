@@ -18,9 +18,88 @@ app.use(function delay (req, res, next) {
 	}, 2000)
 })
 
+
+
+app.get('/products/search/', function (req, res, next) {
+	const query = {
+		words:   wordify(req.query.query) || [],
+		from:    req.query.from           || 0,
+		to:      req.query.to             || 30,
+		sort:    req.query.sort           || "default",
+		filters: [] // ?
+	}
+
+	const filtered = filterProducts(query.words, Object.values(db.products))
+	const sorted = sortProducts(filtered, query.sort)
+	const sliced = sorted.slice(query.from, query.to)
+
+	res.json({
+		order:    sliced.map(p => p.id),
+		products: sliced.reduce((acc, p) => {acc[p.id] = p; return acc}, {}),
+		haveMore: query.to < sorted.length
+	})
+
+
+
+
+	function wordify(string) {
+		if (!string) return undefined
+		return string.split(/\s+/)
+	}
+
+	function filterProducts(words, products) {
+		if (words.length === 0)
+			return products
+
+		return products.filter(product => {
+			let string = JSON.stringify(product)
+
+			let matches = true
+			for (let word of query.words) {
+				if (!string.match(new RegExp(word, 'i'))) {
+					matches = false
+					break;
+				}
+			}
+
+			return matches
+		})
+	}
+
+	function sortProducts(products, order) {
+		if (order === "default")
+			return products
+
+		return products.sort((a, b) => {
+			if (order === "price-descend") {
+				if (a.price === b.price) return 0
+				if (a.price > b.price)   return -1
+				if (a.price < b.price)   return 1
+			}
+			else if (order === "price-ascend") {
+				if (a.price === b.price) return 0
+				if (a.price > b.price)   return 1
+				if (a.price < b.price)   return -1
+			}
+			else if (order === "rating-descend") {
+				if (a.rating === b.rating) return 0
+				if (a.rating > b.rating)   return -1
+				if (a.rating < b.rating)   return 1
+			}
+			else {
+				throw new Error ("invalid sort order")
+			}
+		})
+	}
+})
+
+
 // get product by id
-app.get('/products/all', function (req, res, next) {
-	res.json(require('./stripes.json'))
+app.get('/products/:id', function (req, res, next) {
+	if (!db.products[req.params.id])
+		res.sendStatus(404)
+
+	res.json(db.products[req.params.id])
 })
 
 // create a new order
@@ -61,7 +140,7 @@ app.post('/orders', function (req, res, next) {
 
 
 app.get('/orders/:id', function (req, res, next) {
-	let order = db.orders[req.params.id]	
+	let order = db.orders[req.params.id]
 	if (order)
 		res.json(order)
 	else
@@ -72,11 +151,11 @@ app.get('/orders/:id', function (req, res, next) {
 
 
 app.post('/login', function (req, res, next) {
-	
+
 })
 
 app.post('/signup', function (req, res, next) {
-	
+
 })
 
 // app.get('/', (req, res) => {
@@ -107,43 +186,49 @@ function newId () {
 	return new Date().getTime().toString() + '-' + Math.random().toString().substr(-4)
 }
 
+function getProducts () {
+	let list = require('./stripes.json')
+	let res = {}
+	for (let prod of list) {
+		res[prod.id] = prod
+	}
+	return res
+}
+
 function mockDB () {
 	return {
-	/* TODO: should this be keyval?
-	 	- well, it'll make it easier to retrieve one-by-one
-	 	- but then how do you retrieve them in bulk? */
-	 	products: require('./stripes.json'),
-	 	users: {},
-	 	orders: {
-	 		"1644421018974-7259": {
-	 			id: "192874ypriwuhefj",
-	 			email: "zhopa@zhopa.zhopa",
-	 			price: 10.5,
-	 			status: [
-	 			{
-	 				status: "created",
-	 				date: 1644412815,
-	 			},
-	 			{
-	 				status: "paid",
-	 				date: 1644414815,
-	 			},
-	 			{
-	 				status: "shipped",
-	 				date: 1644416815,
-	 			},
-	 			{
-	 				status: "refund requested",
-	 				date: 1644418815,
-	 			},
-	 			{
-	 				status: "refunded",
-	 				date: 1644420815,
-	 			},
-	 			],
-	 			items: [
-	 			{
-	 				productId: "617:1384",
+		products: getProducts(),
+		users: {},
+		orders: {
+			"1644421018974-7259": {
+				id: "192874ypriwuhefj",
+				email: "zhopa@zhopa.zhopa",
+				price: 10.5,
+				status: [
+				{
+					status: "created",
+					date: 1644412815,
+				},
+				{
+					status: "paid",
+					date: 1644414815,
+				},
+				{
+					status: "shipped",
+					date: 1644416815,
+				},
+				{
+					status: "refund requested",
+					date: 1644418815,
+				},
+				{
+					status: "refunded",
+					date: 1644420815,
+				},
+				],
+				items: [
+				{
+					productId: "617:1384",
 					price: 2.99, // frozen
 					amount: 4,
 				},

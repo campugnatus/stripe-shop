@@ -93,7 +93,7 @@ const router = useRouter()
 const route = useRoute()
 
 const productId = computed(() => route.params.id)
-const product = computed(() => productStore.getProductById(productId.value))
+const product = computed(() => productStore.products[productId.value])
 </script>
 
 <style>

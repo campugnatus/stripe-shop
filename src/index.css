@@ -45,7 +45,7 @@
 
 	.loading-lg::after {
 		animation: loading 700ms infinite linear;
-		@apply block absolute border-orange -ml-10 -mt-10 w-20 z-0 border-8 h-20 left-1/2 top-1/2 border-r-transparent border-t-transparent rounded-full;
+		@apply block absolute border-gray-300 -ml-10 -mt-10 w-20 z-0 border-8 h-20 left-1/2 top-1/2 border-r-transparent border-t-transparent rounded-full;
 		content: "";
 	}
 

@@ -1,15 +1,23 @@
 import axios from "axios"
 
-
 // TODO: get this from an ENV variable or somethin 
 axios.defaults.baseURL = "http://localhost:3002"
 
+// for debugging purposes, TODO: turn off in production
+window.axios = axios
 
 import products from '/stripes.json'
 
 export default {
-	async fetchProducts () {
-		return axios('/products/all').then(response => response.data)
+	async fetchProduct (id) {
+		return axios('/products/' + id)
+		       .then(response => response.data)
+	},
+
+	async searchProducts (query) {
+		log("api searchProducts", query)
+		return axios('/products/search', {params: query})
+		       .then(response => response.data)
 	},
 	
 	async login () {

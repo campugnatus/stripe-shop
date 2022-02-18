@@ -2,7 +2,6 @@ import { createApp } from 'vue'
 import './index.css'
 import { createRouter, createWebHistory } from 'vue-router'
 import { createPinia } from 'pinia'
-import { useProductStore } from '@/stores/products.js'
 
 import ToastPlugin from '@/plugins/toast'
 
@@ -67,7 +66,3 @@ app.use(router)
 app.use(createPinia())
 app.use(ToastPlugin)
 app.mount('#app')
-
-const productStore = useProductStore()
-productStore.fetchProducts()
-

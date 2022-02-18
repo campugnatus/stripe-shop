@@ -41,14 +41,14 @@ const productStore = useProductStore()
 const lcarousel = 12
 
 const randomProducts = computed(() => {
-	const nproducts = productStore.all.length
+	const nproducts = productStore.nproducts
 	const res = []
 
 	if (!nproducts) return res
 
 	for (let i = 0; i < lcarousel; i++) {
 		const iproduct = Math.round(Math.random()*nproducts)
-		res[i] = productStore.all[iproduct]
+		res[i] = productStore.products[iproduct]
 	}
 
 	return res

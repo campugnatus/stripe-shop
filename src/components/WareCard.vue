@@ -46,18 +46,17 @@ import { useProductStore } from '@/stores/products'
 import { useCartStore } from '@/stores/cart'
 import { computed } from 'vue'
 
-
-
 const props = defineProps({
   id: {
     type: String,
-    required: true,
+    // if undefined, we'll just show the loading state
+    required: false,
   }
 })
-
 const productStore = useProductStore()
 const cartStore = useCartStore()
-const product = computed(() => productStore.getProductById(props.id))
+const product = computed(() => productStore.products[props.id])
+const loading = computed(() => product.value === undefined)
 </script>
 
 <style>

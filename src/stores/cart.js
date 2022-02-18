@@ -16,7 +16,7 @@ export const useCartStore = defineStore('cart', {
 		subtotal: (state) => {
 			const productStore = useProductStore()
 			return state.items.reduce((sum, {productId, amount}) => {
-				let product = productStore.getProductById(productId)
+				let product = productStore.products[productId]
 				return sum + amount*product.price
 			}, 0).toFixed(2)
 		},
@@ -99,7 +99,7 @@ export const useCartStore = defineStore('cart', {
 
 			function addPrice(item) {
 				const productStore = useProductStore()
-				const product = productStore.getProductById(item.productId)
+				const product = productStore.products[item.productId]
 				item.price = product.price
 				return item
 			}
