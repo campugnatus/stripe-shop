@@ -23,27 +23,27 @@
 
 
 	/* TODO: something a bit more unique? */
-	.loading {
+	.spinner {
 		color: transparent !important;
 		min-height: 1em;
 		pointer-events: none;
 		position: relative;
 	}
 
-	.loading::after {
+	.spinner::after {
 		animation: loading 700ms infinite linear;
 		@apply block absolute border-orange -ml-2 -mt-2 w-4 z-0 border-4 h-4 left-1/2 top-1/2 border-r-transparent border-t-transparent rounded-full;
 		content: "";
 	}
 
-	.loading-lg {
+	.spinner-lg {
 		color: transparent !important;
 		min-height: 1em;
 		pointer-events: none;
 		position: relative;
 	}
 
-	.loading-lg::after {
+	.spinner-lg::after {
 		animation: loading 700ms infinite linear;
 		@apply block absolute border-gray-300 -ml-10 -mt-10 w-20 z-0 border-8 h-20 left-1/2 top-1/2 border-r-transparent border-t-transparent rounded-full;
 		content: "";

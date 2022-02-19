@@ -1,20 +1,23 @@
 <template>
-  <div class="w-full rounded-lg border overflow-hidden flex-shrink-0" v-if="product">
-    <div class="bg-white" style="aspect-ratio: 1">
-      <router-link :to="`/product/`+product.id">
-        <img :src="'/svg/'+product.filename"/>
+  <div :class="{'loading border-0': loading}" class="w-full rounded-lg border overflow-hidden flex-shrink-0">
+    <div class="bg-white relative overflow-hidden" style="aspect-ratio: 1">
+      <router-link v-if="product" :to="`/product/`+product?.id">
+        <img :src="'/svg/'+product?.filename"/>
       </router-link>
+      <div v-if="loading" class="grayout w-[150%] h-12 absolute top-1/2 translate-x-[-50%] translate-y-[-50%] left-1/2 rotate-[-60deg]"></div>
     </div>
-    <div class="bg-gray-50 border-t p-2 flex flex-col">
-      <router-link :to="'/product/' + product.id">
-        <h1 class="text-lg truncate">{{product.title}}</h1>
+    <div class="bg-gray-50 border-t p-2 flex flex-col loading:bg-transparent loading:border-transparent">
+      <router-link :to="'/product/' + product?.id">
+        <h1 class="text-lg truncate loading:grayout">
+          {{loading? "hi" : product?.title}}
+        </h1>
       </router-link>
 
       <div class="flex mt-1 mb-1 justify-between">
-        <div class="flex gap-1">
-          <RatingStars :rating="product.rating" class="h-5 space-x-1.5"/>
+        <div class="flex gap-1 loading:grayout">
+          <RatingStars v-if="!loading" :rating="product?.rating" class="h-5 space-x-1.5"/>
         </div>
-        <div class="flex gap-2">
+        <div class="flex gap-2 loading:grayout">
           12 
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M8 10H8.01H8ZM12 10H12.01H12ZM16 10H16.01H16ZM9 16H5C4.46957 16 3.96086 15.7893 3.58579 15.4142C3.21071 15.0391 3 14.5304 3 14V6C3 5.46957 3.21071 4.96086 3.58579 4.58579C3.96086 4.21071 4.46957 4 5 4H19C19.5304 4 20.0391 4.21071 20.4142 4.58579C20.7893 4.96086 21 5.46957 21 6V14C21 14.5304 20.7893 15.0391 20.4142 15.4142C20.0391 15.7893 19.5304 16 19 16H14L9 21V16Z" stroke="#24282B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -23,16 +26,16 @@
       </div>
 
       <div class="flex-grow">
-        <div class="h-16 text-sm mt-1 mb-2 multiline-ellipsis">
-          {{product.description}}
+        <div class="h-16 text-sm mt-1 mb-2 multiline-ellipsis loading:grayout">
+          {{product?.description}}
         </div>
       </div>
 
-      <div class="flex mb-2 justify-between items-center">
+      <div class="flex mb-2 justify-between items-center loading:grayout">
         <span class="text-2xl text-gray-700 mr-3 font-semibold">
-          ${{product.price}}
+          ${{product?.price}}
         </span>
-        <AddToCartButton small :pid="props.id" class="text-sm flex-grow"/>
+        <AddToCartButton v-if="props.id" small :pid="props.id" class="text-sm flex-grow"/>
       </div>
     </div>
   </div>
@@ -44,7 +47,7 @@ import AddToCartButton from '@/components/AddToCartButton.vue'
 
 import { useProductStore } from '@/stores/products'
 import { useCartStore } from '@/stores/cart'
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 
 const props = defineProps({
   id: {
@@ -57,6 +60,8 @@ const productStore = useProductStore()
 const cartStore = useCartStore()
 const product = computed(() => productStore.products[props.id])
 const loading = computed(() => product.value === undefined)
+
+productStore.fetchProduct(props.id)
 </script>
 
 <style>

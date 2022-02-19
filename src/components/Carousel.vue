@@ -16,9 +16,10 @@
 		<div class="relative overflow-hidden" @mousedown="mousedown" @mouseup="mouseup" @mousemove="mousemove" @mouseleave="mouseleave" @click.capture="onClick">
 			<div v-show="showLeftShadow" class="h-full w-5 -ml-5 absolute left-0 shadow-xl z-10 border-r-4 border-red-300"></div>
 			<div class="scrollbar-off flex gap-5 w-full overflow-x-auto relative px-5" ref="carousel" @scroll="onscroll">
-				<!-- <div class=""></div> -->
-				<WareCard v-for="product in randomProducts" :id="product.id" class="w-56"/>
-				<!-- <div class=""></div> -->
+				<template v-if="loading">
+					<WareCard v-for="product in lcarousel" class="w-56"/>
+				</template>
+				<WareCard v-for="id in ids" :id="id" class="w-56"/>
 			</div>
 			<div v-show="showRightShadow" class="h-full w-5 -mr-5 absolute right-0 top-0 shadow-xl z-10"></div>
 		</div>
@@ -32,27 +33,35 @@ import { useProductStore } from '@/stores/products'
 
 const productStore = useProductStore()
 
+/*
+	So we have multiple stages of LOADING
+
+	1. when we don't even know the ids of the things we're going to be
+	loading. Well, obviously! Like, we know there's gona be a carousel,
+	right? Yes we do. We don't know the ids though, as they should come
+	from SOMEWHERE, and that is never instantaneous. And we should be
+	ready for when we don't have them.
+
+	2. Second stage is when we've received everything we need in THIS
+	component. That's product IDs. When we have those, we know the
+	contents exactly, and any further LOADING state isn't our business
+	anymore, it's of the underlying components
+*/
 
 
 /**
- * Choose random products to show in the carousel
+ * Load the ids of the products to show in the carousel
  */
 
 const lcarousel = 12
+const ids = ref([])
+const loading = computed(() => ids.value.length === 0)
 
-const randomProducts = computed(() => {
-	const nproducts = productStore.nproducts
-	const res = []
-
-	if (!nproducts) return res
-
-	for (let i = 0; i < lcarousel; i++) {
-		const iproduct = Math.round(Math.random()*nproducts)
-		res[i] = productStore.products[iproduct]
-	}
-
-	return res
-})
+setTimeout(() => {
+	ids.value = ["644:2297", "644:2289", "644:2273", "644:2761",
+	             "644:2633", "644:2305", "644:2244", "561:2042",
+	             "644:2313", "644:2265", "644:2377"]
+}, 1100)
 
 
 
