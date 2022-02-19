@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia'
 import api from '@/api.js'
 
-const PAGE_SIZE = 30
+// make it multiple of 12 so that it spans nicely across 2, 3 or 4 columns
+const PAGE_SIZE = 12*2
 
 export const useProductStore = defineStore('products', {
 	state: () => ({
@@ -16,7 +17,9 @@ export const useProductStore = defineStore('products', {
 			color: undefined,
 			shape: undefined,
 			tags: []
-		}
+		},
+
+		searching: false
 	}),
 
 	getters: {
@@ -25,6 +28,8 @@ export const useProductStore = defineStore('products', {
 
 	actions: {
 		async fetchProduct (id) {
+			assert(id)
+
 			if (this.products[id]) 
 				return this.products[id]
 
@@ -33,19 +38,32 @@ export const useProductStore = defineStore('products', {
 			return product
 		},
 
+		/*
+			1. Do we allow multiple simultaneous searches?
+				* Currently, NO
+				* Cuz it's much easier to implement, BUT
+				* If we trigger the search automatically every time the user
+				  changes the filters, the interface becomes unresponsive
+				  after every user interaction. That isn't great
 
-		// ok ok, FUCK... so we have the following different scenarios;
-		// 1. search is triggered from the search box
-		//		reset filters, search from the start
-		// 2. filters/sorting changed
-		// 		don't reset anything, search from the start
-		// 3. load MORE
-		// 		don't reset anything, search from the current
+		  	2. Do we show "loading" state while loading new data, or just
+		  	   keep the old data in the meantime?
+
+		  		* We'll have to show loading state on the first fetch, anyway
+	  	   			* Actually, not necessarily: we might prefetch
+		*/
 
 		async search ({reset, append}) {
 			assert(reset !== undefined)
 			assert(append !== undefined)
-			
+
+			if (this.searching) {
+				log("refusing to start a search while another search is in progress")
+				return
+			}
+
+			this.searching = true
+
 			if (reset)
 				this.filters = {
 					mono: undefined,
@@ -60,12 +78,19 @@ export const useProductStore = defineStore('products', {
 			let query = {
 				query: this.query,
 				from: this.order.length,
-				to: this.order.length + PAGE_SIZE,
+				// leave a spot for the 'load more' button on the first page.
+				// On the subsequent pages, don't (as we only have one of
+				// those). Of course, the store has no business knowing about
+				// this stuff, so uh... I'm sorry
+				to: this.order.length + PAGE_SIZE - (this.order.length ? 0 : 1),
 				filters: this.filters,
 				sort: this.sort,
 			}
 
 			let {order, products} = await api.searchProducts(query)
+
+			this.searching = false
+
 			this.order = [...this.order, ...order]
 			this.products = Object.assign(this.products, products)
 		},
