@@ -101,6 +101,10 @@ const products = computed(() => {
 	return res
 })
 const loading = computed(() => products.value.length === 0)
+
+if (productStore.order.length === 0)
+	productStore.search({reset: false, append: false})
+
 const loadingMore = ref(false)
 
 async function loadMore () {

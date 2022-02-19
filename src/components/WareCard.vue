@@ -47,7 +47,7 @@ import AddToCartButton from '@/components/AddToCartButton.vue'
 
 import { useProductStore } from '@/stores/products'
 import { useCartStore } from '@/stores/cart'
-import { computed, watch } from 'vue'
+import { computed, watch, onMounted } from 'vue'
 
 const props = defineProps({
   id: {
@@ -58,10 +58,15 @@ const props = defineProps({
 })
 const productStore = useProductStore()
 const cartStore = useCartStore()
+
 const product = computed(() => productStore.products[props.id])
 const loading = computed(() => product.value === undefined)
 
-productStore.fetchProduct(props.id)
+watch(props, () => {
+  props.id && productStore.fetchProduct(props.id)
+}, {
+  immediate: true
+})
 </script>
 
 <style>
