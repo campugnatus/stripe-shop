@@ -1,6 +1,6 @@
 <template>
   <div :class="{'loading border-0': loading}" class="w-full rounded-lg border overflow-hidden flex-shrink-0">
-    <div class="bg-white relative overflow-hidden" style="aspect-ratio: 1">
+    <div class="relative overflow-hidden" style="aspect-ratio: 1">
       <router-link v-if="product" :to="`/product/`+product?.id">
         <img :src="'/svg/'+product?.filename"/>
       </router-link>
