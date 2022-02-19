@@ -1,14 +1,14 @@
 <template>
 	<ShopHeader/>
 
-	<section class="w-80 mx-auto sm:container lg:hidden px-3 md:px-6 mt-32 mb-5 flex justify-between">
+	<section class="sm:container lg:hidden w-80 mx-auto px-3 md:px-6 mt-32 mb-5 flex justify-between">
 		<div>
 			<label class="mr-4 hidden sm:inline">Sort by:</label>
 			<select class="bg-white border px-2 py-1 rounded border-gray-400">
-				<option>Curated</option>
-				<option>Highest rated first</option>
-				<option>Cheapest first</option>
-				<option>Most expensive first</option>
+				<option value="default">Default</option>
+				<option value="rating-descend">Highest rated first</option>
+				<option value="price-ascend">Cheapest first</option>
+				<option value="price-descend">Most expensive first</option>
 			</select>
 		</div>
 		<button class="flex items-center">
@@ -21,61 +21,66 @@
 
 	<section class="md:px-6 flex container mx-auto lg:mt-32 items-start">
 		<aside class="w-64 h-screen font-roboto flex-shrink-0 hidden lg:block">
-			<h2 class="text-2xl mb-2">Sort by</h2>
-			<select class="bg-white border px-2 py-1 rounded border-gray-400">
-				<option>Curated</option>
-				<option>Highest rated first</option>
-				<option>Cheapest first</option>
-				<option>Most expensive first</option>
-			</select>
+			<fieldset :disabled="productStore.searching" class="disabled:opacity-60">
+				<h2 class="text-2xl mb-2">Ordering</h2>
+				<select @change="changeSort" v-model="productStore.sort"
+				        class="bg-white border px-2 py-1 rounded border-gray-400" >
+					<option value="default">Default</option>
+					<option value="rating-descend">Highest rated first</option>
+					<option value="price-ascend">Cheapest first</option>
+					<option value="price-descend">Most expensive first</option>
+				</select>
 
-			<h2 class="text-2xl mb-2 mt-8">Colors</h2>
-			<div><input type="checkbox" class="mr-2"> Monochrome</div>
-			<div><input type="checkbox" class="mr-2"> Variegated</div>
+				<h2 class="text-2xl mb-2 mt-8">Colors</h2>
+				<div><input type="checkbox" class="mr-2"> Monochrome</div>
+				<div><input type="checkbox" class="mr-2"> Variegated</div>
 
-			<div class="mt-3"></div>
-			<div><input type="checkbox" class="mr-2"> Dark</div>
-			<div><input type="checkbox" class="mr-2"> Light</div>
+				<div class="mt-3"></div>
+				<div><input type="checkbox" class="mr-2"> Dark</div>
+				<div><input type="checkbox" class="mr-2"> Light</div>
 
-			<div class="mt-3"></div>
-			<div><input type="checkbox" class="mr-2"> Saturated</div>
-			<div><input type="checkbox" class="mr-2"> Washed-out</div>
-			
-			<div class="mt-3"></div>
-			<div><input type="checkbox" class="mr-2 rounded-full"> Grayscale</div>
-			<div><input type="checkbox" class="mr-2 rounded-full bg-red-600 border-red-500"> Red</div>
-			<div><input type="checkbox" class="mr-2 rounded-full"> Green</div>
-			<div><input type="checkbox" class="mr-2 rounded-full"> Blue</div>
-			<div><input type="checkbox" class="mr-2 rounded-full"> Yellow</div>
+				<div class="mt-3"></div>
+				<div><input type="checkbox" class="mr-2"> Saturated</div>
+				<div><input type="checkbox" class="mr-2"> Washed-out</div>
 
-			<h2 class="text-2xl mb-2 mt-8">Shape</h2>
-			<div><input type="checkbox" class="mr-2"> Straight</div>
-			<div><input type="checkbox" class="mr-2"> Curvy</div>
-			<div><input type="checkbox" class="mr-2"> Squiggly</div>
-			<div><input type="checkbox" class="mr-2"> Zig-zaggy</div>
+				<div class="mt-3"></div>
+				<div><input type="checkbox" class="mr-2 rounded-full"> Grayscale</div>
+				<div><input type="checkbox" class="mr-2 rounded-full bg-red-600 border-red-500"> Red</div>
+				<div><input type="checkbox" class="mr-2 rounded-full"> Green</div>
+				<div><input type="checkbox" class="mr-2 rounded-full"> Blue</div>
+				<div><input type="checkbox" class="mr-2 rounded-full"> Yellow</div>
 
-			<h2 class="text-2xl mb-2 mt-8">Tags</h2>
+				<h2 class="text-2xl mb-2 mt-8">Shape</h2>
+				<div><input type="checkbox" class="mr-2"> Straight</div>
+				<div><input type="checkbox" class="mr-2"> Curvy</div>
+				<div><input type="checkbox" class="mr-2"> Squiggly</div>
+				<div><input type="checkbox" class="mr-2"> Zig-zaggy</div>
 
+				<h2 class="text-2xl mb-2 mt-8">Tags</h2>
+			</fieldset>
 		</aside>
 
-		<div v-if="loading" class="h-[50vh] w-full loading-lg"></div>
+		<main class="w-80 mx-auto sm:w-full grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 items-start">
+			<template v-if="loading">
+				<WareCard/> <WareCard/> <WareCard/> <WareCard/>
+				<WareCard/> <WareCard/> <WareCard/> <WareCard/>
+				<WareCard/> <WareCard/> <WareCard/> <WareCard/>
+			</template>
 
-		<main v-else class="w-80 mx-auto sm:w-full grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 items-start">
-			<WareCard fake class=""/>
-			<WareCard v-for="product in products" :id="product.id" class=""/>
+			<WareCard v-for="pid in pids" :id="pid" class=""/>
 
 			<button @click="loadMore" class="relative"
-			        v-if="products.length">
+			        v-if="pids.length" :disabled="loadingMore">
 		        
 		        <!-- this is a pretty terrible markup ^_^
 		        	 this invisible card is to make the 
 		        	 button the same size as the cards -->
 
-		        <WareCard :id="products[0].id" class="invisible"/>
+		        <WareCard class="invisible"/>
 
 		        <div class="absolute h-full w-full top-0 left-0">
 		             <div class="h-full w-full rounded border-2 border-dashed flex justify-center items-center text-4xl font-pacifico text-gray-400 hover:text-gray-500"
-		                  :class="{'loading-lg': loadingMore}">
+		                  :class="{'spinner-lg': loadingMore}">
 						Load<br> more<br>
 		             </div>
 	        	</div>
@@ -91,16 +96,12 @@ import WareCard from '@/components/WareCard.vue'
 import ShopHeader from '@/components/ShopHeader.vue'
 import ShopFooter from '@/components/ShopFooter.vue'
 import {storeToRefs} from 'pinia'
-import {computed, ref} from 'vue'
+import {computed, ref, watch} from 'vue'
 import { useProductStore } from '@/stores/products'
 
 const productStore = useProductStore()
-const products = computed(() => {
-	let res = []
-	productStore.order.forEach(id => res.push(productStore.products[id]))
-	return res
-})
-const loading = computed(() => products.value.length === 0)
+const pids = computed(() => productStore.order)
+const loading = computed(() => pids.value.length === 0)
 
 if (productStore.order.length === 0)
 	productStore.search({reset: false, append: false})
@@ -111,6 +112,10 @@ async function loadMore () {
 	loadingMore.value = true
 	await productStore.search({reset: false, append: true})
 	loadingMore.value = false
+}
+
+function changeSort() {
+	productStore.search({reset: false, append: false})
 }
 
 // TODO: this will run everytime, no caching... also, we should obviously run
