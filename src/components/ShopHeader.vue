@@ -58,7 +58,7 @@ const productStore = useProductStore()
 const router = useRouter()
 const route = useRoute()
 
-const query = ref("")
+const query = ref(productStore.query)
 
 async function doSearch () {
   productStore.query = query.value
