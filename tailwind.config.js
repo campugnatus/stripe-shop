@@ -1,4 +1,6 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
+const plugin = require('tailwindcss/plugin')
+
 
 module.exports = {
   content: [
@@ -40,5 +42,8 @@ module.exports = {
   },
   plugins: [
     require('@tailwindcss/forms'),
+    plugin(function({ addVariant }) {
+      addVariant('loading', '.loading &')
+    })
   ],
 }
