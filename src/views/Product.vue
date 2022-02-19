@@ -57,13 +57,9 @@
 			<div class="space-y-6">
 				<UserComment username=""/>
 				<UserComment username=""/>
-				<UserComment username=""/>
 			</div>
 
 			<div class="mt-6 lg:mt-0 space-y-6">
-				<UserComment username=""/>
-				<UserComment username=""/>
-				<UserComment username=""/>
 				<UserComment username=""/>
 			</div>
 		</div>

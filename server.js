@@ -21,6 +21,8 @@ app.use(function delay (req, res, next) {
 
 
 app.get('/products/search/', function (req, res, next) {
+	// TODO: validate parameters
+
 	const query = {
 		words:   wordify(req.query.query) || [],
 		from:    req.query.from           || 0,

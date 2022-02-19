@@ -15,7 +15,6 @@ export default {
 	},
 
 	async searchProducts (query) {
-		log("api searchProducts", query)
 		return axios('/products/search', {params: query})
 		       .then(response => response.data)
 	},

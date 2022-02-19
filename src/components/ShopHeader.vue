@@ -53,6 +53,8 @@ import { ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useProductStore } from '@/stores/products'
 
+// TODO: is keyup.enter in the input good enough?
+
 const productStore = useProductStore()
 
 const router = useRouter()
@@ -62,7 +64,6 @@ const query = ref(productStore.query)
 
 async function doSearch () {
   productStore.query = query.value
-  log("search from the search box!")
   productStore.search({reset: true, append: false})
   router.push("/catalogue")
 }
