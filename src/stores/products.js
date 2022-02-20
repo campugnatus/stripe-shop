@@ -20,7 +20,7 @@ export const useProductStore = defineStore('products', {
 			}
 		},
 
-		lastQuery: "", // this.search stringified
+		lastQuery: "",
 		searchAgain: false,
 		searching: false
 	}),
@@ -66,7 +66,6 @@ export const useProductStore = defineStore('products', {
 				return
 			}
 
-
 			if (reset)
 				this.filters = {
 					mono: undefined,
@@ -100,7 +99,6 @@ export const useProductStore = defineStore('products', {
 				this.order = []
 
 			this.lastQuery = JSON.stringify(query)
-			log("gona search for", query)
 
 			let {order, products} = await api.searchProducts(query)
 

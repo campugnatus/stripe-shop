@@ -104,31 +104,21 @@ const productStore = useProductStore()
 const router = useRouter()
 const route = useRoute()
 
-
-onMounted(() => init(route))
-
-onBeforeRouteUpdate((to, from) => {
-  log("route change catalogue")
-  init(to)
-})
-
-// watch(() => route.query, (query) => {
-// 	log("query string changed", query)
-// })
-
 const pids = computed(() => productStore.order)
 const loading = computed(() => pids.value.length === 0)
-const loadingMore = ref(false)
 
+
+onMounted(() => init(route))
+onBeforeRouteUpdate(to => init(to))
 
 function init(route) {
-	let { search, sort } = route.query
-
-	productStore.query.text = search
-	productStore.query.sort = sort || "default"
-
+	queryToState(route.query)
 	productStore.search({reset: false, append: false})
 }
+
+
+
+const loadingMore = ref(false)
 
 async function loadMore () {
 	loadingMore.value = true
@@ -137,47 +127,32 @@ async function loadMore () {
 }
 
 
-//
-// synchronize the state and the URL
-//
-
-// them problem with watch() here is that it triggers then we assign the state
-// variables in init()
-
-// watch(() => productStore.query, (query) => {
-// 	log("query has changed, pushing new URL")
-// 	router.push({
-// 		query: {
-// 			search: query.text,
-// 			sort: query.sort
-// 		}
-// 	})
-// }, {
-// 	deep: true
-// })
+// we use event handler instead of the watch(productStore.query) here because
+// watch() triggers when we assign the state in init(), which is superfluous
 
 function changeSort () {
 	router.push({
-		query: {
-			search: productStore.query.text,
-			sort: productStore.query.sort,
-			// and all the filters and all. Basically, translate the state
-			// into the query string
-		}
+		query: stateToQuery(productStore.query)
 	})
 }
 
-// function changeSort() {
-// 	log("sort change", productStore.sort)
-// 	let promise = router.push({
-// 		query: {
-// 			...route.query,
-// 			sort: productStore.query.sort,
-// 		}
-// 	})
-// 	log("push returned:", promise)
-// 	//productStore.search({reset: false, append: false})
-// }
+
+function queryToState (query) {
+	let { search, sort } = query
+
+	productStore.query.text = search
+	productStore.query.sort = sort || "default"
+}
+
+
+function stateToQuery (state) {
+	return {
+		search: productStore.query.text,
+		sort: productStore.query.sort,
+		// and all the filters and all. Basically, translate the state
+		// into the query string
+	}
+}
 </script>
 
 <style>
