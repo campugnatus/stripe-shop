@@ -22,7 +22,7 @@
     <!-- search box -->
     <section class="row-start-3 col-span-2 lg:mx-16 xl:mx-32 flex-grow flex items-center">
       <div class="relative w-full">
-        <input @keyup.enter="doSearch" type="text" name="search" placeholder="Search for stripes" v-model="query"
+        <input @keyup.enter="doSearch" type="text" name="search" placeholder="Search for stripes" v-model="query" :disabled="productStore.searching"
                class="lg:text-lg border border-gray-300 pl-3 lg:pl-5 pr-14 w-full focus:outline-none focus:ring-0 rounded-full focus:border-primary">
         <button @click="doSearch" class="absolute right-0 inset-y-0 mr-4 h-full flex items-center text-gray-400 hover:text-primary">
           <svg xmlns="http://www.w3.org/2000/svg" class="scale-x-[-1] h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -49,9 +49,15 @@
 
 <script setup>
 import CartButton from '@/components/CartButton.vue'
-import { ref } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { ref, watch } from 'vue'
+import { useRouter, useRoute, onBeforeRouteUpdate } from 'vue-router'
 import { useProductStore } from '@/stores/products'
+
+const props = defineProps({
+  text: {
+    type: String
+  }
+})
 
 // TODO: is keyup.enter in the input good enough?
 
@@ -60,12 +66,30 @@ const productStore = useProductStore()
 const router = useRouter()
 const route = useRoute()
 
-const query = ref(productStore.query)
+
+/* what should be the source of truth here?
+    init from the URL?
+      what I don't like in it is that we'd rely on the same parameter on all the views, as if all the views had the 'search' parameter. Which most of them don't
+
+    init from the store?
+      but then the value will persist between views
+*/
+
+const query = ref(props.text)
+
+watch(() => props.text, () => query.value = props.text)
+
+// onBeforeRouteUpdate((to, from) => {
+//   query.value = to.query.search
+// })
 
 async function doSearch () {
-  productStore.query = query.value
-  productStore.search({reset: true, append: false})
-  router.push("/catalogue")
+  router.push({
+    path: "/catalogue",
+    query: {
+      search: query.value
+    }
+  })
 }
 </script>
 

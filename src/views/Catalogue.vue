@@ -1,5 +1,5 @@
 <template>
-	<ShopHeader/>
+	<ShopHeader :text="productStore.query.text"/>
 
 	<section class="sm:container lg:hidden w-80 mx-auto px-3 md:px-6 mt-32 mb-5 flex justify-between">
 		<div>
@@ -23,7 +23,7 @@
 		<aside class="w-64 h-screen font-roboto flex-shrink-0 hidden lg:block">
 			<fieldset :disabled="productStore.searching" class="disabled:opacity-60">
 				<h2 class="text-2xl mb-2">Ordering</h2>
-				<select @change="changeSort" v-model="productStore.sort"
+				<select @change="changeSort" v-model="productStore.query.sort"
 				        class="bg-white border px-2 py-1 rounded border-gray-400" >
 					<option value="default">Default</option>
 					<option value="rating-descend">Highest rated first</option>
@@ -96,17 +96,39 @@ import WareCard from '@/components/WareCard.vue'
 import ShopHeader from '@/components/ShopHeader.vue'
 import ShopFooter from '@/components/ShopFooter.vue'
 import {storeToRefs} from 'pinia'
-import {computed, ref, watch} from 'vue'
+import { computed, ref, watch, onMounted } from 'vue'
 import { useProductStore } from '@/stores/products'
+import { useRouter, useRoute, onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
 
 const productStore = useProductStore()
+const router = useRouter()
+const route = useRoute()
+
+
+onMounted(() => init(route))
+
+onBeforeRouteUpdate((to, from) => {
+  log("route change catalogue")
+  init(to)
+})
+
+// watch(() => route.query, (query) => {
+// 	log("query string changed", query)
+// })
+
 const pids = computed(() => productStore.order)
 const loading = computed(() => pids.value.length === 0)
-
-if (productStore.order.length === 0)
-	productStore.search({reset: false, append: false})
-
 const loadingMore = ref(false)
+
+
+function init(route) {
+	let { search, sort } = route.query
+
+	productStore.query.text = search
+	productStore.query.sort = sort || "default"
+
+	productStore.search({reset: false, append: false})
+}
 
 async function loadMore () {
 	loadingMore.value = true
@@ -114,13 +136,48 @@ async function loadMore () {
 	loadingMore.value = false
 }
 
-function changeSort() {
-	productStore.search({reset: false, append: false})
+
+//
+// synchronize the state and the URL
+//
+
+// them problem with watch() here is that it triggers then we assign the state
+// variables in init()
+
+// watch(() => productStore.query, (query) => {
+// 	log("query has changed, pushing new URL")
+// 	router.push({
+// 		query: {
+// 			search: query.text,
+// 			sort: query.sort
+// 		}
+// 	})
+// }, {
+// 	deep: true
+// })
+
+function changeSort () {
+	router.push({
+		query: {
+			search: productStore.query.text,
+			sort: productStore.query.sort,
+			// and all the filters and all. Basically, translate the state
+			// into the query string
+		}
+	})
 }
 
-// TODO: this will run everytime, no caching... also, we should obviously run
-// searh from the searchbox, which is elsewhere
-// productStore.search(/* just the default */)
+// function changeSort() {
+// 	log("sort change", productStore.sort)
+// 	let promise = router.push({
+// 		query: {
+// 			...route.query,
+// 			sort: productStore.query.sort,
+// 		}
+// 	})
+// 	log("push returned:", promise)
+// 	//productStore.search({reset: false, append: false})
+// }
 </script>
 
 <style>

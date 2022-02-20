@@ -71,4 +71,9 @@ app.mount('#app')
 const productStore = useProductStore()
 
 // prefetch a page just in case
-productStore.search({reset: true, append: false})
+//
+// well this caused some problems... if we land on the catalogue view with
+// some search queries, this search runs first, and the view finds itself
+// unable to run the second search right after that ('the previous search is
+// still in progress' error)
+//productStore.search({reset: true, append: false})

@@ -9,16 +9,19 @@ export const useProductStore = defineStore('products', {
 		products: {},  // id => product
 		order: [], // ids
 		
-		query: "", // the text from the search box
-		sort: "default",
-
-		filters: {
-			mono: undefined,
-			color: undefined,
-			shape: undefined,
-			tags: []
+		query: {
+			text: undefined,
+			sort: "default",
+			filters: {
+				mono: undefined,
+				color: undefined,
+				shape: undefined,
+				tags: []
+			}
 		},
 
+		lastQuery: "", // this.search stringified
+		searchAgain: false,
 		searching: false
 	}),
 
@@ -59,10 +62,10 @@ export const useProductStore = defineStore('products', {
 
 			if (this.searching) {
 				log("refusing to start a search while another search is in progress")
+				// TODO: queue the search after the current one?
 				return
 			}
 
-			this.searching = true
 
 			if (reset)
 				this.filters = {
@@ -72,25 +75,36 @@ export const useProductStore = defineStore('products', {
 					tags: []
 				}
 
-			if (!append)
-				this.order = []
+			let lorder = append? this.order.length : 0
 
 			let query = {
-				query: this.query,
-				from: this.order.length,
+				query: this.query.text,
+				from: lorder,
 				// leave a spot for the 'load more' button on the first page.
 				// On the subsequent pages, don't (as we only have one of
 				// those). Of course, the store has no business knowing about
 				// this stuff, so uh... I'm sorry
-				to: this.order.length + PAGE_SIZE - (this.order.length ? 0 : 1),
+				to: lorder + PAGE_SIZE - (lorder ? 0 : 1),
 				filters: this.filters,
-				sort: this.sort,
+				sort: this.query.sort,
 			}
+
+			if (JSON.stringify(query) == this.lastQuery) {
+				log("not going to repeat the same search twice")
+				return
+			}
+
+			this.searching = true
+
+			if (!append)
+				this.order = []
+
+			this.lastQuery = JSON.stringify(query)
+			log("gona search for", query)
 
 			let {order, products} = await api.searchProducts(query)
 
 			this.searching = false
-
 			this.order = [...this.order, ...order]
 			this.products = Object.assign(this.products, products)
 		},
