@@ -61,8 +61,8 @@ export const useProductStore = defineStore('products', {
 			assert(append !== undefined)
 
 			if (this.searching) {
-				log("refusing to start a search while another search is in progress")
-				// TODO: queue the search after the current one?
+				// queue the search to do it after the current one finishes
+				this.searchAgain = arguments
 				return
 			}
 
@@ -105,6 +105,11 @@ export const useProductStore = defineStore('products', {
 			this.searching = false
 			this.order = [...this.order, ...order]
 			this.products = Object.assign(this.products, products)
+
+			if (this.searchAgain) {
+				return this.search(...this.searchAgain)
+				this.searchAgain = false
+			}
 		},
 	}
 })

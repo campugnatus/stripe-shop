@@ -22,7 +22,7 @@
     <!-- search box -->
     <section class="row-start-3 col-span-2 lg:mx-16 xl:mx-32 flex-grow flex items-center">
       <div class="relative w-full">
-        <input @keyup.enter="searchCatalogue" type="text" name="search" placeholder="Search for stripes" v-model="query" :disabled="productStore.searching"
+        <input @keyup.enter="searchCatalogue" type="text" name="search" placeholder="Search for stripes" v-model="query"
                class="lg:text-lg border border-gray-300 pl-3 lg:pl-5 pr-14 w-full focus:outline-none focus:ring-0 rounded-full focus:border-primary">
         <button @click="searchCatalogue" class="absolute right-0 inset-y-0 mr-4 h-full flex items-center text-gray-400 hover:text-primary">
           <svg xmlns="http://www.w3.org/2000/svg" class="scale-x-[-1] h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">

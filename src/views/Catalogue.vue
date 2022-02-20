@@ -21,7 +21,7 @@
 
 	<section class="md:px-6 flex container mx-auto lg:mt-32 items-start">
 		<aside class="w-64 h-screen font-roboto flex-shrink-0 hidden lg:block">
-			<fieldset :disabled="productStore.searching" class="disabled:opacity-60">
+			<fieldset class="disabled:opacity-60">
 				<h2 class="text-2xl mb-2">Ordering</h2>
 				<select @change="changeSort" v-model="productStore.query.sort"
 				        class="bg-white border px-2 py-1 rounded border-gray-400" >
