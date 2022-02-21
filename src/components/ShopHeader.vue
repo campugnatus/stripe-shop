@@ -24,10 +24,11 @@
       <div class="relative w-full">
         <input @keyup.enter="searchCatalogue" type="text" name="search" placeholder="Search for stripes" v-model="query"
                class="lg:text-lg border border-gray-300 pl-3 lg:pl-5 pr-14 w-full focus:outline-none focus:ring-0 rounded-full focus:border-primary">
+        <button @click="resetSearch" v-if="props.text" class="absolute h-full right-14 text-gray-400 hover:text-black">
+          <XIcon class="h-6"/>
+        </button>
         <button @click="searchCatalogue" class="absolute right-0 inset-y-0 mr-4 h-full flex items-center text-gray-400 hover:text-primary">
-          <svg xmlns="http://www.w3.org/2000/svg" class="scale-x-[-1] h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
+          <SearchIcon class="scale-x-[-1] w-7"/>
         </button>
       </div>
     </section>
@@ -52,6 +53,8 @@ import CartButton from '@/components/CartButton.vue'
 import { ref, watch } from 'vue'
 import { useRouter, useRoute, onBeforeRouteUpdate } from 'vue-router'
 import { useProductStore } from '@/stores/products'
+import {} from '@heroicons/vue/solid'
+import {SearchIcon, XIcon} from '@heroicons/vue/outline'
 
 const productStore = useProductStore()
 const router = useRouter()
@@ -68,12 +71,18 @@ const props = defineProps({
 const query = ref(props.text)
 watch(() => props.text, () => query.value = props.text)
 
-async function searchCatalogue () {
+function searchCatalogue () {
   router.push({
     path: "/catalogue",
     query: {
       search: query.value
     }
+  })
+}
+
+function resetSearch () {
+  router.push({
+    path: "/catalogue"
   })
 }
 </script>
