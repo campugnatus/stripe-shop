@@ -7,7 +7,7 @@ const PAGE_SIZE = 12*2
 export const useProductStore = defineStore('products', {
 	state: () => ({
 		products: {},  // id => product
-		order: [], // ids
+		order: [],     // ids
 		
 		query: {
 			text: undefined,
@@ -20,9 +20,13 @@ export const useProductStore = defineStore('products', {
 			}
 		},
 
-		lastQuery: "",
+		more: true,       // true= show the 'load more' button as there IS more!
+		lastQuery: "",    // the previous search query, stringified
+		searching: false, // true= search in progress
+
+		// true= while searching, the user asked for another search, which
+		// should be started right after the current one finishes
 		searchAgain: false,
-		searching: false
 	}),
 
 	getters: {
@@ -100,11 +104,12 @@ export const useProductStore = defineStore('products', {
 
 			this.lastQuery = JSON.stringify(query)
 
-			let {order, products} = await api.searchProducts(query)
+			let {order, products, more} = await api.searchProducts(query)
 
 			this.searching = false
 			this.order = [...this.order, ...order]
 			this.products = Object.assign(this.products, products)
+			this.more = more
 
 			if (this.searchAgain) {
 				return this.search(...this.searchAgain)

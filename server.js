@@ -38,7 +38,7 @@ app.get('/products/search/', function (req, res, next) {
 	res.json({
 		order:    sliced.map(p => p.id),
 		products: sliced.reduce((acc, p) => {acc[p.id] = p; return acc}, {}),
-		haveMore: query.to < sorted.length
+		more: query.to < sorted.length
 	})
 
 

@@ -67,10 +67,9 @@
 				<WareCard/> <WareCard/> <WareCard/> <WareCard/>
 			</template>
 
-			<WareCard v-for="pid in pids" :id="pid" class=""/>
+			<WareCard v-for="pid in pids" :id="pid"/>
 
-			<button @click="loadMore" class="relative"
-			        v-if="pids.length" :disabled="loadingMore">
+			<button @click="loadMore" class="relative" v-if="haveMore" :disabled="loadingMore">
 		        
 		        <!-- this is a pretty terrible markup ^_^
 		        	 this invisible card is to make the 
@@ -79,8 +78,8 @@
 		        <WareCard class="invisible"/>
 
 		        <div class="absolute h-full w-full top-0 left-0">
-		             <div class="h-full w-full rounded border-2 border-dashed flex justify-center items-center text-4xl font-pacifico text-gray-400 hover:text-gray-500"
-		                  :class="{'spinner-lg': loadingMore}">
+		             <div :class="{'spinner-lg': loadingMore}"
+		                  class="h-full w-full rounded border-2 border-dashed flex justify-center items-center text-4xl font-pacifico text-gray-400 hover:text-gray-500">
 						Load<br> more<br>
 		             </div>
 	        	</div>
@@ -105,7 +104,9 @@ const router = useRouter()
 const route = useRoute()
 
 const pids = computed(() => productStore.order)
-const loading = computed(() => pids.value.length === 0)
+const loading = computed(() => productStore.searching)
+const haveMore = computed(() => pids.value.length && productStore.more)
+// const loading = computed(() => pids.value.length === 0)
 
 
 onMounted(() => init(route))
