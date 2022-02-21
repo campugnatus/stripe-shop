@@ -67,6 +67,21 @@
 
 	.grayout::before {
 		content: "";
-		@apply absolute left-0 top-1/2 -translate-y-1/2 w-full h-[100%] bg-gray-200;
+		@apply absolute left-0 top-1/2 -translate-y-1/2 w-full h-[100%];
+		background: linear-gradient(to right, #bbbbbb,     #bbbbbb 20%, #c3c3c3 25%,
+			                                  #bbbbbb 25%, #bbbbbb 45%, #c3c3c3 50%,
+			                                  #bbbbbb 50%, #bbbbbb 70%, #c3c3c3 75%,
+			                                  #bbbbbb 75%, #bbbbbb 95%, #c3c3c3);
+		background-size: 2000px 100%;
+		animation: grayout-gradient 3s linear infinite;
+	}
+
+	@keyframes grayout-gradient {
+		0% {
+			background-position: -1000px;
+		}
+		100% {
+			background-position: 0px;
+		}
 	}
 }
