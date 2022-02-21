@@ -4,81 +4,47 @@ Okay, but what's the next BIG thing?
    * It's a non-essential feature though, the store should be perfectly functional without it
    * same for user reviews
       * and it's impossible to do the latter without the former, so...
-
-* do we begin with the server?
-   * db?
-      * search
-      * pagination
-      * loading products on demand
-   * let's ask ourselves the following question: what else (of any significance) can we do WITHOUT a server?
+   * 'my orders' page
 
 * core functionality
    * send and email with the purchased stripes attached
    * 'download the items ordered' button on the order's page?
-   * simulate some action for status updates
-      * what are those? Let's go with the following for now:
-         * created -> (send email?) -> waiting for payment -> paid -> shipped (send email with the stripes)
-            * let's do that FOR NOW
-         * refunds?
-            * let's deal with them later
-
-* search
-   * simultaneous searches?
-   * while searching, do we keep showing the previous results, or the loading state?
-   * update url
-   * prefetch somthn
-   * loading state: dislpay something appropriate
-   * sorting yo
+   * refunds? later
+   
+* search/catalogue
    * filters (maybe later?)
-   * nothing found state
-   * don't show 'load more' when there's no more
+      * clear filters btn
 
+* DB
+   * mongo?
+   * firebase?
+
+* main page gallery rework?
+* grayout style/animation
 * product page loading state
+   * occurs when we land on directly that page instead of clicking on a warecard
+   * use SSR instead?
 * load FIRST, THEN redirect? youtube does it this way
-* search box text doesn't stay there after redirect
+   * preload shit before navigation to a page (like they do in vue-hackernews for example)
 * there's text selectable begind the grayedout areas... people might accidentally see! or screenreaders. they can see
 * typescript
 * server-side request validation
 * refunds?
 * update order status in real time... websockets or something?
-* fetchProducts and all that
 * validate forms with vuelidate or somethin
 * back to top button
-* catalogue filters
-   * i think this requires server/db/search
 * footer
-* grayout style/animation
 * in carousel the shadow doesn't appear before you jiggle it a little
-* preload shit before navigation to a page (like they do in vue-hackernews for example)
-- carousel mock data
-- draggables: listen to mousemove/mouseup on the document
 ? partially filled stars
 * something something header... yeah, well, now I don't even remember what I meant by that
 * cart: dropdowns can't handle more than 9, but it's possible to set more than than through the buttons elsewhere
-- mobile cart button in the header
-* DB
-   * mongo?
-   * firebase?
-* 'my orders' page
-* user login and shit
 * take button styles into a separate class
 ? clear cart animation
-- cart counter on the main page
-- add to cart button on the warecards
 ? buttons instead of dropdowns in cart
 ? animate price changes in cart
-- prevent CLICK when dragging in the carousel
-- clear cart confirmation
-   - or just make an undo button?
-- cart item removal animation
 * loading indicators on all the images
-- cart! Almost forgot about it
-* "load more" in the catalogue
 * SALE section on the main page must display some stripes, uh... that are on sale?
-- curated order of stripes
-- show product info on the product page
 * main page logo stripe?
-- load the actual stripes and display them in the catalogue
 * dragging of all the horizontal elements
 * the top image loads too long on mobile, same for the fonts. What are we gonna do about it?
 * makes all the logos uniform
