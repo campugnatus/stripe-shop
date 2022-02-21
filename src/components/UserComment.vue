@@ -16,7 +16,9 @@
 				</div>
 				<div class="flex flex-col-reverse sm:flex-row lg:flex-col-reverse xl:flex-row gap-2">
 					<div class="text-gray-500 ml-auto whitespace-nowrap pl-4 text-right">16 Jan 2020</div>
-					<div class="flex gap-1 ml-4 scale-75 sm:scale-100 origin-right">
+					<RatingStars rating="3" class="h-5 loading:grayout"/>
+
+					<div class="hidden flex gap-1 ml-4 scale-75 sm:scale-100 origin-right">
 						<svg width="22" height="22" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<path d="M10 0L12.2451 6.90983H19.5106L13.6327 11.1803L15.8779 18.0902L10 13.8197L4.12215 18.0902L6.36729 11.1803L0.489435 6.90983H7.75486L10 0Z" fill="#24282B"/>
 						</svg>
@@ -43,5 +45,5 @@
 </template>
 
 <script setup>
-	
+import RatingStars from '@/components/RatingStars.vue'
 </script>
