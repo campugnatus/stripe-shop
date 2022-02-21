@@ -60,7 +60,24 @@
 			</fieldset>
 		</aside>
 
-		<main class="w-80 mx-auto sm:w-full grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 items-start">
+		<div v-if="foundNothing" class="h-[30vh] w-full font-pacifico text-4xl flex justify-center items-center">
+			<div class="relative w-max">
+				<div class="">
+					<div class="text-5xl --leading-[0.8em] ---rotate-90 origin-left ml-8 text-tomato mb-1 hidden">
+						<!-- <div>Sorry,</div> -->
+						<div>no</div>
+					</div>
+					<div class="leading-[0.8em]">
+						<!-- <div class="font-sigmar tracking-[0.15em] text-gray-400">nope</div> -->
+						<div class="font-sigmar text-gray-500">don't</div>
+						<div class="font-sigmar tracking-widest">have</div>
+						<div class="font-sigmar tracking-[0.14em] text-gray-700">that</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<main v-else class="w-80 mx-auto sm:w-full grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 items-start">
 			<template v-if="loading">
 				<WareCard/> <WareCard/> <WareCard/> <WareCard/>
 				<WareCard/> <WareCard/> <WareCard/> <WareCard/>
@@ -106,6 +123,7 @@ const route = useRoute()
 const pids = computed(() => productStore.order)
 const loading = computed(() => productStore.searching)
 const haveMore = computed(() => pids.value.length && productStore.more)
+const foundNothing = computed(() => !loading.value && !pids.value.length)
 // const loading = computed(() => pids.value.length === 0)
 
 
