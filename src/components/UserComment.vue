@@ -16,7 +16,7 @@
 				</div>
 				<div class="flex flex-col-reverse sm:flex-row lg:flex-col-reverse xl:flex-row gap-2">
 					<div class="text-gray-500 ml-auto whitespace-nowrap pl-4 text-right">16 Jan 2020</div>
-					<RatingStars rating="3" class="h-5 loading:grayout"/>
+					<RatingStars rating="3" class="h-5"/>
 
 					<div class="hidden flex gap-1 ml-4 scale-75 sm:scale-100 origin-right">
 						<svg width="22" height="22" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
