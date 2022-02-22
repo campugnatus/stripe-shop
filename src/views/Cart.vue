@@ -1,7 +1,9 @@
 <template>
 	<ShopHeader/>
 
-	<div v-if="cart.empty" class="w-full h-[60vh] flex items-center justify-center">
+	<div v-if="loading" class="w-full h-[60vh] spinner-lg"></div>
+
+	<div v-else-if="cart.empty" class="w-full h-[60vh] flex items-center justify-center">
 		<div>
 			<div class="font-pacifico text-2xl">Your cart is...</div>
 			<div class="font-sigmar text-4xl ml-8">
@@ -35,7 +37,7 @@
 
 				<footer key="footer" class="flex justify-between text-2xl md:text-3xl font-roboto pt-2 lg:pt-10">
 					<div>Total</div>
-					<div class="font-bold">$ {{cart.subtotal}}</div>
+					<div class="font-bold" :class="{'grayout w-20': !cart.subtotal}">$ {{cart.subtotal}}</div>
 				</footer>
 			</TransitionGroup>
 		</div>
@@ -65,7 +67,7 @@
 			<input type="email" v-model="email" name="" class="mt-3 w-full rounded border-gray-400"
 			       :class="[emailError? 'ring-1 ring-tomato border-tomato':'']"
 			       :title="emailError? 'Email invalid' : ''">
-			<GooglePayButton :price="cart.subtotal" @paid="checkout" class="mt-4"/>
+			<GooglePayButton v-if="cart.subtotal" :price="cart.subtotal" @paid="checkout" class="mt-4"/>
 			<button @click="showToast.error('Not yet, sorry')" class="w-full bg-primary rounded text-white text-sm font-bold p-2 mt-3">
 				Pay with Apple
 			</button>
@@ -102,6 +104,7 @@ const products = useProductStore()
 const router = useRouter()
 const user = useUserStore()
 
+const loading = computed(() => cart.loading)
 const email = ref(user.profile?.email || "hoho@hehe.haha")
 const emailError = ref(false)
 

@@ -1,23 +1,21 @@
 <template>
-	<div class="h-20 w-full flex bg-white" v-if="product">
-		<div class="border border-gray-400 h-full" style="aspect-ratio: 1">
-			<router-link :to="`/product/`+product.id">
-				<img :src="'/svg/'+product.filename"/>
+	<div class="h-20 w-full flex bg-white" :class="{'loading': loading}">
+		<div class="border border-gray-400 h-full loading:grayout loading:border-none" style="aspect-ratio: 1">
+			<router-link :to="`/product/`+product?.id">
+				<img :src="'/svg/'+product?.filename"/>
 			</router-link>
 		</div>
 		<div class="ml-4 lg:ml-6 py-1 flex flex-col justify-between relative flex-grow overflow-hidden">
 
-			<div class="font-roboto truncate">
-				<router-link :to="`/product/`+product.id">
-					{{product.title}}
+			<div class="font-roboto truncate loading:grayout loading:w-full loading:h-6">
+				<router-link :to="`/product/`+product?.id">
+					{{product?.title}}
 				</router-link>
 			</div>
-			<div class="flex items-center justify-between max-w-[150px]">
-				<div class="hidden xs:block text-lg text-gray-500">${{product.price}}</div>
+			<div class="flex items-center justify-between max-w-[150px] loading:grayout">
+				<div class="hidden xs:block text-lg text-gray-500">${{product?.price}}</div>
 				<div class="hidden xs:block text-gray-500 flex-shrink">x</div>
-				<select class="py-0.5 rounded font-bold text-lg border-gray-400 font-roboto w-16"
-						:value="item.amount"
-						@change="setAmount">
+				<select class="py-0.5 rounded font-bold text-lg border-gray-400 font-roboto w-16" :value="item.amount" @change="setAmount">
 					<option>0</option>
 					<option selected>1</option>
 					<option>2</option>
@@ -32,10 +30,10 @@
 			</div>
 		</div>
 		<div class="flex py-1 h-full xs:border-l flex-col justify-between items-end pl-5 lg:pl-6 ml-4 lg:ml-6 font-roboto border-gray-500">
-			<button class="" title="Remove from cart" @click="cart.removeItem(item.productId)">
+			<button class="loading:grayout" title="Remove from cart" :disabled="loading" @click="cart.removeItem(item.productId)">
 				<XIcon class="h-6 text-gray-400"/>
 			</button>
-			<div class="text-xl w-14 text-right">${{total}}</div>
+			<div class="text-xl w-14 text-right loading:grayout">${{total}}</div>
 		</div>
 	</div>
 </template>
@@ -57,8 +55,11 @@ const item = props.item
 const productStore = useProductStore()
 const cart = useCartStore()
 
-const product = productStore.products[item.productId]
-const total = computed(() => (item.amount*product.price).toFixed(2))
+productStore.fetchProduct(item.productId)
+
+const product = computed(() => productStore.products[item.productId])
+const total = computed(() => (item.amount*product.value?.price).toFixed(2))
+const loading = computed(() => product.value === undefined)
 
 function setAmount (evt) {
 	cart.setAmount(item.productId, parseInt(evt.target.value))

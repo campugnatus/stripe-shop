@@ -3,6 +3,7 @@ import './index.css'
 import { createRouter, createWebHistory } from 'vue-router'
 import { createPinia } from 'pinia'
 import { useProductStore } from '@/stores/products.js'
+import { useCartStore } from '@/stores/cart.js'
 
 import ToastPlugin from '@/plugins/toast'
 
@@ -72,3 +73,6 @@ const productStore = useProductStore()
 
 // prefetch a page just in case... or should we?
 //productStore.search({reset: true, append: false})
+
+const cartStore = useCartStore()
+cartStore.init()
