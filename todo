@@ -10,7 +10,7 @@ Okay, but what's the next BIG thing?
    * send and email with the purchased stripes attached
    * 'download the items ordered' button on the order's page?
    * refunds? later
-   
+
 * search/catalogue
    * filters (maybe later?)
       * clear filters btn
@@ -18,18 +18,17 @@ Okay, but what's the next BIG thing?
 * DB
    * mongo?
    * firebase?
-
+* loading state
+   * there's parts visible for screen readers that shouldn't be
+   * cascading issues
+      * might not be such a huge problem, since the parent component should
+        generally load faster then the children (as they usually only get
+        created after the parent has loaded)
 * main page gallery rework?
-* grayout style/animation
-* product page loading state
-   * occurs when we land on directly that page instead of clicking on a warecard
-   * use SSR instead?
-* load FIRST, THEN redirect? youtube does it this way
-   * preload shit before navigation to a page (like they do in vue-hackernews for example)
+* load first, THEN redirect? youtube does it this way
 * there's text selectable begind the grayedout areas... people might accidentally see! or screenreaders. they can see
 * typescript
 * server-side request validation
-* refunds?
 * update order status in real time... websockets or something?
 * validate forms with vuelidate or somethin
 * back to top button

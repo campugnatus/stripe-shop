@@ -16,7 +16,8 @@ import { computed } from 'vue'
 
 let props = defineProps({
 	rating: {
-		type: Number,
+		// allow undefined for loading purposes. Is it ok?
+		//type: Number,
 		required: true
 	}
 })
