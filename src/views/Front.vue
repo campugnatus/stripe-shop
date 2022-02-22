@@ -487,14 +487,7 @@
 
 
 
-  <footer class="bg-gray-50 h-[700px] relative">
-    <button class="w-24 h-24 rounded-full border-4 border-white flex justify-center items-center absolute right-1/4 -top-12 bg-gray-100 hover:bg-gray-200">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5 10l7-7m0 0l7 7m-7-7v18" />
-      </svg>
-    </button>
-  </footer>
-
+  <ShopFooter/>
 </template>
 
 <script setup>
@@ -503,6 +496,7 @@ import WareCard from '@/components/WareCard.vue'
 import Carousel from '@/components/Carousel.vue'
 import GalleryCarousel from '@/components/GalleryCarousel.vue'
 import ShopHeader from '@/components/ShopHeader.vue'
+import ShopFooter from '@/components/ShopFooter.vue'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import {nextTick, ref, onMounted, onUnmounted, computed} from 'vue';
@@ -841,9 +835,9 @@ function init_long_animations () {
   // }, "-=0.5")
   .from("#customers", {
     // this doesn't work properly in my firefox 78 (ends up at margin-top==0
-    // instead of its initial value), but I wasn't able to find a way to fix
-    // it without setting the starting/ending values explicitly (as can be
-    // seen commented above), which is a) ugly, b) doesn't allow for the
+    // instead of its initial value), but I haven't been able to find a way
+    // to fix it without setting the starting/ending values explicitly(as can
+    // be seen commented above), which is a) ugly, b) doesn't allow for the
     // animation to be responsive
     marginTop: 15,
     ease: "back.out(2)",
