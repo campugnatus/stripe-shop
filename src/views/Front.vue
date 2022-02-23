@@ -460,13 +460,13 @@
     </h1>
 
     <h2 class="text-4xl mt-16 m-6 mb-2 font-sigmar -rotate-6 origin-left">-50%</h2>
-    <Carousel class=""/>
+    <Carousel :ids="productStore.collection('1')" class=""/>
 
     <h2 class="text-4xl m-6 mt-16 mb-2 font-sigmar -rotate-6 origin-left">-25%</h2>
-    <Carousel class=""/>
+    <Carousel :ids="productStore.collection('2')" class=""/>
 
     <h2 class="text-3xl m-6 mt-16 mb-2 font-sigmar -rotate-6 origin-left">Limited offer!</h2>
-    <Carousel class=""/>
+    <Carousel :ids="productStore.collection('3')" class=""/>
   </section>
 
 
@@ -500,6 +500,10 @@ import ShopFooter from '@/components/ShopFooter.vue'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import {nextTick, ref, onMounted, onUnmounted, computed} from 'vue';
+import { useProductStore } from '@/stores/products'
+
+const productStore = useProductStore()
+
 
 
 

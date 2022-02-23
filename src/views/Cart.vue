@@ -76,7 +76,7 @@
 
 	<section class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
 		<h1 class="text-2xl md:text-4xl font-roboto">You may also like</h1>
-		<Carousel class="mt-6 -mx-4 sm:-mx-6 lg:-mx-8"/>
+		<Carousel class="mt-6 -mx-4 sm:-mx-6 lg:-mx-8" :ids="products.collection('recommended')"/>
 	</section>
 
 	<ShopFooter/>

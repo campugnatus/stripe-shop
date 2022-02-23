@@ -19,9 +19,9 @@
 
 			<div class="scrollbar-off flex gap-5 w-full overflow-x-auto relative px-5" ref="carousel" @scroll="onscroll">
 				<template v-if="loading">
-					<WareCard v-for="product in lcarousel" class="w-56"/>
+					<WareCard v-for="product in 12" class="w-56"/>
 				</template>
-				<WareCard v-for="id in ids" :id="id" class="w-56"/>
+				<WareCard v-for="id in props.ids" :id="id" class="w-56"/>
 			</div>
 
 			<div v-show="showRightShadow" class="h-full w-5 -mr-5 absolute right-0 top-0 shadow-xl z-10"></div>
@@ -35,12 +35,17 @@ import { ref, onMounted, computed } from 'vue';
 import { useProductStore } from '@/stores/products'
 import gsap from 'gsap'
 import ScrollToPlugin from 'gsap/ScrollToPlugin'
-
 gsap.registerPlugin(ScrollToPlugin)
 
 const productStore = useProductStore()
-
 const carousel = ref(null)
+const props = defineProps({
+	ids: {
+		required: true
+	}
+})
+
+
 
 /*
 	So we have multiple stages of LOADING
@@ -57,20 +62,7 @@ const carousel = ref(null)
 	anymore, it's of the underlying components
 */
 
-
-/**
- * Load the ids of the products to show in the carousel
- */
-
-const lcarousel = 12
-const ids = ref([])
-const loading = computed(() => ids.value.length === 0)
-
-setTimeout(() => {
-	ids.value = ["644:2297", "644:2289", "644:2273", "644:2761",
-	             "644:2633", "644:2305", "644:2244", "561:2042",
-	             "644:2313", "644:2265", "644:2377"]
-}, 1100)
+const loading = computed(() => props.ids === undefined)
 
 
 

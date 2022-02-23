@@ -7,6 +7,7 @@ const PAGE_SIZE = 12*2
 export const useProductStore = defineStore('products', {
 	state: () => ({
 		products: {},  // id => product
+		collections: {},
 		order: [],     // ids
 		
 		query: {
@@ -33,7 +34,15 @@ export const useProductStore = defineStore('products', {
 		nproducts: (state) => Object.keys(state.products).length,
 		priceFmt: (state) => (id) => state.products[id]
 		                             ? Number(state.products[id].price).toFixed(2)
-		                             : undefined
+		                             : undefined,
+		collection: (state) => (name) => {
+			if (state.collections[name])
+				return state.collections[name]
+			else {
+				state.fetchCollection(name)
+				return undefined
+			}
+		}
 	},
 
 	actions: {
@@ -46,6 +55,36 @@ export const useProductStore = defineStore('products', {
 			let product = await api.fetchProduct(id)
 			this.products[id] = product
 			return product
+		},
+
+		async fetchCollection (name) {
+			const collection = await new Promise((resolve, reject) => {
+				setTimeout(() => {
+					if (name === 'recommended') {
+						resolve(["644:2297", "644:2289", "644:2273", "644:2761",
+						         "644:2633", "644:2305", "644:2244", "561:2042",
+						         "644:2313", "644:2265", "644:2377", "644:2753"])
+					}
+					else if (name === '1') {
+						resolve(["644:2409", "644:2425", "644:2441", "644:2449",
+							     "644:2465", "644:2473", "644:2505", "644:2513",
+							     "644:2537", "644:2545", "644:2497", "644:2897"])
+					}
+					else if (name === '2') {
+						resolve(["644:2577", "644:2585", "644:2593", "644:2617",
+						         "644:2761", "644:2633", "644:2657", "644:2665",
+						         "644:2673", "644:2705", "644:2713", "644:2721"])
+					}
+					else if (name === '3') {
+						resolve(["644:2617", "644:2761", "644:2633", "644:2641",
+							     "644:2649", "644:2657", "644:2665", "644:2673",
+							     "644:2681", "644:2689", "644:2697", "644:2705"])
+					}
+					else reject("no such collection")
+				}, 1500)
+			})
+
+			this.collections[name] = collection
 		},
 
 		/*
