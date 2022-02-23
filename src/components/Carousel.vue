@@ -1,26 +1,29 @@
 <template>
 	<div class="relative">
 
-		<button v-show="showLeftShadow" class="w-16 h-16 rounded-full border-4 ring-inset ring-1 ring-gray-200 border-white flex justify-center items-center absolute left-2 -translate-y-1/2 top-1/2 bg-gray-100 hover:bg-gray-200 z-20">
+		<button v-show="showLeftShadow" @click="scrollLeft" class="w-16 h-16 rounded-full border-4 ring-inset ring-1 ring-gray-200 border-white flex justify-center items-center absolute left-2 -translate-y-1/2 top-1/2 bg-gray-100 hover:bg-gray-200 z-20">
 			<svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 			  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
 			</svg>
 		</button>
 
-		<button v-show="showRightShadow" class="w-16 h-16 rounded-full border-4 ring-inset ring-1 ring-gray-200 border-white flex justify-center items-center absolute right-2 -translate-y-1/2 top-1/2 bg-gray-100 hover:bg-gray-200 z-20">
+		<button v-show="showRightShadow" @click="scrollRight" class="w-16 h-16 rounded-full border-4 ring-inset ring-1 ring-gray-200 border-white flex justify-center items-center absolute right-2 -translate-y-1/2 top-1/2 bg-gray-100 hover:bg-gray-200 z-20">
 			<svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 			  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M14 5l7 7m0 0l-7 7m7-7H3" />
 			</svg>
 		</button>	
 
-		<div class="relative overflow-hidden" @mousedown="mousedown" @mouseup="mouseup" @mousemove="mousemove" @mouseleave="mouseleave" @click.capture="onClick">
+		<div class="relative overflow-hidden" ref="container" @click.capture="onClick"
+		     @mousedown="mousedown" @mouseup="mouseup" @mousemove="mousemove" @mouseleave="mouseleave">
 			<div v-show="showLeftShadow" class="h-full w-5 -ml-5 absolute left-0 shadow-xl z-10 border-r-4 border-red-300"></div>
+
 			<div class="scrollbar-off flex gap-5 w-full overflow-x-auto relative px-5" ref="carousel" @scroll="onscroll">
 				<template v-if="loading">
 					<WareCard v-for="product in lcarousel" class="w-56"/>
 				</template>
 				<WareCard v-for="id in ids" :id="id" class="w-56"/>
 			</div>
+
 			<div v-show="showRightShadow" class="h-full w-5 -mr-5 absolute right-0 top-0 shadow-xl z-10"></div>
 		</div>
 	</div>
@@ -30,8 +33,14 @@
 import WareCard from './WareCard.vue'
 import { ref, onMounted, computed } from 'vue';
 import { useProductStore } from '@/stores/products'
+import gsap from 'gsap'
+import ScrollToPlugin from 'gsap/ScrollToPlugin'
+
+gsap.registerPlugin(ScrollToPlugin)
 
 const productStore = useProductStore()
+
+const carousel = ref(null)
 
 /*
 	So we have multiple stages of LOADING
@@ -68,6 +77,31 @@ setTimeout(() => {
 
 
 
+
+/**
+ * Scroll left/right buttons
+ */
+
+function scrollLeft () {
+	gsap.to(carousel.value, {
+		duration: 1,
+		scrollTo: {x: carousel.value.scrollLeft - carousel.value.clientWidth*0.8},
+		ease: "power2.inOut"
+	})
+}
+
+function scrollRight () {
+	gsap.to(carousel.value, {
+		duration: 1,
+		scrollTo: {x: carousel.value.scrollLeft + carousel.value.clientWidth*0.8},
+		ease: "power2.inOut"
+	})
+}
+
+
+
+
+
 /**
  * Dragging/scrolling behaviour
  */
@@ -77,7 +111,6 @@ let holding = false;
 // true= user has moved the carousel
 let moved = false;
 
-const carousel = ref(null)
 var zeroX;
 var zeroScroll;
 var showLeftShadow = ref(false);
