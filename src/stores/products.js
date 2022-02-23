@@ -115,7 +115,7 @@ export const useProductStore = defineStore('products', {
 			this.more = more
 
 			if (this.searchAgain) {
-				return this.search(...this.searchAgain)
+				this.search(...this.searchAgain)
 				this.searchAgain = false
 			}
 		},
