@@ -33,7 +33,7 @@
 
       <div class="flex mb-2 justify-between items-center loading:grayout">
         <span class="text-2xl text-gray-700 mr-3 font-semibold">
-          ${{product?.price}}
+          ${{price}}
         </span>
         <AddToCartButton v-if="props.id" small :pid="props.id" class="text-sm flex-grow"/>
       </div>
@@ -61,6 +61,7 @@ const cartStore = useCartStore()
 
 const product = computed(() => productStore.products[props.id])
 const loading = computed(() => product.value === undefined)
+const price = computed(() => product.value? Number(product.value.price).toFixed(2) : undefined)
 
 watch(props, () => {
   props.id && productStore.fetchProduct(props.id)

@@ -30,7 +30,10 @@ export const useProductStore = defineStore('products', {
 	}),
 
 	getters: {
-		nproducts: (state) => Object.keys(state.products).length
+		nproducts: (state) => Object.keys(state.products).length,
+		priceFmt: (state) => (id) => state.products[id]
+		                             ? Number(state.products[id].price).toFixed(2)
+		                             : undefined
 	},
 
 	actions: {

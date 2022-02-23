@@ -16,7 +16,7 @@
 			</div>
 
 			<div class="text-3xl mt-3 mb-4 font-roboto loading:grayout loading:w-20">
-				${{product?.price}}
+				${{price}}
 			</div>
 
 			<div class="mt-auto loading:grayout loading:h-24">
@@ -92,6 +92,7 @@ const route = useRoute()
 const productId = computed(() => route.params.id)
 const product = computed(() => productStore.products[productId.value])
 const loading = computed(() => product.value === undefined)
+const price = computed(() => product.value? Number(product.value.price).toFixed(2) : undefined)
 
 productStore.fetchProduct(productId.value)
 </script>

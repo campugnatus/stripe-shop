@@ -13,7 +13,7 @@
 				</router-link>
 			</div>
 			<div class="flex items-center justify-between max-w-[150px] loading:grayout">
-				<div class="hidden xs:block text-lg text-gray-500">${{product?.price}}</div>
+				<div class="hidden xs:block text-lg text-gray-500">${{price}}</div>
 				<div class="hidden xs:block text-gray-500 flex-shrink">x</div>
 				<select class="py-0.5 rounded font-bold text-lg border-gray-400 font-roboto w-16" :value="item.amount" @change="setAmount">
 					<option>0</option>
@@ -60,6 +60,7 @@ productStore.fetchProduct(item.productId)
 const product = computed(() => productStore.products[item.productId])
 const total = computed(() => (item.amount*product.value?.price).toFixed(2))
 const loading = computed(() => product.value === undefined)
+const price = computed(() => product.value? Number(product.value.price).toFixed(2) : undefined)
 
 function setAmount (evt) {
 	cart.setAmount(item.productId, parseInt(evt.target.value))
