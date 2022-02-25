@@ -15,7 +15,7 @@
 
       <div class="flex mt-1 mb-1 justify-between">
         <div class="flex gap-1 loading:grayout">
-          <RatingStars v-if="!loading" :rating="product?.rating" class="h-5 space-x-1.5"/>
+          <RatingStars v-if="!loading" :rating="product?.rating" class="h-5 space-x-1.5" :title="product?.rating"/>
         </div>
         <div class="flex gap-2 loading:grayout">
           12 
