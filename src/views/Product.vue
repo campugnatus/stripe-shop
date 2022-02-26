@@ -66,7 +66,7 @@
 		</div>
 
 		<h1 class="text-3xl sm:text-4xl mt-32 font-roboto">You may also like</h1>
-		<Carousel class="mt-6 -mx-4"/>
+		<Carousel class="mt-6 -mx-4" :ids="productStore.collection('1')"/>
 	</section>
 
 	<ShopFooter/>
