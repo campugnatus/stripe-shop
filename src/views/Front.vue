@@ -476,7 +476,7 @@
 
 
   <section class="flex justify-center">
-    <div class="my-40">
+    <div class="mt-40">
       <div class="font-sigmar text-xl sm:text-2xl">our motto</div>
       <div class="font-pacifico text-xl sm:text-2xl">&mdash; Are you gonna buy something?</div>
       <div class="font-pacifico text-xl sm:text-2xl">&mdash; Nah, I'm just browsing</div>
