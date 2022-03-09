@@ -93,7 +93,7 @@
 				</p>
 			</section>
 
-			<section class="hidden xl:block font-pacifico text-xl rotate-[-25deg] origin-top-left -translate-x-10">
+			<section class="hidden xl:block font-pacifico text-xl rotate-[-25deg] origin-top-left">
 				<div class="">Your</div>
 				<div class="ml-6">go-to place</div>
 				<div class="ml-12 mt-3">to shop for</div>

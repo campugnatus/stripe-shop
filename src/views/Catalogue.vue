@@ -69,9 +69,9 @@
 					</div>
 					<div class="leading-[0.8em]">
 						<!-- <div class="font-sigmar tracking-[0.15em] text-gray-400">nope</div> -->
-						<div class="font-sigmar text-gray-500">don't</div>
+						<div class="font-sigmar">don't</div>
 						<div class="font-sigmar tracking-widest">have</div>
-						<div class="font-sigmar tracking-[0.14em] text-gray-700">that</div>
+						<div class="font-sigmar tracking-[0.14em]">that</div>
 					</div>
 				</div>
 			</div>
