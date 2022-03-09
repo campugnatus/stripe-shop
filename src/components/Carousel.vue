@@ -13,11 +13,10 @@
 			</svg>
 		</button>	
 
-		<div class="relative overflow-hidden" ref="container" @click.capture="onClick"
-		     @mousedown="mousedown" @mouseup="mouseup" @mousemove="mousemove" @mouseleave="mouseleave">
+		<div class="relative overflow-hidden" ref="container">
 			<div v-show="showLeftShadow" class="h-full w-5 -ml-5 absolute left-0 shadow-xl z-10 border-r-4 border-red-300"></div>
 
-			<div class="scrollbar-off flex gap-5 w-full overflow-x-auto relative px-5" ref="carousel" @scroll="onscroll">
+			<div class="scrollbar-off flex gap-5 w-full overflow-x-auto relative px-5" ref="carousel" v-carousel @mousedown="cancelAnimation" @scroll="onscroll">
 				<template v-if="loading">
 					<WareCard v-for="product in 12" class="w-56"/>
 				</template>
@@ -36,6 +35,7 @@ import { useProductStore } from '@/stores/products'
 import gsap from 'gsap'
 import ScrollToPlugin from 'gsap/ScrollToPlugin'
 gsap.registerPlugin(ScrollToPlugin)
+import { vCarousel } from '@/directives/carousel'
 
 const productStore = useProductStore()
 const carousel = ref(null)
@@ -44,8 +44,6 @@ const props = defineProps({
 		required: true
 	}
 })
-
-
 
 /*
 	So we have multiple stages of LOADING
@@ -74,8 +72,10 @@ const loading = computed(() => props.ids === undefined)
  * Scroll left/right buttons
  */
 
+let tween
+
 function scrollLeft () {
-	gsap.to(carousel.value, {
+	tween = gsap.to(carousel.value, {
 		duration: 1,
 		scrollTo: {x: carousel.value.scrollLeft - carousel.value.clientWidth*0.8},
 		ease: "power2.inOut"
@@ -83,28 +83,25 @@ function scrollLeft () {
 }
 
 function scrollRight () {
-	gsap.to(carousel.value, {
+	tween = gsap.to(carousel.value, {
 		duration: 1,
 		scrollTo: {x: carousel.value.scrollLeft + carousel.value.clientWidth*0.8},
 		ease: "power2.inOut"
 	})
 }
 
+function cancelAnimation () {
+	if (tween)
+		tween.kill()
+}
 
 
 
 
 /**
- * Dragging/scrolling behaviour
+ * left/right shadows
  */
 
-// true= user is holding the carousel with their mouse
-let holding = false;
-// true= user has moved the carousel
-let moved = false;
-
-var zeroX;
-var zeroScroll;
 var showLeftShadow = ref(false);
 var showRightShadow = ref(false);
 
@@ -113,36 +110,7 @@ var showRightShadow = ref(false);
 // sure how to do it properly
 const listMargin = 21; 
 
-
 onMounted(onscroll);
-
-function mousedown (e) {
-	moved = false
-	e.preventDefault();
-	e.stopPropagation();
-	holding = true;
-	zeroX = e.pageX;
-	zeroScroll = carousel.value.scrollLeft;
-}
-
-function mouseup (e) {
-	holding = false;
-}
-
-function mouseleave (e) {
-	holding = false;
-}
-
-function mousemove (e) {
-	if (!holding) return;
-	moved = true;
-	e.preventDefault();
-	const el = carousel.value;
-	var zeroOffset = zeroX - el.offsetLeft;
-	var currentOffset = e.pageX - el.offsetLeft;
-	var delta = currentOffset - zeroOffset;
-	el.scrollLeft = zeroScroll - delta;
-}
 
 function onscroll(e) {
 	var el = carousel.value;
@@ -150,12 +118,6 @@ function onscroll(e) {
 	showLeftShadow.value = el.scrollLeft > listMargin;
 	showRightShadow.value = el.scrollLeft < scrollLength - listMargin;
 }
-
-function onClick (evt) {
-	if (moved)
-		evt.preventDefault();
-}
-
 
 
 
