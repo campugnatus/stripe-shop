@@ -19,7 +19,13 @@ const app = createApp(App)
 const router = createRouter({
 	history: createWebHistory(),
 	scrollBehavior (to, from, savedPosition) {
-		return { top: 0 }
+		if (to.path === from.path) {
+			return false
+		} else if (savedPosition) {
+		  return savedPosition
+		} else {
+		  return { top: 0 }
+		}
 	},
 	routes: [
 		{ path: '/', component: Front },

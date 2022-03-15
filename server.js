@@ -23,15 +23,19 @@ app.use(function delay (req, res, next) {
 app.get('/products/search/', function (req, res, next) {
 	// TODO: validate parameters
 
+
 	const query = {
-		words:   wordify(req.query.query) || [],
+		words:   wordify(req.query.text) || [],
 		from:    req.query.from           || 0,
 		to:      req.query.to             || 30,
 		sort:    req.query.sort           || "default",
-		filters: [] // ?
+		colors:  req.query.color          || [],
+		shapes:  req.query.shape          || []
 	}
 
-	const filtered = filterProducts(query.words, Object.values(db.products))
+	console.log(req.query, query)
+
+	const filtered = filterProducts(query, Object.values(db.products))
 	const sorted = sortProducts(filtered, query.sort)
 	const sliced = sorted.slice(query.from, query.to)
 
@@ -49,23 +53,31 @@ app.get('/products/search/', function (req, res, next) {
 		return string.split(/\s+/)
 	}
 
-	function filterProducts(words, products) {
-		if (words.length === 0)
-			return products
-
+	function filterProducts(query, products) {
 		return products.filter(product => {
-			let string = JSON.stringify(product)
-
-			let matches = true
-			for (let word of query.words) {
-				if (!string.match(new RegExp(word, 'i'))) {
-					matches = false
-					break;
-				}
-			}
-
-			return matches
+			return matchWords(product, query.words)
+			       && matchColor(product, query.colors)
+			       && matchShape(product, query.shapes)
 		})
+	}
+
+	function matchWords(product, words) {
+		const string = JSON.stringify(product)
+
+		for (let word of words) {
+			if (!string.match(new RegExp(word, 'i'))) {
+				return false
+			}
+		}
+		return true
+	}
+
+	function matchColor(product, colors) {
+		return true
+	}
+
+	function matchShape(product, shapes) {
+		return true
 	}
 
 	function sortProducts(products, order) {

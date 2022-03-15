@@ -46,22 +46,32 @@ async function main () {
 		.map(parse_stripe_declaration)
 		.filter(obj => obj !== null)
 
+
+
 	console.log("Writing stripes metadata to disk...")
 	fs.writeFileSync('stripes.json', JSON.stringify(stripe_metadata, null, 4))
 
-	if (process.argv[2] === "svg") {
-		console.log("Requesting images URLs...")
+
+	let arg = process.argv[2]
+	if (arg === "svg") {
+		console.log("Requesting image URLs...")
+		let id_to_metadata = stripe_metadata.reduce((acc, stripe) => {
+			acc[stripe.id] = stripe
+			return acc
+		}, {})
 		let id_to_url = await get_image_urls(id_to_metadata)
 
-		console.log("Downloading SVGs...")
+		console.log("Downloading the SVGs...")
 		let id_to_promise = get_svgs(id_to_url)
 		await Promise.all(Object.values(id_to_promise))
 
-		console.log("Writing SVGs to disk...")
+		console.log("Writing the SVGs to disk...")
 		for (const [id, promise] of Object.entries(id_to_promise)) {
 			let {data: svg} = await promise
 			fs.writeFileSync('svg/' + id + ".svg", svg)
 		}
+	} else if (arg) {
+		console.log("Bad argument")
 	}
 
 	console.log("All done... whew!")
@@ -110,12 +120,16 @@ async function get_image_urls(stripes_metadata) {
 			format: 'svg'
 		}
 	}).catch(error => {
-		console.log("Couldn't get image urls", error.response.statusText, error.response.data)
+		if (error.response)
+			console.log("Couldn't get image urls:", error.response.statusText, error.response.data)
+		else
+			console.log("Couldn't get image urls:", error.code)
+
 		throw error
 	})
 
 	if (response.data.error) {
-		throw new Error("Got an error trying to import images from figma:", response.data.error);
+		throw new Error("Got an error trying to import images from figma:", response.data.error)
 	}
 
 	const images = response.data.images

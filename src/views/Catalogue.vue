@@ -1,5 +1,5 @@
 <template>
-	<ShopHeader :text="productStore.query.text"/>
+	<ShopHeader :text="route.query.search"/>
 
 	<section class="sm:container lg:hidden w-80 mx-auto px-3 md:px-6 mt-32 mb-5 flex justify-between">
 		<div>
@@ -23,7 +23,7 @@
 		<aside class="w-64 h-screen font-roboto flex-shrink-0 hidden lg:block">
 			<fieldset class="disabled:opacity-60">
 				<h2 class="text-2xl mb-2">Ordering</h2>
-				<select @change="changeSort" v-model="productStore.query.sort"
+				<select @change="changeSort" v-model="filters.sort"
 				        class="bg-white border px-2 py-1 rounded border-gray-400" >
 					<option value="default">Default</option>
 					<option value="rating-descend">Highest rated first</option>
@@ -36,43 +36,34 @@
 				<div><input type="checkbox" class="mr-2"> Variegated</div>
 
 				<div class="mt-3"></div>
-				<div><input type="checkbox" class="mr-2"> Dark</div>
-				<div><input type="checkbox" class="mr-2"> Light</div>
-
-				<div class="mt-3"></div>
-				<div><input type="checkbox" class="mr-2"> Saturated</div>
-				<div><input type="checkbox" class="mr-2"> Washed-out</div>
-
-				<div class="mt-3"></div>
 				<div><input type="checkbox" class="mr-2 rounded-full"> Grayscale</div>
 				<div><input type="checkbox" class="mr-2 rounded-full bg-red-600 border-red-500"> Red</div>
 				<div><input type="checkbox" class="mr-2 rounded-full"> Green</div>
 				<div><input type="checkbox" class="mr-2 rounded-full"> Blue</div>
 				<div><input type="checkbox" class="mr-2 rounded-full"> Yellow</div>
+				<div><input type="checkbox" class="mr-2 rounded-full"> Orange</div>
+				<div><input type="checkbox" class="mr-2 rounded-full"> Brown</div>
+
+				<h2 class="text-2xl mb-2 mt-8">Number</h2>
+				<div><input type="checkbox" class="mr-2"> Single</div>
+				<div><input type="checkbox" class="mr-2"> Multiple</div>
 
 				<h2 class="text-2xl mb-2 mt-8">Shape</h2>
-				<div><input type="checkbox" class="mr-2"> Straight</div>
-				<div><input type="checkbox" class="mr-2"> Curvy</div>
-				<div><input type="checkbox" class="mr-2"> Squiggly</div>
-				<div><input type="checkbox" class="mr-2"> Zig-zaggy</div>
-
-				<h2 class="text-2xl mb-2 mt-8">Tags</h2>
+				<div><input v-model="filters.shape.straight" type="checkbox" class="mr-2"> Straight</div>
+				<div><input v-model="filters.shape.curvy" type="checkbox" class="mr-2"> Curvy</div>
+				<div><input v-model="filters.shape.squiggly" type="checkbox" class="mr-2"> Squiggly</div>
+				<div><input v-model="filters.shape.edgy" type="checkbox" class="mr-2"> Edgy</div>
+				<div><input v-model="filters.shape.other" type="checkbox" class="mr-2"> Other</div>
 			</fieldset>
 		</aside>
 
 		<div v-if="foundNothing" class="h-[30vh] w-full font-pacifico text-4xl flex justify-center items-center">
 			<div class="relative w-max">
-				<div class="">
-					<div class="text-5xl --leading-[0.8em] ---rotate-90 origin-left ml-8 text-tomato mb-1 hidden">
-						<!-- <div>Sorry,</div> -->
-						<div>no</div>
-					</div>
-					<div class="leading-[0.8em]">
-						<!-- <div class="font-sigmar tracking-[0.15em] text-gray-400">nope</div> -->
-						<div class="font-sigmar">don't</div>
-						<div class="font-sigmar tracking-widest">have</div>
-						<div class="font-sigmar tracking-[0.14em]">that</div>
-					</div>
+				<div class="leading-[0.8em]">
+					<!-- <div class="font-sigmar tracking-[0.15em] text-gray-400">nope</div> -->
+					<div class="font-sigmar">don't</div>
+					<div class="font-sigmar tracking-widest">have</div>
+					<div class="font-sigmar tracking-[0.14em]">that</div>
 				</div>
 			</div>
 		</div>
@@ -111,10 +102,10 @@
 import WareCard from '@/components/WareCard.vue'
 import ShopHeader from '@/components/ShopHeader.vue'
 import ShopFooter from '@/components/ShopFooter.vue'
-import {storeToRefs} from 'pinia'
-import { computed, ref, watch, onMounted } from 'vue'
+import { computed, ref, watch, onMounted, onBeforeMount, reactive } from 'vue'
 import { useProductStore } from '@/stores/products'
 import { useRouter, useRoute, onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
+import { showToast } from '@/plugins/toast'
 
 const productStore = useProductStore()
 const router = useRouter()
@@ -124,54 +115,114 @@ const pids = computed(() => productStore.order)
 const loading = computed(() => productStore.searching)
 const haveMore = computed(() => pids.value.length && productStore.more)
 const foundNothing = computed(() => !loading.value && !pids.value.length)
-// const loading = computed(() => pids.value.length === 0)
+const loadingMore = ref(false)
 
+
+
+// make it multiple of 12 so that it spans nicely across 2, 3 or 4 columns
+const PAGE_SIZE = 12*4
+
+const filters = reactive({
+	color: {
+		gray:   false,
+		red:    false,
+		green:  false,
+		blue:   false,
+		yellow: false,
+		orange: false,
+		brown:  false,
+	},
+
+	shape: {
+		straight: false,
+		curvy:    false,
+		squiggly: false,
+		edgy:     false,
+		other:    false,
+	},
+
+	text: undefined,
+	sort: "default",
+})
 
 onMounted(() => init(route))
 onBeforeRouteUpdate(to => init(to))
 
+
+
 function init(route) {
-	queryToState(route.query)
-	productStore.search({reset: false, append: false})
+	log("init", route)
+	parseQueryString(route.query)
+
+	productStore.search({
+		append: false,
+		from: 0,
+		to: PAGE_SIZE - 1, // reserve one place for the "load more" button
+
+		text: filters.text,
+		sort: filters.sort,
+		shape: Object.keys(filters.shape).filter(key => !!filters.shape[key]),
+		color: Object.keys(filters.color).filter(key => !!filters.color[key]),
+
+	}).catch(() =>
+		showToast.error("Oops... something went wrong")
+	)
 }
 
+watch(filters, () => {
+	log("filters changed", filters.shape)
+	router.push({
+		query: stateToQuery()
+	})
+})
 
+function stateToQuery () {
+	return {
+		search: filters.text,
+		sort: filters.sort === "default" ? undefined : filters.sort,
+		shape: Object.keys(filters.shape).filter(key => !!filters.shape[key]),
+		color: Object.keys(filters.color).filter(key => !!filters.color[key]),
+	}
+}
 
-const loadingMore = ref(false)
+function parseQueryString(query) {
+	filters.color.gray     = query.color?.includes('gray') ?? false
+	filters.color.red      = query.color?.includes('red') ?? false
+	filters.color.green    = query.color?.includes('green') ?? false
+	filters.color.blue     = query.color?.includes('blue') ?? false
+	filters.color.yellow   = query.color?.includes('yellow') ?? false
+	filters.color.orange   = query.color?.includes('orange') ?? false
+	filters.color.brown    = query.color?.includes('brown') ?? false
+
+	filters.shape.straight = query.shape?.includes('straight') ?? false
+	filters.shape.curvy    = query.shape?.includes('curvy') ?? false
+	filters.shape.squiggly = query.shape?.includes('squiggly') ?? false
+	filters.shape.edgy     = query.shape?.includes('edgy') ?? false
+	filters.shape.other    = query.shape?.includes('other') ?? false
+
+	filters.sort = query.sort ?? "default"
+	filters.text = query.search
+}
+
 
 async function loadMore () {
 	loadingMore.value = true
-	await productStore.search({reset: false, append: true})
+	await productStore.search({
+		append: true,
+		from: productStore.order.length,
+		to: productStore.order.length + PAGE_SIZE,
+
+		text: filters.text,
+		sort: filters.sort,
+		shape: Object.keys(filters.shape).filter(key => !!filters.shape[key]),
+		color: Object.keys(filters.color).filter(key => !!filters.color[key]),
+
+	}).catch(() =>
+		showToast.error("Oops... something went wrong")
+	)
 	loadingMore.value = false
 }
 
-
-// we use event handler instead of the watch(productStore.query) here because
-// watch() triggers when we assign the state in init(), which is superfluous
-
-function changeSort () {
-	router.push({
-		query: stateToQuery(productStore.query)
-	})
-}
-
-
-function queryToState (query) {
-	let { search, sort } = query
-
-	productStore.query.text = search
-	productStore.query.sort = sort || "default"
-}
-
-
-function stateToQuery (state) {
-	return {
-		search: productStore.query.text,
-		sort: productStore.query.sort,
-		// and all the filters and all. Basically, translate the state
-		// into the query string
-	}
-}
 </script>
 
 <style>
