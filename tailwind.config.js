@@ -26,7 +26,7 @@ module.exports = {
         sigmar: ['Sigmar One'],
         pacifico: ['Pacifico'],
         roboto: ['Roboto'],
-        pressstart: ["'Press Start 2P'"], // doesn't work without quotes for some reason
+        pressstart: ["'Press Start 2P'"], // doesn't work without the quotes for some reason
       },
       boxShadow: {
         '3xl': '0 35px 35px rgba(0, 0, 0, 0.25)',
