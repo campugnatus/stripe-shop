@@ -102,7 +102,7 @@
 import WareCard from '@/components/WareCard.vue'
 import ShopHeader from '@/components/ShopHeader.vue'
 import ShopFooter from '@/components/ShopFooter.vue'
-import { computed, ref, watch, onMounted, onBeforeMount, reactive } from 'vue'
+import { computed, ref, watch, onMounted, onBeforeMount, reactive, nextTick } from 'vue'
 import { useProductStore } from '@/stores/products'
 import { useRouter, useRoute, onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
 import { showToast } from '@/plugins/toast'
@@ -148,11 +148,24 @@ const filters = reactive({
 onMounted(() => init(route))
 onBeforeRouteUpdate(to => init(to))
 
+let initialized = false
+
+watch(filters, () => {
+	if (initialized)
+		router.push({
+			query: stateToQuery()
+		})
+})
 
 
 function init(route) {
-	log("init", route)
+	initialized = false
+	// using nextTick here so that the watcher watching 'filters' doesn't
+	// trigger spuriously
+	nextTick(() => initialized = true)
+
 	parseQueryString(route.query)
+
 
 	productStore.search({
 		append: false,
@@ -169,12 +182,6 @@ function init(route) {
 	)
 }
 
-watch(filters, () => {
-	log("filters changed", filters.shape)
-	router.push({
-		query: stateToQuery()
-	})
-})
 
 function stateToQuery () {
 	return {
