@@ -1,5 +1,5 @@
 <template>
-	<ShopHeader :text="route.query.search"/>
+	<ShopHeader :text="filters.text" @reset="filters.text = undefined"/>
 
 	<section class="sm:container lg:hidden w-80 mx-auto px-3 md:px-6 mt-32 mb-5 flex justify-between">
 		<div>
@@ -117,8 +117,6 @@ const haveMore = computed(() => pids.value.length && productStore.more)
 const foundNothing = computed(() => !loading.value && !pids.value.length)
 const loadingMore = ref(false)
 
-
-
 // make it multiple of 12 so that it spans nicely across 2, 3 or 4 columns
 const PAGE_SIZE = 12*4
 
@@ -151,21 +149,21 @@ onBeforeRouteUpdate(to => init(to))
 let initialized = false
 
 watch(filters, () => {
-	if (initialized)
+	if (initialized) {
 		router.push({
 			query: stateToQuery()
 		})
+	}
 })
 
 
 function init(route) {
 	initialized = false
-	// using nextTick here so that the watcher watching 'filters' doesn't
-	// trigger spuriously
-	nextTick(() => initialized = true)
-
 	parseQueryString(route.query)
 
+	// this double-nextTick craziness is our way of avoiding the watcher
+	// triggering on route updates. Is there a more civilized way?
+	nextTick(() => nextTick(() => initialized = true))
 
 	productStore.search({
 		append: false,

@@ -68,6 +68,8 @@ const props = defineProps({
   }
 })
 
+const emit = defineEmits(['reset'])
+
 
 const query = ref(props.text)
 watch(() => props.text, () => query.value = props.text)
@@ -82,9 +84,7 @@ function searchCatalogue () {
 }
 
 function resetSearch () {
-  router.push({
-    path: "/catalogue"
-  })
+  emit('reset')
 }
 </script>
 
