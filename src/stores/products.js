@@ -3,17 +3,18 @@ import api from '@/api.js'
 
 export const useProductStore = defineStore('products', {
 	state: () => ({
-		products: {},  // id => product
+		products: {},     // id => product
 		collections: {},
-		order: [],     // ids
+		order: [],        // ids
 
 		more: true,       // true= show the 'load more' button as there IS more!
 		lastQuery: "",    // the last search query, stringified
 		searching: false, // true= search in progress
+		appending: false, // true= same as 'searching', but indicative of whether
+		                  // the current order is going to be invalidated as a result.
+		                  // This is used for deciding which loading state to display
 
-		// true= while searching, the user asked for another search, which
-		// should be started right after the current one finishes
-		queuedQuery: false,
+		searchPromise: null // search API request promise (for the sake of aborting it)
 	}),
 
 	getters: {
@@ -91,37 +92,98 @@ export const useProductStore = defineStore('products', {
 		async search (query) {
 
 			if (this.searching) {
-				// queue the search to do it after the current one finishes
-				log("search request queued")
-				// TODO: api.abortSearch() // fuck it
-				this.queuedQuery = query
+				log("aborting the previous search...")
+				api.abortSearch()
+
+				this.searchPromise.then(() => {
+					log("run next search")
+					this.search(query)
+				})
+
 				return
 			}
 
-			log("searhc?", query)
 			if (JSON.stringify(query) == this.lastQuery) {
 				log("not going to repeat the same search twice")
 				return
 			}
 
-			this.queuedQuery = undefined
-			this.searching = true
-
-			// if (!query.append) this.order = []
-
 			this.lastQuery = JSON.stringify(query)
+			this.searching = true
+			this.appending = query.append ? true : false
 
-			let {order, products, more} = await api.searchProducts(query)
-				.finally(() => this.searching = false)
+			log("seeeearch", query)
+			this.searchPromise = api.searchProducts(query)
+				.then(res => {
+					let {order, products, more} = res
+					this.order = query.append ? [...this.order, ...order] : order
+					this.products = Object.assign(this.products, products)
+					this.more = more
+				})
+				.catch(error => {
+					if (error.name === "AbortError") {
+						log("search oborted hoho", error.name)
+						return
+					}
+					else {
+						log("some other error")
+						throw error
+					}
+				})
+				.finally(() => {
+					this.searching = false
+					this.appending = false
+				})
 
-			this.searching = false
-			this.order = query.append ? [...this.order, ...order] : order
-			this.products = Object.assign(this.products, products)
-			this.more = more
-
-			if (this.queuedQuery) {
-				this.search(this.queuedQuery)
-			}
+			return this.searchPromise
 		},
+
+		// async search (query) {
+
+		// 	if (this.searching) {
+		// 		log("aborting the previous search...")
+		// 		// log("zhuzha?", await api.abortSearch())
+		// 		api.abortSearch()
+
+		// 		this.searchPromise.then(() => {
+		// 			log("run next search")
+		// 			this.search(query)
+		// 		})
+
+		// 		return
+		// 	}
+
+		// 	if (JSON.stringify(query) == this.lastQuery) {
+		// 		log("not going to repeat the same search twice")
+		// 		return
+		// 	}
+
+		// 	this.lastQuery = JSON.stringify(query)
+		// 	this.searching = true
+
+		// 	try {
+		// 		log("try running a search")
+		// 		this.searchPromise = api.searchProducts(query)
+		// 		let {order, products, more} = await this.searchPromise
+		// 		this.order = query.append ? [...this.order, ...order] : order
+		// 		this.products = Object.assign(this.products, products)
+		// 		this.more = more
+		// 	}
+
+		// 	catch (error) {
+		// 		if (error.name === "AbortError") {
+		// 			log("search oborted hoho", e.name)
+		// 			return
+		// 		}
+		// 		else {
+		// 			log("some other error")
+		// 			throw error
+		// 		}
+		// 	}
+
+		// 	finally {
+		// 		this.searching = false
+		// 	}
+		// },
 	}
 })

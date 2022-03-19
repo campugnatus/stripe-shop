@@ -75,9 +75,11 @@
 				<WareCard/> <WareCard/> <WareCard/> <WareCard/>
 			</template>
 
-			<WareCard v-for="pid in pids" :id="pid"/>
+			<template v-else>
+				<WareCard v-for="pid in pids" :id="pid"/>
+			</template>
 
-			<button @click="loadMore" class="relative" v-if="haveMore" :disabled="loadingMore">
+			<button @click="loadMore" class="relative" v-if="!loading && haveMore" :disabled="loadingMore">
 		        
 		        <!-- this is a pretty terrible markup ^_^
 		        	 this invisible card is to make the 
@@ -112,10 +114,11 @@ const router = useRouter()
 const route = useRoute()
 
 const pids = computed(() => productStore.order)
-const loading = computed(() => productStore.searching)
+const loading = computed(() => productStore.searching && !productStore.appending)
 const haveMore = computed(() => pids.value.length && productStore.more)
 const foundNothing = computed(() => !loading.value && !pids.value.length)
-const loadingMore = ref(false)
+const loadingMore = computed(() => productStore.appending)
+// const loadingMore = ref(false)
 
 // make it multiple of 12 so that it spans nicely across 2, 3 or 4 columns
 const PAGE_SIZE = 12*4
@@ -175,9 +178,10 @@ function init(route) {
 		shape: Object.keys(filters.shape).filter(key => !!filters.shape[key]),
 		color: Object.keys(filters.color).filter(key => !!filters.color[key]),
 
-	}).catch(() =>
+	}).catch((e) => {
+		log("search failed:", e)
 		showToast.error("Oops... something went wrong")
-	)
+	})
 }
 
 
@@ -211,7 +215,6 @@ function parseQueryString(query) {
 
 
 async function loadMore () {
-	loadingMore.value = true
 	await productStore.search({
 		append: true,
 		from: productStore.order.length,
@@ -225,7 +228,6 @@ async function loadMore () {
 	}).catch(() =>
 		showToast.error("Oops... something went wrong")
 	)
-	loadingMore.value = false
 }
 
 </script>
