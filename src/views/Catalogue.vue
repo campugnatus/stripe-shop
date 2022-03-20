@@ -179,8 +179,7 @@ function init(route) {
 		color: Object.keys(filters.color).filter(key => !!filters.color[key]),
 
 	}).catch((e) => {
-		log("search failed:", e)
-		showToast.error("Oops... something went wrong")
+		showToast.error("Something went wrong")
 	})
 }
 
@@ -226,7 +225,7 @@ async function loadMore () {
 		color: Object.keys(filters.color).filter(key => !!filters.color[key]),
 
 	}).catch(() =>
-		showToast.error("Oops... something went wrong")
+		showToast.error("Something went wrong")
 	)
 }
 
