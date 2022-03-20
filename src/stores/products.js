@@ -1,16 +1,25 @@
 import { defineStore } from 'pinia'
 import api from '@/api.js'
 
+// TODO: caching isn't that good for when you have multiple pages of search
+// results loaded. The problem is t hat when you navigate the browser
+// history, only the first page get loaded, which might lead to the scroll
+// position not having been restored properly
+
 export const useProductStore = defineStore('products', {
 	state: () => ({
 		products: {},  // id => product
 		collections: {},
 		order: [],     // ids
 
+		cache: {}, // search query stringified -> { order, more }
+
 		more: true,       // true= show the 'load more' button as there IS more!
 		lastQuery: "",    // the last search query, stringified
 		searching: false, // true= search in progress
-		appending: false, // true= same as 'searching', but indicative of whether the current order is going to be invalidated as a result. This is used for displaying the
+		appending: false, // true= same as 'searching', but indicative of whether the current
+		                  // order is going to be invalidated as a result. This is used for displaying
+		                  //  different loading states for different cases
 		searchPromise: null     // search API request promise (for the sake of aborting it)
 	}),
 
@@ -71,20 +80,6 @@ export const useProductStore = defineStore('products', {
 			this.collections[name] = collection
 		},
 
-		/*
-			1. Do we allow multiple simultaneous searches?
-				* Currently, NO
-				* Cuz it's much easier to implement, BUT
-				* If we trigger the search automatically every time the user
-				  changes the filters, the interface becomes unresponsive
-				  after every user interaction. That isn't great
-
-		  	2. Do we show "loading" state while loading new data, or just
-		  	   keep the old data in the meantime?
-
-		  		* We'll have to show loading state on the first fetch, anyway
-	  	   			* Actually, not necessarily: we might prefetch server-side)
-		*/
 
 		async search (query) {
 
@@ -107,11 +102,21 @@ export const useProductStore = defineStore('products', {
 			this.searching = true
 			this.appending = query.append ? true : false
 
-			this.searchPromise = api.searchProducts(query)
-				.then(res => {
-					let {order, products, more} = res
+			if (this.cache[this.lastQuery]) {
+				log("have the search result cached, don't fetch")
+				this.searchPromise = Promise.resolve(this.cache[this.lastQuery])
+			} else {
+				this.searchPromise = api.searchProducts(query)
+					.then(({order, products, more}) => {
+						this.cache[this.lastQuery] = {order, more}
+						this.products = Object.assign(this.products, products)
+						return {order, more}
+					})
+			}
+
+			this.searchPromise = this.searchPromise
+				.then(({order, more}) => {
 					this.order = query.append ? [...this.order, ...order] : order
-					this.products = Object.assign(this.products, products)
 					this.more = more
 				})
 				.catch(error => {
