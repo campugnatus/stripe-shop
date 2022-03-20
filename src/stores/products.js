@@ -3,18 +3,15 @@ import api from '@/api.js'
 
 export const useProductStore = defineStore('products', {
 	state: () => ({
-		products: {},     // id => product
+		products: {},  // id => product
 		collections: {},
-		order: [],        // ids
+		order: [],     // ids
 
 		more: true,       // true= show the 'load more' button as there IS more!
 		lastQuery: "",    // the last search query, stringified
 		searching: false, // true= search in progress
-		appending: false, // true= same as 'searching', but indicative of whether
-		                  // the current order is going to be invalidated as a result.
-		                  // This is used for deciding which loading state to display
-
-		searchPromise: null // search API request promise (for the sake of aborting it)
+		appending: false, // true= same as 'searching', but indicative of whether the current order is going to be invalidated as a result. This is used for displaying the
+		searchPromise: null     // search API request promise (for the sake of aborting it)
 	}),
 
 	getters: {
@@ -121,14 +118,27 @@ export const useProductStore = defineStore('products', {
 					this.more = more
 				})
 				.catch(error => {
-					if (error.name === "AbortError") {
-						log("search oborted hoho", error.name)
+					if (error.name === "abort") {
+						log("abort abort")
 						return
 					}
 					else {
-						log("some other error")
+						log("something else entirely")
 						throw error
 					}
+
+					// if (axios.isCancel(error)) {
+					// 	log("search canceled the deprecated way")
+					// 	return
+					// }
+					// else if (error.name === "AbortError") {
+					// 	log("search oborted hoho", error.name)
+					// 	return
+					// }
+					// else {
+					// 	log("some other error")
+					// 	throw error
+					// }
 				})
 				.finally(() => {
 					this.searching = false

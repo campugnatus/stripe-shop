@@ -6,7 +6,10 @@ axios.defaults.baseURL = "http://localhost:3002"
 // for debugging purposes, TODO: turn off in production
 window.axios = axios
 
- let controller
+let controller
+
+let CancelToken
+let source
 
 import products from '/stripes.json'
 
@@ -18,30 +21,48 @@ export default {
 
 	async searchProducts (query) {
 		controller = new AbortController()
-		// return axios('/products/search', {
-		// 	params: query,
-		// 	signal: controller.signal
-		// })
-		// .then(response => response.data)
+		CancelToken = axios.CancelToken
+		source = CancelToken.source()
 
-		for (let key of Object.keys(query)) {
-			if (query[key] === undefined) {
-				log("key undefined", key)
-				delete query[key]
+		return axios('/products/search', {
+			params: query,
+			signal: controller.signal,
+			cancelToken: source.token
+		})
+		.then(response => response.data, error => {
+			if (axios.isCancel(error)) {
+				log("search canceled the deprecated way")
+				throw { name: "abort" }
 			}
-		}
-
-		const response = await fetch('http://localhost:3002/products/search?' + new URLSearchParams(query), {
-			signal: controller.signal
+			else if (error.name === "AbortError") {
+				log("search oborted hoho", error.name)
+				throw { name: "abort" }
+			}
+			else {
+				log("some other error")
+				throw error
+			}
 		})
 
-		const json = await response.json()
-		log("response", response, json)
-		return json
+		// for (let key of Object.keys(query)) {
+		// 	if (query[key] === undefined) {
+		// 		log("key undefined", key)
+		// 		delete query[key]
+		// 	}
+		// }
+
+		// const response = await fetch('http://localhost:3002/products/search?' + new URLSearchParams(query), {
+		// 	signal: controller.signal
+		// })
+
+		// const json = await response.json()
+		// log("response", response, json)
+		// return json
 	},
 	
 	abortSearch () {
 		controller.abort()
+		source.cancel()
 		// return new Promise((resolve, reject) => {
 		// 	setTimeout(() => {
 		// 		log("resolved")
