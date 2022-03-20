@@ -89,11 +89,9 @@ export const useProductStore = defineStore('products', {
 		async search (query) {
 
 			if (this.searching) {
-				log("aborting the previous search...")
 				api.abortSearch()
 
 				this.searchPromise.then(() => {
-					log("run next search")
 					this.search(query)
 				})
 
@@ -109,7 +107,6 @@ export const useProductStore = defineStore('products', {
 			this.searching = true
 			this.appending = query.append ? true : false
 
-			log("seeeearch", query)
 			this.searchPromise = api.searchProducts(query)
 				.then(res => {
 					let {order, products, more} = res
@@ -118,27 +115,14 @@ export const useProductStore = defineStore('products', {
 					this.more = more
 				})
 				.catch(error => {
-					if (error.name === "abort") {
-						log("abort abort")
-						return
+					if (error === "abort") {
+						log("search aborted")
+						return // don't panic
 					}
 					else {
-						log("something else entirely")
 						throw error
 					}
 
-					// if (axios.isCancel(error)) {
-					// 	log("search canceled the deprecated way")
-					// 	return
-					// }
-					// else if (error.name === "AbortError") {
-					// 	log("search oborted hoho", error.name)
-					// 	return
-					// }
-					// else {
-					// 	log("some other error")
-					// 	throw error
-					// }
 				})
 				.finally(() => {
 					this.searching = false
@@ -147,53 +131,5 @@ export const useProductStore = defineStore('products', {
 
 			return this.searchPromise
 		},
-
-		// async search (query) {
-
-		// 	if (this.searching) {
-		// 		log("aborting the previous search...")
-		// 		// log("zhuzha?", await api.abortSearch())
-		// 		api.abortSearch()
-
-		// 		this.searchPromise.then(() => {
-		// 			log("run next search")
-		// 			this.search(query)
-		// 		})
-
-		// 		return
-		// 	}
-
-		// 	if (JSON.stringify(query) == this.lastQuery) {
-		// 		log("not going to repeat the same search twice")
-		// 		return
-		// 	}
-
-		// 	this.lastQuery = JSON.stringify(query)
-		// 	this.searching = true
-
-		// 	try {
-		// 		log("try running a search")
-		// 		this.searchPromise = api.searchProducts(query)
-		// 		let {order, products, more} = await this.searchPromise
-		// 		this.order = query.append ? [...this.order, ...order] : order
-		// 		this.products = Object.assign(this.products, products)
-		// 		this.more = more
-		// 	}
-
-		// 	catch (error) {
-		// 		if (error.name === "AbortError") {
-		// 			log("search oborted hoho", e.name)
-		// 			return
-		// 		}
-		// 		else {
-		// 			log("some other error")
-		// 			throw error
-		// 		}
-		// 	}
-
-		// 	finally {
-		// 		this.searching = false
-		// 	}
-		// },
 	}
 })
