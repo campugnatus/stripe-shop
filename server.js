@@ -36,7 +36,9 @@ app.get('/products/search/', function (req, res, next) {
 		to:      req.query.to            || 30,
 		sort:    req.query.sort          || "default",
 		colors:  req.query.color         || [],
-		shapes:  req.query.shape         || []
+		shapes:  req.query.shape         || [],
+		number:  req.query.number        || [],
+		tags:    req.query.tags          || []
 	}
 
 	const filtered = filterProducts(query, Object.values(db.products))
@@ -59,9 +61,11 @@ app.get('/products/search/', function (req, res, next) {
 
 	function filterProducts(query, products) {
 		return products.filter(product => {
-			return matchWords(product, query.words)
+			return    matchWords(product, query.words)
 			       && matchColor(product, query.colors)
+			       && matchNumber(product, query.number)
 			       && matchShape(product, query.shapes)
+			       && matchTags(product, query.tags)
 		})
 	}
 
@@ -77,11 +81,45 @@ app.get('/products/search/', function (req, res, next) {
 	}
 
 	function matchColor(product, colors) {
-		return true
+		if (colors.length === 0) return true
+
+		for (let color of colors)
+			for (let tag of product.tags)
+				if (tag === color)
+					return true
+
+		return false
 	}
 
 	function matchShape(product, shapes) {
-		return true
+		if (shapes.length === 0) return true
+
+		for (let shape of shapes)
+			for (let tag of product.tags)
+				if (tag === shape)
+					return true
+
+		return false
+	}
+
+	function matchTags(product, tags) {
+		let verdict = true
+
+		for (let tag of tags)
+			verdict = verdict && !!product.tags.find(t => t === tag)
+
+		return verdict
+	}
+
+	function matchNumber (product, tags) {
+		if (tags.length === 0) return true
+
+		for (let tag of tags)
+			for (let tag2 of product.tags)
+				if (tag === tag2)
+					return true
+
+		return false
 	}
 
 	function sortProducts(products, order) {

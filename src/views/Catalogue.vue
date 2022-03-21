@@ -31,29 +31,35 @@
 					<option value="price-descend">Most expensive first</option>
 				</select>
 
-				<h2 class="text-2xl mb-2 mt-8">Colors</h2>
-				<div><input type="checkbox" class="mr-2"> Monochrome</div>
-				<div><input type="checkbox" class="mr-2"> Variegated</div>
-
-				<div class="mt-3"></div>
-				<div><input type="checkbox" class="mr-2 rounded-full"> Grayscale</div>
-				<div><input type="checkbox" class="mr-2 rounded-full bg-red-600 border-red-500"> Red</div>
-				<div><input type="checkbox" class="mr-2 rounded-full"> Green</div>
-				<div><input type="checkbox" class="mr-2 rounded-full"> Blue</div>
-				<div><input type="checkbox" class="mr-2 rounded-full"> Yellow</div>
-				<div><input type="checkbox" class="mr-2 rounded-full"> Orange</div>
-				<div><input type="checkbox" class="mr-2 rounded-full"> Brown</div>
+				<h2 class="text-2xl mb-2 mt-8">Color</h2>
+				<div><input v-model="filters.color.gray" type="checkbox" class="mr-2 rounded-full bg-gray-700"> Grayscale</div>
+				<div><input v-model="filters.color.red" type="checkbox" class="mr-2 rounded-full bg-tomato border-tomato"> Red</div>
+				<div><input v-model="filters.color.green" type="checkbox" class="mr-2 rounded-full bg-emerald-600 border-emerald-600"> Green</div>
+				<div><input v-model="filters.color.blue" type="checkbox" class="mr-2 rounded-full bg-cyan-600 border-cyan-600"> Blue</div>
+				<div><input v-model="filters.color.yellow" type="checkbox" class="mr-2 rounded-full bg-yellow-200 border-yellow-200"> Yellow</div>
+				<div><input v-model="filters.color.orange" type="checkbox" class="mr-2 rounded-full bg-orange border-orange"> Orange</div>
+				<div><input v-model="filters.color.brown" type="checkbox" class="mr-2 rounded-full bg-yellow-800 border-yellow-800"> Brown</div>
 
 				<h2 class="text-2xl mb-2 mt-8">Number</h2>
-				<div><input type="checkbox" class="mr-2"> Single</div>
-				<div><input type="checkbox" class="mr-2"> Multiple</div>
+				<div><input v-model="filters.number.single" type="checkbox" class="mr-2"> Single</div>
+				<div><input v-model="filters.number.multiple" type="checkbox" class="mr-2"> Multiple</div>
 
 				<h2 class="text-2xl mb-2 mt-8">Shape</h2>
 				<div><input v-model="filters.shape.straight" type="checkbox" class="mr-2"> Straight</div>
 				<div><input v-model="filters.shape.curvy" type="checkbox" class="mr-2"> Curvy</div>
 				<div><input v-model="filters.shape.squiggly" type="checkbox" class="mr-2"> Squiggly</div>
 				<div><input v-model="filters.shape.edgy" type="checkbox" class="mr-2"> Edgy</div>
-				<div><input v-model="filters.shape.other" type="checkbox" class="mr-2"> Other</div>
+				<div><input v-model="filters.shape.shapey" type="checkbox" class="mr-2"> Other</div>
+
+				<h2 class="text-2xl mb-2 mt-8">Tags</h2>
+				<div class="space-y-2">
+					<button v-for="value, tag in filters.tags"
+					      class="text-sm py-0.5 px-2 bg-gray-200 rounded mr-2 text-gray-600"
+					      @click="filters.tags[tag] = !filters.tags[tag]"
+					      :class="{'bg-gray-500 !text-white': value}">
+						{{tag}}
+					</button>
+				</div>
 			</fieldset>
 		</aside>
 
@@ -135,11 +141,24 @@ const filters = reactive({
 	},
 
 	shape: {
-		straight: false,
-		curvy:    false,
-		squiggly: false,
-		edgy:     false,
-		other:    false,
+		straight:  false,
+		curvy:     false,
+		squiggly:  false,
+		edgy:      false,
+		shapey:    false,
+	},
+
+	number: {
+		single: false,
+		multiple: false,
+	},
+
+	tags: {
+		monochrome: false,
+		'3d': false,
+		animate: false,
+		jigsaw: false,
+		'world art': false,
 	},
 
 	text: undefined,
@@ -175,8 +194,10 @@ function init(route) {
 
 		text: filters.text,
 		sort: filters.sort,
-		shape: Object.keys(filters.shape).filter(key => !!filters.shape[key]),
-		color: Object.keys(filters.color).filter(key => !!filters.color[key]),
+		shape:  Object.keys(filters.shape).filter(key => !!filters.shape[key]),
+		color:  Object.keys(filters.color).filter(key => !!filters.color[key]),
+		number: Object.keys(filters.number).filter(key => !!filters.number[key]),
+		tags:   Object.keys(filters.tags).filter(key => !!filters.tags[key]),
 
 	}).catch((e) => {
 		showToast.error("Something went wrong")
@@ -190,6 +211,8 @@ function stateToQuery () {
 		sort: filters.sort === "default" ? undefined : filters.sort,
 		shape: Object.keys(filters.shape).filter(key => !!filters.shape[key]),
 		color: Object.keys(filters.color).filter(key => !!filters.color[key]),
+		number: Object.keys(filters.number).filter(key => !!filters.number[key]),
+		tags:   Object.keys(filters.tags).filter(key => !!filters.tags[key]),
 	}
 }
 
@@ -207,6 +230,13 @@ function parseQueryString(query) {
 	filters.shape.squiggly = query.shape?.includes('squiggly') ?? false
 	filters.shape.edgy     = query.shape?.includes('edgy') ?? false
 	filters.shape.other    = query.shape?.includes('other') ?? false
+
+	filters.number.single  = query.number?.includes('single') ?? false
+	filters.number.multiple  = query.number?.includes('multiple') ?? false
+
+	for (let key of Object.keys(filters.tags)) {
+		filters.tags[key] = query.tags?.includes(key) ?? false
+	}
 
 	filters.sort = query.sort ?? "default"
 	filters.text = query.search
