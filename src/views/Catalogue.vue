@@ -32,24 +32,82 @@
 				</select>
 
 				<h2 class="text-2xl mb-2 mt-8">Color</h2>
-				<div><input v-model="filters.color.gray" type="checkbox" class="mr-2 rounded-full bg-gray-700"> Grayscale</div>
-				<div><input v-model="filters.color.red" type="checkbox" class="mr-2 rounded-full bg-tomato border-tomato"> Red</div>
-				<div><input v-model="filters.color.green" type="checkbox" class="mr-2 rounded-full bg-emerald-600 border-emerald-600"> Green</div>
-				<div><input v-model="filters.color.blue" type="checkbox" class="mr-2 rounded-full bg-cyan-600 border-cyan-600"> Blue</div>
-				<div><input v-model="filters.color.yellow" type="checkbox" class="mr-2 rounded-full bg-yellow-200 border-yellow-200"> Yellow</div>
-				<div><input v-model="filters.color.orange" type="checkbox" class="mr-2 rounded-full bg-orange border-orange"> Orange</div>
-				<div><input v-model="filters.color.brown" type="checkbox" class="mr-2 rounded-full bg-yellow-800 border-yellow-800"> Brown</div>
+				<div class="">
+					<div class="flex items-center">
+						<input v-model="filters.color.gray" type="checkbox" name="gray" id="gray"
+						       class="mr-3 rounded-full bg-gray-700 border-none text-gray-700 focus:ring-gray-700">
+						<label for="gray">Grayscale</label>
+					</div>
+					<div class="flex items-center">
+						<input v-model="filters.color.red" type="checkbox" name="red" id="red"
+						       class="mr-3 rounded-full bg-tomato border-none text-tomato focus:ring-tomato">
+						<label for="red">Red</label>
+					</div>
+					<div class="flex items-center">
+						<input v-model="filters.color.green" type="checkbox" name="green" id="green"
+						       class="mr-3 rounded-full bg-emerald-600 border-none text-emerald-600 focus:ring-emerald-600">
+						<label for="green">Green</label>
+					</div>
+					<div class="flex items-center">
+						<input v-model="filters.color.blue" type="checkbox" name="blue" id="blue"
+						       class="mr-3 rounded-full bg-cyan-600 border-none text-cyan-600 focus:ring-cyan-600">
+						<label for="blue">Blue</label>
+					</div>
+					<div class="flex items-center">
+						<input v-model="filters.color.yellow" type="checkbox" name="yellow" id="yellow"
+						       class="mr-3 rounded-full bg-yellow-200 border-none text-yellow-200 focus:ring-yellow-200">
+						<label for="yellow">Yellow</label>
+					</div>
+					<div class="flex items-center">
+						<input v-model="filters.color.orange" type="checkbox" name="orange" id="orange"
+						       class="mr-3 rounded-full bg-orange border-none text-orange focus:ring-orange">
+						<label for="orange">Orange</label>
+					</div>
+					<div class="flex items-center">
+						<input v-model="filters.color.brown" type="checkbox" name="brown" id="brown"
+						       class="mr-3 rounded-full bg-yellow-800 border-none text-yellow-800 focus:ring-yellow-800">
+						<label for="brown">Brown</label>
+					</div>
+				</div>
 
 				<h2 class="text-2xl mb-2 mt-8">Number</h2>
-				<div><input v-model="filters.number.single" type="checkbox" class="mr-2"> Single</div>
-				<div><input v-model="filters.number.multiple" type="checkbox" class="mr-2"> Multiple</div>
+				<div class="flex items-center">
+					<input v-model="filters.number.single" id="single" type="checkbox"
+					       class="mr-3 text-primary focus:ring-primary">
+					<label for="single">Single</label>
+				</div>
+				<div class="flex items-center">
+					<input v-model="filters.number.multiple" id="multiple" type="checkbox"
+					       class="mr-3 text-primary focus:ring-primary">
+					<label for="multiple">Multiple</label>
+				</div>
 
 				<h2 class="text-2xl mb-2 mt-8">Shape</h2>
-				<div><input v-model="filters.shape.straight" type="checkbox" class="mr-2"> Straight</div>
-				<div><input v-model="filters.shape.curvy" type="checkbox" class="mr-2"> Curvy</div>
-				<div><input v-model="filters.shape.squiggly" type="checkbox" class="mr-2"> Squiggly</div>
-				<div><input v-model="filters.shape.edgy" type="checkbox" class="mr-2"> Edgy</div>
-				<div><input v-model="filters.shape.shapey" type="checkbox" class="mr-2"> Other</div>
+				<div class="flex items-center">
+					<input v-model="filters.shape.straight" id="straight" type="checkbox"
+					       class="mr-3 text-primary focus:ring-primary">
+					<label for="straight">Straight</label>
+				</div>
+				<div class="flex items-center">
+					<input v-model="filters.shape.curvy" id="curvy" type="checkbox"
+					       class="mr-3 text-primary focus:ring-primary">
+					<label for="curvy">Curvy</label>
+				</div>
+				<div class="flex items-center">
+					<input v-model="filters.shape.squiggly" id="squiggly" type="checkbox"
+					       class="mr-3 text-primary focus:ring-primary">
+					<label for="squiggly">Squiggly</label>
+				</div>
+				<div class="flex items-center">
+					<input v-model="filters.shape.edgy" id="edgy" type="checkbox"
+					       class="mr-3 text-primary focus:ring-primary">
+					<label for="edgy">Edgy</label>
+				</div>
+				<div class="flex items-center">
+					<input v-model="filters.shape.shapey" id="shapey" type="checkbox"
+					       class="mr-3 text-primary focus:ring-primary">
+					<label for="shapey">Other</label>
+				</div>
 
 				<h2 class="text-2xl mb-2 mt-8">Tags</h2>
 				<div class="space-y-2">
