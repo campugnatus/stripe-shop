@@ -81,28 +81,22 @@ app.get('/products/search/', function (req, res, next) {
 	}
 
 	function matchColor(product, colors) {
-		if (colors.length === 0) return true
-
-		for (let color of colors)
-			for (let tag of product.tags)
-				if (tag === color)
-					return true
-
-		return false
+		return matchTagsOR(product, colors)
 	}
 
 	function matchShape(product, shapes) {
-		if (shapes.length === 0) return true
+		return matchTagsOR(product, shapes)
+	}
 
-		for (let shape of shapes)
-			for (let tag of product.tags)
-				if (tag === shape)
-					return true
-
-		return false
+	function matchNumber (product, numbers) {
+		return matchTagsOR(product, numbers)
 	}
 
 	function matchTags(product, tags) {
+		return matchTagsAND(product, tags)
+	}
+
+	function matchTagsAND (product, tags) {
 		let verdict = true
 
 		for (let tag of tags)
@@ -111,7 +105,7 @@ app.get('/products/search/', function (req, res, next) {
 		return verdict
 	}
 
-	function matchNumber (product, tags) {
+	function matchTagsOR (product, tags) {
 		if (tags.length === 0) return true
 
 		for (let tag of tags)
