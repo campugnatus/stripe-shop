@@ -10,6 +10,11 @@ app.use(cors())
 
 const db = mockDB()
 
+app.use(function logResuests (req, res, next) {
+	console.log(req.method, req.url, req.query)
+	next()
+})
+
 app.use(function delay (req, res, next) {
 	// simulate network delay during development for the obviousness of the
 	// loading states
@@ -20,20 +25,19 @@ app.use(function delay (req, res, next) {
 
 
 
+
 app.get('/products/search/', function (req, res, next) {
 	// TODO: validate parameters
 
 
 	const query = {
 		words:   wordify(req.query.text) || [],
-		from:    req.query.from           || 0,
-		to:      req.query.to             || 30,
-		sort:    req.query.sort           || "default",
-		colors:  req.query.color          || [],
-		shapes:  req.query.shape          || []
+		from:    req.query.from          || 0,
+		to:      req.query.to            || 30,
+		sort:    req.query.sort          || "default",
+		colors:  req.query.color         || [],
+		shapes:  req.query.shape         || []
 	}
-
-	console.log(req.query, query)
 
 	const filtered = filterProducts(query, Object.values(db.products))
 	const sorted = sortProducts(filtered, query.sort)

@@ -76,7 +76,7 @@ let tween
 
 function scrollLeft () {
 	tween = gsap.to(carousel.value, {
-		duration: 1,
+		duration: 0.6,
 		scrollTo: {x: carousel.value.scrollLeft - carousel.value.clientWidth*0.8},
 		ease: "power2.inOut"
 	})
@@ -84,7 +84,7 @@ function scrollLeft () {
 
 function scrollRight () {
 	tween = gsap.to(carousel.value, {
-		duration: 1,
+		duration: 0.6,
 		scrollTo: {x: carousel.value.scrollLeft + carousel.value.clientWidth*0.8},
 		ease: "power2.inOut"
 	})
