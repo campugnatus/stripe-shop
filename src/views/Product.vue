@@ -23,9 +23,9 @@
 				{{product?.description}}
 			</div>
 
-			<div class="mt-3 mb-6 loading:grayout">
+			<div class="mt-3 mb-6 loading:grayout space-y-2">
 				<span v-for="tag in product?.tags"
-				      class="text-sm p-1 px-2 border- bg-gray-200 text-primary rounded mr-2 text-gray-600">
+					         class="inline-block text-sm p-1 px-2 bg-gray-200 rounded mr-2 text-gray-600 whitespace-nowrap">
 					{{tag}}
 				</span>
 			</div>
