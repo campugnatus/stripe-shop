@@ -43,7 +43,7 @@
 
 	<section class="mt-40 max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
 		<h1 class="text-2xl md:text-3xl font-roboto">Now... how about these?</h1>
-		<Carousel class="mt-6 -mx-4 sm:-mx-6 lg:-mx-8"/>
+		<Carousel class="mt-6 -mx-4" :ids="productStore.collection('recommended')"/>
 	</section>
 
 	<ShopFooter/>
@@ -56,6 +56,9 @@ import OrderedItem from '@/components/OrderedItem.vue'
 import Carousel from '@/components/Carousel.vue'
 import {useTitle} from '@vueuse/core'
 import {CheckCircleIcon} from '@heroicons/vue/solid'
+import { useProductStore } from '@/stores/products'
+
+const productStore = useProductStore()
 
 const title = useTitle("Order details", { titleTemplate: '%s | Stripe shop' })
 
