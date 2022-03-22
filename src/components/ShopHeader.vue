@@ -23,7 +23,7 @@
     <section class="row-start-3 col-span-2 lg:mx-16 xl:mx-32 flex-grow flex items-center">
       <div class="relative w-full">
         <input @keyup.enter="searchCatalogue" type="text" name="search" placeholder="Search for stripes" v-model="query"
-               class="lg:text-lg border border-gray-300 pl-3 lg:pl-5 pr-14 w-full focus:outline-none focus:ring-0 rounded-full focus:border-primary">
+               class="lg:text-lg border border-gray-300 pl-3 lg:pl-5 pr-14 w-full focus:outline-none focus:ring focus:ring-gray-200 rounded-full focus:border-gray-400">
         <button @click="resetSearch" v-if="props.text" class="absolute h-full right-14 text-gray-400 hover:text-black">
           <XIcon class="h-6"/>
         </button>
