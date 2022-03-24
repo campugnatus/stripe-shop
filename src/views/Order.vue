@@ -1,15 +1,23 @@
 <template>
 	<ShopHeader/>
 
-	<main class="grid grid-cols-2 max-w-screen-lg mx-auto px-4 sm:px-6 mt-20 lg:mt-32">
+	<main class="grid grid-cols-2 max-w-screen-lg mx-auto px-4 sm:px-6 mt-20 lg:mt-32" :class="{loading}">
 		<section class="pr-6">
 			<header class="font-mono">
 				<h1 class="text-3xl">Order details</h1>
 
 				<div class="grid grid-cols-2 mt-4">
-					<div>ID:</div>          <div>{{orderId}}</div>
+					<div>Order ID:</div>          <div>{{orderId}}</div>
 					<div>Deliver to:</div>  <div :class="{'grayout': loading}">{{order?.email}}</div>
 					<div>Total price:</div> <div :class="{'grayout w-16': loading}">${{order?.price}}</div>
+					<div class="py-4">
+						<a :href="packageURL" v-if="packageURL"
+						   class="loading:grayout inline-block px-2 py-1 bg-primary text-white rounded">
+							Download .zip
+						</a>
+					</div>
+					<div>
+					</div>
 				</div>
 			</header>
 		</section>
@@ -33,7 +41,7 @@
 							{{upd.status}}
 						</div>
 						<div class="ml-3 text-sm text-gray-400">
-							@ {{ new Date(upd.date*1000).toLocaleString() }}
+							{{ new Date(upd.date).toLocaleString() }}
 						</div>
 					</li>
 				</ul>
@@ -57,6 +65,7 @@ import Carousel from '@/components/Carousel.vue'
 import {useTitle} from '@vueuse/core'
 import {CheckCircleIcon} from '@heroicons/vue/solid'
 import { useProductStore } from '@/stores/products'
+import api from '@/api.js'
 
 const productStore = useProductStore()
 
@@ -76,4 +85,12 @@ const loading = computed(() => order.value === undefined)
 const history = computed(() => order.value?.status.reverse())
 
 userStore.fetchOrder(orderId)
+
+const packageURL = computed(() => {
+	// TODO: make api address configurable
+	if (order.value?.package)
+		return 'http://localhost:3002/package/' + order.value?.package
+	else
+		return undefined
+})
 </script>

@@ -3,6 +3,11 @@ const app = express()
 const cors = require('cors')
 const port = 3002
 
+const { exec, spawn } = require('child_process')
+const path = require('path')
+const { createHmac } = require('crypto')
+
+
 app.use(express.json())
 
 // TODO: restrict CORS
@@ -144,6 +149,8 @@ app.get('/products/search/', function (req, res, next) {
 })
 
 
+
+
 // get product by id
 app.get('/products/:id', function (req, res, next) {
 	if (!db.products[req.params.id])
@@ -151,6 +158,9 @@ app.get('/products/:id', function (req, res, next) {
 
 	res.json(db.products[req.params.id])
 })
+
+
+
 
 // create a new order
 app.post('/orders', function (req, res, next) {
@@ -182,7 +192,7 @@ app.post('/orders', function (req, res, next) {
 			status: "paid",
 			date: new Date().getTime()
 		})
-		shipOrder(order.id)
+		packOrder(order.id)
 	}, 5000)
 
 	res.json(order)
@@ -196,6 +206,49 @@ app.get('/orders/:id', function (req, res, next) {
 	else
 		res.sendStatus(404)
 })
+
+app.get('/package/:id', (req, res, next) => {
+	res.sendFile(req.params.id + ".zip", {
+		root: path.join(__dirname, 'zips')
+	}, err => {
+	})
+})
+
+async function packOrder (id) {
+	let order = db.orders[id]
+
+	let productIds = order.items.map(item => item.productId)
+	let filename = await createZip(productIds)
+	order.package = filename
+
+	order.status.push({
+		status: "packed",
+		date: new Date().getTime()
+	})
+
+	// console.log("order shipped:", id)
+	// order.status.push({
+	// 	status: "shipped",
+	// 	date: new Date().getTime()
+	// })
+}
+
+
+// take in product ids, make an archive, return its name (without the
+// extension)
+
+async function createZip(productIds) {
+	let filenames = productIds.map(id => `svg/${id}.svg`).join(' ')
+	let archiveName = newUuid()
+
+	return new Promise ((resolve, reject) => {
+		exec(`zip -j zips/${archiveName}.zip ${filenames}`, (err, stdout, stderr) => {
+			resolve(archiveName)
+		})
+	})
+}
+
+
 
 
 
@@ -223,17 +276,23 @@ app.listen(port, () => {
 
 
 
-function shipOrder (id) {
-	let order = db.orders[id]
-	console.log("order shipped:", id)
-	order.status.push({
-		status: "shipped",
-		date: new Date().getTime()
-	})
+function newId () {
+	return new Date().getTime().toString().substr() + '-' + Math.random().toString().substr(-4)
 }
 
-function newId () {
-	return new Date().getTime().toString() + '-' + Math.random().toString().substr(-4)
+
+// this one is different from newId() in that it's supposed to be harder to
+// read, but harder to guess
+
+function newUuid () {
+	const secret = 'abcdefgh'
+	let buf = Float64Array.from([Math.random(), Math.random(),
+		                           Math.random(), Math.random()])
+	const hash = createHmac('sha256', secret)
+	               .update(buf)
+	               .digest('hex')
+	               .substr(0, 32)
+	return hash
 }
 
 function getProducts () {
@@ -253,6 +312,7 @@ function mockDB () {
 			"1644421018974-7259": {
 				id: "192874ypriwuhefj",
 				email: "zhopa@zhopa.zhopa",
+				//package: "MC44MTA1NDU1NTQ2Mjc4",
 				price: 10.5,
 				status: [
 				{
