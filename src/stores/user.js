@@ -64,6 +64,11 @@ export const useUserStore = defineStore('user', {
 				return Promise.resolve(this.orders[id])
 
 			this.orders[id] = await api.fetchOrder(id)
+		},
+		subOrder (id) {
+			api.subscribe("order", id, (m) => {
+				console.log("subscriber upd", m)
+			})
 		}
 	}
 })

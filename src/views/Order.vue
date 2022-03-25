@@ -85,6 +85,7 @@ const loading = computed(() => order.value === undefined)
 const history = computed(() => order.value?.status.reverse())
 
 userStore.fetchOrder(orderId)
+userStore.subOrder(orderId)
 
 const packageURL = computed(() => {
 	// TODO: make api address configurable
