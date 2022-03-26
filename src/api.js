@@ -12,8 +12,8 @@ window.axios = axios
 let CancelToken
 let source
 
-// just... dump them in here... for now
-const sockets = []
+let ws
+let subs = {}
 
 import products from '/stripes.json'
 
@@ -69,18 +69,31 @@ export default {
 		       .then(response => response.data)
 	},
 
-	subscribe (bucket, id, callback) {
-		const ws = new WebSocket(`ws://localhost:3002/subscribe/${bucket}/${id}`)
-		sockets.push(ws)
-		ws.addEventListener('error', m => {
-			log("ws error:", m)
-		})
-		ws.addEventListener('open', m => {
-			log("ws opened:", m)
-		})
-		ws.addEventListener('message', m => {
-			//log("ws message:", m)
-			callback(JSON.parse(m.data))
+	async subscribe (bucket, id, callback) {
+		await ensureSocket()
+
+		const subName = `${bucket}/${id}`
+
+		if (subs[subName]) {
+			// already subscribed
+			// TODO: is there a better place for this logic?
+			console.log("already subscribed:", bucket, id)
+			return
+		}
+
+		subs[subName] = callback
+
+		ws.send(JSON.stringify({
+			tag: "subscribe",
+			bucket,
+			id
+		}))
+
+		ws.addEventListener('message', ({data}) => {
+			let msg = JSON.parse(data)
+			if (msg.bucket === bucket && msg.id === id) {
+				callback(msg.object)
+			}
 		})
 	},
 
@@ -88,4 +101,30 @@ export default {
 		return axios.post("/orders", {email, items, price, paymentToken})
 					.then(response => response.data)
 	}
+}
+
+async function ensureSocket () {
+	if (ws?.readyState === 1 /* OPEN */)
+		return Promise.resolve()
+
+	// with us having a new socket, the server has also lost track of
+	// us, so it makes sense to forget of all our past subscriptions
+	subs = {}
+
+	return new Promise ((resolve, reject) => {
+		ws = new WebSocket(`ws://localhost:3002/subscribe`)
+		ws.addEventListener('error', m => reject())
+		ws.addEventListener('open', m => resolve())
+
+		// ws.addEventListener('message', ({data}) => {
+		// 	let msg = JSON.parse(data)
+		// 	let subName = `${msg.bucket}/${msg.id}`
+
+		// 	for (let [name, callback] of Object.entries(subs)) {
+		// 		if (name === subName)
+		// 			callback(msg.object)
+		// 	}
+		// })
+	})
+
 }

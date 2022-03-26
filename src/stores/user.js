@@ -58,17 +58,21 @@ export const useUserStore = defineStore('user', {
 		async signup ({username, name, password}) {
 
 		},
-		async fetchOrder (idRef) {
+		async fetchOrder (idRef, {subscribe}) {
 			let id = unref(idRef)
+
+			if (subscribe) {
+				api.subscribe("order", id, obj => {
+					log("got subscription update:", obj.status[obj.status.length-1].status)
+					this.orders[id] = obj
+				})
+			}
+
 			if (this.orders[id])
 				return Promise.resolve(this.orders[id])
 
 			this.orders[id] = await api.fetchOrder(id)
-		},
-		subOrder (id) {
-			api.subscribe("order", id, (m) => {
-				console.log("subscriber upd", m)
-			})
+			return this.orders[id]
 		}
 	}
 })
