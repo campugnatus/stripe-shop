@@ -63,7 +63,6 @@ export const useUserStore = defineStore('user', {
 
 			if (subscribe) {
 				api.subscribe("order", id, obj => {
-					log("got subscription update:", obj.status[obj.status.length-1].status)
 					this.orders[id] = obj
 				})
 			}

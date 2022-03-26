@@ -12,10 +12,21 @@ window.axios = axios
 let CancelToken
 let source
 
+
+
+const wshost = "ws://localhost:3002"
+
+// websocket for the pubsub
 let ws
+
+// we keep track of our subscriptions for the sole purpose of avoiding
+// multiple subscriptions to the same object... which, theoretically, might
+// not be such a bad thing, after all: different places might want to
+// subscribe to the same thing for different reasons, nothing wrong with
+// that. But we want to avoid the same place subscribing multiple times. Is
+// there a way?
 let subs = {}
 
-import products from '/stripes.json'
 
 export default {
 	async fetchProduct (id) {
@@ -45,17 +56,6 @@ export default {
 		source.cancel()
 	},
 
-	connect () {
-		var s = new WebSocket('ws://localhost:3002/order/')
-		s.addEventListener('error', function (m) { log("ws error"); });
-		s.addEventListener('open', function (m) {
-			log("websocket connection open")
-
-		});
-		s.addEventListener('message', function (m) { log("ws message", m.data); });
-	},
-
-
 	async login () {
 		return axios({
 			url: "/login",
@@ -69,6 +69,11 @@ export default {
 		       .then(response => response.data)
 	},
 
+	async createOrder ({email, items, price, paymentToken}) {
+		return axios.post("/orders", {email, items, price, paymentToken})
+					.then(response => response.data)
+	},
+
 	async subscribe (bucket, id, callback) {
 		await ensureSocket()
 
@@ -77,17 +82,12 @@ export default {
 		if (subs[subName]) {
 			// already subscribed
 			// TODO: is there a better place for this logic?
-			console.log("already subscribed:", bucket, id)
 			return
 		}
 
 		subs[subName] = callback
 
-		ws.send(JSON.stringify({
-			tag: "subscribe",
-			bucket,
-			id
-		}))
+		ws.send(JSON.stringify({tag: "subscribe", bucket, id}))
 
 		ws.addEventListener('message', ({data}) => {
 			let msg = JSON.parse(data)
@@ -96,23 +96,18 @@ export default {
 			}
 		})
 	},
-
-	async createOrder ({email, items, price, paymentToken}) {
-		return axios.post("/orders", {email, items, price, paymentToken})
-					.then(response => response.data)
-	}
 }
 
 async function ensureSocket () {
 	if (ws?.readyState === 1 /* OPEN */)
 		return Promise.resolve()
 
-	// with us having a new socket, the server has also lost track of
-	// us, so it makes sense to forget of all our past subscriptions
+	// with us getting a new socket, the server will also have lost track of
+	// us, so it makes sense to simply forget all of our past subscriptions
 	subs = {}
 
 	return new Promise ((resolve, reject) => {
-		ws = new WebSocket(`ws://localhost:3002/subscribe`)
+		ws = new WebSocket(`${wshost}/subscribe`)
 		ws.addEventListener('error', m => reject())
 		ws.addEventListener('open', m => resolve())
 

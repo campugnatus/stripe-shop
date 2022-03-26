@@ -30,7 +30,7 @@
 			</div>
 		</div>
 
-		<section class="pl-6">
+		<section class="pl-6 min-h-[222px]">
 			<div class="relative">
 				<ul class="space-y-6" :class="{'grayout h-64 w-full': loading}">
 					<li v-for="upd, i in history" class="flex items-center">

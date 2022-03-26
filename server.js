@@ -17,57 +17,25 @@ app.use(cors())
 
 const db = mockDB()
 
-app.ws('/order', (s, req) => {
-  console.error('websocket connection', req.params.kuk);
-  for (var t = 0; t < 3; t++)
-    setTimeout(() => s.send('message from server', ()=>{}), 1000*t);
-})
+function dbPut (bucket, id, object) {
+	broadcast({bucket, id, object})
+	db[bucket+'s'][id] = object
+}
+
 
 const subscribers = {
 	order: {},
 }
 
-
-
 app.ws('/subscribe', (ws, req) => {
-
-	ws.on('open', function open() {
-		console.log("ws open") // this never fires
-	})
-
-	ws.on('close', function close() {
-		console.log("ws close")
-	})
-
 	ws.on('message', function message (m) {
 		const {tag, bucket, id} = JSON.parse(m)
 		if (tag === "subscribe") {
-			if (!subscribers[bucket][id])
-				subscribers[bucket][id] = []
+			if (!subscribers[bucket][id]) subscribers[bucket][id] = []
 			subscribers[bucket][id].push(ws)
-			console.log("new subscription:", bucket, id)
 		}
 	})
 })
-
-
-
-
-app.use(function logResuests (req, res, next) {
-	console.log(req.method, req.url, req.query)
-	next()
-})
-
-
-
-app.use(function delay (req, res, next) {
-	// simulate network delay during development for the obviousness of the
-	// loading states
-	setTimeout(() => {
-		next()
-	}, 2000)
-})
-
 
 function broadcast ({bucket, id, object}) {
 	let socks = subscribers[bucket][id]
@@ -86,10 +54,22 @@ function broadcast ({bucket, id, object}) {
 }
 
 
-function dbPut (bucket, id, object) {
-	broadcast({bucket, id, object})
-	db[bucket+'s'][id] = object
-}
+
+
+
+app.use(function logResuests (req, res, next) {
+	console.log(req.method, req.url, req.query)
+	next()
+})
+
+app.use(function delay (req, res, next) {
+	// simulate network delay during development for the obviousness of the
+	// loading states
+	setTimeout(() => {
+		next()
+	}, 2000)
+})
+
 
 app.get('/products/search/', function (req, res, next) {
 	// TODO: validate parameters
@@ -226,8 +206,6 @@ app.get('/products/:id', function (req, res, next) {
 app.post('/orders', async function (req, res, next) {
 	// TODO: validate input
 
-	console.log("new order payment token:", req.body.paymentToken)
-
 	const orderId = newId()
 	let order = {
 		id: orderId,
@@ -245,6 +223,7 @@ app.post('/orders', async function (req, res, next) {
 			}
 		]
 	}
+
 	dbPut("order", orderId, order)
 	//db.orders[orderId] = order
 	res.json(order)
@@ -257,8 +236,10 @@ app.post('/orders', async function (req, res, next) {
 	dbPut("order", orderId, order)
 
 	await new Promise((resolve, reject) => setTimeout(() => resolve(), 5000))
-	packOrder(order.id)
+	await packOrder(order.id)
 
+	await new Promise((resolve, reject) => setTimeout(() => resolve(), 5000))
+	await shipOrder(order.id)
 })
 
 
@@ -277,6 +258,7 @@ app.get('/package/:id', (req, res, next) => {
 	})
 })
 
+
 async function packOrder (id) {
 	let order = db.orders[id]
 
@@ -290,10 +272,12 @@ async function packOrder (id) {
 	})
 
 	dbPut("order", id, order)
+}
 
-	await new Promise((resolve, reject) => setTimeout(() => resolve(), 5000))
 
-	console.log("order shipped:", id)
+async function shipOrder (id) {
+	let order = db.orders[id]
+
 	order.status.push({
 		status: "shipped",
 		date: new Date().getTime()
