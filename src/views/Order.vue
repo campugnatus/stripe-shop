@@ -1,6 +1,12 @@
 <template>
 	<ShopHeader/>
 
+<!-- 	<TransitionGroup tag="ul" name="itemsf" class="space-y-6 relative loading:grayout loading:h-64 loading:w-full min-h-[300px]">
+		<li v-for="upd in hst" :key='"a"+upd.key'>
+			{{upd.status}}
+		</li>
+	</TransitionGroup> -->
+
 	<main class="grid grid-cols-2 max-w-screen-lg mx-auto px-4 sm:px-6 mt-20 lg:mt-32" :class="{loading}">
 		<section class="pr-6">
 			<header class="font-mono">
@@ -31,20 +37,18 @@
 		</div>
 
 		<section class="pl-6 min-h-[222px]">
-			<div class="relative">
-				<ul class="space-y-6" :class="{'grayout h-64 w-full': loading}">
-					<li v-for="upd, i in history" class="flex items-center">
-						<!-- <CheckCircleIcon class="w-8 text-gray-300"/> -->
-
+			<div class="">
+				<TransitionGroup tag="ul" name="hist" class="relative loading:grayout loading:h-64 loading:w-full">
+					<li v-for="upd, i in history" :key="upd.status" class="flex items-center py-2">
 						<div class="ml-4 text-xs uppercase p-1 px-3 rounded-full"
 						      :class="[i === 0 ? 'bg-blue-300 text-white': 'bg-gray-100 text-gray-500']">
 							{{upd.status}}
 						</div>
-						<div class="ml-3 text-sm text-gray-400">
+						<div class="ml-3 text-sm text-gray-400" v-if="upd.date">
 							{{ new Date(upd.date).toLocaleString() }}
 						</div>
 					</li>
-				</ul>
+				</TransitionGroup>
 			</div>
 		</section>
 	</main>
@@ -63,6 +67,7 @@ import ShopFooter from '@/components/ShopFooter.vue'
 import OrderedItem from '@/components/OrderedItem.vue'
 import Carousel from '@/components/Carousel.vue'
 import {useTitle} from '@vueuse/core'
+import { ref, reactive } from 'vue'
 import {CheckCircleIcon} from '@heroicons/vue/solid'
 import { useProductStore } from '@/stores/products'
 import api from '@/api.js'
@@ -82,7 +87,87 @@ const route = useRoute()
 const orderId = computed(() => route.params.id)
 const order = computed(() => userStore.orders[orderId.value])
 const loading = computed(() => order.value === undefined)
-const history = computed(() => order.value?.status.reverse())
+
+const history = computed(() => {
+	if (order.value === undefined)
+		return []
+
+	let res = [...order.value.status]
+	let last = res[res.length-1]
+
+	let waitingStatus = {
+		created: { status: "waiting for payment" },
+		paid:    { status: "wrapping up" },
+		packed:  { status: "preparing shipment" },
+	}
+
+	if (waitingStatus[last.status])
+		res.push(waitingStatus[last.status])
+
+	return res.reverse()
+})
+
+
+const hst = ref([
+	{
+		status: "created",
+		date: new Date().getTime(),
+		key: 1
+	},
+	{
+		status: "waiting for payment",
+		key: 2
+	}
+])
+
+const hstReversed = computed(() => {
+	let res = hst.value
+	log("hoho", JSON.stringify(res.map(x => x.status), null, 4))
+	return [...res].reverse()
+})
+
+async function timetime () {
+	await new Promise(resolve => setTimeout(() => resolve(), 3000))
+	hst.value.pop()
+	// await new Promise(resolve => setTimeout(() => resolve(), 2000))
+	hst.value.push({
+		status: "paid",
+		date: new Date().getTime(),
+		key: 3
+	})
+
+	// await new Promise(resolve => setTimeout(() => resolve(), 1000))
+	hst.value.push({
+		status: "wrapping up",
+		key: 4
+	})
+
+	// await new Promise(resolve => setTimeout(() => resolve(), 1000))
+	// hst.value.push()
+	// hst.value.push({
+	// 	status: "packed",
+	// 	date: new Date().getTime()
+	// })
+
+	// await new Promise(resolve => setTimeout(() => resolve(), 1000))
+	// hst.value.push({
+	// 	status: "preparing for shipment",
+	// })
+
+	// await new Promise(resolve => setTimeout(() => resolve(), 1000))
+	// hst.value.push()
+	// hst.value.push({
+	// 	status: "shipped",
+	// 	date: new Date().getTime()
+	// })
+
+}
+
+timetime()
+
+const waitingStatus = computed(() => {
+	return
+})
 
 userStore.fetchOrder(orderId, {subscribe: true})
 
@@ -94,3 +179,22 @@ const packageURL = computed(() => {
 		return undefined
 })
 </script>
+
+<style scoped>
+.hist-move,
+.hist-leave-active,
+.hist-enter-active {
+	transition: all 0.3s ease;
+}
+
+.hist-leave-active {
+	/* ensure leaving items are taken out of layout flow so that moving
+	   animations can be calculated correctly. */
+	position: absolute;
+}
+
+.hist-enter-from,
+.hist-leave-to {
+	opacity: 0;
+}
+</style>

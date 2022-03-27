@@ -217,10 +217,6 @@ app.post('/orders', async function (req, res, next) {
 				status: "created",
 				date: new Date().getTime()
 			},
-			{
-				status: "waiting for payment",
-				date: new Date().getTime()
-			}
 		]
 	}
 
