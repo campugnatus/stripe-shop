@@ -107,68 +107,6 @@ const history = computed(() => {
 	return res.reverse()
 })
 
-
-const hst = ref([
-	{
-		status: "created",
-		date: new Date().getTime(),
-		key: 1
-	},
-	{
-		status: "waiting for payment",
-		key: 2
-	}
-])
-
-const hstReversed = computed(() => {
-	let res = hst.value
-	log("hoho", JSON.stringify(res.map(x => x.status), null, 4))
-	return [...res].reverse()
-})
-
-async function timetime () {
-	await new Promise(resolve => setTimeout(() => resolve(), 3000))
-	hst.value.pop()
-	// await new Promise(resolve => setTimeout(() => resolve(), 2000))
-	hst.value.push({
-		status: "paid",
-		date: new Date().getTime(),
-		key: 3
-	})
-
-	// await new Promise(resolve => setTimeout(() => resolve(), 1000))
-	hst.value.push({
-		status: "wrapping up",
-		key: 4
-	})
-
-	// await new Promise(resolve => setTimeout(() => resolve(), 1000))
-	// hst.value.push()
-	// hst.value.push({
-	// 	status: "packed",
-	// 	date: new Date().getTime()
-	// })
-
-	// await new Promise(resolve => setTimeout(() => resolve(), 1000))
-	// hst.value.push({
-	// 	status: "preparing for shipment",
-	// })
-
-	// await new Promise(resolve => setTimeout(() => resolve(), 1000))
-	// hst.value.push()
-	// hst.value.push({
-	// 	status: "shipped",
-	// 	date: new Date().getTime()
-	// })
-
-}
-
-timetime()
-
-const waitingStatus = computed(() => {
-	return
-})
-
 userStore.fetchOrder(orderId, {subscribe: true})
 
 const packageURL = computed(() => {

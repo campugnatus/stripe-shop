@@ -165,7 +165,7 @@ function checkEmail () {
 
 
 
-<style>
+<style scoped>
 .items-move,
 .items-leave-active,
 .items-enter-active {
