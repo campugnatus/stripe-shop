@@ -39,7 +39,7 @@
 		<section class="pl-6 min-h-[222px]">
 			<div class="">
 				<TransitionGroup tag="ul" name="hist" class="relative loading:grayout loading:h-64 loading:w-full">
-					<li v-for="upd, i in hst" :key="upd.status" class="flex items-center py-2">
+					<li v-for="upd, i in updates" :key="upd.status" class="flex items-center py-2">
 						<div class="ml-4 text-xs uppercase p-1 px-3 rounded-full"
 						      :class="[i === 0 ? 'bg-blue-300 text-white':
 						                         'bg-gray-100 text-gray-500',
@@ -91,11 +91,14 @@ const orderId = computed(() => route.params.id)
 const order = computed(() => userStore.orders[orderId.value])
 const loading = computed(() => order.value === undefined)
 
-const hst = ref([])
+const updates = ref([])
 
 watch(() => order.value?.status, async (status) => {
 	if (status === undefined)
 		return
+
+	updates.value = [...status].reverse()
+	await new Promise(resolve => setTimeout(() => resolve(), 800))
 
 	let res = [...status]
 	let last = res[res.length-1]
@@ -109,30 +112,9 @@ watch(() => order.value?.status, async (status) => {
 	if (waitingStatus[last.status])
 		res.push(waitingStatus[last.status])
 
-	hst.value = [...status].reverse()
-	await new Promise(resolve => setTimeout(() => resolve(), 800))
-	hst.value = res.reverse()
+	updates.value = res.reverse()
 }, {
 	immediate: true
-})
-
-const history = computed(() => {
-	if (order.value === undefined)
-		return []
-
-	let res = [...order.value.status]
-	let last = res[res.length-1]
-
-	let waitingStatus = {
-		created: { status: "waiting for payment", waiting: true },
-		paid:    { status: "wrapping up", waiting: true },
-		packed:  { status: "preparing shipment", waiting: true },
-	}
-
-	if (waitingStatus[last.status])
-		res.push(waitingStatus[last.status])
-
-	return res.reverse()
 })
 
 userStore.fetchOrder(orderId, {subscribe: true})
@@ -140,7 +122,7 @@ userStore.fetchOrder(orderId, {subscribe: true})
 const packageURL = computed(() => {
 	// TODO: make api address configurable
 	if (order.value?.package)
-		return 'http://localhost:3002/package/' + order.value?.package
+		return api.URL+'/package/' + order.value?.package
 	else
 		return undefined
 })

@@ -2,6 +2,7 @@ import axios from "axios"
 
 // TODO: get this from an ENV variable or somethin 
 axios.defaults.baseURL = "http://localhost:3002"
+export const URL = axios.defaults.baseURL
 
 // for debugging purposes, TODO: turn off in production
 window.axios = axios
@@ -135,6 +136,7 @@ export async function ensureSocket () {
 
 
 export default {
+	URL,
 	searchProducts,
 	abortSearch,
 	subscribe,
