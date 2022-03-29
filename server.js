@@ -224,17 +224,17 @@ app.post('/orders', async function (req, res, next) {
 	//db.orders[orderId] = order
 	res.json(order)
 
-	await new Promise((resolve, reject) => setTimeout(() => resolve(), 5000))
+	await new Promise((resolve, reject) => setTimeout(() => resolve(), 10000))
 	order.status.push({
 		status: "paid",
 		date: new Date().getTime()
 	})
 	dbPut("order", orderId, order)
 
-	await new Promise((resolve, reject) => setTimeout(() => resolve(), 5000))
+	await new Promise((resolve, reject) => setTimeout(() => resolve(), 10000))
 	await packOrder(order.id)
 
-	await new Promise((resolve, reject) => setTimeout(() => resolve(), 5000))
+	await new Promise((resolve, reject) => setTimeout(() => resolve(), 10000))
 	await shipOrder(order.id)
 })
 

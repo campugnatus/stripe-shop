@@ -39,9 +39,12 @@
 		<section class="pl-6 min-h-[222px]">
 			<div class="">
 				<TransitionGroup tag="ul" name="hist" class="relative loading:grayout loading:h-64 loading:w-full">
-					<li v-for="upd, i in history" :key="upd.status" class="flex items-center py-2">
+					<li v-for="upd, i in hst" :key="upd.status" class="flex items-center py-2">
 						<div class="ml-4 text-xs uppercase p-1 px-3 rounded-full"
-						      :class="[i === 0 ? 'bg-blue-300 text-white': 'bg-gray-100 text-gray-500']">
+						      :class="[i === 0 ? 'bg-blue-300 text-white':
+						                         'bg-gray-100 text-gray-500',
+						               upd.waiting? 'animate-slide':''
+						              ]">
 							{{upd.status}}
 						</div>
 						<div class="ml-3 text-sm text-gray-400" v-if="upd.date">
@@ -67,7 +70,7 @@ import ShopFooter from '@/components/ShopFooter.vue'
 import OrderedItem from '@/components/OrderedItem.vue'
 import Carousel from '@/components/Carousel.vue'
 import {useTitle} from '@vueuse/core'
-import { ref, reactive } from 'vue'
+import { ref, watch } from 'vue'
 import {CheckCircleIcon} from '@heroicons/vue/solid'
 import { useProductStore } from '@/stores/products'
 import api from '@/api.js'
@@ -88,6 +91,31 @@ const orderId = computed(() => route.params.id)
 const order = computed(() => userStore.orders[orderId.value])
 const loading = computed(() => order.value === undefined)
 
+const hst = ref([])
+
+watch(() => order.value?.status, async (status) => {
+	if (status === undefined)
+		return
+
+	let res = [...status]
+	let last = res[res.length-1]
+
+	let waitingStatus = {
+		created: { status: "waiting for payment", waiting: true },
+		paid:    { status: "wrapping up", waiting: true },
+		packed:  { status: "preparing shipment", waiting: true },
+	}
+
+	if (waitingStatus[last.status])
+		res.push(waitingStatus[last.status])
+
+	hst.value = [...status].reverse()
+	await new Promise(resolve => setTimeout(() => resolve(), 800))
+	hst.value = res.reverse()
+}, {
+	immediate: true
+})
+
 const history = computed(() => {
 	if (order.value === undefined)
 		return []
@@ -96,9 +124,9 @@ const history = computed(() => {
 	let last = res[res.length-1]
 
 	let waitingStatus = {
-		created: { status: "waiting for payment" },
-		paid:    { status: "wrapping up" },
-		packed:  { status: "preparing shipment" },
+		created: { status: "waiting for payment", waiting: true },
+		paid:    { status: "wrapping up", waiting: true },
+		packed:  { status: "preparing shipment", waiting: true },
 	}
 
 	if (waitingStatus[last.status])
@@ -134,5 +162,20 @@ const packageURL = computed(() => {
 .hist-enter-from,
 .hist-leave-to {
 	opacity: 0;
+}
+
+.animate-slide {
+	background: linear-gradient(111deg, #94c6fd, #94c6fd 40%, #84bbf5 60%, #94c6fd 60%);
+	background-size: 300% 100%;
+	animation: animation-slide 1.5s linear infinite;
+}
+
+@keyframes animation-slide {
+	0% {
+		background-position: 100%;
+	}
+	100% {
+		background-position: 0%;
+	}
 }
 </style>
