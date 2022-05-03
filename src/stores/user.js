@@ -48,12 +48,28 @@ export const useUserStore = defineStore('user', {
 	}),
 
 	getters: {
-		signedIn: (state) => state.profile !== undefined,
+		signedIn: (state) => !!state.profile,
 	},
 
 	actions: {
-		async login (username, password) {
-			this.profile = await api.login(username, password)
+		async login ({jwt, username, password}) {
+			const user = await api.login({jwt, username, password})
+			console.log("login", user)
+			if (!user) return
+
+			this.profile = {
+				id: user.id,
+				name: user.name,
+				email: user.email,
+				picture: user.picture
+			}
+		},
+		async logout () {
+			log("logout0", this.profile)
+			await api.logout()
+			log("logout1", this.profile)
+			this.profile = null
+			log("logout2", this.profile)
 		},
 		async signup ({username, name, password}) {
 
@@ -72,6 +88,18 @@ export const useUserStore = defineStore('user', {
 
 			this.orders[id] = await api.fetchOrder(id)
 			return this.orders[id]
-		}
+		},
+		async init () {
+			const user = await api.fetchUser().catch(() => undefined)
+			console.log("user=", user)
+			if (!user) return
+
+			this.profile = {
+				id: user.id,
+				name: user.name,
+				email: user.email,
+				picture: user.picture
+			}
+		},
 	}
 })

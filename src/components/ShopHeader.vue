@@ -34,15 +34,7 @@
     </section>
 
     <section class="row-start-1 col-start-2 flex justify-end flex-shrink-0 lg:space-x-4">
-      <button class="text-sm lg:text-base" @click="showToast.error('User login not implemented (yet)')">
-        <div class="flex justify-center w-20">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-10 lg:h-11 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
-          </svg>            
-        </div>
-        <div class="lg:pt-2 text-center">Log in</div>
-      </button>
-
+      <LoginButton/>
       <CartButton/>
     </section>
   </header>
@@ -50,7 +42,8 @@
 
 <script setup>
 import CartButton from '@/components/CartButton.vue'
-import { ref, watch } from 'vue'
+import LoginButton from '@/components/LoginButton.vue'
+import { ref, watch, onMounted } from 'vue'
 import { useRouter, useRoute, onBeforeRouteUpdate } from 'vue-router'
 import { useProductStore } from '@/stores/products'
 import {} from '@heroicons/vue/solid'

@@ -3,6 +3,8 @@ const app = express()
 const ws = require('express-ws')(app)
 const cors = require('cors')
 const port = 3002
+const axios = require('axios')
+const jose = require('jose')
 
 const { createProxyMiddleware } = require('http-proxy-middleware')
 
@@ -10,6 +12,11 @@ const { exec, spawn } = require('child_process')
 const path = require('path')
 const { createHmac } = require('crypto')
 
+const cookieParser = require('cookie-parser')
+const cookieSession = require('cookie-session')
+
+app.use(cookieParser())
+app.use(cookieSession({ secret: 'this is added to git, how secret can it be?' }))
 
 app.use(express.json())
 
@@ -19,6 +26,7 @@ app.use(express.json())
 // 	credentials: true
 // }))
 
+const google_client_id = "464350742513-rv3421qgq91ugsn72g1busodgehjol0p.apps.googleusercontent.com";
 
 const db = mockDB()
 
@@ -67,13 +75,13 @@ app.use(function logResuests (req, res, next) {
 	next()
 })
 
-app.use(function delay (req, res, next) {
-	// simulate network delay during development for the obviousness of the
-	// loading states
-	setTimeout(() => {
-		next()
-	}, 2000)
-})
+// app.use(function delay (req, res, next) {
+// 	// simulate network delay during development for the obviousness of the
+// 	// loading states
+// 	setTimeout(() => {
+// 		next()
+// 	}, 2000)
+// })
 
 
 app.get('/products/search/', function (req, res, next) {
@@ -306,20 +314,101 @@ async function createZip(productIds) {
 
 
 
-app.post('/login', function (req, res, next) {
+app.post('/login', async function (req, res, next) {
+	console.log("login", req.body, req.params)
 
+	//
+	// Decode the JWT
+	//
+
+	// get Google's public keys
+  const jwks = await axios.get("https://www.googleapis.com/oauth2/v3/certs").then(resp => resp.data)
+
+  const decoded = await verifyToken(req.body.jwt.credential, jwks.keys[0]) ||
+                  await verifyToken(req.body.jwt.credential, jwks.keys[1])
+
+
+  if (!decoded) {
+		res.status(400).send("couldn't verify the JWT")
+		throw ("couldn't verify the JWT: none of the keys fit!")
+  }
+
+  const payload = decoded.payload
+
+  if (payload.aud !== google_client_id) {
+		res.status(400).send('bad token: seems to be issued to another site')
+		return
+  }
+
+  //
+  // get user data from the DB
+  //
+
+  const user = findUserByEmail(payload.email) || createUser({
+		email: payload.email,
+		picture: payload.picture,
+		name: payload.given_name || payload.name
+	})
+
+  // log the user in: set the session cookie
+  req.session.user = user.id
+
+  // send back user data
+  res.json({
+		id: user.id,
+		name: user.name,
+		email: user.email,
+		picture: user.picture
+  })
+})
+
+async function verifyToken (jwt, jwk) {
+	const googlePublicKey = await jose.importJWK(jwk)
+	return await jose.jwtVerify(jwt, googlePublicKey).catch(error => {
+		return undefined
+	})
+}
+
+function findUserByEmail (email) {
+	return Object.values(db.users).find(user =>	user.email === email)
+}
+
+function createUser ({email, picture, name}) {
+	const id = newUuid()
+	db.users[id] = { id, email, picture, name }
+	return db.users[id]
+}
+
+
+app.post('/logout', function (req, res, next) {
+	req.session = null
+	res.send("ok, logged out")
 })
 
 app.post('/signup', function (req, res, next) {
 
 })
 
-// app.get('/', (req, res) => {
-//   res.send('Hello World!')
-// })
+app.get('/user', async function (req, res, next) {
+	const userId = req.session.user
 
+	if (userId) {
+		// user logged in
+		const user = db.users[userId]
 
+		if (!user) {
+			res.status(404).send("user doesn't exist")
+			return
+		}
 
+		console.log("logged", user)
+		res.json(user)
+	}
+	else {
+		console.log("NOT logged")
+		res.status(400).send("not logged in")
+	}
+})
 
 
 function newId () {

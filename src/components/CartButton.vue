@@ -1,5 +1,5 @@
 <template>
-	<router-link class="text-sm lg:text-base" to="/cart">
+	<router-link class="text-sm lg:text-base flex flex-col justify-between items-center h-full" to="/cart">
 	  <div class="flex justify-center">
 	    <svg xmlns="http://www.w3.org/2000/svg" class="w-10 lg:w-11 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 	  	  <!-- I would use a component from the @heroicons npm package, but I need to set the stroke-width -->

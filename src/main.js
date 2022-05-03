@@ -4,6 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { createPinia } from 'pinia'
 import { useProductStore } from '@/stores/products.js'
 import { useCartStore } from '@/stores/cart.js'
+import { useUserStore } from '@/stores/user.js'
 
 import ToastPlugin from '@/plugins/toast'
 
@@ -82,3 +83,6 @@ const productStore = useProductStore()
 
 const cartStore = useCartStore()
 cartStore.init()
+
+const userStore = useUserStore()
+userStore.init()
