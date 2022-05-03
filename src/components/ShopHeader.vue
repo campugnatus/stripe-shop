@@ -13,10 +13,10 @@
       </router-link>
     </section>
 
-    <section class="row-start-2 col-span-2 flex lg:flex-col lg:justify-between lg:ml-10 xl:ml-20 flex-shrink-0 font-roboto uppercase space-x-4 lg:space-x-0">
-      <router-link class="hover:text-blue-600" to="/catalogue">catalogue</router-link>
-      <router-link class="hover:text-blue-600" to="#">about</router-link>
-      <router-link class="hover:text-blue-600" to="#">third one</router-link>
+    <section class="row-start-2 col-span-2 flex lg:flex-col lg:justify-around lg:ml-10 xl:ml-20 flex-shrink-0 font-roboto uppercase text- space-x-4 lg:space-x-0">
+      <router-link class="" to="/catalogue">catalogue</router-link>
+      <router-link class="" to="#">about</router-link>
+      <router-link class="" to="#">third one</router-link>
     </section>
 
     <!-- search box -->
