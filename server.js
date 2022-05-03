@@ -3,9 +3,8 @@ const app = express()
 const ws = require('express-ws')(app)
 const cors = require('cors')
 const port = 3002
-const { createServer: createViteServer } = require('vite')
 
-
+const { createProxyMiddleware } = require('http-proxy-middleware')
 
 const { exec, spawn } = require('child_process')
 const path = require('path')
@@ -401,16 +400,10 @@ function mockDB () {
 }
 
 
-async function setupVite () {
-	const vite = await createViteServer({
-	    server: { middlewareMode: 'html' }
-	})
+app.use('*', createProxyMiddleware({
+	target: 'http://localhost:3000',
+}))
 
-	app.use(vite.middlewares)
-
-	app.listen(port, () => {
-	  console.log(`Stripe shop listening on port ${port}`)
-	})
-}
-
-setupVite()
+app.listen(port, () => {
+  console.log(`Stripe shop listening on port ${port}`)
+})
