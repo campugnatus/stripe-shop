@@ -3,6 +3,9 @@ const app = express()
 const ws = require('express-ws')(app)
 const cors = require('cors')
 const port = 3002
+const { createServer: createViteServer } = require('vite')
+
+
 
 const { exec, spawn } = require('child_process')
 const path = require('path')
@@ -11,8 +14,11 @@ const { createHmac } = require('crypto')
 
 app.use(express.json())
 
-// TODO: restrict CORS
-app.use(cors())
+// app.use(cors({
+// 	// origin: "*", // TODO: restrict only to my domains?
+// 	origin: "http://localhost:3000",
+// 	credentials: true
+// }))
 
 
 const db = mockDB()
@@ -395,8 +401,16 @@ function mockDB () {
 }
 
 
+async function setupVite () {
+	const vite = await createViteServer({
+	    server: { middlewareMode: 'html' }
+	})
 
+	app.use(vite.middlewares)
 
-app.listen(port, () => {
-  console.log(`Stripe shop listening on port ${port}`)
-})
+	app.listen(port, () => {
+	  console.log(`Stripe shop listening on port ${port}`)
+	})
+}
+
+setupVite()
