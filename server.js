@@ -314,29 +314,31 @@ async function createZip(productIds) {
 
 
 
+
+
+
 app.post('/login', async function (req, res, next) {
-	console.log("login", req.body, req.params)
 
 	//
 	// Decode the JWT
 	//
 
 	// get Google's public keys
-  const jwks = await axios.get("https://www.googleapis.com/oauth2/v3/certs").then(resp => resp.data)
+  const {data: jwks} = await axios.get("https://www.googleapis.com/oauth2/v3/certs")
 
-  const decoded = await verifyToken(req.body.jwt.credential, jwks.keys[0]) ||
-                  await verifyToken(req.body.jwt.credential, jwks.keys[1])
+  const decoded = await verifyToken(req.body.jwt, jwks.keys[0]) ||
+                  await verifyToken(req.body.jwt, jwks.keys[1])
 
 
   if (!decoded) {
 		res.status(400).send("couldn't verify the JWT")
-		throw ("couldn't verify the JWT: none of the keys fit!")
+		return
   }
 
   const payload = decoded.payload
 
   if (payload.aud !== google_client_id) {
-		res.status(400).send('bad token: seems to be issued to another site')
+		res.status(400).send("bad token: client id doesn't match")
 		return
   }
 
@@ -350,6 +352,10 @@ app.post('/login', async function (req, res, next) {
 		name: payload.given_name || payload.name
 	})
 
+  //
+  // Log in
+  //
+
   // log the user in: set the session cookie
   req.session.user = user.id
 
@@ -362,6 +368,7 @@ app.post('/login', async function (req, res, next) {
   })
 })
 
+
 async function verifyToken (jwt, jwk) {
 	const googlePublicKey = await jose.importJWK(jwk)
 	return await jose.jwtVerify(jwt, googlePublicKey).catch(error => {
@@ -369,9 +376,13 @@ async function verifyToken (jwt, jwk) {
 	})
 }
 
+
+// return user or undefiend
+
 function findUserByEmail (email) {
 	return Object.values(db.users).find(user =>	user.email === email)
 }
+
 
 function createUser ({email, picture, name}) {
 	const id = newUuid()
@@ -380,35 +391,46 @@ function createUser ({email, picture, name}) {
 }
 
 
+
 app.post('/logout', function (req, res, next) {
 	req.session = null
 	res.send("ok, logged out")
 })
 
+
 app.post('/signup', function (req, res, next) {
 
 })
 
+
 app.get('/user', async function (req, res, next) {
 	const userId = req.session.user
 
-	if (userId) {
-		// user logged in
-		const user = db.users[userId]
-
-		if (!user) {
-			res.status(404).send("user doesn't exist")
-			return
-		}
-
-		console.log("logged", user)
-		res.json(user)
+	if (!userId) {
+		res.send("not logged in")
+		return
 	}
-	else {
-		console.log("NOT logged")
-		res.status(400).send("not logged in")
+
+	const user = db.users[userId]
+
+	if (!user) {
+		req.session = null // it's no good, anyway
+		res.status(404).send("user doesn't exist")
+		return
 	}
+
+	res.json(user)
 })
+
+
+
+
+
+
+
+
+
+
 
 
 function newId () {

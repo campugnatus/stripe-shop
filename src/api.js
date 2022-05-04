@@ -25,13 +25,19 @@ export async function createOrder ({email, items, price, paymentToken}) {
 	.then(response => response.data)
 }
 
+
+
+
+
+/**
+ * User Login
+ */
+
 export async function fetchUser () {
-	log("fetch user api call")
 	return axios.get("/user").then(response => response.data)
 }
 
 export async function logout () {
-	log("api logout")
 	return axios.post('/logout').then(response => response.data)
 }
 

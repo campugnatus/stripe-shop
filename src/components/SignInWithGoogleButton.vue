@@ -4,9 +4,9 @@
 
 <script setup>
 import { ref, watch, onMounted } from 'vue'
-// import * as jose from 'jose'
-// import axios from 'axios'
 import { useUserStore } from '@/stores/user.js'
+import { showToast } from '@/plugins/toast'
+
 const userStore = useUserStore()
 
 const buttonContainer = ref(null)
@@ -24,27 +24,9 @@ onMounted(async () => {
 })
 
 async function googleSignInCallback (response) {
-  console.log("asdlkfj", response)
-
-  userStore.login({jwt: response})
-
-  // axios.post("/login", {
-  //   jwt: response.credential
-  // }).then(resp => {
-  //   // init user data now
-  // })
-
-  // console.log("google response", response)
-  // let jwks = await axios.get("https://www.googleapis.com/oauth2/v3/certs").then(resp => resp.data)
-  // console.log("google jwk", jwks)
-  // let googlePublicKey = await jose.importJWK(jwks.keys[1])
-  // console.log("google pub key imported", googlePublicKey)
-
-  // const { payload, protectedHeader } = await jose.jwtVerify(response.credential, googlePublicKey)
-  // console.log("payload", payload)
-  // const jwt = response.crenedtial
-  // const decoded = jose.jwtDecrypt
-  // should we decode the JWT here or on the server?
+  userStore.login({jwt: response.credential})
+    .then(() => showToast.success("Successfully logged in!"))
+    .catch(e => showToast.error("Login failed"))
 }
 
 </script>
