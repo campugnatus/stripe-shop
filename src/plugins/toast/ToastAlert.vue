@@ -9,10 +9,10 @@
 		 ]">
 
 		<div class="flex items-center ml-3">
-			<InformationCircleIcon v-if="type === 'info'" class="h-6 text-white"/>
-			<XCircleIcon           v-if="type === 'error'"        class="h-6 text-white"/>
-			<ExclamationIcon       v-if="type === 'alert'"        class="h-6 text-primary"/>
-			<CheckCircleIcon       v-if="type === 'success'"      class="h-6 text-white"/>
+			<InformationCircleIcon v-if="type === 'info'"     class="h-6 text-white"/>
+			<XCircleIcon           v-if="type === 'error'"    class="h-6 text-white"/>
+			<ExclamationIcon       v-if="type === 'alert'"    class="h-6 text-primary"/>
+			<CheckCircleIcon       v-if="type === 'success'"  class="h-6 text-white"/>
 		</div>
 
 		<div class="p-4 z-10">

@@ -2,7 +2,7 @@
   <div class="fixed top-0 right-0 flex flex-col gap-4">
     <!-- <button @click="showTttoast" class="bg-primary text-white p-2">show toast</button> -->
     <!-- <button @click="hideTttoast" class="bg-primary text-white p-2">hide toast</button> -->
-    <button @click="wsConnect" class="bg-primary text-white p-2">subscribe</button>
+    <!-- <button @click="wsConnect" class="bg-primary text-white p-2">subscribe</button> -->
   </div>
   <router-view></router-view>
 </template>

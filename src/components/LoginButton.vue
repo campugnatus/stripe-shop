@@ -4,7 +4,7 @@
 		<PopoverButton class="group p-2">
 			<div class="flex justify-center">
 				<template v-if="userStore.signedIn">
-					<img v-if="userStore.profile.picture" :src="userStore.profile.picture" class="h-10 lg:h-11 rounded-full border-transparent border-4 group-hover:border-zinc-200">
+					<img v-if="userStore.profile.picture" :src="userStore.profile.picture" class="h-10 lg:h-11 rounded-full border-transparent border-4 group-hover:border-blue-300">
 					<UserCircleIcon v-else class="h-11 text-tomato"/>
 				</template>
 
