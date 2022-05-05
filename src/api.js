@@ -41,13 +41,20 @@ export async function logout () {
 	return axios.post('/logout').then(response => response.data)
 }
 
-export async function login ({jwt, username, password}) {
+export async function login ({jwt, email, password}) {
 	return axios.post('/login', {
 		jwt,
-		username,
+		email,
 		password
 	}).then(response => response.data)
 }
+
+export async function signup ({email, name, password}) {
+	return axios.post('/signup', {email, name, password}).then(r => r.data)
+}
+
+
+
 
 
 
@@ -169,5 +176,6 @@ export default {
 	fetchUser,
 	login,
 	logout,
+	signup,
 	createOrder,
 }

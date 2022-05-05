@@ -10,7 +10,7 @@ const { createProxyMiddleware } = require('http-proxy-middleware')
 
 const { exec, spawn } = require('child_process')
 const path = require('path')
-const { createHmac } = require('crypto')
+const crypto = require('crypto')
 
 const cookieParser = require('cookie-parser')
 const cookieSession = require('cookie-session')
@@ -318,55 +318,86 @@ async function createZip(productIds) {
 
 
 app.post('/login', async function (req, res, next) {
+	if (req.body.jwt)
+		loginGoogle(req, res, next)
+	else if (req.body.password)
+		loginPassword(req, res, next)
+	else
+		res.status(400).send("no credentials")
+})
 
+
+async function loginGoogle (req, res, next) {
 	//
 	// Decode the JWT
 	//
 
 	// get Google's public keys
-  const {data: jwks} = await axios.get("https://www.googleapis.com/oauth2/v3/certs")
+	const {data: jwks} = await axios.get("https://www.googleapis.com/oauth2/v3/certs")
 
-  const decoded = await verifyToken(req.body.jwt, jwks.keys[0]) ||
-                  await verifyToken(req.body.jwt, jwks.keys[1])
+	const decoded = await verifyToken(req.body.jwt, jwks.keys[0]) ||
+	await verifyToken(req.body.jwt, jwks.keys[1])
 
 
-  if (!decoded) {
+	if (!decoded) {
 		res.status(400).send("couldn't verify the JWT")
 		return
-  }
+	}
 
-  const payload = decoded.payload
+	const payload = decoded.payload
 
-  if (payload.aud !== google_client_id) {
+	if (payload.aud !== google_client_id) {
 		res.status(400).send("bad token: client id doesn't match")
 		return
-  }
+	}
 
-  //
-  // get user data from the DB
-  //
+	//
+	// get user data from the DB
+	//
 
-  const user = findUserByEmail(payload.email) || createUser({
+	const user = findUserByEmail(payload.email) || createUser({
 		email: payload.email,
 		picture: payload.picture,
-		name: payload.given_name || payload.name
+		name: payload.name
 	})
 
-  //
-  // Log in
-  //
+	//
+	// Log in
+	//
 
-  // log the user in: set the session cookie
-  req.session.user = user.id
+	// log the user in: set the session cookie
+	req.session.user = user.id
 
-  // send back user data
-  res.json({
+	// send back user data
+	res.json({
 		id: user.id,
 		name: user.name,
 		email: user.email,
 		picture: user.picture
-  })
-})
+	})
+}
+
+
+async function loginPassword (req, res, next) {
+	const user = findUserByEmail(req.body.email)
+
+	if (!user) {
+		dummyCheck()
+		res.status(403).send("wrong password")
+	}
+
+	if (!checkPassword(req.body.password, user.hash)) {
+		res.status(403).send("wrong password")
+	}
+
+	// send back user data
+	res.json({
+		id: user.id,
+		name: user.name,
+		email: user.email,
+		picture: user.picture
+	})
+}
 
 
 async function verifyToken (jwt, jwk) {
@@ -384,12 +415,30 @@ function findUserByEmail (email) {
 }
 
 
-function createUser ({email, picture, name}) {
+function createUser ({email, picture, name, hash}) {
 	const id = newUuid()
-	db.users[id] = { id, email, picture, name }
+	db.users[id] = { id, email, picture, name, hash }
 	return db.users[id]
 }
 
+
+function hashPassword (password) {
+	const salt = crypto.randomBytes(16).toString("hex")
+	const hash = crypto.scryptSync(password, salt, 64).toString("hex")
+
+	return hash + "." + salt
+}
+
+function checkPassword(password, digest) {
+	const [_, hash, salt] = digest.match(/^(.+)\.(.+)$/)
+	const hash2 = crypto.scryptSync(password, salt, 64).toString("hex")
+
+	return hash2 === hash
+}
+
+function dummyCheck () {
+	crypto.scryptSync("dummy", "dumber", 64).toString("hex")
+}
 
 
 app.post('/logout', function (req, res, next) {
@@ -399,7 +448,24 @@ app.post('/logout', function (req, res, next) {
 
 
 app.post('/signup', function (req, res, next) {
+	console.log("signup", req.body)
+	const { email, name, password } = req.body
 
+	if(findUserByEmail(email)) {
+		res.status(400).send("user already exists")
+		return
+	}
+
+	const hash = hashPassword(password)
+	console.log("pswd hash", hash)
+	const user = createUser({email, name, hash})
+	console.log("created user=", user)
+
+	res.json({
+		id: user.id,
+		name: user.name,
+		email: user.email,
+ 	})
 })
 
 
@@ -419,7 +485,12 @@ app.get('/user', async function (req, res, next) {
 		return
 	}
 
-	res.json(user)
+	res.json({
+		id: user.id,
+		name: user.name,
+		email: user.email,
+		picture: user.picture
+	})
 })
 
 
@@ -445,7 +516,7 @@ function newUuid () {
 	const secret = 'abcdefgh'
 	let buf = Float64Array.from([Math.random(), Math.random(),
 		                           Math.random(), Math.random()])
-	const hash = createHmac('sha256', secret)
+	const hash = crypto.createHmac('sha256', secret)
 	               .update(buf)
 	               .digest('hex')
 	               .substr(0, 32)
