@@ -135,7 +135,7 @@ export async function subscribe (bucket, id, callback) {
 }
 
 
-export async function ensureSocket () {
+async function ensureSocket () {
 	if (ws?.readyState === 1 /* OPEN */)
 		return Promise.resolve()
 
@@ -170,7 +170,6 @@ export default {
 	searchProducts,
 	abortSearch,
 	subscribe,
-	ensureSocket,
 	fetchProduct,
 	fetchOrder,
 	fetchUser,
