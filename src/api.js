@@ -53,7 +53,9 @@ export async function signup ({email, name, password}) {
 	return axios.post('/signup', {email, name, password}).then(r => r.data)
 }
 
-
+export async function userExists(email) {
+	return axios.get('/userexists/'+email).then(r => r.data)
+}
 
 
 
@@ -173,6 +175,7 @@ export default {
 	fetchProduct,
 	fetchOrder,
 	fetchUser,
+	userExists,
 	login,
 	logout,
 	signup,

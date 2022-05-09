@@ -30,14 +30,24 @@
 					<h1 class="w-1/2 p-4 text-xl flex justify-center items-center">Sign in</h1>
 					<button @click.prevent.stop="showing = 'signup'" class="w-1/2 p-4 text-xl flex bg-gray-100 justify-center items-center border-l border-b text-gray-400 hover:text-gray-500">Sign up</button>
 				</div>
-				<div class="p-8 space-y-4 my-auto">
-					<input v-model="loginCred.email" type="email" placeholder="Email address" class="text-sm w-full rounded border-gray-400" :class="{'--ring ring-tomato border-tomato': loginCred.error.email}"/>
-					<input v-model="loginCred.password" type="password" placeholder="Password" class="text-sm w-full rounded border-gray-400" :class="{'--ring ring-tomato border-tomato': loginCred.error.password}"/>
+				<form @submit.prevent="login" class="p-8 space-y-4 my-auto">
+					<input
+						v-model="loginForm.email"
+						type="email" placeholder="Email address"
+						:class="{'border-tomato --ring ring-red-300 focus:border-tomato focus:ring-tomato': loginErrors.email}"
+						class="text-sm w-full rounded border-gray-400"/>
+					<input
+						v-model="loginForm.password"
+						type="password"
+						placeholder="Password"
+						:class="{'border-tomato --ring ring-red-300 focus:border-tomato focus:ring-tomato': loginErrors.password}"
+						class="text-sm w-full rounded border-gray-400"/>
+
 					<div class="flex justify-between">
-						<button @click="login" class="bg-primary rounded text-white py-1.5 p-2 w-28">Sign in</button>
+						<button type="submit" class="bg-primary rounded text-white py-1.5 p-2 w-28">Sign in</button>
 						<button class="text-sm text-blue-500 px-2">Forgot password?</button>
 					</div>
-				</div>
+				</form>
 				<div class="h-32 w-full bg-gray-100 mt-auto flex items-center justify-center border-t relative">
 					<div class="flex justify-center items-center w-10 h-10 absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full border text-gray-400 text-xs">OR</div>
 					<SignInWithGoogleButton class=""/>
@@ -53,7 +63,7 @@
 
 				<div class="flex">
 					<button
-						@click.prevent.stop="showing = 'login'"
+						@click="showing = 'login'"
 						class="w-1/2 p-4 text-xl flex justify-center items-center bg-gray-100 border-r border-b text-gray-400 hover:text-gray-500">
 						Sign in
 					</button>
@@ -68,12 +78,29 @@
 					@submit.prevent="signup"
 					class="p-8 space-y-3 my-auto text-sm">
 
-					<input
-						type="email"
-						v-model="cred.email"
-						placeholder="Email address"
-						class="text-sm w-full rounded border-gray-400"
-						:class="{'border-tomato': error.email}"/>
+					<div class="relative">
+						<input
+							type="text"
+							v-model="signupForm.email"
+							placeholder="Email address"
+							:class="{'peer border-tomato focus:border-tomato focus:ring-tomato': signupV.email.$error}"
+							@blur="signupV.email.$touch"
+							class="text-sm w-full rounded border-gray-400"/>
+
+<!-- 						<div class="absolute --opacity-0 --peer-focus:opacity-100 h-full peer-focus:h-[70px] bottom-0 bg-red-200 w-full px-2 py-1 rounded z-[-1] ring-2 peer-focus:ring-4 ring-red-200 transition-all">
+							{{signupV.email.$errors[0]?.$message}}
+						</div> -->
+
+						<div class="absolute top-[calc(-100%+0px)] right-0 bg-red-200 border border-red-300 rounded hidden peer-focus:block --block shadow overflow-visible z-30">
+							<div class="relative overflow-visible z-30">
+								<div class="absolute border border-red-300 h-3 w-3 bg-red-200 rotate-45 top-[calc(100%-6px)] z-[-1] right-3 shadow-lg"></div>
+								<!-- <div class="absolute border-[10px] border-t-red-200 border-transparent top-[calc(100%+4px)] z-20 right-1"></div> -->
+								<div class="bg-red-200 py-1 px-2 rounded">
+									{{signupV.email.$errors[0]?.$message}}
+								</div>
+							</div>
+						</div>
+					</div>
 
 					<div class="relative">
 						<Popover>
@@ -87,28 +114,67 @@
 						</Popover>
 						<input
 							type="text"
-							v-model="cred.name"
+							v-model="signupForm.name"
 							placeholder="Your name"
 							class="text-sm w-full rounded border-gray-400"/>
 					</div>
 
-					<input
-						type="password"
-						v-model="cred.password"
-						placeholder="Password"
-						:class="{'border-tomato': error.password}"
-						class="text-sm w-full rounded border-gray-400"/>
+					<div class="relative translate-x-0">
+						<input
+							type="password"
+							v-model="signupForm.password"
+							placeholder="Password"
+							:class="{'peer border-tomato focus:border-tomato focus:ring-tomato': signupV.password.$error}"
+							@blur="signupV.password.$touch"
+							class="text-sm w-full rounded border-gray-400 z-10"/>
 
+						<div class="absolute opacity-0 peer-focus:opacity-100 h-10 peer-focus:h-[70px] bottom-0 bg-red-200 z-[-1] w-full px-2 py-1 rounded ring-4 ring-red-200 transition-all">
+							{{signupV.password.$errors[0]?.$message}}
+						</div>
+					</div>
+
+<!-- 					<input
+						type="password"
+						v-model="signupForm.password"
+						placeholder="Password"
+						:class="{'border-tomato focus:border-tomato focus:ring-tomato': signupV.password.$error}"
+						class="text-sm w-full rounded border-gray-400"/> -->
+
+
+					<div class="relative translate-x-0">
+						<input
+							type="password"
+							v-model="signupForm.confirm"
+							placeholder="Confirm password"
+							:class="{'peer border-tomato focus:border-tomato focus:ring-tomato': signupV.confirm.$error}"
+							@blur="signupV.confirm.$touch"
+							class="text-sm w-full rounded border-gray-400 z-10"/>
+
+						<div class="absolute top-[calc(-100%+0px)] right-0 bg-red-200 border border-red-300 rounded hidden peer-focus:block --block shadow-lg overflow-visible z-30">
+							<div class="relative overflow-visible z-30">
+								<div class="absolute border border-red-300 h-3 w-3 bg-red-200 rotate-45 top-[calc(100%-6px)] z-[-1] right-3 shadow-lg"></div>
+								<!-- <div class="absolute border-[10px] border-t-red-200 border-transparent top-[calc(100%+4px)] z-20 right-1"></div> -->
+								<div class="bg-red-200 py-1 px-2 rounded">
+									{{signupV.confirm.$errors[0]?.$message}}
+								</div>
+							</div>
+						</div>
+<!--
+						<div class="absolute opacity-0 peer-focus:opacity-100 h-10 peer-focus:h-[70px] bottom-0 bg-red-200 z-[-1] w-full px-2 py-1 rounded ring-4 ring-red-200 transition-all shadow-m">
+							{{signupV.confirm.$errors[0]?.$message}}
+						</div> -->
+					</div>
+<!--
 					<input
 						type="password"
-						v-model="cred.confirm"
+						v-model="signupForm.confirm"
 						placeholder="Confirm password"
-						:class="{'border-tomato': error.confirm}"
-						class="text-sm w-full rounded border-gray-400"/>
+						:class="{'border-tomato focus:border-tomato focus:ring-tomato': signupV.confirm.$error}"
+						class="text-sm w-full rounded border-gray-400"/> -->
 
 					<button
 						type="submit"
-						class="bg-primary rounded text-white py-1.5 p-2 w-full !mt-6">
+						class="bg-primary rounded text-white py-2 p-2 w-full !mt-6">
 						Create account
 					</button>
 				</form>
@@ -123,7 +189,11 @@ import SignInWithGoogleButton from '@/components/SignInWithGoogleButton.vue'
 import { UserCircleIcon, InformationCircleIcon } from '@heroicons/vue/solid'
 import { useUserStore } from '@/stores/user.js'
 import { showToast } from '@/plugins/toast'
-import { ref, watch, reactive } from 'vue'
+import { ref, watch, reactive, computed } from 'vue'
+import api from '@/api.js'
+
+import useVuelidate from '@vuelidate/core'
+import { required, email, sameAs, minLength, helpers, alpha } from '@vuelidate/validators'
 
 const userStore = useUserStore()
 
@@ -152,32 +222,61 @@ function logout () {
  * Login
  */
 
-const loginCred = reactive({
+const loginForm = reactive({
 	email: undefined,
 	password: undefined,
-	error: {
-		email: undefined,
-		password: undefined
-	}
 })
 
+const loginErrors = reactive({
+	email: undefined,
+	password: undefined
+})
+
+const loginValid = computed(() => {
+	for (let err of Object.values(loginErrors))
+		if (err !== undefined)
+			return false
+
+	return true
+})
+
+function loginVerify () {
+	// reset the errors
+	Object.keys(loginErrors).forEach(key => loginErrors[key] = undefined)
+
+	if (!loginForm.password) {
+		loginErrors.password = "Please enter the password"
+	}
+
+	if (!loginForm.email) {
+		loginErrors.email = "Please enter your email address"
+	}
+	else if (!loginForm.email.match(/\@/)) {
+		loginErrors.email = "Email address doesn't look correct"
+	}
+}
+
 async function login () {
-	loginCred.error.email = undefined
-	loginCred.error.password = undefined
+	loginVerify()
+
+	if (!loginValid.value) {
+		Object.values(loginErrors).forEach(msg => msg && showToast.error(msg))
+		return
+	}
 
 	userStore.login({
-		email: loginCred.email,
-		password: loginCred.password
+		email: loginForm.email,
+		password: loginForm.password
 	})
 	.catch(e => {
 		if (e.response && e.response.data === "wrong password") {
 			showToast.error("Incorrect email or password")
-			loginCred.error.email = true
-			loginCred.error.password = true
+			loginErrors.email = "Incorrect email or password"
+			loginErrors.password = "Incorrect email or password"
 		}
 		else {
-			console.log("login fucked up", e.response)
-			showToast.error("Login failed")
+			console.error("Login failed", e, e.response)
+			showToast.error("Oops! Something went wrong")
 		}
 	})
 }
@@ -193,34 +292,81 @@ async function login () {
  * Signup
  */
 
-const cred = reactive({
-	email: "a@b.c",
-	name: "Hoha Polipka",
-	password: "asdf",
-	confirm: "asdf",
+const signupForm = reactive({
+	email: undefined,//"aa@bb.cc",
+	name: undefined,//"Hoha Polipka",
+	password: undefined,//"asdf",
+	confirm: undefined,//"asdf",
 })
 
-const error = reactive({
-	email: undefined,
-	confirm: undefined
-})
+const signupValidators = {
+	email: {
+		required: helpers.withMessage(
+			"Email address is required",
+			required
+		),
+		$lazy: true,
+		email: helpers.withMessage(
+			"Email address doesn't look right",
+			email
+		),
+		isUnique: helpers.withMessage(
+			"User already exists",
+			helpers.withAsync(async function (value) {
+				if (value === '') return true
+				const exists = await api.userExists(value)
+				console.log("exists", exists)
+				return !exists
+			})
+		)
+	},
+	name: {
+		required: helpers.withMessage(
+			"Please enter your name",
+			required
+		),
+	},
+	password: {
+		required: helpers.withMessage(
+			"Password is required",
+			required
+		),
+		$lazy: true,
+		minLength: helpers.withMessage(
+			"Password is too short",
+			minLength(6)
+		)
+	},
+	confirm: {
+		required: helpers.withMessage(
+			"Password confirmation is required",
+			required
+		),
+		$lazy: true,
+		sameAsPassword: helpers.withMessage(
+			"Passwords don't match",
+			sameAs(computed(() => signupForm.password))
+		)
+	},
+}
 
-function signup () {
+const signupV = useVuelidate(signupValidators, signupForm)
+
+async function signup () {
 	// verify that the data is ok
+	const valid = await signupV.value.$validate()
 
-	error.confirm = undefined
-	error.email = undefined
+	console.log("valid?", valid, signupV)
 
-	if (cred.password !== cred.confirm) {
-		error.confirm = "The passwords don't match"
-		showToast.error("The passwords don't match")
+	if (!valid) {
+		signupV.value.$errors.forEach(error => showToast.error(error.$message))
 		return
 	}
 
 	userStore.signup({
-		email: cred.email,
-		name: cred.name,
-		password: cred.password
+		email: signupForm.email,
+		name: signupForm.name,
+		password: signupForm.password
 	})
 
 	.then(() =>
@@ -228,11 +374,10 @@ function signup () {
 
 	.catch(e => {
 		if (e.response && e.response.data.match(/exists/)) {
-			showToast.error("User already exists")
-			error.email = "User already exists"
+			showToast.error("User exists")
 		} else {
-			console.log("sign up failed:", e)
-			showToast.error("Sign up failed")
+			console.log("Sign up failed:", e, e.response)
+			showToast.error("Oops! Sign up failed")
 		}
 	})
 }

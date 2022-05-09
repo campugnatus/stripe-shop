@@ -494,6 +494,10 @@ app.get('/user', async function (req, res, next) {
 })
 
 
+app.get('/userexists/:email', async function (req, res, next) {
+	const user = findUserByEmail(req.params.email)
+	res.send(!!user)
+})
 
 
 
