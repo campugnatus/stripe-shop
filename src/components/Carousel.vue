@@ -1,13 +1,13 @@
 <template>
 	<div class="relative">
 
-		<button v-show="showLeftShadow" @click="scrollLeft" class="w-16 h-16 rounded-full border-4 ring-inset ring-1 ring-gray-200 border-white flex justify-center items-center absolute left-2 -translate-y-1/2 top-1/2 bg-gray-100 hover:bg-gray-200 z-20">
+		<button v-show="showLeftShadow" @click="scrollLeft" class="w-16 h-16 rounded-full border-4 ring-inset ring-1 ring-gray-200 border-white flex justify-center items-center absolute left-2 -translate-y-1/2 top-1/2 bg-gray-100 hover:bg-gray-200 z-10">
 			<svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 			  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
 			</svg>
 		</button>
 
-		<button v-show="showRightShadow" @click="scrollRight" class="w-16 h-16 rounded-full border-4 ring-inset ring-1 ring-gray-200 border-white flex justify-center items-center absolute right-2 -translate-y-1/2 top-1/2 bg-gray-100 hover:bg-gray-200 z-20">
+		<button v-show="showRightShadow" @click="scrollRight" class="w-16 h-16 rounded-full border-4 ring-inset ring-1 ring-gray-200 border-white flex justify-center items-center absolute right-2 -translate-y-1/2 top-1/2 bg-gray-100 hover:bg-gray-200 z-10">
 			<svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 			  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M14 5l7 7m0 0l-7 7m7-7H3" />
 			</svg>
