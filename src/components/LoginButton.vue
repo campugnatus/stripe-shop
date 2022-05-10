@@ -87,14 +87,9 @@
 							@blur="signupV.email.$touch"
 							class="text-sm w-full rounded border-gray-400"/>
 
-<!-- 						<div class="absolute --opacity-0 --peer-focus:opacity-100 h-full peer-focus:h-[70px] bottom-0 bg-red-200 w-full px-2 py-1 rounded z-[-1] ring-2 peer-focus:ring-4 ring-red-200 transition-all">
-							{{signupV.email.$errors[0]?.$message}}
-						</div> -->
-
-						<div class="absolute top-[calc(-100%+0px)] right-0 bg-red-200 border border-red-300 rounded hidden peer-focus:block --block shadow overflow-visible z-30">
-							<div class="relative overflow-visible z-30">
+						<div class="absolute opacity-0 peer-focus:opacity-100 -top-3 peer-focus:transition-all peer-focus:-top-full right-0 border border-red-300 rounded z-[-1] shadow-lg peer-focus:z-30">
+							<div class="relative">
 								<div class="absolute border border-red-300 h-3 w-3 bg-red-200 rotate-45 top-[calc(100%-6px)] z-[-1] right-3 shadow-lg"></div>
-								<!-- <div class="absolute border-[10px] border-t-red-200 border-transparent top-[calc(100%+4px)] z-20 right-1"></div> -->
 								<div class="bg-red-200 py-1 px-2 rounded">
 									{{signupV.email.$errors[0]?.$message}}
 								</div>
@@ -128,18 +123,15 @@
 							@blur="signupV.password.$touch"
 							class="text-sm w-full rounded border-gray-400 z-10"/>
 
-						<div class="absolute opacity-0 peer-focus:opacity-100 h-10 peer-focus:h-[70px] bottom-0 bg-red-200 z-[-1] w-full px-2 py-1 rounded ring-4 ring-red-200 transition-all">
-							{{signupV.password.$errors[0]?.$message}}
+						<div class="absolute opacity-0 peer-focus:opacity-100 -top-3 peer-focus:transition-all peer-focus:-top-full right-0 border border-red-300 rounded z-[-1] shadow-lg peer-focus:z-30">
+							<div class="relative">
+								<div class="absolute border border-red-300 h-3 w-3 bg-red-200 rotate-45 top-[calc(100%-6px)] z-[-1] right-3 shadow-lg"></div>
+								<div class="bg-red-200 py-1 px-2 rounded">
+									{{signupV.password.$errors[0]?.$message}}
+								</div>
+							</div>
 						</div>
 					</div>
-
-<!-- 					<input
-						type="password"
-						v-model="signupForm.password"
-						placeholder="Password"
-						:class="{'border-tomato focus:border-tomato focus:ring-tomato': signupV.password.$error}"
-						class="text-sm w-full rounded border-gray-400"/> -->
-
 
 					<div class="relative translate-x-0">
 						<input
@@ -150,27 +142,15 @@
 							@blur="signupV.confirm.$touch"
 							class="text-sm w-full rounded border-gray-400 z-10"/>
 
-						<div class="absolute top-[calc(-100%+0px)] right-0 bg-red-200 border border-red-300 rounded hidden peer-focus:block --block shadow-lg overflow-visible z-30">
-							<div class="relative overflow-visible z-30">
-								<div class="absolute border border-red-300 h-3 w-3 bg-red-200 rotate-45 top-[calc(100%-6px)] z-[-1] right-3 shadow-lg"></div>
-								<!-- <div class="absolute border-[10px] border-t-red-200 border-transparent top-[calc(100%+4px)] z-20 right-1"></div> -->
-								<div class="bg-red-200 py-1 px-2 rounded">
-									{{signupV.confirm.$errors[0]?.$message}}
+							<div class="absolute opacity-0 peer-focus:opacity-100 -top-3 peer-focus:transition-all peer-focus:-top-full right-0 border border-red-300 rounded z-[-1] shadow-lg peer-focus:z-30">
+								<div class="relative">
+									<div class="absolute border border-red-300 h-3 w-3 bg-red-200 rotate-45 top-[calc(100%-6px)] z-[-1] right-3 shadow-lg"></div>
+									<div class="bg-red-200 py-1 px-2 rounded">
+										{{signupV.confirm.$errors[0]?.$message}}
+									</div>
 								</div>
 							</div>
-						</div>
-<!--
-						<div class="absolute opacity-0 peer-focus:opacity-100 h-10 peer-focus:h-[70px] bottom-0 bg-red-200 z-[-1] w-full px-2 py-1 rounded ring-4 ring-red-200 transition-all shadow-m">
-							{{signupV.confirm.$errors[0]?.$message}}
-						</div> -->
 					</div>
-<!--
-					<input
-						type="password"
-						v-model="signupForm.confirm"
-						placeholder="Confirm password"
-						:class="{'border-tomato focus:border-tomato focus:ring-tomato': signupV.confirm.$error}"
-						class="text-sm w-full rounded border-gray-400"/> -->
 
 					<button
 						type="submit"
