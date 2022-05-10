@@ -1,7 +1,7 @@
 <template>
 	<Popover class="relative z-20">
 		<PopoverOverlay class="bg-black opacity-20 fixed inset-0" />
-		<PopoverButton class="group p-2">
+		<PopoverButton class="group p-2" :title="userStore.shortName">
 			<div class="flex justify-center">
 				<template v-if="userStore.signedIn">
 					<img v-if="userStore.profile.picture" :src="userStore.profile.picture" class="h-10 lg:h-11 rounded-full border-transparent border-4 group-hover:border-blue-300">
@@ -13,14 +13,52 @@
 					<path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
 				</svg>
 			</div>
-			<div v-if="userStore.signedIn" class="lg:pt-2 text-center w-20 overflow-ellipsis overflow-hidden whitespace-nowrap">{{userStore.shortName}}</div>
+			<div v-if="userStore.signedIn" class="lg:pt-2 text-center w-20 truncate">{{userStore.shortName}}</div>
 			<div v-else class="lg:pt-2 text-center">Sign in</div>
 		</PopoverButton>
 
-
 		<PopoverPanel>
-			<section v-if="userStore.signedIn" class="absolute z-10 w-80 h-[444px] top-[calc(100%+1em)] right-2 shadow-xl bg-white rounded border flex flex-col justify-between">
-				<button @click="logout" class="block bg-primary p-2 w-full text-white">logout</button>
+			<section v-if="userStore.signedIn" class="absolute z-10 w-80 h-[444px] top-[calc(100%+1em)] flex-col right-2 shadow-xl bg-white rounded border flex flex-col justify-between">
+				<section class="flex border-b p-4 items-center w-full bg-gray-100">
+					<div class="h-16 w-16 shrink-0">
+						<img
+							v-if="userStore.profile.picture"
+							:src="userStore.profile.picture"
+							class="rounded-full border-gray-300 border-4">
+						<UserCircleIcon v-else class="text-tomato"/>
+					</div>
+					<div class="ml-4 min-w-0">
+						<div class="text-sm text-gray-500">Logged in as</div>
+						<div
+							class="text-lg font-bold max-w-full truncate overflow-hidden"
+							:title="userStore.profile.name">
+							{{userStore.profile.name}}
+						</div>
+						<div class="text-gray-500 truncate">{{userStore.profile.email}}</div>
+					</div>
+				</section>
+				<section class="text-lg flex justify-center">
+					<div class="space-y-8 w-fit -ml-4">
+						<router-link class="flex items-center hover:text-tomato" to="/orders">
+							<ClipboardListIcon class="h-6 inline mr-3"/>
+							<div class="text-left font-">Order history</div>
+						</router-link>
+						<router-link class="flex items-center hover:text-tomato" to="/cart">
+							<ShoppingCartIcon class="h-6 inline mr-3"/>
+							<div class="text-left font-">Shopping cart</div>
+						</router-link>
+						<button class="flex items-center hover:text-tomato">
+							<KeyIcon class="h-6 inline mr-3"/>
+							<div class="text-left font-">Reset password</div>
+						</button>
+					</div>
+				</section>
+				<section class="p-6">
+					<button @click="logout" class="block bg-primary rounded p-2 w-full text-white flex items-center justify-center">
+						<LogoutIcon class="h-5 mr-2"/>
+						Log out
+					</button>
+				</section>
 			</section>
 
 
@@ -181,13 +219,15 @@
 				</form>
 			</section>
 		</PopoverPanel>
+
 	</Popover>
 </template>
 
 <script setup>
 import { Popover, PopoverButton, PopoverPanel, PopoverOverlay } from '@headlessui/vue'
 import SignInWithGoogleButton from '@/components/SignInWithGoogleButton.vue'
-import { UserCircleIcon, InformationCircleIcon } from '@heroicons/vue/solid'
+import { UserCircleIcon, InformationCircleIcon, ClipboardListIcon, CogIcon, PencilIcon, ShoppingCartIcon, KeyIcon } from '@heroicons/vue/solid'
+import { LogoutIcon } from '@heroicons/vue/outline'
 import { useUserStore } from '@/stores/user.js'
 import { showToast } from '@/plugins/toast'
 import { ref, watch, reactive, computed } from 'vue'
@@ -293,11 +333,12 @@ async function login () {
  * Signup
  */
 
+
 const signupForm = reactive({
-	email: undefined,//"aa@bb.cc",
-	name: undefined,//"Hoha Polipka",
-	password: undefined,//"asdf",
-	confirm: undefined,//"asdf",
+	email: undefined,
+	name: undefined,
+	password: undefined,
+	confirm: undefined,
 })
 
 const signupValidators = {
