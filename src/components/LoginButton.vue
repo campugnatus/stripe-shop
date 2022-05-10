@@ -84,7 +84,6 @@
 							v-model="signupForm.email"
 							placeholder="Email address"
 							:class="{'peer border-tomato focus:border-tomato focus:ring-tomato': signupV.email.$error}"
-							@blur="signupV.email.$touch"
 							class="text-sm w-full rounded border-gray-400"/>
 
 						<div class="absolute opacity-0 peer-focus:opacity-100 -top-3 peer-focus:transition-all peer-focus:-top-full right-0 border border-red-300 rounded z-[-1] shadow-lg peer-focus:z-30">
@@ -102,25 +101,48 @@
 							<PopoverButton class="absolute right-2 top-1/2 -translate-y-1/2">
 								<InformationCircleIcon class="h-5 text-sm text-gray-300 hover:text-gray-400 text-xs"/>
 							</PopoverButton>
-							<PopoverPanel class="bg-primary rounded text-white absolute p-3 shadow-lg top-[calc(100%+0.9em)] right-0">
-								The way you'd like us to call you in the emails we send you.
-								This is also how your name will appear in the comments you leave here.
-							</PopoverPanel>
+							<transition
+								enter-active-class="transition duration-200 ease-out"
+								enter-from-class="translate-y-1 opacity-0"
+								enter-to-class="translate-y-0 opacity-100"
+								leave-active-class="transition duration-150 ease-in"
+								leave-from-class="translate-y-0 opacity-100"
+								leave-to-class="translate-y-1 opacity-0">
+								<PopoverPanel class="rounded border border-gray-300 absolute shadow-lg top-[calc(100%+8px)] right-0 z-20">
+									<div class="relative isolate">
+										<div class="absolute bg-white h-3 w-3 border border-gray-300 rotate-45 top-[-6px] right-3 shadow-xl"></div>
+										<div class="p-3 bg-white isolate rounded --text-white --bg-primary">
+											The way you'd like us to call you in the emails we send you.
+											This is also how your name will appear in the comments you leave here.
+										</div>
+									</div>
+								</PopoverPanel>
+							</transition>
 						</Popover>
+
 						<input
 							type="text"
 							v-model="signupForm.name"
 							placeholder="Your name"
+							:class="{'peer border-tomato focus:border-tomato focus:ring-tomato': signupV.name.$error}"
 							class="text-sm w-full rounded border-gray-400"/>
+
+						<div class="absolute opacity-0 peer-focus:opacity-100 -top-3 peer-focus:transition-all peer-focus:-top-full right-0 border border-red-300 rounded z-[-1] shadow-lg peer-focus:z-30">
+							<div class="relative">
+								<div class="absolute border border-red-300 h-3 w-3 bg-red-200 rotate-45 top-[calc(100%-6px)] z-[-1] right-3 shadow-lg"></div>
+								<div class="bg-red-200 py-1 px-2 rounded">
+									{{signupV.name.$errors[0]?.$message}}
+								</div>
+							</div>
+						</div>
 					</div>
 
-					<div class="relative translate-x-0">
+					<div class="relative">
 						<input
 							type="password"
 							v-model="signupForm.password"
 							placeholder="Password"
 							:class="{'peer border-tomato focus:border-tomato focus:ring-tomato': signupV.password.$error}"
-							@blur="signupV.password.$touch"
 							class="text-sm w-full rounded border-gray-400 z-10"/>
 
 						<div class="absolute opacity-0 peer-focus:opacity-100 -top-3 peer-focus:transition-all peer-focus:-top-full right-0 border border-red-300 rounded z-[-1] shadow-lg peer-focus:z-30">
@@ -133,13 +155,12 @@
 						</div>
 					</div>
 
-					<div class="relative translate-x-0">
+					<div class="relative">
 						<input
 							type="password"
 							v-model="signupForm.confirm"
 							placeholder="Confirm password"
 							:class="{'peer border-tomato focus:border-tomato focus:ring-tomato': signupV.confirm.$error}"
-							@blur="signupV.confirm.$touch"
 							class="text-sm w-full rounded border-gray-400 z-10"/>
 
 							<div class="absolute opacity-0 peer-focus:opacity-100 -top-3 peer-focus:transition-all peer-focus:-top-full right-0 border border-red-300 rounded z-[-1] shadow-lg peer-focus:z-30">
