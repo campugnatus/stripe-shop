@@ -412,7 +412,7 @@ async function signup () {
 	})
 
 	.then(() =>
-		showToast.success("You're now signed up and signed in!"))
+		showToast.success("Now check your email!"))
 
 	.catch(e => {
 		if (e.response && e.response.data.match(/exists/)) {

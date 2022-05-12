@@ -423,6 +423,8 @@ function createUser ({email, picture, name, hash}) {
 
 
 function hashPassword (password) {
+	password = password.normalize()
+
 	const salt = crypto.randomBytes(16).toString("hex")
 	const hash = crypto.scryptSync(password, salt, 64).toString("hex")
 
@@ -430,6 +432,8 @@ function hashPassword (password) {
 }
 
 function checkPassword(password, digest) {
+	password = password.normalize()
+
 	const [_, hash, salt] = digest.match(/^(.+)\.(.+)$/)
 	const hash2 = crypto.scryptSync(password, salt, 64).toString("hex")
 
