@@ -80,13 +80,7 @@ export const useUserStore = defineStore('user', {
 			this.profile = null
 		},
 		async signup ({email, name, password}) {
-			const user = await api.signup({email, name, password})
-			this.profile = {
-				id: user.id,
-				name: user.name,
-				email: user.email,
-				picture: user.picture
-			}
+			return api.signup({email, name, password})
 		},
 		async fetchOrder (idRef, {subscribe}) {
 			let id = unref(idRef)

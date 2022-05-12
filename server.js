@@ -15,6 +15,21 @@ const crypto = require('crypto')
 const cookieParser = require('cookie-parser')
 const cookieSession = require('cookie-session')
 
+
+const secret = 'This should be taken from somewhere like an environment variable'
+const secret24 = crypto.scryptSync(secret, 'salt', 24)
+
+const nodemailer = require("nodemailer")
+
+const emailTransport = nodemailer.createTransport({
+  host: "smtp.mailtrap.io",
+  port: 2525,
+  auth: {
+    user: "4544d25b466838",
+    pass: "02bad9670588c0"
+  }
+})
+
 app.use(cookieParser())
 app.use(cookieSession({ secret: 'this is added to git, how secret can it be?' }))
 
@@ -452,7 +467,6 @@ app.post('/logout', function (req, res, next) {
 
 
 app.post('/signup', function (req, res, next) {
-	console.log("signup", req.body)
 	const { email, name, password } = req.body
 
 	if(findUserByEmail(email)) {
@@ -460,17 +474,95 @@ app.post('/signup', function (req, res, next) {
 		return
 	}
 
-	const hash = hashPassword(password)
-	console.log("pswd hash", hash)
-	const user = createUser({email, name, hash})
-	console.log("created user=", user)
+	// const hash = hashPassword(password)
+	// const user = createUser({email, name, hash})
 
-	res.json({
-		id: user.id,
-		name: user.name,
-		email: user.email,
- 	})
+	const token = createToken({email, name, password})
+	const url = 'http://localhost:3002/confirm/'+token
+
+	let info = emailTransport.sendMail({
+	  from: '"Stripe Shop" <noreply@stripeshop>', // sender address
+	  to: email, // list of receivers
+	  subject: "Email confirmation", // Subject line
+	  text: "c lick here: "+url, // plain text body
+	  // html: "<b>Hello world?</b>", // html body
+	})
+
+	res.status(200).send("ok")
+
+	// res.json({
+	// 	id: user.id,
+	// 	name: user.name,
+	// 	email: user.email,
+ // 	})
 })
+
+
+
+app.get('/confirm/:token', function (req, res, next) {
+	// uhm... making changes to the database in response to a GET request is not
+	// very semantic, is it? But everybody is doing it so it's ok, I guess?
+
+	const {email, name, password} = decodeToken(req.params.token)
+	const hash = hashPassword(password)
+	const user = createUser({email, name, hash})
+
+	console.log("confirmed!", data)
+})
+
+
+
+function createToken (obj) {
+	if (typeof obj !== 'object')
+		throw "error: createToken expected an object"
+
+	const data = {
+		data: JSON.stringify(obj).normalize(),
+		issued: new Date().getTime(),
+		ttl: 0,
+	}
+
+	const dataString = JSON.stringify(data).normalize()
+
+	// initialization vector for the cipher algorithm
+	const iv = crypto.randomBytes(16)
+
+	// Once we have the key and iv, we can create and use the cipher...
+	const cipher = crypto.createCipheriv('aes-192-cbc', secret24, iv)
+
+	let encrypted = ''
+	cipher.setEncoding('hex')
+
+	cipher.on('data', (chunk) => encrypted += chunk)
+	cipher.on('end', () => console.log(encrypted))
+
+	cipher.write(dataString)
+	cipher.end()
+
+	let token = iv.toString('hex') + '.' + encrypted
+
+	return token
+}
+
+
+
+function decodeToken (token) {
+	const [_, ivhex, encrypted] = token.match(/^(.+)\.(.+)$/)
+	const iv = Buffer.from(ivhex, 'hex')
+
+	const decipher = crypto.createDecipheriv('aes-192-cbc', secret24, iv)
+
+	let decrypted = decipher.update(encrypted, 'hex', 'utf8');
+	decrypted += decipher.final('utf8')
+
+	const payload = JSON.parse(decrypted)
+
+	// TODO: check if expired
+
+	return JSON.parse(payload.data)
+}
+
+
 
 
 app.get('/user', async function (req, res, next) {
