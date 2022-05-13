@@ -405,6 +405,9 @@ async function loginPassword (req, res, next) {
 		res.status(403).send("wrong password")
 	}
 
+	// log the user in: set the session cookie
+	req.session.user = user.id
+
 	// send back user data
 	res.json({
 		id: user.id,
@@ -466,6 +469,8 @@ app.post('/logout', function (req, res, next) {
 })
 
 
+
+
 app.post('/signup', function (req, res, next) {
 	const { email, name, password } = req.body
 
@@ -500,6 +505,9 @@ app.post('/confirm', function (req, res, next) {
 
 	const hash = hashPassword(password)
 	const user = createUser({email, name, hash})
+
+	// log the user in: set the session cookie
+	req.session.user = user.id
 
 	res.json({
 		id: user.id,
