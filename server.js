@@ -470,45 +470,56 @@ app.post('/signup', function (req, res, next) {
 	const { email, name, password } = req.body
 
 	if(findUserByEmail(email)) {
-		res.status(400).send("user already exists")
+		res.status(400).send("user exists")
 		return
 	}
 
-	// const hash = hashPassword(password)
-	// const user = createUser({email, name, hash})
-
-	const token = createToken({email, name, password})
-	const url = 'http://localhost:3002/confirm/'+token
+	const code = gen4LetterCode()
+	const token = createToken({email, name, password, code})
 
 	let info = emailTransport.sendMail({
 	  from: '"Stripe Shop" <noreply@stripeshop>', // sender address
 	  to: email, // list of receivers
-	  subject: "Email confirmation", // Subject line
-	  text: "c lick here: "+url, // plain text body
+	  subject: "Email verification", // Subject line
+	  text: "Your code is "+code, // plain text body
 	  // html: "<b>Hello world?</b>", // html body
 	})
 
-	res.status(200).send("ok")
-
-	// res.json({
-	// 	id: user.id,
-	// 	name: user.name,
-	// 	email: user.email,
- // 	})
+	res.status(200).send(token)
 })
 
 
+app.post('/confirm', function (req, res, next) {
+	const {email, name, password, code} = decodeToken(req.body.token)
+	const userCode = req.body.code
 
-app.get('/confirm/:token', function (req, res, next) {
-	// uhm... making changes to the database in response to a GET request is not
-	// very semantic, is it? But everybody is doing it so it's ok, I guess?
+	if (userCode.toLowerCase() !== code) {
+		res.status(403).send("bad code")
+		return
+	}
 
-	const {email, name, password} = decodeToken(req.params.token)
 	const hash = hashPassword(password)
 	const user = createUser({email, name, hash})
 
-	console.log("confirmed!", data)
+	res.json({
+		id: user.id,
+		name: user.name,
+		email: user.email,
+	})
 })
+
+
+
+function gen4LetterCode() {
+	const alphabet = "0123456789abcdefghijklmnopqrstuvwxyz"
+	let code = ""
+	code += alphabet[Math.floor(Math.random()*alphabet.length)]
+	code += alphabet[Math.floor(Math.random()*alphabet.length)]
+	code += alphabet[Math.floor(Math.random()*alphabet.length)]
+	code += alphabet[Math.floor(Math.random()*alphabet.length)]
+
+	return code
+}
 
 
 
@@ -521,26 +532,21 @@ function createToken (obj) {
 		issued: new Date().getTime(),
 		ttl: 0,
 	}
-
 	const dataString = JSON.stringify(data).normalize()
 
 	// initialization vector for the cipher algorithm
 	const iv = crypto.randomBytes(16)
-
 	// Once we have the key and iv, we can create and use the cipher...
 	const cipher = crypto.createCipheriv('aes-192-cbc', secret24, iv)
 
 	let encrypted = ''
 	cipher.setEncoding('hex')
-
 	cipher.on('data', (chunk) => encrypted += chunk)
-	cipher.on('end', () => console.log(encrypted))
-
+	// cipher.on('end', () => console.log(encrypted))
 	cipher.write(dataString)
 	cipher.end()
 
-	let token = iv.toString('hex') + '.' + encrypted
-
+	const token = iv.toString('hex') + '.' + encrypted
 	return token
 }
 

@@ -1,5 +1,5 @@
 <template>
-	<Popover class="relative z-20">
+	<Popover v-slot="{ close }" class="relative z-20">
 		<PopoverOverlay class="bg-black opacity-20 fixed inset-0" />
 		<PopoverButton class="group p-2" :title="userStore.shortName">
 			<div class="flex justify-center">
@@ -18,7 +18,7 @@
 		</PopoverButton>
 
 		<PopoverPanel>
-			<section v-if="userStore.signedIn" class="absolute z-10 w-80 h-[444px] top-[calc(100%+1em)] flex-col right-2 shadow-xl bg-white rounded border flex flex-col justify-between">
+			<section v-if="userStore.signedIn && showing==='user'" class="absolute z-10 w-80 h-[444px] top-[calc(100%+1em)] flex-col right-2 shadow-xl bg-white rounded border flex flex-col justify-between">
 				<section class="flex border-b p-4 items-center w-full bg-gray-100">
 					<div class="h-16 w-16 shrink-0">
 						<img
@@ -54,7 +54,7 @@
 					</div>
 				</section>
 				<section class="p-6">
-					<button @click="logout" class="block bg-primary rounded p-2 w-full text-white flex items-center justify-center">
+					<button @click="logout(close)" class="block bg-primary rounded p-2 w-full text-white flex items-center justify-center">
 						<LogoutIcon class="h-5 mr-2"/>
 						Log out
 					</button>
@@ -218,6 +218,43 @@
 					</button>
 				</form>
 			</section>
+
+
+
+			<section
+				v-else-if="showing === 'confirm'"
+				class="absolute z-10 w-80 h-[444px] top-[calc(100%+1em)] right-2 shadow-xl bg-white rounded border flex items-center justify-center">
+
+				<div class="space-y-6">
+					<p class="font-pacifico text-3xl text-center">
+						Almost there!
+					</p>
+					<p class="w-48">
+						We've sent you an email with a code. Please enter the code below to confirm your email
+					</p>
+					<form @submit.prevent="verifyCode" class="text-center">
+						<input
+							type="text"
+							v-model="code"
+							:class="{'border-tomato focus:border-tomato focus:ring-tomato': codeError}"
+							class="font-sigmar text-center text-4xl w-44 tracking-wide uppercase rounded"
+							maxlength="4"/>
+					</form>
+				</div>
+			</section>
+
+
+
+			<section
+				v-else-if="showing === 'welcome'"
+				@click="showing = 'user'"
+				class="absolute z-10 w-80 h-[444px] top-[calc(100%+1em)] right-2 shadow-xl bg-white rounded border flex flex-col items-center justify-center">
+
+				<div class="space-y-20">
+					<p class="font-pacifico text-4xl text-center">Welcome!</p>
+					<p class="text-center">You're now signed up<br> and signed in!</p>
+				</div>
+			</section>
 		</PopoverPanel>
 
 	</Popover>
@@ -238,10 +275,7 @@ import { required, email, sameAs, minLength, helpers, alpha } from '@vuelidate/v
 
 const userStore = useUserStore()
 
-const showing = ref("login")
-
-
-
+const showing = ref(userStore.signedIn? "user" : "login")
 
 
 
@@ -249,11 +283,16 @@ const showing = ref("login")
  * Logout
  */
 
-function logout () {
+function logout (close) {
 	userStore.logout()
-		.then(() => showToast.success("Logged out"))
-		.catch(() => showToast.error("Couldn't log out"))
+		.then(() => {
+			showing.value = 'login'
+			showToast.success("Logged out")
+			close()
+		},
+		() => showToast.error("Couldn't log out"))
 }
+
 
 
 
@@ -309,6 +348,10 @@ async function login () {
 		email: loginForm.email,
 		password: loginForm.password
 	})
+	.then(() => {
+		showing.value = 'user'
+		clearForm(loginForm)
+	})
 	.catch(e => {
 		if (e.response && e.response.data === "wrong password") {
 			showToast.error("Incorrect email or password")
@@ -357,7 +400,6 @@ const signupValidators = {
 			helpers.withAsync(async function (value) {
 				if (value === '') return true
 				const exists = await api.userExists(value)
-				console.log("exists", exists)
 				return !exists
 			})
 		)
@@ -393,12 +435,11 @@ const signupValidators = {
 }
 
 const signupV = useVuelidate(signupValidators, signupForm)
+let token
 
 async function signup () {
 	// verify that the data is ok
 	const valid = await signupV.value.$validate()
-
-	console.log("valid?", valid, signupV)
 
 	if (!valid) {
 		signupV.value.$errors.forEach(error => showToast.error(error.$message))
@@ -411,16 +452,54 @@ async function signup () {
 		password: signupForm.password
 	})
 
-	.then(() =>
-		showToast.success("Now check your email!"))
+	.then(tkn => {
+		token = tkn
+		showing.value = "confirm"
+	})
 
 	.catch(e => {
 		if (e.response && e.response.data.match(/exists/)) {
-			showToast.error("User exists")
+			showToast.error("User already exists")
 		} else {
 			console.log("Sign up failed:", e, e.response)
 			showToast.error("Oops! Sign up failed")
 		}
 	})
+}
+
+
+
+
+
+
+/**
+ * Email verification
+ */
+
+const code = ref()
+const codeError = ref(false)
+
+async function verifyCode () {
+	userStore.verifyCode(code.value, token)
+	.then(() => {
+		showing.value = "welcome"
+		clearForm(signupForm)
+		// setTimeout(() => showing.value = "user", 2000)
+	}).catch(err => {
+		if (err.response?.data?.match(/code/)) {
+			codeError.value = "Nope"
+			showToast.error("Incorrect code")
+		}
+		else {
+			showToast.error("Something went wrong")
+		}
+	})
+}
+
+
+function clearForm(form) {
+	for (let key of Object.keys(form)) {
+		form[key] = undefined
+	}
 }
 </script>

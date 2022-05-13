@@ -49,7 +49,7 @@ export const useUserStore = defineStore('user', {
 
 	getters: {
 		signedIn: (state) => !!state.profile?.id,
-		shortName: (state) => state.profile.name?.split(" ")[0]
+		shortName: (state) => state.profile && state.profile.name.split(" ")[0]
 	},
 
 	actions: {
@@ -80,7 +80,16 @@ export const useUserStore = defineStore('user', {
 			this.profile = null
 		},
 		async signup ({email, name, password}) {
-			return api.signup({email, name, password})
+			return await api.signup({email, name, password})
+		},
+		async verifyCode (code, token) {
+			const user = await api.verifyCode(code, token)
+			this.profile = {
+				id: user.id,
+				name: user.name,
+				email: user.email,
+				picture: user.picture
+			}
 		},
 		async fetchOrder (idRef, {subscribe}) {
 			let id = unref(idRef)
