@@ -1,6 +1,6 @@
 <template>
 	<TransitionGroup tag="ul" name="toaster"
-	                 class="fixed top-0 left-0 pb-10 h-full overflow-visible flex flex-col-reverse gap-4 bottom-10 left-0 h-full"
+	                 class="fixed top-0 left-0 pb-10 h-full overflow-visible flex flex-col-reverse gap-4 bottom-10 left-0 h-full z-50"
 	                 @before-leave="beforeLeave">
 
 		<ToastAlert v-for="toast in toasts.list"
