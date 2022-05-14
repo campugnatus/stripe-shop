@@ -17,87 +17,10 @@
 			<div v-else class="lg:pt-2 text-center">Sign in</div>
 		</PopoverButton>
 
-		<PopoverPanel>
-			<section v-if="userStore.signedIn && showing==='user'" class="absolute z-10 w-80 h-[444px] top-[calc(100%+1em)] flex-col right-2 shadow-xl bg-white rounded border flex flex-col justify-between">
-				<section class="flex border-b p-4 items-center w-full bg-gray-100">
-					<div class="h-16 w-16 shrink-0">
-						<img
-							v-if="userStore.profile.picture"
-							:src="userStore.profile.picture"
-							class="rounded-full border-gray-300 border-4">
-						<UserCircleIcon v-else class="text-tomato"/>
-					</div>
-					<div class="ml-4 min-w-0">
-						<div class="text-sm text-gray-500">Logged in as</div>
-						<div
-							class="text-lg font-bold max-w-full truncate overflow-hidden"
-							:title="userStore.profile.name">
-							{{userStore.profile.name}}
-						</div>
-						<div class="text-gray-500 truncate">{{userStore.profile.email}}</div>
-					</div>
-				</section>
-				<section class="text-lg flex justify-center">
-					<div class="space-y-8 w-fit -ml-4">
-						<router-link class="flex items-center hover:text-tomato" to="/orders">
-							<ClipboardListIcon class="h-6 inline mr-3"/>
-							<div class="text-left font-">Order history</div>
-						</router-link>
-						<router-link class="flex items-center hover:text-tomato" to="/cart">
-							<ShoppingCartIcon class="h-6 inline mr-3"/>
-							<div class="text-left font-">Shopping cart</div>
-						</router-link>
-						<button class="flex items-center hover:text-tomato">
-							<KeyIcon class="h-6 inline mr-3"/>
-							<div class="text-left font-">Reset password</div>
-						</button>
-					</div>
-				</section>
-				<section class="p-6">
-					<button @click="logout(close)" class="block bg-primary rounded p-2 w-full text-white flex items-center justify-center">
-						<LogoutIcon class="h-5 mr-2"/>
-						Log out
-					</button>
-				</section>
-			</section>
-
-
-
-			<section v-else-if="showing === 'login'" class="absolute z-10 w-80 h-[444px] top-[calc(100%+1em)] right-2 shadow-xl bg-white rounded border flex flex-col">
-				<div class="flex">
-					<h1 class="w-1/2 p-4 text-xl flex justify-center items-center">Sign in</h1>
-					<button @click.prevent.stop="showing = 'signup'" class="w-1/2 p-4 text-xl flex bg-gray-100 justify-center items-center border-l border-b text-gray-400 hover:text-gray-500">Sign up</button>
-				</div>
-				<form @submit.prevent="login" class="p-8 space-y-4 my-auto">
-					<input
-						v-model="loginForm.email"
-						type="email" placeholder="Email address"
-						:class="{'border-tomato --ring ring-red-300 focus:border-tomato focus:ring-tomato': loginErrors.email}"
-						class="text-sm w-full rounded border-gray-400"/>
-					<input
-						v-model="loginForm.password"
-						type="password"
-						placeholder="Password"
-						:class="{'border-tomato --ring ring-red-300 focus:border-tomato focus:ring-tomato': loginErrors.password}"
-						class="text-sm w-full rounded border-gray-400"/>
-
-					<div class="flex justify-between">
-						<button type="submit" class="bg-primary rounded text-white py-1.5 p-2 w-28">Sign in</button>
-						<button class="text-sm text-blue-500 px-2">Forgot password?</button>
-					</div>
-				</form>
-				<div class="h-32 w-full bg-gray-100 mt-auto flex items-center justify-center border-t relative">
-					<div class="flex justify-center items-center w-10 h-10 absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full border text-gray-400 text-xs">OR</div>
-					<SignInWithGoogleButton class=""/>
-				</div>
-			</section>
-
-
-
-
+		<PopoverPanel class="absolute z-10 w-80 h-[444px] top-[calc(100%+1em)] right-2 shadow-xl bg-white rounded border">
 			<section
-				v-else-if="showing === 'signup'"
-				class="absolute z-10 w-80 h-[444px] top-[calc(100%+1em)] right-2 shadow-xl bg-white rounded border flex flex-col justify-between">
+				v-if="showing === 'signup'"
+				class="h-full flex flex-col justify-between">
 
 				<div class="flex">
 					<button
@@ -106,7 +29,6 @@
 						Sign in
 					</button>
 					<h1
-						@click="showing = 'signup'"
 						class="w-1/2 p-4 text-xl flex justify-center items-center">
 						Sign up
 					</h1>
@@ -119,6 +41,7 @@
 					<div class="relative">
 						<input
 							type="text"
+							v-focus
 							v-model="signupForm.email"
 							placeholder="Email address"
 							:class="{'peer border-tomato focus:border-tomato focus:ring-tomato': signupV.email.$error}"
@@ -223,7 +146,7 @@
 
 			<section
 				v-else-if="showing === 'confirm'"
-				class="absolute z-10 w-80 h-[444px] top-[calc(100%+1em)] right-2 shadow-xl bg-white rounded border flex items-center justify-center">
+				class="h-full flex items-center justify-center">
 
 				<div class="space-y-6">
 					<p class="font-pacifico text-3xl text-center">
@@ -236,8 +159,9 @@
 						<input
 							type="text"
 							v-model="code"
+							v-focus
 							:class="{'border-tomato focus:border-tomato focus:ring-tomato': codeError}"
-							class="font-sigmar text-center text-4xl w-44 tracking-wide uppercase rounded"
+							class="font-sigmar text-center text-4xl w-44 tracking-wide lowercase rounded"
 							maxlength="4"/>
 					</form>
 				</div>
@@ -248,15 +172,94 @@
 			<section
 				v-else-if="showing === 'welcome'"
 				@click="showing = 'user'"
-				class="absolute z-10 w-80 h-[444px] top-[calc(100%+1em)] right-2 shadow-xl bg-white rounded border flex flex-col items-center justify-center">
+				class="h-full flex flex-col items-center justify-center">
 
+				<input class="invisible h-0" v-focus/>
 				<div class="space-y-20">
 					<p class="font-pacifico text-4xl text-center">Welcome!</p>
 					<p class="text-center">You're now signed up<br> and signed in!</p>
 				</div>
 			</section>
-		</PopoverPanel>
 
+
+
+
+
+			<section v-else-if="showing === 'user'" class="h-full flex flex-col justify-between">
+				<section class="flex border-b p-4 items-center w-full bg-gray-100">
+					<div class="h-16 w-16 shrink-0">
+						<img
+							v-if="userStore.profile.picture"
+							:src="userStore.profile.picture"
+							class="rounded-full border-gray-300 border-4">
+						<UserCircleIcon v-else class="text-tomato"/>
+					</div>
+					<div class="ml-4 min-w-0">
+						<div class="text-sm text-gray-500">Logged in as</div>
+						<div
+							class="text-lg font-bold max-w-full truncate overflow-hidden"
+							:title="userStore.profile.name">
+							{{userStore.profile.name}}
+						</div>
+						<div class="text-gray-500 truncate">{{userStore.profile.email}}</div>
+					</div>
+				</section>
+				<section class="text-lg flex justify-center">
+					<div class="space-y-8 w-fit -ml-4">
+						<router-link class="flex items-center hover:text-tomato" to="/orders">
+							<ClipboardListIcon class="h-6 inline mr-3"/>
+							<div class="text-left font-">Order history</div>
+						</router-link>
+						<router-link class="flex items-center hover:text-tomato" to="/cart">
+							<ShoppingCartIcon class="h-6 inline mr-3"/>
+							<div class="text-left font-">Shopping cart</div>
+						</router-link>
+						<button class="flex items-center hover:text-tomato">
+							<KeyIcon class="h-6 inline mr-3"/>
+							<div class="text-left font-">Reset password</div>
+						</button>
+					</div>
+				</section>
+				<section class="p-6">
+					<button @click="logout(close)" class="block bg-primary rounded p-2 w-full text-white flex items-center justify-center">
+						<LogoutIcon class="h-5 mr-2"/>
+						Log out
+					</button>
+				</section>
+			</section>
+
+
+
+			<section v-else-if="showing === 'login'" class="h-full flex flex-col">
+				<div class="flex">
+					<h1 class="w-1/2 p-4 text-xl flex justify-center items-center">Sign in</h1>
+					<button @click="showing = 'signup'" class="w-1/2 p-4 text-xl flex bg-gray-100 justify-center items-center border-l border-b text-gray-400 hover:text-gray-500">Sign up</button>
+				</div>
+				<form @submit.prevent="login" class="p-8 space-y-4 my-auto">
+					<input
+						v-model="loginForm.email"
+						v-focus
+						type="email" placeholder="Email address"
+						:class="{'border-tomato --ring ring-red-300 focus:border-tomato focus:ring-tomato': loginErrors.email}"
+						class="text-sm w-full rounded border-gray-400"/>
+					<input
+						v-model="loginForm.password"
+						type="password"
+						placeholder="Password"
+						:class="{'border-tomato --ring ring-red-300 focus:border-tomato focus:ring-tomato': loginErrors.password}"
+						class="text-sm w-full rounded border-gray-400"/>
+
+					<div class="flex justify-between">
+						<button type="submit" class="bg-primary rounded text-white py-1.5 p-2 w-28">Sign in</button>
+						<button class="text-sm text-blue-500 px-2">Forgot password?</button>
+					</div>
+				</form>
+				<div class="h-32 w-full bg-gray-100 mt-auto flex items-center justify-center border-t relative">
+					<div class="flex justify-center items-center w-10 h-10 absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full border text-gray-400 text-xs">OR</div>
+					<SignInWithGoogleButton class=""/>
+				</div>
+			</section>
+		</PopoverPanel>
 	</Popover>
 </template>
 
@@ -290,8 +293,8 @@ userStore.init().then(() => {
 function logout (close) {
 	userStore.logout()
 		.then(() => {
-			showing.value = 'login'
 			showToast.success("Logged out")
+			showing.value = "login"
 			close()
 		},
 		() => showToast.error("Couldn't log out"))
@@ -527,5 +530,10 @@ function reset () {
 			form[key] = undefined
 		}
 	}
+}
+
+
+const vFocus = {
+  mounted: (el) => el.focus()
 }
 </script>
