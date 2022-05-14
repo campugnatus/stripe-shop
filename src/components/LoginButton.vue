@@ -1,5 +1,5 @@
 <template>
-	<Popover v-slot="{ close }" class="relative z-20">
+	<Popover v-if="userStore.signedIn" v-slot="{ close }" class="relative z-20">
 		<PopoverOverlay class="bg-black opacity-20 fixed inset-0" />
 		<PopoverButton class="group p-2" :title="userStore.shortName">
 			<div class="flex justify-center">
@@ -18,174 +18,7 @@
 		</PopoverButton>
 
 		<PopoverPanel class="absolute z-10 w-80 h-[444px] top-[calc(100%+1em)] right-2 shadow-xl bg-white rounded border">
-			<section
-				v-if="showing === 'signup'"
-				class="h-full flex flex-col justify-between">
-
-				<div class="flex">
-					<button
-						@click="showing = 'login'"
-						class="w-1/2 p-4 text-xl flex justify-center items-center bg-gray-100 border-r border-b text-gray-400 hover:text-gray-500">
-						Sign in
-					</button>
-					<h1
-						class="w-1/2 p-4 text-xl flex justify-center items-center">
-						Sign up
-					</h1>
-				</div>
-
-				<form
-					@submit.prevent="signup"
-					class="p-8 space-y-3 my-auto text-sm">
-
-					<div class="relative">
-						<input
-							type="text"
-							v-focus
-							v-model="signupForm.email"
-							placeholder="Email address"
-							:class="{'peer border-tomato focus:border-tomato focus:ring-tomato': signupV.email.$error}"
-							class="text-sm w-full rounded border-gray-400"/>
-
-						<div class="absolute opacity-0 peer-focus:opacity-100 -top-3 peer-focus:transition-all peer-focus:-top-full right-0 border border-red-300 rounded z-[-1] shadow-lg peer-focus:z-30">
-							<div class="relative">
-								<div class="absolute border border-red-300 h-3 w-3 bg-red-200 rotate-45 top-[calc(100%-6px)] z-[-1] right-3 shadow-lg"></div>
-								<div class="bg-red-200 py-1 px-2 rounded">
-									{{signupV.email.$errors[0]?.$message}}
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="relative">
-						<Popover>
-							<PopoverButton class="absolute right-2 top-1/2 -translate-y-1/2">
-								<InformationCircleIcon class="h-5 text-sm text-gray-300 hover:text-gray-400 text-xs"/>
-							</PopoverButton>
-							<transition
-								enter-active-class="transition duration-200 ease-out"
-								enter-from-class="translate-y-1 opacity-0"
-								enter-to-class="translate-y-0 opacity-100"
-								leave-active-class="transition duration-150 ease-in"
-								leave-from-class="translate-y-0 opacity-100"
-								leave-to-class="translate-y-1 opacity-0">
-								<PopoverPanel class="rounded border border-gray-300 absolute shadow-lg top-[calc(100%+8px)] right-0 z-20">
-									<div class="relative isolate">
-										<div class="absolute bg-white h-3 w-3 border border-gray-300 rotate-45 top-[-6px] right-3 shadow-xl"></div>
-										<div class="p-3 bg-white isolate rounded --text-white --bg-primary">
-											The way you'd like us to call you in the emails we send you.
-											This is also how your name will appear in the comments you leave here.
-										</div>
-									</div>
-								</PopoverPanel>
-							</transition>
-						</Popover>
-
-						<input
-							type="text"
-							v-model="signupForm.name"
-							placeholder="Your name"
-							:class="{'peer border-tomato focus:border-tomato focus:ring-tomato': signupV.name.$error}"
-							class="text-sm w-full rounded border-gray-400"/>
-
-						<div class="absolute opacity-0 peer-focus:opacity-100 -top-3 peer-focus:transition-all peer-focus:-top-full right-0 border border-red-300 rounded z-[-1] shadow-lg peer-focus:z-30">
-							<div class="relative">
-								<div class="absolute border border-red-300 h-3 w-3 bg-red-200 rotate-45 top-[calc(100%-6px)] z-[-1] right-3 shadow-lg"></div>
-								<div class="bg-red-200 py-1 px-2 rounded">
-									{{signupV.name.$errors[0]?.$message}}
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="relative">
-						<input
-							type="password"
-							v-model="signupForm.password"
-							placeholder="Password"
-							:class="{'peer border-tomato focus:border-tomato focus:ring-tomato': signupV.password.$error}"
-							class="text-sm w-full rounded border-gray-400 z-10"/>
-
-						<div class="absolute opacity-0 peer-focus:opacity-100 -top-3 peer-focus:transition-all peer-focus:-top-full right-0 border border-red-300 rounded z-[-1] shadow-lg peer-focus:z-30">
-							<div class="relative">
-								<div class="absolute border border-red-300 h-3 w-3 bg-red-200 rotate-45 top-[calc(100%-6px)] z-[-1] right-3 shadow-lg"></div>
-								<div class="bg-red-200 py-1 px-2 rounded">
-									{{signupV.password.$errors[0]?.$message}}
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="relative">
-						<input
-							type="password"
-							v-model="signupForm.confirm"
-							placeholder="Confirm password"
-							:class="{'peer border-tomato focus:border-tomato focus:ring-tomato': signupV.confirm.$error}"
-							class="text-sm w-full rounded border-gray-400 z-10"/>
-
-							<div class="absolute opacity-0 peer-focus:opacity-100 -top-3 peer-focus:transition-all peer-focus:-top-full right-0 border border-red-300 rounded z-[-1] shadow-lg peer-focus:z-30">
-								<div class="relative">
-									<div class="absolute border border-red-300 h-3 w-3 bg-red-200 rotate-45 top-[calc(100%-6px)] z-[-1] right-3 shadow-lg"></div>
-									<div class="bg-red-200 py-1 px-2 rounded">
-										{{signupV.confirm.$errors[0]?.$message}}
-									</div>
-								</div>
-							</div>
-					</div>
-
-					<button
-						type="submit"
-						class="bg-primary rounded text-white py-2 p-2 w-full !mt-6">
-						Create account
-					</button>
-				</form>
-			</section>
-
-
-
-			<section
-				v-else-if="showing === 'confirm'"
-				class="h-full flex items-center justify-center">
-
-				<div class="space-y-6">
-					<p class="font-pacifico text-3xl text-center">
-						Almost there!
-					</p>
-					<p class="w-48">
-						We've sent you an email with a code. Please enter the code below to confirm your email
-					</p>
-					<form @submit.prevent="verifyCode" class="text-center">
-						<input
-							type="text"
-							v-model="code"
-							v-focus
-							:class="{'border-tomato focus:border-tomato focus:ring-tomato': codeError}"
-							class="font-sigmar text-center text-4xl w-44 tracking-wide lowercase rounded"
-							maxlength="4"/>
-					</form>
-				</div>
-			</section>
-
-
-
-			<section
-				v-else-if="showing === 'welcome'"
-				@click="showing = 'user'"
-				class="h-full flex flex-col items-center justify-center">
-
-				<input class="invisible h-0" v-focus/>
-				<div class="space-y-20">
-					<p class="font-pacifico text-4xl text-center">Welcome!</p>
-					<p class="text-center">You're now signed up<br> and signed in!</p>
-				</div>
-			</section>
-
-
-
-
-
-			<section v-else-if="showing === 'user'" class="h-full flex flex-col justify-between">
+			<section class="h-full flex flex-col justify-between">
 				<section class="flex border-b p-4 items-center w-full bg-gray-100">
 					<div class="h-16 w-16 shrink-0">
 						<img
@@ -227,44 +60,231 @@
 					</button>
 				</section>
 			</section>
-
-
-
-			<section v-else-if="showing === 'login'" class="h-full flex flex-col">
-				<div class="flex">
-					<h1 class="w-1/2 p-4 text-xl flex justify-center items-center">Sign in</h1>
-					<button @click="showing = 'signup'" class="w-1/2 p-4 text-xl flex bg-gray-100 justify-center items-center border-l border-b text-gray-400 hover:text-gray-500">Sign up</button>
-				</div>
-				<form @submit.prevent="login" class="p-8 space-y-4 my-auto">
-					<input
-						v-model="loginForm.email"
-						v-focus
-						type="email" placeholder="Email address"
-						:class="{'border-tomato --ring ring-red-300 focus:border-tomato focus:ring-tomato': loginErrors.email}"
-						class="text-sm w-full rounded border-gray-400"/>
-					<input
-						v-model="loginForm.password"
-						type="password"
-						placeholder="Password"
-						:class="{'border-tomato --ring ring-red-300 focus:border-tomato focus:ring-tomato': loginErrors.password}"
-						class="text-sm w-full rounded border-gray-400"/>
-
-					<div class="flex justify-between">
-						<button type="submit" class="bg-primary rounded text-white py-1.5 p-2 w-28">Sign in</button>
-						<button class="text-sm text-blue-500 px-2">Forgot password?</button>
-					</div>
-				</form>
-				<div class="h-32 w-full bg-gray-100 mt-auto flex items-center justify-center border-t relative">
-					<div class="flex justify-center items-center w-10 h-10 absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full border text-gray-400 text-xs">OR</div>
-					<SignInWithGoogleButton class=""/>
-				</div>
-			</section>
 		</PopoverPanel>
 	</Popover>
+
+	<button v-if="!userStore.signedIn" class="group p-2" :title="userStore.shortName" @click="openModal">
+		<div class="flex justify-center">
+			<template v-if="userStore.signedIn">
+				<img v-if="userStore.profile.picture" :src="userStore.profile.picture" class="h-10 lg:h-11 rounded-full border-transparent border-4 group-hover:border-blue-300">
+				<UserCircleIcon v-else class="h-11 text-tomato"/>
+			</template>
+
+			<!-- can't use the one from the package as I want to customize the stroke-width -->
+			<svg v-else xmlns="http://www.w3.org/2000/svg" class="h-10 lg:h-11 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+			</svg>
+		</div>
+		<div v-if="userStore.signedIn" class="lg:pt-2 text-center w-20 truncate">{{userStore.shortName}}</div>
+		<div v-else class="lg:pt-2 text-center">Sign in</div>
+	</button>
+
+	<Dialog as="div" :open="showModal" @close="closeModal" class="relative z-10 font-roboto">
+		<div class="fixed inset-0 bg-black/30" aria-hidden="true" />
+		<div class="fixed inset-0 flex items-center justify-center p-4">
+			<DialogPanel class="w-80 h-[444px] shadow-xl bg-white rounded border">
+				<section
+					v-if="showing === 'signup'"
+					class="h-full flex flex-col justify-between">
+
+					<div class="flex">
+						<button
+							@click="showing = 'login'"
+							class="w-1/2 p-4 text-xl flex justify-center items-center bg-gray-100 border-r border-b text-gray-400 hover:text-gray-500">
+							Sign in
+						</button>
+						<h1
+							class="w-1/2 p-4 text-xl flex justify-center items-center">
+							Sign up
+						</h1>
+					</div>
+
+					<form
+						@submit.prevent="signup"
+						class="p-8 space-y-3 my-auto text-sm">
+
+						<div class="relative">
+							<input
+								type="text"
+								v-focus
+								v-model="signupForm.email"
+								placeholder="Email address"
+								:class="{'peer border-tomato focus:border-tomato focus:ring-tomato': signupV.email.$error}"
+								class="text-sm w-full rounded border-gray-400"/>
+
+							<div class="absolute opacity-0 peer-focus:opacity-100 -top-3 peer-focus:transition-all peer-focus:-top-full right-0 border border-red-300 rounded z-[-1] shadow-lg peer-focus:z-30">
+								<div class="relative">
+									<div class="absolute border border-red-300 h-3 w-3 bg-red-200 rotate-45 top-[calc(100%-6px)] z-[-1] right-3 shadow-lg"></div>
+									<div class="bg-red-200 py-1 px-2 rounded">
+										{{signupV.email.$errors[0]?.$message}}
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="relative">
+							<Popover>
+								<PopoverButton class="absolute right-2 top-1/2 -translate-y-1/2">
+									<InformationCircleIcon class="h-5 text-sm text-gray-300 hover:text-gray-400 text-xs"/>
+								</PopoverButton>
+								<transition
+									enter-active-class="transition duration-200 ease-out"
+									enter-from-class="translate-y-1 opacity-0"
+									enter-to-class="translate-y-0 opacity-100"
+									leave-active-class="transition duration-150 ease-in"
+									leave-from-class="translate-y-0 opacity-100"
+									leave-to-class="translate-y-1 opacity-0">
+									<PopoverPanel class="rounded border border-gray-300 absolute shadow-lg top-[calc(100%+8px)] right-0 z-20">
+										<div class="relative isolate">
+											<div class="absolute bg-white h-3 w-3 border border-gray-300 rotate-45 top-[-6px] right-3 shadow-xl"></div>
+											<div class="p-3 bg-white isolate rounded --text-white --bg-primary">
+												The way you'd like us to call you in the emails we send you.
+												This is also how your name will appear in the comments you leave here.
+											</div>
+										</div>
+									</PopoverPanel>
+								</transition>
+							</Popover>
+
+							<input
+								type="text"
+								v-model="signupForm.name"
+								placeholder="Your name"
+								:class="{'peer border-tomato focus:border-tomato focus:ring-tomato': signupV.name.$error}"
+								class="text-sm w-full rounded border-gray-400"/>
+
+							<div class="absolute opacity-0 peer-focus:opacity-100 -top-3 peer-focus:transition-all peer-focus:-top-full right-0 border border-red-300 rounded z-[-1] shadow-lg peer-focus:z-30">
+								<div class="relative">
+									<div class="absolute border border-red-300 h-3 w-3 bg-red-200 rotate-45 top-[calc(100%-6px)] z-[-1] right-3 shadow-lg"></div>
+									<div class="bg-red-200 py-1 px-2 rounded">
+										{{signupV.name.$errors[0]?.$message}}
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="relative">
+							<input
+								type="password"
+								v-model="signupForm.password"
+								placeholder="Password"
+								:class="{'peer border-tomato focus:border-tomato focus:ring-tomato': signupV.password.$error}"
+								class="text-sm w-full rounded border-gray-400 z-10"/>
+
+							<div class="absolute opacity-0 peer-focus:opacity-100 -top-3 peer-focus:transition-all peer-focus:-top-full right-0 border border-red-300 rounded z-[-1] shadow-lg peer-focus:z-30">
+								<div class="relative">
+									<div class="absolute border border-red-300 h-3 w-3 bg-red-200 rotate-45 top-[calc(100%-6px)] z-[-1] right-3 shadow-lg"></div>
+									<div class="bg-red-200 py-1 px-2 rounded">
+										{{signupV.password.$errors[0]?.$message}}
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="relative">
+							<input
+								type="password"
+								v-model="signupForm.confirm"
+								placeholder="Confirm password"
+								:class="{'peer border-tomato focus:border-tomato focus:ring-tomato': signupV.confirm.$error}"
+								class="text-sm w-full rounded border-gray-400 z-10"/>
+
+								<div class="absolute opacity-0 peer-focus:opacity-100 -top-3 peer-focus:transition-all peer-focus:-top-full right-0 border border-red-300 rounded z-[-1] shadow-lg peer-focus:z-30">
+									<div class="relative">
+										<div class="absolute border border-red-300 h-3 w-3 bg-red-200 rotate-45 top-[calc(100%-6px)] z-[-1] right-3 shadow-lg"></div>
+										<div class="bg-red-200 py-1 px-2 rounded">
+											{{signupV.confirm.$errors[0]?.$message}}
+										</div>
+									</div>
+								</div>
+						</div>
+
+						<button
+							type="submit"
+							class="bg-primary rounded text-white py-2 p-2 w-full !mt-6">
+							Create account
+						</button>
+					</form>
+				</section>
+
+
+
+				<section
+					v-else-if="showing === 'confirm'"
+					class="h-full flex items-center justify-center">
+
+					<div class="space-y-6">
+						<p class="font-pacifico text-3xl text-center">
+							Almost there!
+						</p>
+						<p class="w-48">
+							We've sent you an email with a code. Please enter the code below to confirm your email
+						</p>
+						<form @submit.prevent="verifyCode" class="text-center">
+							<input
+								type="text"
+								v-model="code"
+								v-focus
+								:class="{'border-tomato focus:border-tomato focus:ring-tomato': codeError}"
+								class="font-sigmar text-center text-4xl w-44 tracking-wide lowercase rounded"
+								maxlength="4"/>
+						</form>
+					</div>
+				</section>
+
+
+
+				<section
+					v-else-if="showing === 'welcome'"
+					@click="closeModal"
+					class="h-full flex flex-col items-center justify-center">
+
+					<div class="space-y-20">
+						<p class="font-pacifico text-4xl text-center">Welcome!</p>
+						<p class="text-center">You're now signed up<br> and signed in!</p>
+					</div>
+				</section>
+
+
+
+
+				<section v-else-if="showing === 'login'" class="h-full flex flex-col">
+					<div class="flex">
+						<h1 class="w-1/2 p-4 text-xl flex justify-center items-center">Sign in</h1>
+						<button @click="showing = 'signup'" class="w-1/2 p-4 text-xl flex bg-gray-100 justify-center items-center border-l border-b text-gray-400 hover:text-gray-500">Sign up</button>
+					</div>
+					<form @submit.prevent="login" class="p-8 space-y-4 my-auto">
+						<input
+							v-model="loginForm.email"
+							v-focus
+							type="email" placeholder="Email address"
+							:class="{'border-tomato --ring ring-red-300 focus:border-tomato focus:ring-tomato': loginErrors.email}"
+							class="text-sm w-full rounded border-gray-400"/>
+						<input
+							v-model="loginForm.password"
+							type="password"
+							placeholder="Password"
+							:class="{'border-tomato --ring ring-red-300 focus:border-tomato focus:ring-tomato': loginErrors.password}"
+							class="text-sm w-full rounded border-gray-400"/>
+
+						<div class="flex justify-between">
+							<button type="submit" class="bg-primary rounded text-white py-1.5 p-2 w-28">Sign in</button>
+							<button class="text-sm text-blue-500 px-2">Forgot password?</button>
+						</div>
+					</form>
+					<div class="h-32 w-full bg-gray-100 mt-auto flex items-center justify-center border-t relative">
+						<div class="flex justify-center items-center w-10 h-10 absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full border text-gray-400 text-xs">OR</div>
+						<SignInWithGoogleButton @signIn="closeModal" class=""/>
+					</div>
+				</section>
+			</DialogPanel>
+		</div>
+	</Dialog>
+
 </template>
 
 <script setup>
-import { Popover, PopoverButton, PopoverPanel, PopoverOverlay } from '@headlessui/vue'
+import { Popover, PopoverButton, PopoverPanel, PopoverOverlay, TransitionRoot, TransitionChild, Dialog, DialogTitle, DialogPanel } from '@headlessui/vue'
 import SignInWithGoogleButton from '@/components/SignInWithGoogleButton.vue'
 import { UserCircleIcon, InformationCircleIcon, ClipboardListIcon, CogIcon, PencilIcon, ShoppingCartIcon, KeyIcon } from '@heroicons/vue/solid'
 import { LogoutIcon } from '@heroicons/vue/outline'
@@ -283,6 +303,22 @@ const showing = ref("login")
 userStore.init().then(() => {
 	showing.value = userStore.signedIn? "user" : "login"
 })
+
+const showModal = ref(false)
+
+function closeModal () {
+	showModal.value = false
+}
+
+function openModal () {
+	showModal.value = true
+}
+
+function tulipka () {
+	log("ohohoh?")
+}
+
+
 
 
 

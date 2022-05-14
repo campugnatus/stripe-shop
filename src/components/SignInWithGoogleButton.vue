@@ -3,11 +3,13 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch, onMounted, defineEmits } from 'vue'
 import { useUserStore } from '@/stores/user.js'
 import { showToast } from '@/plugins/toast'
 
 const userStore = useUserStore()
+
+const emit = defineEmits(['signIn'])
 
 const buttonContainer = ref(null)
 
@@ -25,7 +27,10 @@ onMounted(async () => {
 
 async function googleSignInCallback (response) {
   userStore.login({jwt: response.credential})
-    .then(() => showToast.success("Successfully logged in!"))
+    .then(() => {
+      emit('signIn')
+      showToast.success("Successfully logged in!")
+    })
     .catch(e => showToast.error("Login failed"))
 }
 
