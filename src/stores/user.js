@@ -54,6 +54,9 @@ export const useUserStore = defineStore('user', {
 
 	actions: {
 		async init () {
+			if (this.profile)
+				return
+
 			const user = await api.fetchUser()
 			if (!user.id) return
 

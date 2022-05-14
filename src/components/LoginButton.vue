@@ -275,7 +275,11 @@ import { required, email, sameAs, minLength, helpers, alpha } from '@vuelidate/v
 
 const userStore = useUserStore()
 
-const showing = ref(userStore.signedIn? "user" : "login")
+const showing = ref("login")
+
+userStore.init().then(() => {
+	showing.value = userStore.signedIn? "user" : "login"
+})
 
 
 
