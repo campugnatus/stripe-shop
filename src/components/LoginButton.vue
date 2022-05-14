@@ -354,7 +354,7 @@ async function login () {
 	})
 	.then(() => {
 		showing.value = 'user'
-		clearForm(loginForm)
+		reset()
 	})
 	.catch(e => {
 		if (e.response?.data === "no user") {
@@ -488,11 +488,13 @@ const codeError = ref(false)
 
 async function verifyCode () {
 	userStore.verifyCode(code.value, token)
+
 	.then(() => {
 		showing.value = "welcome"
-		clearForm(signupForm)
-		// setTimeout(() => showing.value = "user", 2000)
-	}).catch(err => {
+		reset()
+	})
+
+	.catch(err => {
 		if (err.response?.data?.match(/code/)) {
 			codeError.value = "Nope"
 			showToast.error("Incorrect code")
@@ -504,9 +506,26 @@ async function verifyCode () {
 }
 
 
-function clearForm(form) {
-	for (let key of Object.keys(form)) {
-		form[key] = undefined
+
+
+
+
+
+/**
+ * Utilities
+ */
+
+function reset () {
+	clearForm(signupForm)
+	clearForm(loginForm)
+	signupV.value.$reset()
+	code.value = undefined
+	token = undefined
+
+	function clearForm(form) {
+		for (let key of Object.keys(form)) {
+			form[key] = undefined
+		}
 	}
 }
 </script>
