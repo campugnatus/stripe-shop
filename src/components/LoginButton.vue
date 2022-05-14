@@ -357,10 +357,13 @@ async function login () {
 		clearForm(loginForm)
 	})
 	.catch(e => {
-		if (e.response && e.response.data === "wrong password") {
-			showToast.error("Incorrect email or password")
-			loginErrors.email = "Incorrect email or password"
-			loginErrors.password = "Incorrect email or password"
+		if (e.response?.data === "no user") {
+			showToast.error("User doesn't exist")
+			loginErrors.email = "User doesn't exist"
+		}
+		else if (e.response?.data === "wrong password") {
+			showToast.error("Incorrect password")
+			loginErrors.password = "Incorrect password"
 		}
 		else {
 			console.error("Login failed", e, e.response)

@@ -397,12 +397,13 @@ async function loginPassword (req, res, next) {
 	const user = findUserByEmail(req.body.email)
 
 	if (!user) {
-		dummyCheck()
-		res.status(403).send("wrong password")
+		res.status(403).send("no user")
+		return
 	}
 
 	if (!checkPassword(req.body.password, user.hash)) {
 		res.status(403).send("wrong password")
+		return
 	}
 
 	// log the user in: set the session cookie
