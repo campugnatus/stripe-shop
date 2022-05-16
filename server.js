@@ -66,6 +66,9 @@ app.ws('/subscribe', (ws, req) => {
 })
 
 function broadcast ({bucket, id, object}) {
+	if (!subscribers[bucket])
+		return
+
 	let socks = subscribers[bucket][id]
 
 	if (!socks)
@@ -436,8 +439,7 @@ function findUserByEmail (email) {
 
 function createUser ({email, picture, name, hash}) {
 	const id = newUuid()
-	db.users[id] = { id, email, picture, name, hash }
-	return db.users[id]
+	return { id, email, picture, name, hash }
 }
 
 
@@ -506,6 +508,7 @@ app.post('/confirm', function (req, res, next) {
 
 	const hash = hashPassword(password)
 	const user = createUser({email, name, hash})
+	dbPut("user", user.id, user)
 
 	// log the user in: set the session cookie
 	req.session.user = user.id
@@ -515,6 +518,56 @@ app.post('/confirm', function (req, res, next) {
 		name: user.name,
 		email: user.email,
 	})
+})
+
+
+
+app.post('/request_password_reset', (req, res, next) => {
+	const email = req.body.email
+
+	if(!findUserByEmail(email)) {
+		res.status(401).send("user doesn't exist")
+		return
+	}
+
+	const code = gen4LetterCode()
+	console.log("password reset code:", code)
+	const token = createToken({email, code})
+
+	let info = emailTransport.sendMail({
+	  from: '"Stripe Shop" <noreply@stripeshop>', // sender address
+	  to: email, // list of receivers
+	  subject: "Password reset request", // Subject line
+	  text: "Your password reset code is "+code, // plain text body
+	  // html: "<b>Hello world?</b>", // html body
+	})
+
+	res.send(token)
+})
+
+
+
+app.post('/password_reset', (req, res, next) => {
+	const {code, token, password} = req.body
+	const {email, code: rightCode} = decodeToken(token)
+
+	if (code !== rightCode) {
+		res.status(401).send("bad code")
+		return
+	}
+
+	const user = findUserByEmail(email)
+
+	if (!user) {
+		res.status(500)
+		return
+	}
+
+	const hash = hashPassword(password)
+	user.hash = hash
+	dbPut("user", user.id, user)
+
+	res.status(200).send("ok")
 })
 
 

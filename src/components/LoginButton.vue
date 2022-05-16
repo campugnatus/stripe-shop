@@ -80,7 +80,7 @@
 	</button>
 
 	<Dialog as="div" :open="showModal" @close="closeModal" class="relative z-10 font-roboto">
-		<div class="fixed inset-0 bg-black/30" aria-hidden="true" />
+		<div class="fixed inset-0 bg-black/50" aria-hidden="true" />
 		<div class="fixed inset-0 flex items-center justify-center p-4">
 			<DialogPanel class="w-80 h-[444px] shadow-xl bg-white rounded border">
 				<section
@@ -101,103 +101,31 @@
 
 					<form
 						@submit.prevent="signup"
-						class="p-8 space-y-3 my-auto text-sm">
+						class="p-8 space-y-3 my-auto">
 
-						<div class="relative">
-							<input
-								type="text"
-								v-focus
-								v-model="signupForm.email"
-								placeholder="Email address"
-								:class="{'peer border-tomato focus:border-tomato focus:ring-tomato': signupV.email.$error}"
-								class="text-sm w-full rounded border-gray-400"/>
+						<LoginInput
+							focus
+							v-model="signupForm.email"
+							placeholder="Email address"
+							:error="signupV.email.$errors[0]?.$message"/>
 
-							<div class="absolute opacity-0 peer-focus:opacity-100 -top-3 peer-focus:transition-all peer-focus:-top-full right-0 border border-red-300 rounded z-[-1] shadow-lg peer-focus:z-30">
-								<div class="relative">
-									<div class="absolute border border-red-300 h-3 w-3 bg-red-200 rotate-45 top-[calc(100%-6px)] z-[-1] right-3 shadow-lg"></div>
-									<div class="bg-red-200 py-1 px-2 rounded">
-										{{signupV.email.$errors[0]?.$message}}
-									</div>
-								</div>
-							</div>
-						</div>
+						<LoginInput
+							v-model="signupForm.name"
+							placeholder="Your name"
+							:error="signupV.name.$errors[0]?.$message"
+							info="The way you'd like us to call you in the emails we send you. This is also how your name will appear in the comments you leave here."/>
 
-						<div class="relative">
-							<Popover>
-								<PopoverButton class="absolute right-2 top-1/2 -translate-y-1/2">
-									<InformationCircleIcon class="h-5 text-sm text-gray-300 hover:text-gray-400 text-xs"/>
-								</PopoverButton>
-								<transition
-									enter-active-class="transition duration-200 ease-out"
-									enter-from-class="translate-y-1 opacity-0"
-									enter-to-class="translate-y-0 opacity-100"
-									leave-active-class="transition duration-150 ease-in"
-									leave-from-class="translate-y-0 opacity-100"
-									leave-to-class="translate-y-1 opacity-0">
-									<PopoverPanel class="rounded border border-gray-300 absolute shadow-lg top-[calc(100%+8px)] right-0 z-20">
-										<div class="relative isolate">
-											<div class="absolute bg-white h-3 w-3 border border-gray-300 rotate-45 top-[-6px] right-3 shadow-xl"></div>
-											<div class="p-3 bg-white isolate rounded --text-white --bg-primary">
-												The way you'd like us to call you in the emails we send you.
-												This is also how your name will appear in the comments you leave here.
-											</div>
-										</div>
-									</PopoverPanel>
-								</transition>
-							</Popover>
+						<LoginInput
+							password
+							v-model="signupForm.password"
+							placeholder="Password"
+							:error="signupV.password.$errors[0]?.$message"/>
 
-							<input
-								type="text"
-								v-model="signupForm.name"
-								placeholder="Your name"
-								:class="{'peer border-tomato focus:border-tomato focus:ring-tomato': signupV.name.$error}"
-								class="text-sm w-full rounded border-gray-400"/>
-
-							<div class="absolute opacity-0 peer-focus:opacity-100 -top-3 peer-focus:transition-all peer-focus:-top-full right-0 border border-red-300 rounded z-[-1] shadow-lg peer-focus:z-30">
-								<div class="relative">
-									<div class="absolute border border-red-300 h-3 w-3 bg-red-200 rotate-45 top-[calc(100%-6px)] z-[-1] right-3 shadow-lg"></div>
-									<div class="bg-red-200 py-1 px-2 rounded">
-										{{signupV.name.$errors[0]?.$message}}
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="relative">
-							<input
-								type="password"
-								v-model="signupForm.password"
-								placeholder="Password"
-								:class="{'peer border-tomato focus:border-tomato focus:ring-tomato': signupV.password.$error}"
-								class="text-sm w-full rounded border-gray-400 z-10"/>
-
-							<div class="absolute opacity-0 peer-focus:opacity-100 -top-3 peer-focus:transition-all peer-focus:-top-full right-0 border border-red-300 rounded z-[-1] shadow-lg peer-focus:z-30">
-								<div class="relative">
-									<div class="absolute border border-red-300 h-3 w-3 bg-red-200 rotate-45 top-[calc(100%-6px)] z-[-1] right-3 shadow-lg"></div>
-									<div class="bg-red-200 py-1 px-2 rounded">
-										{{signupV.password.$errors[0]?.$message}}
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="relative">
-							<input
-								type="password"
-								v-model="signupForm.confirm"
-								placeholder="Confirm password"
-								:class="{'peer border-tomato focus:border-tomato focus:ring-tomato': signupV.confirm.$error}"
-								class="text-sm w-full rounded border-gray-400 z-10"/>
-
-								<div class="absolute opacity-0 peer-focus:opacity-100 -top-3 peer-focus:transition-all peer-focus:-top-full right-0 border border-red-300 rounded z-[-1] shadow-lg peer-focus:z-30">
-									<div class="relative">
-										<div class="absolute border border-red-300 h-3 w-3 bg-red-200 rotate-45 top-[calc(100%-6px)] z-[-1] right-3 shadow-lg"></div>
-										<div class="bg-red-200 py-1 px-2 rounded">
-											{{signupV.confirm.$errors[0]?.$message}}
-										</div>
-									</div>
-								</div>
-						</div>
+						<LoginInput
+							password
+							v-model="signupForm.confirm"
+							placeholder="Confirm password"
+							:error="signupV.confirm.$errors[0]?.$message"/>
 
 						<button
 							type="submit"
@@ -248,33 +176,98 @@
 
 
 
+
+				<section v-else-if="showing==='forgot'" class="h-full flex flex-col p-8">
+					<h1 class="text-2xl">Forgot your password?</h1>
+					<p class="text-sm mt-6">That's okay.</p>
+					<p class="text-sm mt-3">Just enter your email below and we'll send you instructions on how to reset your password.</p>
+					<form @submit.prevent="requestResetEmail" class="my-auto">
+						<LoginInput
+							focus
+							v-model="resetEmail"
+							placeholder="Email address"
+							:error="resetEmailError"/>
+						<button
+							type="submit"
+							class="w-full bg-primary text-white rounded p-2 mt-4">
+							Send me email
+						</button>
+					</form>
+					<button @click="showing='login'" class="!mt-auto self-center">
+						<ArrowLeftIcon class="h-10"/>
+					</button>
+				</section>
+
+
+
+
+
+
+				<section v-else-if="showing==='reset'" class="h-full flex flex-col p-8 justify-between">
+					<h1 class="text-2xl">
+						Password reset
+					</h1>
+					<p class="text-sm">
+						We've sent you an email with a code. Please enter the code below, along with your new password.
+					</p>
+					<form @submit.prevent="resetPassword" class="space-y-3">
+						<LoginInput
+							focus
+							v-model="resetForm.code"
+							placeholder="Code from the email"
+							:error="resetErrors.code"/>
+						<LoginInput
+							password
+							v-model="resetForm.password"
+							placeholder="Your new password"
+							:error="resetErrors.password"/>
+						<LoginInput
+							password
+							v-model="resetForm.confirm"
+							placeholder="Confirm password"
+							:error="resetErrors.confirm"/>
+
+						<button
+							type="submit"
+							class="w-full bg-primary text-white rounded py-1.5 p-2 !mt-4">
+							Set password
+						</button>
+					</form>
+					<button @click="showing='login'" class="mt-2 self-center">
+						<ArrowLeftIcon class="h-10"/>
+					</button>
+				</section>
+
+
+
+
+
 				<section v-else-if="showing === 'login'" class="h-full flex flex-col">
 					<div class="flex">
 						<h1 class="w-1/2 p-4 text-xl flex justify-center items-center">Sign in</h1>
 						<button @click="showing = 'signup'" class="w-1/2 p-4 text-xl flex bg-gray-100 justify-center items-center border-l border-b text-gray-400 hover:text-gray-500">Sign up</button>
 					</div>
 					<form @submit.prevent="login" class="p-8 space-y-4 my-auto">
-						<input
+						<LoginInput
+							focus
 							v-model="loginForm.email"
-							v-focus
-							type="email" placeholder="Email address"
-							:class="{'border-tomato --ring ring-red-300 focus:border-tomato focus:ring-tomato': loginErrors.email}"
-							class="text-sm w-full rounded border-gray-400"/>
-						<input
+							placeholder="Email address"
+							:error="loginErrors.email"/>
+
+						<LoginInput
+							password
 							v-model="loginForm.password"
-							type="password"
 							placeholder="Password"
-							:class="{'border-tomato --ring ring-red-300 focus:border-tomato focus:ring-tomato': loginErrors.password}"
-							class="text-sm w-full rounded border-gray-400"/>
+							:error="loginErrors.password"/>
 
 						<div class="flex justify-between">
 							<button type="submit" class="bg-primary rounded text-white py-1.5 p-2 w-28">Sign in</button>
-							<button class="text-sm text-blue-500 px-2">Forgot password?</button>
+							<button type="button" @click="showing='forgot'" class="text-sm text-blue-500 px-2">Forgot password?</button>
 						</div>
 					</form>
 					<div class="h-32 w-full bg-gray-100 mt-auto flex items-center justify-center border-t relative">
 						<div class="flex justify-center items-center w-10 h-10 absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full border text-gray-400 text-xs">OR</div>
-						<SignInWithGoogleButton @signIn="closeModal" class=""/>
+						<SignInWithGoogleButton @signIn="closeModal"/>
 					</div>
 				</section>
 			</DialogPanel>
@@ -284,14 +277,28 @@
 </template>
 
 <script setup>
-import { Popover, PopoverButton, PopoverPanel, PopoverOverlay, TransitionRoot, TransitionChild, Dialog, DialogTitle, DialogPanel } from '@headlessui/vue'
+
+import {
+	Popover,
+	PopoverButton,
+	PopoverPanel,
+	PopoverOverlay,
+	TransitionRoot,
+	TransitionChild,
+	Dialog,
+	DialogTitle,
+	DialogPanel
+} from '@headlessui/vue'
+
+import { UserCircleIcon, InformationCircleIcon, ClipboardListIcon, CogIcon, PencilIcon, ShoppingCartIcon, KeyIcon, ArrowLeftIcon } from '@heroicons/vue/solid'
 import SignInWithGoogleButton from '@/components/SignInWithGoogleButton.vue'
-import { UserCircleIcon, InformationCircleIcon, ClipboardListIcon, CogIcon, PencilIcon, ShoppingCartIcon, KeyIcon } from '@heroicons/vue/solid'
 import { LogoutIcon } from '@heroicons/vue/outline'
 import { useUserStore } from '@/stores/user.js'
 import { showToast } from '@/plugins/toast'
 import { ref, watch, reactive, computed } from 'vue'
 import api from '@/api.js'
+
+import LoginInput from '@/components/LoginInput.vue'
 
 import useVuelidate from '@vuelidate/core'
 import { required, email, sameAs, minLength, helpers, alpha } from '@vuelidate/validators'
@@ -305,17 +312,26 @@ userStore.init().then(() => {
 })
 
 const showModal = ref(false)
+let formResetTimer
 
 function closeModal () {
 	showModal.value = false
+
+	// If the user filling the form accidentally closes the modal and then
+	// quickly (10sec) opens the modal back again, we don't want them to lose
+	// progress. If, however, they close the modal for good thinking they've
+	// cancelled the process and just forget about it, we don't want the next
+	// user who happen to use the same computer to see the half-finished form
+	// with some potentially sensitive data in it
+	formResetTimer = setTimeout(() => {
+		reset()
+		showing.value = "login"
+	}, 10000)
 }
 
 function openModal () {
+	clearTimeout(formResetTimer)
 	showModal.value = true
-}
-
-function tulipka () {
-	log("ohohoh?")
 }
 
 
@@ -375,7 +391,7 @@ function loginVerify () {
 		loginErrors.email = "Please enter your email address"
 	}
 	else if (!loginForm.email.match(/\@/)) {
-		loginErrors.email = "Email address doesn't look correct"
+		loginErrors.email = "Email address doesn't look right"
 	}
 }
 
@@ -392,7 +408,7 @@ async function login () {
 		password: loginForm.password
 	})
 	.then(() => {
-		showing.value = 'user'
+		closeModal()
 		reset()
 	})
 	.catch(e => {
@@ -481,7 +497,7 @@ const signupValidators = {
 }
 
 const signupV = useVuelidate(signupValidators, signupForm)
-let token
+let emailVerificationToken
 
 async function signup () {
 	// verify that the data is ok
@@ -499,7 +515,7 @@ async function signup () {
 	})
 
 	.then(tkn => {
-		token = tkn
+		emailVerificationToken = tkn
 		showing.value = "confirm"
 	})
 
@@ -526,7 +542,7 @@ const code = ref()
 const codeError = ref(false)
 
 async function verifyCode () {
-	userStore.verifyCode(code.value, token)
+	userStore.verifyCode(code.value, emailVerificationToken)
 
 	.then(() => {
 		showing.value = "welcome"
@@ -548,18 +564,176 @@ async function verifyCode () {
 
 
 
+/**
+ * Forgot password?
+ */
+
+const resetEmail = ref()
+const resetEmailError = ref()
+const resetEmailValid = computed(() => !resetEmailError.value)
+let passwordResetToken
+
+
+function verifyResetEmail () {
+	resetEmailError.value = undefined
+
+	if (!resetEmail.value) {
+		resetEmailError.value = "Please enter your email address"
+		return false
+	}
+	else if (!resetEmail.value.match(/\@/)) {
+		resetEmailError.value = "Email address doesn't look right"
+		return false
+	}
+	return true
+}
+
+
+async function requestResetEmail () {
+	verifyResetEmail()
+
+	if (!resetEmailValid.value) {
+		showToast.error(resetEmailError.value)
+		return
+	}
+
+	api.requestPasswordResetEmail(resetEmail.value).then(token => {
+		passwordResetToken = token
+		showing.value = 'reset'
+	}).catch(e => {
+		if (e.response?.data === "user doesn't exist") {
+			// TODO: should the server just return the value we show to the user?
+			showToast.error("User doesn't exist")
+			resetEmailError.value = "User doesn't exist"
+		} else {
+			showToast.error("Something went wrong")
+			resetEmailError.value = undefined
+		}
+	})
+}
+
+
+
+
+
+
+/**
+ * Reset password
+ */
+
+const resetForm = reactive({
+	code: undefined,
+	password: undefined,
+	confirm: undefined,
+})
+
+const resetErrors = reactive({
+	code: undefined,
+	password: undefined,
+	confirm: undefined,
+})
+
+const resetFormValid = computed(() => {
+	for (let err of Object.values(resetErrors))
+		if (err !== undefined)
+			return false
+
+	return true
+})
+
+
+function verifyResetForm () {
+	Object.keys(resetErrors).forEach(key => resetErrors[key] = undefined)
+
+	if (!resetForm.code) {
+		resetErrors.code = "Please enter the code"
+	}
+
+	if (!resetForm.password) {
+		resetErrors.password = "Please enter the password"
+	}
+	else if (resetForm.password.length < 6) {
+		resetErrors.password = "Password is too short"
+	}
+
+	if (!resetForm.confirm) {
+		resetErrors.password = "Please confirm the password"
+	}
+	else if (resetForm.password !== resetForm.confirm) {
+		resetErrors.confirm = "Passwords don't match"
+	}
+}
+
+
+async function resetPassword () {
+	verifyResetForm()
+
+	if (!resetFormValid.value) {
+		Object.values(resetErrors).forEach(msg => msg && showToast.error(msg))
+		return
+	}
+
+	api.resetPassword({
+		token: passwordResetToken,
+		code: resetForm.code,
+		password: resetForm.password,
+	})
+
+	.then(() => {
+		showToast.success("Your new password has been set")
+		reset()
+		showing.value = 'login'
+	})
+
+	.catch(e => {
+		if (e.response?.data === "bad code") {
+			showToast.error("Incorrect code")
+			resetErrors.code = "Incorrect code"
+		}
+		else {
+			showToast.error("Something went wrong")
+		}
+	})
+}
+
+
+
+
+
+
+
+
+
 
 
 /**
  * Utilities
  */
 
+// TODO: there would be no need for resetting the form manually if we
+// refactored everything into components and just unmounted them every time.
+// However, that way it would be possible to lose progress if you
+// accidentally closed the modal... I dunno
+
 function reset () {
 	clearForm(signupForm)
-	clearForm(loginForm)
 	signupV.value.$reset()
+
+	clearForm(loginForm)
+	clearForm(loginErrors)
+	emailVerificationToken = undefined
+
+	clearForm(resetForm)
+	clearForm(resetErrors)
+	passwordResetToken = undefined
+
 	code.value = undefined
-	token = undefined
+	codeError.value = undefined
+
+	resetEmailError.value = undefined
+	resetEmail.value = undefined
+
+	showing.value = "login"
 
 	function clearForm(form) {
 		for (let key of Object.keys(form)) {

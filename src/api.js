@@ -61,6 +61,13 @@ export async function verifyCode(code, token) {
 	return axios.post('/confirm/', {token, code}).then(r => r.data)
 }
 
+export async function requestPasswordResetEmail(email) {
+	return axios.post('/request_password_reset', {email}).then(r => r.data)
+}
+
+export async function resetPassword({token, code, password}) {
+	return axios.post('/password_reset', {token, code, password}).then(r => r.data)
+}
 
 
 
@@ -184,6 +191,8 @@ export default {
 	login,
 	logout,
 	signup,
+	resetPassword,
+	requestPasswordResetEmail,
 	verifyCode,
 	createOrder,
 }
