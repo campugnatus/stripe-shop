@@ -79,200 +79,221 @@
 		<div v-else class="lg:pt-2 text-center">Sign in</div>
 	</button>
 
-	<Dialog as="div" :open="showModal" @close="closeModal" class="relative z-10 font-roboto">
-		<div class="fixed inset-0 bg-black/50" aria-hidden="true" />
-		<div class="fixed inset-0 flex items-center justify-center p-4">
-			<DialogPanel class="w-80 h-[444px] shadow-xl bg-white rounded border">
-				<section
-					v-if="showing === 'signup'"
-					class="h-full flex flex-col justify-between">
+	<TransitionRoot appear :show="showModal" as="template">
+		<Dialog as="div" @close="closeModal" class="relative z-10 font-roboto">
+			<TransitionChild
+				as="template"
+				enter="duration-300 ease-out"
+				enter-from="opacity-0"
+				enter-to="opacity-100"
+				leave="duration-200 ease-in"
+				leave-from="opacity-100"
+				leave-to="opacity-0">
+				<div class="fixed inset-0 bg-black/50" aria-hidden="true"></div>
+			</TransitionChild>
 
-					<div class="flex">
-						<button
-							@click="showing = 'login'"
-							class="w-1/2 p-4 text-xl flex justify-center items-center bg-gray-100 border-r border-b text-gray-400 hover:text-gray-500">
-							Sign in
-						</button>
-						<h1
-							class="w-1/2 p-4 text-xl flex justify-center items-center">
-							Sign up
-						</h1>
-					</div>
+			<div class="fixed inset-0 flex items-center justify-center p-4">
+				<TransitionChild
+					as="template"
+					enter="duration-300 ease-out"
+					enter-from="opacity-0 scale-95"
+					enter-to="opacity-100 scale-100"
+					leave="duration-200 ease-in"
+					leave-from="opacity-100 scale-100"
+					leave-to="opacity-0 scale-95">
+					<DialogPanel class="w-80 h-[444px] shadow-xl bg-white rounded border">
+						<section
+							v-if="showing === 'signup'"
+							class="h-full flex flex-col justify-between">
 
-					<form
-						@submit.prevent="signup"
-						class="p-8 space-y-3 my-auto">
+							<div class="flex">
+								<button
+									@click="showing = 'login'"
+									class="w-1/2 p-4 text-xl flex justify-center items-center bg-gray-100 border-r border-b text-gray-400 hover:text-gray-500">
+									Sign in
+								</button>
+								<h1
+									class="w-1/2 p-4 text-xl flex justify-center items-center">
+									Sign up
+								</h1>
+							</div>
 
-						<LoginInput
-							focus
-							v-model="signupForm.email"
-							placeholder="Email address"
-							:error="signupV.email.$errors[0]?.$message"/>
+							<form
+								@submit.prevent="signup"
+								class="p-8 space-y-3 my-auto">
 
-						<LoginInput
-							v-model="signupForm.name"
-							placeholder="Your name"
-							:error="signupV.name.$errors[0]?.$message"
-							info="The way you'd like us to call you in the emails we send you. This is also how your name will appear in the comments you leave here."/>
+								<LoginInput
+									focus
+									v-model="signupForm.email"
+									placeholder="Email address"
+									:error="signupV.email.$errors[0]?.$message"/>
 
-						<LoginInput
-							password
-							v-model="signupForm.password"
-							placeholder="Password"
-							:error="signupV.password.$errors[0]?.$message"/>
+								<LoginInput
+									v-model="signupForm.name"
+									placeholder="Your name"
+									:error="signupV.name.$errors[0]?.$message"
+									info="The way you'd like us to call you in the emails we send you. This is also how your name will appear in the comments you leave here."/>
 
-						<LoginInput
-							password
-							v-model="signupForm.confirm"
-							placeholder="Confirm password"
-							:error="signupV.confirm.$errors[0]?.$message"/>
+								<LoginInput
+									password
+									v-model="signupForm.password"
+									placeholder="Password"
+									:error="signupV.password.$errors[0]?.$message"/>
 
-						<button
-							type="submit"
-							class="bg-primary rounded text-white py-2 p-2 w-full !mt-6">
-							Create account
-						</button>
-					</form>
-				</section>
+								<LoginInput
+									password
+									v-model="signupForm.confirm"
+									placeholder="Confirm password"
+									:error="signupV.confirm.$errors[0]?.$message"/>
 
-
-
-				<section
-					v-else-if="showing === 'confirm'"
-					class="h-full flex items-center justify-center">
-
-					<div class="space-y-6">
-						<p class="font-pacifico text-3xl text-center">
-							Almost there!
-						</p>
-						<p class="w-48">
-							We've sent you an email with a code. Please enter the code below to confirm your email
-						</p>
-						<form @submit.prevent="verifyCode" class="text-center">
-							<input
-								type="text"
-								v-model="code"
-								v-focus
-								:class="{'border-tomato focus:border-tomato focus:ring-tomato': codeError}"
-								class="font-sigmar text-center text-4xl w-44 tracking-wide lowercase rounded"
-								maxlength="4"/>
-						</form>
-					</div>
-				</section>
+								<button
+									type="submit"
+									class="bg-primary rounded text-white py-2 p-2 w-full !mt-6">
+									Create account
+								</button>
+							</form>
+						</section>
 
 
 
-				<section
-					v-else-if="showing === 'welcome'"
-					@click="closeModal"
-					class="h-full flex flex-col items-center justify-center">
+						<section
+							v-else-if="showing === 'confirm'"
+							class="h-full flex items-center justify-center">
 
-					<div class="space-y-20">
-						<p class="font-pacifico text-4xl text-center">Welcome!</p>
-						<p class="text-center">You're now signed up<br> and signed in!</p>
-					</div>
-				</section>
+							<div class="space-y-6">
+								<p class="font-pacifico text-3xl text-center">
+									Almost there!
+								</p>
+								<p class="w-48">
+									We've sent you an email with a code. Please enter the code below to confirm your email
+								</p>
+								<form @submit.prevent="verifyCode" class="text-center">
+									<input
+										type="text"
+										v-model="code"
+										v-focus
+										:class="{'border-tomato focus:border-tomato focus:ring-tomato': codeError}"
+										class="font-sigmar text-center text-4xl w-44 tracking-wide lowercase rounded"
+										maxlength="4"/>
+								</form>
+							</div>
+						</section>
 
 
 
+						<section
+							v-else-if="showing === 'welcome'"
+							@click="closeModal"
+							class="h-full flex flex-col items-center justify-center">
 
-
-				<section v-else-if="showing==='forgot'" class="h-full flex flex-col p-8">
-					<h1 class="text-2xl">Forgot your password?</h1>
-					<p class="text-sm mt-6">That's okay.</p>
-					<p class="text-sm mt-3">Just enter your email below and we'll send you instructions on how to reset your password.</p>
-					<form @submit.prevent="requestResetEmail" class="my-auto">
-						<LoginInput
-							focus
-							v-model="resetEmail"
-							placeholder="Email address"
-							:error="resetEmailError"/>
-						<button
-							type="submit"
-							class="w-full bg-primary text-white rounded p-2 mt-4">
-							Send me email
-						</button>
-					</form>
-					<button @click="showing='login'" class="!mt-auto self-center">
-						<ArrowLeftIcon class="h-10"/>
-					</button>
-				</section>
+							<div class="space-y-20">
+								<p class="font-pacifico text-4xl text-center">Welcome!</p>
+								<p class="text-center">You're now signed up<br> and signed in!</p>
+							</div>
+						</section>
 
 
 
 
 
-
-				<section v-else-if="showing==='reset'" class="h-full flex flex-col p-8 justify-between">
-					<h1 class="text-2xl">
-						Password reset
-					</h1>
-					<p class="text-sm">
-						We've sent you an email with a code. Please enter the code below, along with your new password.
-					</p>
-					<form @submit.prevent="resetPassword" class="space-y-3">
-						<LoginInput
-							focus
-							v-model="resetForm.code"
-							placeholder="Code from the email"
-							:error="resetErrors.code"/>
-						<LoginInput
-							password
-							v-model="resetForm.password"
-							placeholder="Your new password"
-							:error="resetErrors.password"/>
-						<LoginInput
-							password
-							v-model="resetForm.confirm"
-							placeholder="Confirm password"
-							:error="resetErrors.confirm"/>
-
-						<button
-							type="submit"
-							class="w-full bg-primary text-white rounded py-1.5 p-2 !mt-4">
-							Set password
-						</button>
-					</form>
-					<button @click="showing='login'" class="mt-2 self-center">
-						<ArrowLeftIcon class="h-10"/>
-					</button>
-				</section>
+						<section v-else-if="showing==='forgot'" class="h-full flex flex-col p-8">
+							<h1 class="text-2xl">Forgot your password?</h1>
+							<p class="text-sm mt-6">That's okay.</p>
+							<p class="text-sm mt-3">Just enter your email below and we'll send you instructions on how to reset your password.</p>
+							<form @submit.prevent="requestResetEmail" class="my-auto">
+								<LoginInput
+									focus
+									v-model="resetEmail"
+									placeholder="Email address"
+									:error="resetEmailError"/>
+								<button
+									type="submit"
+									class="w-full bg-primary text-white rounded p-2 mt-4">
+									Send me email
+								</button>
+							</form>
+							<button @click="showing='login'" class="!mt-auto self-center">
+								<ArrowLeftIcon class="h-10"/>
+							</button>
+						</section>
 
 
 
 
 
-				<section v-else-if="showing === 'login'" class="h-full flex flex-col">
-					<div class="flex">
-						<h1 class="w-1/2 p-4 text-xl flex justify-center items-center">Sign in</h1>
-						<button @click="showing = 'signup'" class="w-1/2 p-4 text-xl flex bg-gray-100 justify-center items-center border-l border-b text-gray-400 hover:text-gray-500">Sign up</button>
-					</div>
-					<form @submit.prevent="login" class="p-8 space-y-4 my-auto">
-						<LoginInput
-							focus
-							v-model="loginForm.email"
-							placeholder="Email address"
-							:error="loginErrors.email"/>
 
-						<LoginInput
-							password
-							v-model="loginForm.password"
-							placeholder="Password"
-							:error="loginErrors.password"/>
+						<section v-else-if="showing==='reset'" class="h-full flex flex-col p-8 justify-between">
+							<h1 class="text-2xl">
+								Password reset
+							</h1>
+							<p class="text-sm">
+								We've sent you an email with a code. Please enter the code below, along with your new password.
+							</p>
+							<form @submit.prevent="resetPassword" class="space-y-3">
+								<LoginInput
+									focus
+									v-model="resetForm.code"
+									placeholder="Code from the email"
+									:error="resetErrors.code"/>
+								<LoginInput
+									password
+									v-model="resetForm.password"
+									placeholder="Your new password"
+									:error="resetErrors.password"/>
+								<LoginInput
+									password
+									v-model="resetForm.confirm"
+									placeholder="Confirm password"
+									:error="resetErrors.confirm"/>
 
-						<div class="flex justify-between">
-							<button type="submit" class="bg-primary rounded text-white py-1.5 p-2 w-28">Sign in</button>
-							<button type="button" @click="showing='forgot'" class="text-sm text-blue-500 px-2">Forgot password?</button>
-						</div>
-					</form>
-					<div class="h-32 w-full bg-gray-100 mt-auto flex items-center justify-center border-t relative">
-						<div class="flex justify-center items-center w-10 h-10 absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full border text-gray-400 text-xs">OR</div>
-						<SignInWithGoogleButton @signIn="closeModal"/>
-					</div>
-				</section>
-			</DialogPanel>
-		</div>
-	</Dialog>
+								<button
+									type="submit"
+									class="w-full bg-primary text-white rounded py-1.5 p-2 !mt-4">
+									Set password
+								</button>
+							</form>
+							<button @click="showing='login'" class="mt-2 self-center">
+								<ArrowLeftIcon class="h-10"/>
+							</button>
+						</section>
+
+
+
+
+
+						<section v-else-if="showing === 'login'" class="h-full flex flex-col">
+							<div class="flex">
+								<h1 class="w-1/2 p-4 text-xl flex justify-center items-center">Sign in</h1>
+								<button @click="showing = 'signup'" class="w-1/2 p-4 text-xl flex bg-gray-100 justify-center items-center border-l border-b text-gray-400 hover:text-gray-500">Sign up</button>
+							</div>
+							<form @submit.prevent="login" class="p-8 space-y-4 my-auto">
+								<LoginInput
+									focus
+									v-model="loginForm.email"
+									placeholder="Email address"
+									:error="loginErrors.email"/>
+
+								<LoginInput
+									password
+									v-model="loginForm.password"
+									placeholder="Password"
+									:error="loginErrors.password"/>
+
+								<div class="flex justify-between">
+									<button type="submit" class="bg-primary rounded text-white py-1.5 p-2 w-28">Sign in</button>
+									<button type="button" @click="showing='forgot'" class="text-sm text-blue-500 px-2">Forgot password?</button>
+								</div>
+							</form>
+							<div class="h-32 w-full bg-gray-100 mt-auto flex items-center justify-center border-t relative">
+								<div class="flex justify-center items-center w-10 h-10 absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full border text-gray-400 text-xs">OR</div>
+								<SignInWithGoogleButton @signIn="closeModal"/>
+							</div>
+						</section>
+					</DialogPanel>
+				</TransitionChild>
+			</div>
+		</Dialog>
+	</TransitionRoot>
 
 </template>
 
@@ -287,7 +308,7 @@ import {
 	TransitionChild,
 	Dialog,
 	DialogTitle,
-	DialogPanel
+	DialogPanel,
 } from '@headlessui/vue'
 
 import { UserCircleIcon, InformationCircleIcon, ClipboardListIcon, CogIcon, PencilIcon, ShoppingCartIcon, KeyIcon, ArrowLeftIcon } from '@heroicons/vue/solid'
