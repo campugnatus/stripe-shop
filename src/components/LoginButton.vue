@@ -14,7 +14,7 @@
 				</svg>
 			</div>
 			<div v-if="userStore.signedIn" class="lg:pt-2 text-center w-20 truncate">{{userStore.shortName}}</div>
-			<div v-else class="lg:pt-2 text-center">Sign in</div>
+			<div v-else class="lg:pt-2 text-center"> Sign in </div>
 		</PopoverButton>
 
 		<PopoverPanel class="absolute z-10 w-80 h-[444px] top-[calc(100%+1em)] right-2 shadow-xl bg-white rounded border">
@@ -365,7 +365,7 @@ function closeModal () {
 	// quickly (10sec) opens the modal back again, we don't want them to lose
 	// progress. If, however, they close the modal for good thinking they've
 	// cancelled the process and just forget about it, we don't want the next
-	// user who happen to use the same computer to see the half-finished form
+	// user who happen to use the same computer to see a half-finished form
 	// with some potentially sensitive data in it
 	formResetTimer = setTimeout(() => {
 		reset()
@@ -377,7 +377,6 @@ function openModal () {
 	clearTimeout(formResetTimer)
 	showModal.value = true
 }
-
 
 
 
@@ -656,10 +655,14 @@ async function requestResetEmail () {
 		return
 	}
 
-	api.requestPasswordResetEmail(resetEmail.value).then(token => {
+	api.requestPasswordResetEmail(resetEmail.value)
+
+	.then(token => {
 		passwordResetToken = token
 		showing.value = 'reset'
-	}).catch(e => {
+	})
+
+	.catch(e => {
 		if (e.response?.data === "user doesn't exist") {
 			// TODO: should the server just return the value we show to the user?
 			showToast.error("User doesn't exist")

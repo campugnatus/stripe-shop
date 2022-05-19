@@ -659,7 +659,7 @@ api.get('/user', async function (req, res, next) {
 	const user = db.users[userId]
 
 	if (!user) {
-		req.session = null // it's no good, anyway
+		req.session = null // force user log out
 		res.status(404).send("user doesn't exist")
 		return
 	}
