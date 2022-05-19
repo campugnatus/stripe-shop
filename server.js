@@ -439,8 +439,23 @@ function findUserByEmail (email) {
 
 
 function createUser ({email, picture, name, hash}) {
-	const id = newUuid()
-	return { id, email, picture, name, hash }
+	const cart = {
+		id: newUuid(),
+		items: []
+	}
+	dbPut("cart", cart.id, cart)
+
+	const user = {
+		id: newUuid(),
+		cart: cart.id ,
+		email,
+		picture,
+		name,
+		hash,
+	}
+
+	dbPut("user", user.id, user)
+	return user
 }
 
 
@@ -509,7 +524,6 @@ api.post('/confirm', function (req, res, next) {
 
 	const hash = hashPassword(password)
 	const user = createUser({email, name, hash})
-	dbPut("user", user.id, user)
 
 	// log the user in: set the session cookie
 	req.session.user = user.id
@@ -670,6 +684,42 @@ api.get('/userexists/:email', async function (req, res, next) {
 
 
 
+api.get('/cart', (req, res, next) => {
+	// TODO: write middleware that puts the user in req
+	const uid = req.session.user
+	if (!uid) {
+		res.status(400).send("not logged in")
+		return
+	}
+
+	const user = db.users[uid]
+	const cart = db.carts[user.cart]
+	console.log("reading cart:", user.cart, req.body.items)
+
+	res.json(cart.items)
+})
+
+
+api.post('/cart', (req, res, next) => {
+	const uid = req.session.user
+	if (!uid) {
+		res.status(400).send("not logged in")
+		return
+	}
+
+	const user = db.users[uid]
+	const cart = db.carts[user.cart]
+	cart.items = req.body.items
+
+	console.log("saving cart:", user.cart, cart)
+	dbPut("cart", user.cart, cart)
+
+	res.send("ok")
+})
+
+
+
+
 
 
 
@@ -704,6 +754,7 @@ function getProducts () {
 function mockDB () {
 	return {
 		products: getProducts(),
+		carts: {},
 		users: {},
 		orders: {
 			"1644421018974-7259": {

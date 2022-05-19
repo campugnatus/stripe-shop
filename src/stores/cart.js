@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
 import { useProductStore } from '@/stores/products'
+import { useUserStore } from '@/stores/user'
 import api from '@/api.js'
+
 
 export const useCartStore = defineStore('cart', {
 	state: () => ({
@@ -49,6 +51,10 @@ export const useCartStore = defineStore('cart', {
 
 		clearCart () {
 			this.history.push([...this.items])
+			this.items = []
+		},
+
+		logout () {
 			this.items = []
 		},
 
@@ -115,17 +121,29 @@ export const useCartStore = defineStore('cart', {
 			}
 		},
 
+		// if user is logged in, save to the server
+		// otherwise, save to localStorage
+
 		async save () {
-			localStorage.setItem('cart', JSON.stringify(this.items))
+			if (useUserStore().signedIn) {
+				log("saving cart  to the server")
+				await api.saveCart(this.items)
+			}
+			else
+				localStorage.setItem('cart', JSON.stringify(this.items))
 		},
 
 		async init () {
-			let savedItems = localStorage.getItem('cart')
+			this.loading = true
 
-			if (savedItems)
-				this.items = JSON.parse(savedItems)
-			else
-				this.items = []
+			const userItems = useUserStore().signedIn && await api.fetchCart() || []
+			const localItems = JSON.parse(localStorage.getItem('cart')) || []
+			this.items = [...userItems, ...localItems]
+
+			// if it's gona be stored on the server, we don't want it to be
+			// duplicated locally. And if the user logs out (so that we have
+			// so store the cart locally), we'll just clear the cart
+			localStorage.removeItem('cart')
 
 			this.$subscribe((mutation, state) => this.save())
 

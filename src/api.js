@@ -69,6 +69,14 @@ export async function resetPassword({token, code, password}) {
 	return axios.post('/password_reset', {token, code, password}).then(r => r.data)
 }
 
+export async function saveCart (items) {
+	return axios.post('/cart', {items}).then(r => r.data)
+}
+
+export async function fetchCart (items) {
+	return axios.get('/cart').then(r => r.data)
+}
+
 
 
 
@@ -191,6 +199,8 @@ export default {
 	login,
 	logout,
 	signup,
+	saveCart,
+	fetchCart,
 	resetPassword,
 	requestPasswordResetEmail,
 	verifyCode,

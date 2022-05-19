@@ -1,5 +1,6 @@
 import { unref } from 'vue'
 import { defineStore } from 'pinia'
+import { useCartStore } from '@/stores/cart'
 import api from '@/api.js'
 
 export const useUserStore = defineStore('user', {
@@ -44,7 +45,8 @@ export const useUserStore = defineStore('user', {
 				]
 			}
 			*/
-		}
+		},
+		loading: true
 	}),
 
 	getters: {
@@ -57,7 +59,8 @@ export const useUserStore = defineStore('user', {
 			if (this.profile)
 				return
 
-			const user = await api.fetchUser()
+			const user = await api.fetchUser().catch(() => ({}))
+			this.loading = false
 			if (!user.id) return
 
 			this.profile = {
@@ -77,9 +80,12 @@ export const useUserStore = defineStore('user', {
 				email: user.email,
 				picture: user.picture
 			}
+
+			useCartStore().init()
 		},
 		async logout () {
 			await api.logout()
+			useCartStore().logout()
 			this.profile = null
 		},
 		async signup ({email, name, password}) {

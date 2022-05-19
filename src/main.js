@@ -76,13 +76,14 @@ app.use(createPinia())
 app.use(ToastPlugin)
 app.mount('#app')
 
-const productStore = useProductStore()
+// const productStore = useProductStore()
 
 // prefetch a page just in case... or should we?
 //productStore.search({reset: true, append: false})
 
-const cartStore = useCartStore()
-cartStore.init()
+async function init () {
+	await useUserStore().init()
+	await useCartStore().init()
+}
 
-const userStore = useUserStore()
-userStore.init()
+init()
