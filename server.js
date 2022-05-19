@@ -30,12 +30,13 @@ const emailTransport = nodemailer.createTransport({
   }
 })
 
-app.use(cookieParser())
-app.use(cookieSession({ secret: 'this is added to git, how secret can it be?' }))
+const api = express.Router()
+api.use(cookieParser())
+api.use(cookieSession({ secret: 'this is added to git, how secret can it be?' }))
 
-app.use(express.json())
+api.use(express.json())
 
-// app.use(cors({
+// api.use(cors({
 // 	// origin: "*", // TODO: restrict only to my domains?
 // 	origin: "http://localhost:3000",
 // 	credentials: true
@@ -55,7 +56,7 @@ const subscribers = {
 	order: {},
 }
 
-app.ws('/subscribe', (ws, req) => {
+api.ws('/subscribe', (ws, req) => {
 	ws.on('message', function message (m) {
 		const {tag, bucket, id} = JSON.parse(m)
 		if (tag === "subscribe") {
@@ -93,16 +94,16 @@ app.use(function logResuests (req, res, next) {
 	next()
 })
 
-// app.use(function delay (req, res, next) {
-// 	// simulate network delay during development for the obviousness of the
-// 	// loading states
-// 	setTimeout(() => {
-// 		next()
-// 	}, 2000)
-// })
+api.use(function delay (req, res, next) {
+	// simulate network delay during development for the obviousness of the
+	// loading states
+	setTimeout(() => {
+		next()
+	}, 2000)
+})
 
 
-app.get('/products/search/', function (req, res, next) {
+api.get('/products/search/', function (req, res, next) {
 	// TODO: validate parameters
 
 
@@ -223,7 +224,7 @@ app.get('/products/search/', function (req, res, next) {
 
 
 // get product by id
-app.get('/products/:id', function (req, res, next) {
+api.get('/products/:id', function (req, res, next) {
 	if (!db.products[req.params.id])
 		res.sendStatus(404)
 
@@ -234,7 +235,7 @@ app.get('/products/:id', function (req, res, next) {
 
 
 // create a new order
-app.post('/orders', async function (req, res, next) {
+api.post('/orders', async function (req, res, next) {
 	// TODO: validate input
 
 	const orderId = newId()
@@ -270,7 +271,7 @@ app.post('/orders', async function (req, res, next) {
 })
 
 
-app.get('/orders/:id', function (req, res, next) {
+api.get('/orders/:id', function (req, res, next) {
 	let order = db.orders[req.params.id]
 	if (order)
 		res.json(order)
@@ -278,7 +279,7 @@ app.get('/orders/:id', function (req, res, next) {
 		res.sendStatus(404)
 })
 
-app.get('/package/:id', (req, res, next) => {
+api.get('/package/:id', (req, res, next) => {
 	res.sendFile(req.params.id + ".zip", {
 		root: path.join(__dirname, 'zips')
 	}, err => {
@@ -335,7 +336,7 @@ async function createZip(productIds) {
 
 
 
-app.post('/login', async function (req, res, next) {
+api.post('/login', async function (req, res, next) {
 	if (req.body.jwt)
 		loginGoogle(req, res, next)
 	else if (req.body.password)
@@ -466,7 +467,7 @@ function dummyCheck () {
 }
 
 
-app.post('/logout', function (req, res, next) {
+api.post('/logout', function (req, res, next) {
 	req.session = null
 	res.send("ok, logged out")
 })
@@ -474,7 +475,7 @@ app.post('/logout', function (req, res, next) {
 
 
 
-app.post('/signup', function (req, res, next) {
+api.post('/signup', function (req, res, next) {
 	const { email, name, password } = req.body
 
 	if(findUserByEmail(email)) {
@@ -497,7 +498,7 @@ app.post('/signup', function (req, res, next) {
 })
 
 
-app.post('/confirm', function (req, res, next) {
+api.post('/confirm', function (req, res, next) {
 	const {email, name, password, code} = decodeToken(req.body.token)
 	const userCode = req.body.code
 
@@ -522,7 +523,7 @@ app.post('/confirm', function (req, res, next) {
 
 
 
-app.post('/request_password_reset', (req, res, next) => {
+api.post('/request_password_reset', (req, res, next) => {
 	const email = req.body.email
 
 	if(!findUserByEmail(email)) {
@@ -547,7 +548,7 @@ app.post('/request_password_reset', (req, res, next) => {
 
 
 
-app.post('/password_reset', (req, res, next) => {
+api.post('/password_reset', (req, res, next) => {
 	const {code, token, password} = req.body
 	const {email, code: rightCode} = decodeToken(token)
 
@@ -633,7 +634,7 @@ function decodeToken (token) {
 
 
 
-app.get('/user', async function (req, res, next) {
+api.get('/user', async function (req, res, next) {
 	const userId = req.session.user
 
 	if (!userId) {
@@ -658,7 +659,7 @@ app.get('/user', async function (req, res, next) {
 })
 
 
-app.get('/userexists/:email', async function (req, res, next) {
+api.get('/userexists/:email', async function (req, res, next) {
 	const user = findUserByEmail(req.params.email)
 	res.send(!!user)
 })
@@ -750,9 +751,13 @@ function mockDB () {
 }
 
 
+app.use('/api', api)
+
 app.use('*', createProxyMiddleware({
-	target: 'http://localhost:3000',
+	// TODO: in prod, serve static files from here
+	target: 'http://localhost:3000', // vite endpoint, with HMR and all
 }))
+
 
 app.listen(port, () => {
   console.log(`Stripe shop listening on port ${port}`)
