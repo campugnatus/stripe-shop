@@ -1,5 +1,8 @@
 <template>
-	 <div ref="buttonContainer"></div>
+  <div
+    :class="{'spinner before:block before:absolute before:inset-0 before:bg-gray-300 before:z-10 before:rounded': loading}"
+    ref="buttonContainer">
+  </div>
 </template>
 
 <script setup>
@@ -12,6 +15,8 @@ const userStore = useUserStore()
 const emit = defineEmits(['signIn'])
 
 const buttonContainer = ref(null)
+
+let loading = ref(false)
 
 onMounted(async () => {
   google.accounts.id.initialize({
@@ -26,12 +31,16 @@ onMounted(async () => {
 })
 
 async function googleSignInCallback (response) {
+  loading.value = true
   userStore.login({jwt: response.credential})
     .then(() => {
       emit('signIn')
       showToast.success("Successfully logged in!")
     })
-    .catch(e => showToast.error("Login failed"))
+    .catch(e => {
+      showToast.error("Login failed")
+    })
+    .finally(() => loading.value = false)
 }
 
 </script>

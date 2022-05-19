@@ -63,20 +63,22 @@
 		</PopoverPanel>
 	</Popover>
 
-	<button v-if="!userStore.signedIn" class="group p-2" :title="userStore.shortName" @click="openModal">
+	<button v-if="!userStore.signedIn" class="group p-2" :title="userStore.shortName" @click="openModal" :disabled="userStore.loading">
 		<div class="flex justify-center">
 			<template v-if="userStore.signedIn">
 				<img v-if="userStore.profile.picture" :src="userStore.profile.picture" class="h-10 lg:h-11 rounded-full border-transparent border-4 group-hover:border-blue-300">
 				<UserCircleIcon v-else class="h-11 text-tomato"/>
 			</template>
 
-			<!-- can't use the one from the package as I want to customize the stroke-width -->
-			<svg v-else xmlns="http://www.w3.org/2000/svg" class="h-10 lg:h-11 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-				<path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-			</svg>
+			<div v-else :class="{'grayout before:rounded-full': userStore.loading}">
+				<!-- can't use the one from the package as I want to customize the stroke-width -->
+				<svg xmlns="http://www.w3.org/2000/svg" class="h-10 lg:h-11 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+					<path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+				</svg>
+			</div>
 		</div>
 		<div v-if="userStore.signedIn" class="lg:pt-2 text-center w-20 truncate">{{userStore.shortName}}</div>
-		<div v-else class="lg:pt-2 text-center">Sign in</div>
+		<div v-else class="lg:mt-2 text-center" :class="{'grayout': userStore.loading}">Sign in</div>
 	</button>
 
 	<TransitionRoot appear :show="showModal" as="template">
@@ -120,37 +122,40 @@
 
 							<form
 								@submit.prevent="signup"
-								class="p-8 space-y-3 my-auto">
+								class="my-auto">
+								<fieldset class="p-8 space-y-3" :disabled="loading" :class="{'opacity-70': loading}">
+									<LoginInput
+										focus
+										v-model="signupForm.email"
+										placeholder="Email address"
+										:error="signupV.email.$errors[0]?.$message"/>
 
-								<LoginInput
-									focus
-									v-model="signupForm.email"
-									placeholder="Email address"
-									:error="signupV.email.$errors[0]?.$message"/>
+									<LoginInput
+										v-model="signupForm.name"
+										placeholder="Your name"
+										:error="signupV.name.$errors[0]?.$message"
+										info="The way you'd like us to call you in the emails we send you. This is also how your name will appear in the comments you leave here."/>
 
-								<LoginInput
-									v-model="signupForm.name"
-									placeholder="Your name"
-									:error="signupV.name.$errors[0]?.$message"
-									info="The way you'd like us to call you in the emails we send you. This is also how your name will appear in the comments you leave here."/>
+									<LoginInput
+										password
+										v-model="signupForm.password"
+										placeholder="Password"
+										:error="signupV.password.$errors[0]?.$message"/>
 
-								<LoginInput
-									password
-									v-model="signupForm.password"
-									placeholder="Password"
-									:error="signupV.password.$errors[0]?.$message"/>
+									<LoginInput
+										password
+										v-model="signupForm.confirm"
+										placeholder="Confirm password"
+										:error="signupV.confirm.$errors[0]?.$message"/>
 
-								<LoginInput
-									password
-									v-model="signupForm.confirm"
-									placeholder="Confirm password"
-									:error="signupV.confirm.$errors[0]?.$message"/>
+									<button
+										type="submit"
+										:class="{'spinner': loading}"
+										class="bg-primary rounded text-white py-2 p-2 w-full !mt-6">
 
-								<button
-									type="submit"
-									class="bg-primary rounded text-white py-2 p-2 w-full !mt-6">
-									Create account
-								</button>
+										Create account
+									</button>
+								</fieldset>
 							</form>
 						</section>
 
@@ -172,8 +177,12 @@
 										type="text"
 										v-model="code"
 										v-focus
-										:class="{'border-tomato focus:border-tomato focus:ring-tomato': codeError}"
-										class="font-sigmar text-center text-4xl w-44 tracking-wide lowercase rounded"
+										:disabled="loading"
+										:class="{
+											'border-tomato focus:border-tomato focus:ring-tomato': codeError,
+											'opacity-50': loading
+										}"
+										class="h-full p-0 font-sigmar text-center text-4xl w-44 tracking-wide lowercase rounded"
 										maxlength="4"/>
 								</form>
 							</div>
@@ -201,16 +210,19 @@
 							<p class="text-sm mt-6">That's okay.</p>
 							<p class="text-sm mt-3">Just enter your email below and we'll send you instructions on how to reset your password.</p>
 							<form @submit.prevent="requestResetEmail" class="my-auto">
-								<LoginInput
-									focus
-									v-model="resetEmail"
-									placeholder="Email address"
-									:error="resetEmailError"/>
-								<button
-									type="submit"
-									class="w-full bg-primary text-white rounded p-2 mt-4">
-									Send me email
-								</button>
+								<fieldset :disabled="loading" :class="{'opacity-50': loading}">
+									<LoginInput
+										focus
+										v-model="resetEmail"
+										placeholder="Email address"
+										:error="resetEmailError"/>
+									<button
+										type="submit"
+										:class="{'spinner': loading}"
+										class="w-full bg-primary text-white rounded p-2 mt-4">
+										Send me email
+									</button>
+								</fieldset>
 							</form>
 							<button @click="showing='login'" class="!mt-auto self-center">
 								<ArrowLeftIcon class="h-10"/>
@@ -229,28 +241,31 @@
 							<p class="text-sm">
 								We've sent you an email with a code. Please enter the code below, along with your new password.
 							</p>
-							<form @submit.prevent="resetPassword" class="space-y-3">
-								<LoginInput
-									focus
-									v-model="resetForm.code"
-									placeholder="Code from the email"
-									:error="resetErrors.code"/>
-								<LoginInput
-									password
-									v-model="resetForm.password"
-									placeholder="Your new password"
-									:error="resetErrors.password"/>
-								<LoginInput
-									password
-									v-model="resetForm.confirm"
-									placeholder="Confirm password"
-									:error="resetErrors.confirm"/>
+							<form @submit.prevent="resetPassword">
+								<fieldset :disabled="loading" class="space-y-3" :class="{'opacity-50': loading}">
+									<LoginInput
+										focus
+										v-model="resetForm.code"
+										placeholder="Code from the email"
+										:error="resetErrors.code"/>
+									<LoginInput
+										password
+										v-model="resetForm.password"
+										placeholder="Your new password"
+										:error="resetErrors.password"/>
+									<LoginInput
+										password
+										v-model="resetForm.confirm"
+										placeholder="Confirm password"
+										:error="resetErrors.confirm"/>
 
-								<button
-									type="submit"
-									class="w-full bg-primary text-white rounded py-1.5 p-2 !mt-4">
-									Set password
-								</button>
+									<button
+										type="submit"
+										:class="{'spinner': loading}"
+										class="w-full bg-primary text-white rounded py-1.5 p-2 !mt-4">
+										Set password
+									</button>
+								</fieldset>
 							</form>
 							<button @click="showing='login'" class="mt-2 self-center">
 								<ArrowLeftIcon class="h-10"/>
@@ -266,25 +281,32 @@
 								<h1 class="w-1/2 p-4 text-xl flex justify-center items-center">Sign in</h1>
 								<button @click="showing = 'signup'" class="w-1/2 p-4 text-xl flex bg-gray-100 justify-center items-center border-l border-b text-gray-400 hover:text-gray-500">Sign up</button>
 							</div>
-							<form @submit.prevent="login" class="p-8 space-y-4 my-auto">
-								<LoginInput
-									focus
-									v-model="loginForm.email"
-									placeholder="Email address"
-									:error="loginErrors.email"/>
+							<form @submit.prevent="login" class="my-auto">
+								<fieldset :disabled="loading" class="p-8 space-y-4" :class="{'opacity-70': loading}">
+									<LoginInput
+										focus
+										v-model="loginForm.email"
+										placeholder="Email address"
+										:error="loginErrors.email"/>
 
-								<LoginInput
-									password
-									v-model="loginForm.password"
-									placeholder="Password"
-									:error="loginErrors.password"/>
+									<LoginInput
+										password
+										v-model="loginForm.password"
+										placeholder="Password"
+										:error="loginErrors.password"/>
 
-								<div class="flex justify-between">
-									<button type="submit" class="bg-primary rounded text-white py-1.5 p-2 w-28">Sign in</button>
-									<button type="button" @click="showing='forgot'" class="text-sm text-blue-500 px-2">Forgot password?</button>
-								</div>
+									<div class="flex justify-between">
+										<button
+											type="submit"
+											class="bg-primary rounded text-white py-1.5 p-2 w-28"
+											:class="{'spinner': loading}">
+											Sign in
+										</button>
+										<button type="button" @click="showing='forgot'" class="text-sm text-blue-500 px-2">Forgot password?</button>
+									</div>
+								</fieldset>
 							</form>
-							<div class="h-32 w-full bg-gray-100 mt-auto flex items-center justify-center border-t relative">
+							<div class="h-32 w-full bg-gray-100 -mt-auto flex items-center justify-center border-t relative">
 								<div class="flex justify-center items-center w-10 h-10 absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full border text-gray-400 text-xs">OR</div>
 								<SignInWithGoogleButton @signIn="closeModal"/>
 							</div>
@@ -328,9 +350,10 @@ const userStore = useUserStore()
 
 const showing = ref("login")
 
-userStore.init().then(() => {
-	showing.value = userStore.signedIn? "user" : "login"
-})
+// we use one variable for all the different loading states present here...
+// let's see how that goes :)
+const loading = ref(false)
+
 
 const showModal = ref(false)
 let formResetTimer
@@ -400,6 +423,7 @@ const loginValid = computed(() => {
 	return true
 })
 
+
 function loginVerify () {
 	// reset the errors
 	Object.keys(loginErrors).forEach(key => loginErrors[key] = undefined)
@@ -417,10 +441,12 @@ function loginVerify () {
 }
 
 async function login () {
+	loading.value = true
 	loginVerify()
 
 	if (!loginValid.value) {
 		Object.values(loginErrors).forEach(msg => msg && showToast.error(msg))
+		loading.value = false
 		return
 	}
 
@@ -446,6 +472,7 @@ async function login () {
 			showToast.error("Oops! Something went wrong")
 		}
 	})
+	.finally(() => loading.value = false)
 }
 
 
@@ -521,11 +548,14 @@ const signupV = useVuelidate(signupValidators, signupForm)
 let emailVerificationToken
 
 async function signup () {
+	loading.value = true
+
 	// verify that the data is ok
 	const valid = await signupV.value.$validate()
 
 	if (!valid) {
 		signupV.value.$errors.forEach(error => showToast.error(error.$message))
+		loading.value = false
 		return
 	}
 
@@ -548,6 +578,8 @@ async function signup () {
 			showToast.error("Oops! Sign up failed")
 		}
 	})
+
+	.finally(() => loading.value = false)
 }
 
 
@@ -563,6 +595,8 @@ const code = ref()
 const codeError = ref(false)
 
 async function verifyCode () {
+	loading.value = true
+
 	userStore.verifyCode(code.value, emailVerificationToken)
 
 	.then(() => {
@@ -579,6 +613,8 @@ async function verifyCode () {
 			showToast.error("Something went wrong")
 		}
 	})
+
+	.finally(() => loading.value = false)
 }
 
 
@@ -611,10 +647,12 @@ function verifyResetEmail () {
 
 
 async function requestResetEmail () {
+	loading.value = true
 	verifyResetEmail()
 
 	if (!resetEmailValid.value) {
 		showToast.error(resetEmailError.value)
+		loading.value = false
 		return
 	}
 
@@ -631,6 +669,8 @@ async function requestResetEmail () {
 			resetEmailError.value = undefined
 		}
 	})
+
+	.finally(() => loading.value = false)
 }
 
 
@@ -687,10 +727,13 @@ function verifyResetForm () {
 
 
 async function resetPassword () {
+	loading.value = true
+
 	verifyResetForm()
 
 	if (!resetFormValid.value) {
 		Object.values(resetErrors).forEach(msg => msg && showToast.error(msg))
+		loading.value = false
 		return
 	}
 
@@ -715,6 +758,8 @@ async function resetPassword () {
 			showToast.error("Something went wrong")
 		}
 	})
+
+	.finally(() => loading.value = false)
 }
 
 

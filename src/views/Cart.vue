@@ -1,10 +1,9 @@
 <template>
 	<ShopHeader/>
 
-	<div v-if="loading" class="w-full h-[60vh] spinner-lg"></div>
-
-	<div v-else-if="cart.empty" class="w-full h-[60vh] flex items-center justify-center">
-		<div>
+	<div v-if="cart.empty" class="w-full h-[60vh] flex items-center justify-center">
+		<div v-if="loading" class="font-pacifico text-3xl">Loading...</div>
+		<div v-else>
 			<div class="font-pacifico text-2xl">Your cart is...</div>
 			<div class="font-sigmar text-4xl ml-8">
 				empty
