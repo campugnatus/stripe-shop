@@ -47,14 +47,7 @@
             <div class="pt-2">search</div>
           </button>
 
-          <button class="lg:p-2 text-sm lg:text-base hidden sm:inline">
-            <div class="flex justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 lg:h-11 lg:w-11" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
-            </svg>            </div>
-            <div class="pt-2">log in</div>
-          </button>
-
+          <LoginButton/>
           <CartButton/>
         </section>
       </nav>
@@ -492,6 +485,7 @@
 
 <script setup>
 import CartButton from '@/components/CartButton.vue'
+import LoginButton from '@/components/LoginButton.vue'
 import WareCard from '@/components/WareCard.vue'
 import Carousel from '@/components/Carousel.vue'
 import GalleryCarousel from '@/components/GalleryCarousel.vue'
