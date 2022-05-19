@@ -1,4 +1,30 @@
-Once more, what's the next BIG thing???
+Aiming for the MVP now...
+
+2. order history
+3. user comments/ratings
+4. restyle user popup
+5. server-side validation
+
+* try this beautifier for tailwind and otherwise?
+
+* login signup
+   * server-side request validation
+   * prettify emails we send to the users
+   * bind cart to user login (now it's all in localStorage)
+   * auto-focus the first field with an error in it
+   * login form loading states (there are async background checks, after all)
+   * maybe refactor login form screens into separate components?
+   * animations
+
+* db
+* server-side request validation
+* user comments
+* deliver what's been ordered
+
+
+* cart to order page transition
+* any error causes the server to crash... this is uh... not ideal
+
 
 * do we do user login now?
    * It's a non-essential feature though, the store should be perfectly functional without it
@@ -7,41 +33,43 @@ Once more, what's the next BIG thing???
    * 'my orders' page
 
 * core functionality
-   * send and email with the purchased stripes attached
-   * 'download the items ordered' button on the order's page?
+   * send an email with the purchased stripes attached
    * refunds? later
 
 * search/catalogue
-   * filters (maybe later?)
       * clear filters btn
 
 * DB
-   * mongo?
+   * SQlite + prisma?
+   * redis?
    * firebase?
+
 * loading state
-   * there's text selectable begind the grayedout areas... people might accidentally see! or screenreaders. they can see
-   * there's parts visible for screen readers that shouldn't be
+   * there's text selectable behind the grayedout areas... people (or screenreaders) might accidentally see!
    * cascading issues
       * might not be such a huge problem, since the parent component should
         generally load faster then the children (as they usually only get
         created after the parent has loaded)
-* main page gallery rework?
-* typescript
+
+* content
+   * stripes
+   * main page gallery
+
+* looks
+   * main menu active state
+   * main page search
+
 * server-side request validation
-* update order status in real time... websockets or something?
 * validate forms with vuelidate or somethin
-* footer
-* in carousel the shadow doesn't appear before you jiggle it a little
-? partially filled stars
 * cart: dropdowns can't handle more than 9, but it's possible to set more than than through the buttons elsewhere
-* take button styles into a separate class
+* extract button styles into a separate class
 ? clear cart animation
 ? buttons instead of dropdowns in cart
 ? animate price changes in cart
 ? loading indicators on the images
 * SALE/recommended/collections and such
 * main page logo stripe?
-* dragging of the gallery
 * the top image loads too long on mobile, same for the fonts. What are we gonna do about it?
 * makes all the logos uniform
 * mention image authors in the gallery?
+? typescript
