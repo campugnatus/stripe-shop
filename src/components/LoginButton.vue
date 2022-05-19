@@ -600,8 +600,8 @@ async function verifyCode () {
 	userStore.verifyCode(code.value, emailVerificationToken)
 
 	.then(() => {
-		showing.value = "welcome"
 		reset()
+		showing.value = "welcome"
 	})
 
 	.catch(err => {
