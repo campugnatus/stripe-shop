@@ -367,6 +367,7 @@ function closeModal () {
 	// cancelled the process and just forget about it, we don't want the next
 	// user who happen to use the same computer to see a half-finished form
 	// with some potentially sensitive data in it
+	clearTimeout(formResetTimer)
 	formResetTimer = setTimeout(() => {
 		reset()
 		showing.value = "login"
