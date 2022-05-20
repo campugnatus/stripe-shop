@@ -21,9 +21,10 @@
 			leave-active-class="transition duration-150 ease-in"
 			leave-from-class="translate-y-0 opacity-100"
 			leave-to-class="-translate-y-1 opacity-0">
-			<PopoverPanel class="absolute z-10 w-80 top-[calc(100%+0.6em)] right-3 shadow-xl bg-white rounded border border-gray-300">
-				<!-- triangle -->
-				<div class="h-6 w-6 absolute right-6 rotate-45 -top-3 bg-gray-100 border border-gray-300 z-[-1]"> </div>
+			<PopoverPanel class="fixed inset-0 bottom-auto w-full sm:absolute z-10 sm:w-80 sm:top-[calc(100%+0.6em)] sm:inset-auto sm:right-3 shadow-xl bg-white rounded sm:border border-gray-300">
+				<div class="h-6 w-6 absolute right-6 rotate-45 -top-3 bg-gray-100 border border-gray-300 z-[-1]">
+					<!-- triangle -->
+				</div>
 				<section class="flex border-b p-3 items-center w-full bg-gray-100">
 					<div class="h-16 w-16 shrink-0">
 						<img
@@ -39,7 +40,7 @@
 							:title="userStore.profile.name">
 							{{userStore.profile.name}}
 						</div>
-						<div class="text-gray-500 truncate">{{userStore.profile.email}}</div>
+						<div class="text-gray-500 truncate text-sm">{{userStore.profile.email}}</div>
 					</div>
 				</section>
 				<section class="grid grid-cols-2 text-sm">
@@ -92,7 +93,7 @@
 				<div class="fixed inset-0 bg-black/50" aria-hidden="true"></div>
 			</TransitionChild>
 
-			<div class="fixed inset-0 flex items-center justify-center p-4">
+			<div class="fixed inset-0 flex items-center justify-center">
 				<TransitionChild
 					as="template"
 					enter="duration-300 ease-out"

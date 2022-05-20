@@ -1,5 +1,5 @@
 <template>
-	<div class=" w-96 text-sm origin-left flex justify-between w-full items-stretch drop-shadow-lg cursor-pointer"
+	<div class="w-64 xs:w-72 sm:w-96 text-sm origin-left flex justify-between items-stretch drop-shadow-lg cursor-pointer"
 		 @click="emits('close')"
 		 :class="[
 			type === 'info'    ? 'bg-gray-600 text-white' :
