@@ -22,21 +22,25 @@
 
 
 	/* TODO: something a bit more unique? */
-	.spinner, .spinner-sm, .spinner-lg, .spinner-xl, .spinner-2xl {
+	.spinner, .spinner-sm, .spinner-md, .spinner-lg, .spinner-xl, .spinner-2xl {
 		color: transparent !important;
 		min-height: 1em;
 		pointer-events: none;
 		position: relative;
 	}
 
-	.spinner::after, .spinner-sm::after, .spinner-lg::after, .spinner-xl::after, .spinner-2xl::after {
+	.spinner::after, .spinner-sm::after, .spinner-md::after, .spinner-lg::after, .spinner-xl::after, .spinner-2xl::after {
 		animation: loading 700ms infinite linear;
-		@apply block absolute border-gray-200 z-20 left-1/2 top-1/2 border-r-transparent border-t-transparent rounded-full;
+		@apply block absolute border-gray-200 z-20 left-1/2 top-1/2 !border-r-transparent !border-t-transparent rounded-full;
 		content: "";
 	}
 
 	.spinner::after {
 		@apply -ml-2.5 -mt-2.5 w-5 h-5 border-4;
+	}
+
+	.spinner-md::after {
+		@apply -ml-3 -mt-3 w-6 h-6 border-4;
 	}
 
 	.spinner-lg::after {
@@ -49,6 +53,14 @@
 
 	.spinner-2xl::after {
 		@apply -ml-10 -mt-10 w-20 h-20 border-8;
+	}
+
+	.spinner-tomato::after {
+		@apply border-tomato;
+	}
+
+	.spinner-dark::after {
+		@apply border-gray-500;
 	}
 
 	@keyframes loading {

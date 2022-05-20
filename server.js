@@ -80,7 +80,6 @@ function broadcast ({bucket, id, object}) {
 	subscribers[bucket][id] = socks
 
 	for (let ws of socks) {
-		console.log("sending notification")
 		ws.send(JSON.stringify({bucket, id, object}))
 	}
 }
@@ -405,6 +404,11 @@ async function loginPassword (req, res, next) {
 		return
 	}
 
+	if (!user.hash) {
+		res.status(403).send("password not set")
+		return
+	}
+
 	if (!checkPassword(req.body.password, user.hash)) {
 		res.status(403).send("wrong password")
 		return
@@ -483,6 +487,8 @@ function dummyCheck () {
 
 
 api.post('/logout', function (req, res, next) {
+	// we can't clear the session on the client as the cookie is http-only
+	// Convenient!
 	req.session = null
 	res.send("ok, logged out")
 })
@@ -499,6 +505,7 @@ api.post('/signup', function (req, res, next) {
 	}
 
 	const code = gen4LetterCode()
+	console.log("email verification code:", code)
 	const token = createToken({email, name, password, code})
 
 	let info = emailTransport.sendMail({
@@ -694,7 +701,6 @@ api.get('/cart', (req, res, next) => {
 
 	const user = db.users[uid]
 	const cart = db.carts[user.cart]
-	console.log("reading cart:", user.cart, req.body.items)
 
 	res.json(cart.items)
 })
@@ -711,7 +717,6 @@ api.post('/cart', (req, res, next) => {
 	const cart = db.carts[user.cart]
 	cart.items = req.body.items
 
-	console.log("saving cart:", user.cart, cart)
 	dbPut("cart", user.cart, cart)
 
 	res.send("ok")

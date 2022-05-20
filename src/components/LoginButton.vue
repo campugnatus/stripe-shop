@@ -1,80 +1,78 @@
 <template>
 	<Popover v-if="userStore.signedIn" v-slot="{ close }" class="relative z-20">
-		<PopoverOverlay class="bg-black opacity-20 fixed inset-0" />
 		<PopoverButton class="group p-2" :title="userStore.shortName">
 			<div class="flex justify-center">
-				<template v-if="userStore.signedIn">
-					<img v-if="userStore.profile.picture" :src="userStore.profile.picture" class="h-10 lg:h-11 rounded-full border-transparent border-4 group-hover:border-blue-300">
-					<UserCircleIcon v-else class="h-11 text-tomato"/>
-				</template>
-
-				<!-- can't use the one from the package as I want to customize the stroke-width -->
-				<svg v-else xmlns="http://www.w3.org/2000/svg" class="h-10 lg:h-11 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-					<path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-				</svg>
+				<img
+					v-if="userStore.profile.picture"
+					:src="userStore.profile.picture"
+					class="h-10 lg:h-11 rounded-full border-transparent border-4 group-hover:border-blue-300">
+				<UserCircleIcon
+					v-else
+					class="h-11 text-tomato"/>
 			</div>
 			<div v-if="userStore.signedIn" class="lg:pt-2 text-center w-20 truncate">{{userStore.shortName}}</div>
-			<div v-else class="lg:pt-2 text-center"> Sign in </div>
+			<div v-else class="lg:mt-2 text-center"> Sign in </div>
 		</PopoverButton>
 
-		<PopoverPanel class="absolute z-10 w-80 h-[444px] top-[calc(100%+1em)] right-2 shadow-xl bg-white rounded border">
-			<section class="h-full flex flex-col justify-between">
-				<section class="flex border-b p-4 items-center w-full bg-gray-100">
+		<transition
+			enter-active-class="transition duration-200 ease-out"
+			enter-from-class="-translate-y-1 opacity-0"
+			enter-to-class="translate-y-0 opacity-100"
+			leave-active-class="transition duration-150 ease-in"
+			leave-from-class="translate-y-0 opacity-100"
+			leave-to-class="-translate-y-1 opacity-0">
+			<PopoverPanel class="absolute z-10 w-80 top-[calc(100%+0.6em)] right-3 shadow-xl bg-white rounded border border-gray-300">
+				<!-- triangle -->
+				<div class="h-6 w-6 absolute right-6 rotate-45 -top-3 bg-gray-100 border border-gray-300 z-[-1]"> </div>
+				<section class="flex border-b p-3 items-center w-full bg-gray-100">
 					<div class="h-16 w-16 shrink-0">
 						<img
 							v-if="userStore.profile.picture"
 							:src="userStore.profile.picture"
-							class="rounded-full border-gray-300 border-4">
+							class="rounded-full border-gray-300 --border-4">
 						<UserCircleIcon v-else class="text-tomato"/>
 					</div>
 					<div class="ml-4 min-w-0">
 						<div class="text-sm text-gray-500">Logged in as</div>
 						<div
-							class="text-lg font-bold max-w-full truncate overflow-hidden"
+							class="text-lg max-w-full truncate overflow-hidden font-bold text-gray-600"
 							:title="userStore.profile.name">
 							{{userStore.profile.name}}
 						</div>
 						<div class="text-gray-500 truncate">{{userStore.profile.email}}</div>
 					</div>
 				</section>
-				<section class="text-lg flex justify-center">
-					<div class="space-y-8 w-fit -ml-4">
-						<router-link class="flex items-center hover:text-tomato" to="/orders">
-							<ClipboardListIcon class="h-6 inline mr-3"/>
-							<div class="text-left font-">Order history</div>
-						</router-link>
-						<router-link class="flex items-center hover:text-tomato" to="/cart">
-							<ShoppingCartIcon class="h-6 inline mr-3"/>
-							<div class="text-left font-">Shopping cart</div>
-						</router-link>
-						<button class="flex items-center hover:text-tomato">
-							<KeyIcon class="h-6 inline mr-3"/>
-							<div class="text-left font-">Reset password</div>
-						</button>
-					</div>
-				</section>
-				<section class="p-6">
-					<button @click="logout(close)" class="block bg-primary rounded p-2 w-full text-white flex items-center justify-center">
-						<LogoutIcon class="h-5 mr-2"/>
+				<section class="grid grid-cols-2 text-sm">
+					<router-link class="hover:bg-gray-100 flex items-center p-4 border-b" to="/orders">
+						<ClipboardListIcon class="h-10 stroke-1 text-gray-500 inline mr-3"/>
+						Order<br> history
+					</router-link>
+					<button disabled class="--hover:bg-gray-100 flex items-center p-4 border-b border-l">
+						<CogIcon class="h-10 stroke-1 text-gray-500 inline mr-3"/>
+						Settings
+					</button>
+					<button @click="changePassword(close)" class="hover:bg-gray-100 flex items-center p-4 text-left">
+						<KeyIcon class="h-10 stroke-1 text-gray-500 inline mr-3"/>
+						Change<br> password
+					</button>
+					<button
+						@click="logout(close)"
+						:class="{'opacity-70 hover:bg-transparent': loading}"
+						class="hover:bg-gray-100 flex items-center p-4 border-l"
+						:disabled="loading">
+						<span v-if="loading" class="w-10 spinner-md spinner-dark mr-3"></span>
+						<LogoutIcon v-else class="h-10 stroke-1 text-gray-500 mr-3"/>
 						Log out
 					</button>
 				</section>
-			</section>
-		</PopoverPanel>
+			</PopoverPanel>
+		</transition>
 	</Popover>
 
 	<button v-if="!userStore.signedIn" class="group p-2" :title="userStore.shortName" @click="openModal" :disabled="userStore.loading">
 		<div class="flex justify-center">
-			<template v-if="userStore.signedIn">
-				<img v-if="userStore.profile.picture" :src="userStore.profile.picture" class="h-10 lg:h-11 rounded-full border-transparent border-4 group-hover:border-blue-300">
-				<UserCircleIcon v-else class="h-11 text-tomato"/>
-			</template>
-
-			<div v-else :class="{'grayout before:rounded-full': userStore.loading}">
-				<!-- can't use the one from the package as I want to customize the stroke-width -->
-				<svg xmlns="http://www.w3.org/2000/svg" class="h-10 lg:h-11 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-					<path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-				</svg>
+			<div :class="{'grayout before:rounded-full': userStore.loading}">
+				<UserCircleOutlineIcon class="h-10 lg:h-11 text-gray-600 stroke-1"/>
 			</div>
 		</div>
 		<div v-if="userStore.signedIn" class="lg:pt-2 text-center w-20 truncate">{{userStore.shortName}}</div>
@@ -170,7 +168,7 @@
 									Almost there!
 								</p>
 								<p class="w-48">
-									We've sent you an email with a code. Please enter the code below to confirm your email
+									We've sent you an email with a code. Please enter the code below to verify your email
 								</p>
 								<form @submit.prevent="verifyCode" class="text-center">
 									<input
@@ -267,7 +265,7 @@
 									</button>
 								</fieldset>
 							</form>
-							<button @click="showing='login'" class="mt-2 self-center">
+							<button :class="{'invisible': userStore.signedIn}" @click="showing='login'" class="mt-2 self-center">
 								<ArrowLeftIcon class="h-10"/>
 							</button>
 						</section>
@@ -333,9 +331,23 @@ import {
 	DialogPanel,
 } from '@headlessui/vue'
 
-import { UserCircleIcon, InformationCircleIcon, ClipboardListIcon, CogIcon, PencilIcon, ShoppingCartIcon, KeyIcon, ArrowLeftIcon } from '@heroicons/vue/solid'
+import {
+	UserCircleIcon,
+	InformationCircleIcon,
+	PencilIcon,
+	ArrowLeftIcon
+} from '@heroicons/vue/solid'
+
+import {
+	ClipboardListIcon,
+	ShoppingCartIcon,
+	LogoutIcon,
+	KeyIcon,
+	CogIcon,
+	UserCircleIcon as UserCircleOutlineIcon
+} from '@heroicons/vue/outline'
+
 import SignInWithGoogleButton from '@/components/SignInWithGoogleButton.vue'
-import { LogoutIcon } from '@heroicons/vue/outline'
 import { useUserStore } from '@/stores/user.js'
 import { showToast } from '@/plugins/toast'
 import { ref, watch, reactive, computed } from 'vue'
@@ -387,6 +399,8 @@ function openModal () {
  */
 
 function logout (close) {
+	loading.value = true
+
 	userStore.logout()
 		.then(() => {
 			showToast.success("Logged out")
@@ -394,6 +408,7 @@ function logout (close) {
 			close()
 		},
 		() => showToast.error("Couldn't log out"))
+	.finally(() => loading.value = false)
 }
 
 
@@ -466,6 +481,10 @@ async function login () {
 		else if (e.response?.data === "wrong password") {
 			showToast.error("Incorrect password")
 			loginErrors.password = "Incorrect password"
+		}
+		else if (e.response?.data === "password not set") {
+			showToast.error("Password not set. Try signing in with Google or go the 'forgot password' route")
+			loginErrors.password = "Password not set"
 		}
 		else {
 			console.error("Login failed", e, e.response)
@@ -659,6 +678,7 @@ async function requestResetEmail () {
 	api.requestPasswordResetEmail(resetEmail.value)
 
 	.then(token => {
+		showToast.info("Now check your email!")
 		passwordResetToken = token
 		showing.value = 'reset'
 	})
@@ -750,7 +770,8 @@ async function resetPassword () {
 	.then(() => {
 		showToast.success("Your new password has been set")
 		reset()
-		showing.value = 'login'
+		if (userStore.signedIn) closeModal()
+		else showing.value = 'login'
 	})
 
 	.catch(e => {
@@ -772,6 +793,16 @@ async function resetPassword () {
 
 
 
+
+async function changePassword (close) {
+	// I don't understand why it doesn't happen automatically
+	close()
+
+	resetEmail.value = userStore.profile.email
+	await requestResetEmail()
+	showing.value = 'reset'
+	openModal()
+}
 
 
 
