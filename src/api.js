@@ -1,8 +1,8 @@
 import axios from "axios"
 
 // TODO: get this from an ENV variable or somethin 
-axios.defaults.baseURL = "http://localhost:3002/api/"
-export const URL = axios.defaults.baseURL
+axios.defaults.baseURL = "http://localhost:3002/api"
+export const baseURL = axios.defaults.baseURL
 
 // for debugging purposes, TODO: turn off in production
 window.axios = axios
@@ -123,7 +123,7 @@ export function abortSearch () {
 // websocket for the pubsub
 let ws
 
-const wshost = "ws://localhost:3002"
+const wshost = "ws://localhost:3002/api/"
 
 // we keep track of our subscriptions for the sole purpose of avoiding having
 // multiple subscriptions to the same object... which, theoretically, might
@@ -188,7 +188,7 @@ async function ensureSocket () {
 
 
 export default {
-	URL,
+	baseURL,
 	searchProducts,
 	abortSearch,
 	subscribe,

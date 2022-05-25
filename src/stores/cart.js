@@ -101,11 +101,11 @@ export const useCartStore = defineStore('cart', {
 		},
 
 		async checkout ({email, paymentToken}) {
-			const order = await api.createOrder({
+			const order = await useUserStore().createOrder({
 				paymentToken,
 				email,
 				price: this.subtotal,
-				items: this.items.map(addPrice)
+				items: this.items.map(insertPrice)
 			})
 
 			// everything went fine, can clear the cart now
@@ -113,7 +113,7 @@ export const useCartStore = defineStore('cart', {
 			
 			return order.id
 
-			function addPrice(item) {
+			function insertPrice(item) {
 				const productStore = useProductStore()
 				const product = productStore.products[item.productId]
 				item.price = product.price
@@ -126,7 +126,6 @@ export const useCartStore = defineStore('cart', {
 
 		async save () {
 			if (useUserStore().signedIn) {
-				log("saving cart  to the server")
 				await api.saveCart(this.items)
 			}
 			else

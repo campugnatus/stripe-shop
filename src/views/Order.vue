@@ -1,13 +1,18 @@
 <template>
 	<ShopHeader/>
 
-<!-- 	<TransitionGroup tag="ul" name="itemsf" class="space-y-6 relative loading:grayout loading:h-64 loading:w-full min-h-[300px]">
-		<li v-for="upd in hst" :key='"a"+upd.key'>
-			{{upd.status}}
-		</li>
-	</TransitionGroup> -->
+	<div v-if="error === 404" class="h-[70vh] w-full font-pacifico text-4xl flex justify-center items-center">
+		<div class="relative w-max font-sigmar">
+			<div class="text-[55px] mb-2 text-tomato">404</div>
+			<div class="leading-[0.8em] text-gray-700">
+				<div class="">don't</div>
+				<div class="tracking-widest">have</div>
+				<div class="tracking-[0.14em]">that</div>
+			</div>
+		</div>
+	</div>
 
-	<main class="grid grid-cols-2 max-w-screen-lg mx-auto px-4 sm:px-6 mt-20 lg:mt-32" :class="{loading}">
+	<main v-else class="mb-40 grid grid-cols-2 max-w-screen-lg mx-auto px-4 sm:px-6 mt-20 lg:mt-32" :class="{loading}">
 		<section class="pr-6">
 			<header class="font-mono">
 				<h1 class="text-3xl">Order details</h1>
@@ -17,8 +22,12 @@
 					<div>Deliver to:</div>  <div :class="{'grayout': loading}">{{order?.email}}</div>
 					<div>Total price:</div> <div :class="{'grayout w-16': loading}">${{order?.price}}</div>
 					<div class="py-4">
-						<a :href="packageURL" v-if="packageURL"
-						   class="loading:grayout inline-block px-2 py-1 bg-primary text-white rounded">
+						<a
+							:href="packageURL"
+							v-if="packageURL"
+							class="loading:grayout inline-block pr-3 pl-2.5 py-1.5 bg-primary text-white rounded">
+
+							<DownloadIcon class="w-6 inline-block mr-2"/>
 							Download .zip
 						</a>
 					</div>
@@ -40,15 +49,9 @@
 			<div class="">
 				<TransitionGroup tag="ul" name="hist" class="relative loading:grayout loading:h-64 loading:w-full">
 					<li v-for="upd, i in updates" :key="upd.status" class="flex items-center py-2">
-						<div class="ml-4 text-xs uppercase p-1 px-3 rounded-full"
-						      :class="[i === 0 ? 'bg-blue-300 text-white':
-						                         'bg-gray-100 text-gray-500',
-						               upd.waiting? 'animate-slide':''
-						              ]">
-							{{upd.status}}
-						</div>
+						<OrderStatus :status="upd"/>
 						<div class="ml-3 text-sm text-gray-400" v-if="upd.date">
-							{{ new Date(upd.date).toLocaleString() }}
+							{{ formatDate(upd.date) }}
 						</div>
 					</li>
 				</TransitionGroup>
@@ -56,9 +59,9 @@
 		</section>
 	</main>
 
-	<section class="mt-40 max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+	<section class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
 		<h1 class="text-2xl md:text-3xl font-roboto">Now... how about these?</h1>
-		<Carousel class="mt-6 -mx-4" :ids="productStore.collection('recommended')"/>
+		<Carousel class="mt-6 -mx-4 sm:-mx-6 lg:-mx-8" :ids="productStore.collection('recommended')"/>
 	</section>
 
 	<ShopFooter/>
@@ -68,65 +71,44 @@
 import ShopHeader from '@/components/ShopHeader.vue'
 import ShopFooter from '@/components/ShopFooter.vue'
 import OrderedItem from '@/components/OrderedItem.vue'
+import OrderStatus from '@/components/OrderStatus.vue'
 import Carousel from '@/components/Carousel.vue'
 import {useTitle} from '@vueuse/core'
-import { ref, watch } from 'vue'
-import {CheckCircleIcon} from '@heroicons/vue/solid'
+import { ref, watch, computed, reactive, isRef, watchEffect } from 'vue'
+import { DownloadIcon, CheckCircleIcon} from '@heroicons/vue/solid'
+import {  } from '@heroicons/vue/outline'
 import { useProductStore } from '@/stores/products'
+import { useUserStore, useOrderUpdates } from '@/stores/user'
 import api from '@/api.js'
-
-const productStore = useProductStore()
-
-const title = useTitle("Order details", { titleTemplate: '%s | Stripe shop' })
-
-import { computed } from 'vue'
-import { useUserStore } from '@/stores/user'
+import {formatDate} from '@/utils'
 import { useRouter, useRoute } from 'vue-router'
 
+const productStore = useProductStore()
 const userStore = useUserStore()
 const router = useRouter()
 const route = useRoute()
+const title = useTitle("Order details", { titleTemplate: '%s | Stripe shop' })
 
 const orderId = computed(() => route.params.id)
 const order = computed(() => userStore.orders[orderId.value])
+const error = ref()
+
+userStore
+	.fetchOrder(orderId.value, {subscribe: true})
+	.catch(err => {
+		if (err.response?.status === 404)
+			error.value = 404
+	})
+
 const loading = computed(() => order.value === undefined)
-
-const updates = ref([])
-
-watch(() => order.value?.status, async (status) => {
-	if (status === undefined)
-		return
-
-	updates.value = [...status].reverse()
-	await new Promise(resolve => setTimeout(() => resolve(), 800))
-
-	let res = [...status]
-	let last = res[res.length-1]
-
-	let waitingStatus = {
-		created: { status: "waiting for payment", waiting: true },
-		paid:    { status: "wrapping up", waiting: true },
-		packed:  { status: "preparing shipment", waiting: true },
-	}
-
-	if (waitingStatus[last.status])
-		res.push(waitingStatus[last.status])
-
-	updates.value = res.reverse()
-}, {
-	immediate: true
-})
-
-userStore.fetchOrder(orderId, {subscribe: true})
-
-const packageURL = computed(() => {
-	// TODO: make api address configurable
-	if (order.value?.package)
-		return api.URL+'/package/' + order.value?.package
-	else
-		return undefined
-})
+const updates = useOrderUpdates(order)
+const packageURL = computed(() => userStore.packageURL(orderId.value))
 </script>
+
+
+
+
+
 
 <style scoped>
 .hist-move,
@@ -144,20 +126,5 @@ const packageURL = computed(() => {
 .hist-enter-from,
 .hist-leave-to {
 	opacity: 0;
-}
-
-.animate-slide {
-	background: linear-gradient(111deg, #94c6fd, #94c6fd 40%, #84bbf5 60%, #94c6fd 60%);
-	background-size: 300% 100%;
-	animation: animation-slide 1.5s linear infinite;
-}
-
-@keyframes animation-slide {
-	0% {
-		background-position: 100%;
-	}
-	100% {
-		background-position: 0%;
-	}
 }
 </style>

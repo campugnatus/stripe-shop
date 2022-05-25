@@ -13,6 +13,7 @@ import Cart from './views/Cart.vue'
 import Front from './views/Front.vue'
 import Product from './views/Product.vue'
 import Order from './views/Order.vue'
+import OrderHistory from './views/OrderHistory.vue'
 import Catalogue from './views/Catalogue.vue'
 
 const app = createApp(App)
@@ -33,6 +34,7 @@ const router = createRouter({
 		{ path: '/catalogue', component: Catalogue },
 		{ path: '/product/:id', component: Product },
 		{ path: '/order/:id', component: Order },
+		{ path: '/orders', component: OrderHistory },
 		{ path: '/cart', component: Cart },
 	]
 })
