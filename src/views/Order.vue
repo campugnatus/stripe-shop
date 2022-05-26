@@ -12,56 +12,67 @@
 		</div>
 	</div>
 
-	<main v-else class="mb-40 grid grid-cols-2 max-w-screen-lg mx-auto px-4 sm:px-6 mt-20 lg:mt-32" :class="{loading}">
-		<section class="pr-6">
-			<header class="font-mono">
-				<h1 class="text-3xl">Order details</h1>
+	<main
+		v-else
+		class="grid md:grid-cols-2 gap-y-12 mb-32 max-w-screen-lg mx-auto px-4 sm:px-6 mt-20 lg:mt-32"
+		:class="{loading}">
 
-				<div class="grid grid-cols-2 mt-4">
-					<div>Order ID:</div>          <div>{{orderId}}</div>
-					<div>Deliver to:</div>  <div :class="{'grayout': loading}">{{order?.email}}</div>
-					<div>Total price:</div> <div :class="{'grayout w-16': loading}">${{order?.price}}</div>
-					<div class="py-4">
-						<a
-							:href="packageURL"
-							v-if="packageURL"
-							class="loading:grayout inline-block pr-3 pl-2.5 py-1.5 bg-primary text-white rounded">
+		<section class="font-mono">
+			<h1 class="text-3xl">Order details</h1>
 
-							<DownloadIcon class="w-6 inline-block mr-2"/>
-							Download .zip
-						</a>
-					</div>
-					<div>
-					</div>
+			<div class="grid grid-cols-2 mt-4" style="grid-template-columns: auto auto;">
+				<div>Order ID:</div>    <div>{{orderId}}</div>
+				<div>Deliver to:</div>  <div :class="{'grayout': loading}">{{order?.email}}</div>
+				<div>Total price:</div> <div :class="{'grayout w-16': loading}">${{order?.price}}</div>
+				<div class="pt-4 col-span-2">
+					<a
+						:href="packageURL"
+						v-if="packageURL"
+						class="loading:grayout inline-block pr-3 pl-2.5 py-1.5 bg-primary text-white rounded">
+
+						<DownloadIcon class="w-6 inline-block mr-2"/>
+						Download .zip
+					</a>
 				</div>
-			</header>
+				<div>
+				</div>
+			</div>
 		</section>
 
-		<div class="mt-10 row-start-2 col-span-2">
+		<section class="md:mx-auto">
+			<TransitionGroup
+				tag="ul"
+				name="hist"
+				class="relative loading:grayout loading:h-64 loading:w-full">
+				<li
+					v-for="upd, i in updates"
+					:key="upd.status"
+					class="flex items-center py-2">
+
+					<OrderStatus :status="upd"/>
+					<div class="ml-3 text-sm text-gray-400" v-if="upd.date">
+						{{ formatDate(upd.date) }}
+					</div>
+				</li>
+			</TransitionGroup>
+		</section>
+
+		<section class="md:col-span-2">
 			<h2 class="text-2xl font-mono">Order contents</h2>
 			<div class="mt-3 flex flex-wrap items-center gap-x-16 gap-y-8"
 			     :class="{'grayout h-20': loading}">
 				<OrderedItem v-for="item in order?.items" :item="item"/>
 			</div>
-		</div>
-
-		<section class="pl-6 min-h-[222px]">
-			<div class="">
-				<TransitionGroup tag="ul" name="hist" class="relative loading:grayout loading:h-64 loading:w-full">
-					<li v-for="upd, i in updates" :key="upd.status" class="flex items-center py-2">
-						<OrderStatus :status="upd"/>
-						<div class="ml-3 text-sm text-gray-400" v-if="upd.date">
-							{{ formatDate(upd.date) }}
-						</div>
-					</li>
-				</TransitionGroup>
-			</div>
 		</section>
 	</main>
 
 	<section class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
-		<h1 class="text-2xl md:text-3xl font-roboto">Now... how about these?</h1>
-		<Carousel class="mt-6 -mx-4 sm:-mx-6 lg:-mx-8" :ids="productStore.collection('recommended')"/>
+		<h1 class="text-2xl md:text-3xl font-roboto">
+			Now... how about these?
+		</h1>
+		<Carousel
+			class="mt-6 -mx-4 sm:-mx-6 lg:-mx-8"
+			:ids="productStore.collection('recommended')"/>
 	</section>
 
 	<ShopFooter/>

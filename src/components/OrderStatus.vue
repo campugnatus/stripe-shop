@@ -16,12 +16,12 @@ const blue = computed(() => props.status.waiting || props.status.status === 'shi
 
 <template>
 	<span
-		class="uppercase rounded-full"
-	    :class="[
-	    	lg? 'px-4 py-1.5 text-sm' : 'px-3 py-1 text-xs',
-	    	blue? 'bg-blue-300 text-white' : 'bg-white border text-gray-500',
-	    	props.status.waiting? 'animate-slide' :''
-    	]">
+		class="uppercase rounded-full border"
+		:class="[
+			lg? 'px-4 py-1.5 text-sm' : 'px-3 py-1 text-xs',
+			blue? 'bg-blue-300 border-transparent text-white' : 'bg-white text-gray-500',
+			props.status.waiting? 'animate-slide' :''
+		]">
 		{{ props.status.status }}
 	</span>
 </template>

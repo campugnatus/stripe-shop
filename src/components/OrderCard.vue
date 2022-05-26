@@ -1,8 +1,8 @@
 <template>
 	<div class="rounded-md border shadow-sm overflow-hidden">
-		<section class="bg-gray-50 flex border-b flex">
-			<section class="p-3 pl-4 pr-8 border-r flex items-center justify-center">
-				<table class="font-">
+		<section class="bg-gray-50 md:border-b grid md:flex">
+			<section class="row-start-1 p-3 pl-4 pr-8 md:border-r flex items-center md:justify-center shrink-0">
+				<table class="">
 					<tr>
 						<td class="pr-6 p-1">Order #</td>
 						<td class="p-1 text-blue-500">
@@ -20,36 +20,37 @@
 				</table>
 			</section>
 
-			<section class="py-6 pl-8 overflow-hidden">
-				<div v-for="upd, i in updates">
-					<transition
-						enter-active-class="transition duration-500 delay-150 ease-out"
-						enter-from-class="-translate-y-16"
-						enter-to-class="translate-y-0"
+			<section class="row-start-3 p-4 bg-white md:bg-gray-50 relative md:pl-8 shrink max-h-24 overflow-hidden">
+				<transition
+					v-for="upd, i in updates"
 
-						leave-active-class="absolute transition duration-200 origin-center ease-in"
-						leave-from-class="translate-y-0 opacity-100"
-						leave-to-class="translate-y-10 opacity-0">
+					enter-active-class="transition duration-700 delay-150 ease-out"
+					enter-from-class="-translate-y-24"
+					enter-to-class="translate-y-0"
 
-						<div v-if="i===0" :key="upd.status" >
-							<OrderStatus lg :status="upd"/>
-							<span v-if="upd.date" class="ml-3 text-sm text-gray-400">
-								{{ formatDate(updates[0].date) }}
-							</span>
-						</div>
-					</transition>
-				</div>
+					leave-active-class="absolute transition max-w-full duration-200 origin-center ease-in"
+					leave-from-class="translate-y-0 opacity-100"
+					leave-to-class="translate-y-10 opacity-0">
+
+					<div v-if="i===0" :key="upd.status">
+						<OrderStatus lg :status="upd" class="inline-block mr-3 md:mb-3"/>
+						&shy; <!-- wrap here -->
+						<span v-if="upd.date" class="inline-block text-sm text-gray-400">
+							{{ formatDate(updates[0].date) }}
+						</span>
+					</div>
+				</transition>
 			</section>
 
-			<section class="ml-auto py-5 pr-6 text-center flex flex-col justify-between">
+			<section class="row-start-2 md:ml-auto p-4 border-b text-center flex md:flex-col justify-between shrink-0">
 				<router-link
-					class="block px-1 text-blue-500"
+					class="block p-1 text-blue-500 flex items-center"
 					:to="'/order/'+order.id">
 					View order details
 				</router-link>
 				<div>
 					<a
-						v-if="order.package"
+						:class="{'invisible': !order.package}"
 						class="block p-3 py-1.5 w-full rounded bg-white border text-gray-500 hover:border-gray-300"
 						:href="api.baseURL+'/package/'+order.package">
 						Download <DownloadIcon class="inline w-6"/>
