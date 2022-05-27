@@ -50,7 +50,7 @@
 					class="flex items-center py-2">
 
 					<OrderStatus :status="upd"/>
-					<div class="ml-3 text-sm text-gray-400" v-if="upd.date">
+					<div class="ml-3 text-sm text-gray-400 font-mono" v-if="upd.date">
 						{{ formatDate(upd.date) }}
 					</div>
 				</li>

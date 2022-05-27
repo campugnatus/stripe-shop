@@ -22,7 +22,7 @@
 	<section class="md:px-6 flex container mx-auto lg:mt-32 items-start">
 		<aside class="w-64 h-screen font-roboto flex-shrink-0 hidden lg:block">
 			<fieldset class="disabled:opacity-60">
-				<h2 class="text-2xl mb-2">Ordering</h2>
+				<h2 class="text-2xl mb-2">Sorting</h2>
 				<select @change="changeSort" v-model="filters.sort"
 				        class="bg-white border px-2 py-1 rounded border-gray-400" >
 					<option value="default">Default</option>
@@ -152,7 +152,7 @@
 		        <WareCard class="invisible"/>
 
 		        <div class="absolute h-full w-full top-0 left-0">
-		             <div :class="{'spinner-lg': loadingMore}"
+		             <div :class="{'spinner-2xl': loadingMore}"
 		                  class="h-full w-full rounded border-2 border-dashed flex justify-center items-center text-4xl font-pacifico text-gray-400 hover:text-gray-500">
 						Load<br> more<br>
 		             </div>

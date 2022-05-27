@@ -43,6 +43,10 @@ window.log = function () {
 	console.log(...arguments)
 }
 
+window.str = function (a) {
+	return JSON.stringify(a, null, 4)
+}
+
 window.assert = function (cond, msg = "Assertion failed") {
 	if (!cond)
 		throw new Error(msg)
