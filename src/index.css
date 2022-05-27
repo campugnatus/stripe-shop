@@ -81,7 +81,7 @@
 
 	.grayout::before {
 		content: "";
-		@apply absolute left-0 top-1/2 -translate-y-1/2 w-full h-[100%] bg-gray-200 z-50;
+		@apply absolute left-0 top-1/2 -translate-y-1/2 w-full h-[100%] bg-gray-200 z-10;
 /*		background: linear-gradient(to right::after, #dddddd,     #dddddd 20%, #cdcdcd 25%,
 			                                  #dddddd 25%, #dddddd 45%, #cdcdcd 50%,
 			                                  #dddddd 50%, #dddddd 70%, #cdcdcd 75%,
