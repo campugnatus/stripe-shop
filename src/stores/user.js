@@ -51,11 +51,15 @@ export const useUserStore = defineStore('user', {
 
 	getters: {
 		ordersChronologically: (state) => {
-			return Object.values(state.orders).sort((a,b) => {
-				return a.status[0].date < b.status[0].date ? 1
-					: a.status[0].date === b.status[0].date ? 0
-					: -1
-			})
+			if (!state.signedIn) return []
+
+			return state.profile.orders
+				.map(oid => state.orders[oid])
+				.sort((a,b) => {
+					return a.status[0].date < b.status[0].date ? 1 :
+						a.status[0].date === b.status[0].date ? 0 :
+						-1
+				})
 		},
 		packageURL: (state) => (orderId) => {
 			const order = state.orders[orderId]
@@ -123,6 +127,7 @@ export const useUserStore = defineStore('user', {
 			await api.logout()
 			useCartStore().logout()
 			this.profile = null
+			this.orders = {}
 		},
 
 
