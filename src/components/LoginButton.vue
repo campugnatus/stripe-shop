@@ -8,9 +8,9 @@
 					class="h-10 lg:h-11 rounded-full border-transparent border-4 group-hover:border-blue-300">
 				<UserCircleIcon
 					v-else
-					class="h-11 text-tomato"/>
+					class="h-10 lg:h-11 text-tomato"/>
 			</div>
-			<div v-if="userStore.signedIn" class="lg:pt-2 text-center w-20 truncate">{{userStore.shortName}}</div>
+			<div v-if="userStore.signedIn" class="lg:mt-2 text-center w-20 truncate">{{userStore.shortName}}</div>
 			<div v-else class="lg:mt-2 text-center"> Sign in </div>
 		</PopoverButton>
 
