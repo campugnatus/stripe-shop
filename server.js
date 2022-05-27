@@ -269,13 +269,17 @@ api.post('/orders', async function (req, res, next) {
 	}
 
 	dbPut("order", orderId, order)
-	//db.orders[orderId] = order
 	res.json(order)
 
 	if (req.user) {
 		req.user.orders.unshift(order.id)
 		dbPut("user", req.user.id, req.user)
 	}
+
+
+	//
+	// simulate further order handling
+	//
 
 	await new Promise((resolve, reject) => setTimeout(() => resolve(), 10000))
 	order.status.push({
@@ -726,7 +730,7 @@ function newId () {
 // read, but harder to guess
 
 function newUuid () {
-	const secret = 'abcdefgh'
+	const secret = 'abcdefgh' // TODO: secret
 	let buf = Float64Array.from([Math.random(), Math.random(),
 		                           Math.random(), Math.random()])
 	const hash = crypto.createHmac('sha256', secret)
