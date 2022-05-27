@@ -34,6 +34,23 @@ const api = express.Router()
 api.use(cookieParser())
 api.use(cookieSession({ secret: 'this is added to git, how secret can it be?' }))
 
+
+
+api.use(function authorize (req, res, next) {
+	const userId = req.session.user
+
+	if (userId) {
+		const user = db.users[userId]
+		if (!user)
+			req.session = null
+		else
+			req.user = user
+	}
+
+	next()
+})
+
+
 api.use(express.json())
 
 // api.use(cors({
@@ -255,6 +272,11 @@ api.post('/orders', async function (req, res, next) {
 	//db.orders[orderId] = order
 	res.json(order)
 
+	if (req.user) {
+		req.user.orders.unshift(order.id)
+		dbPut("user", req.user.id, req.user)
+	}
+
 	await new Promise((resolve, reject) => setTimeout(() => resolve(), 10000))
 	order.status.push({
 		status: "paid",
@@ -387,12 +409,7 @@ async function loginGoogle (req, res, next) {
 	req.session.user = user.id
 
 	// send back user data
-	res.json({
-		id: user.id,
-		name: user.name,
-		email: user.email,
-		picture: user.picture
-	})
+	res.json(viewUser(user))
 }
 
 
@@ -418,12 +435,7 @@ async function loginPassword (req, res, next) {
 	req.session.user = user.id
 
 	// send back user data
-	res.json({
-		id: user.id,
-		name: user.name,
-		email: user.email,
-		picture: user.picture
-	})
+	res.json(viewUser(user))
 }
 
 
@@ -535,11 +547,7 @@ api.post('/confirm', function (req, res, next) {
 	// log the user in: set the session cookie
 	req.session.user = user.id
 
-	res.json({
-		id: user.id,
-		name: user.name,
-		email: user.email,
-	})
+	res.json(viewUser(user))
 })
 
 
@@ -656,27 +664,12 @@ function decodeToken (token) {
 
 
 api.get('/user', async function (req, res, next) {
-	const userId = req.session.user
-
-	if (!userId) {
+	if (!req.user) {
 		res.send("not logged in")
 		return
 	}
 
-	const user = db.users[userId]
-
-	if (!user) {
-		req.session = null // force user log out
-		res.status(404).send("user doesn't exist")
-		return
-	}
-
-	res.json({
-		id: user.id,
-		name: user.name,
-		email: user.email,
-		picture: user.picture
-	})
+	res.json(viewUser(req.user))
 })
 
 
@@ -692,32 +685,27 @@ api.get('/userexists/:email', async function (req, res, next) {
 
 
 api.get('/cart', (req, res, next) => {
-	// TODO: write middleware that puts the user in req
-	const uid = req.session.user
-	if (!uid) {
+	if (!req.user) {
 		res.status(400).send("not logged in")
 		return
 	}
 
-	const user = db.users[uid]
-	const cart = db.carts[user.cart]
+	const cart = db.carts[req.user.cart]
 
 	res.json(cart.items)
 })
 
 
 api.post('/cart', (req, res, next) => {
-	const uid = req.session.user
-	if (!uid) {
+	if (!req.user) {
 		res.status(400).send("not logged in")
 		return
 	}
 
-	const user = db.users[uid]
-	const cart = db.carts[user.cart]
+	const cart = db.carts[req.user.cart]
 	cart.items = req.body.items
 
-	dbPut("cart", user.cart, cart)
+	dbPut("cart", req.user.cart, cart)
 
 	res.send("ok")
 })
@@ -818,3 +806,15 @@ app.use('*', createProxyMiddleware({
 app.listen(port, () => {
   console.log(`Stripe shop listening on port ${port}`)
 })
+
+
+function viewUser (user, view) {
+	return {
+		id: user.id,
+		name: user.name,
+		email: user.email,
+		picture: user.picture,
+		orders: user.orders,
+		cart: user.cart
+	}
+}
