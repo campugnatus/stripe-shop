@@ -5,47 +5,8 @@ import api from '@/api.js'
 
 export const useUserStore = defineStore('user', {
 	state: () => ({
-		profile: null, /*{
-			name: "Aristarkh",
-			email: "zhopa@zhopa.zhopa",
-			orders: [orderId, ... ]
-		}*/
-		orders: {
-			/*
-			orderId: {
-				id: "192874ypriwuhefj",
-				address: "zhopa@zhopa.zhopa",
-				status: [
-					{
-						status: "refunded",,
-						date: serverUnixTime,
-					},
-					{
-						status: "refund request",
-						date: serverUnixTime,
-					},
-					{
-						status: "shipped",
-						date: serverUnixTime,
-					},
-					{
-						status: "paid",
-						date: serverUnixTime,
-					},
-					{
-						status: "created",
-						date: serverUnixTime,
-					}
-				],
-				items: [
-					{
-						pid: "123:345",
-						amount: 4,
-					}
-				]
-			}
-			*/
-		},
+		profile: null,
+		orders: {},
 		loading: true
 	}),
 
