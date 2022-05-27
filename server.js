@@ -463,7 +463,8 @@ function createUser ({email, picture, name, hash}) {
 
 	const user = {
 		id: newUuid(),
-		cart: cart.id ,
+		cart: cart.id,
+		orders: [],
 		email,
 		picture,
 		name,
