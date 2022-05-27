@@ -1,5 +1,5 @@
 <template>
-  <header class="grid grid-cols-2 gap-3 lg:flex px-3 lg:px-6 lg:px-8 lg:container mx-auto mt-2 lg:mt-14 items-center" style="">
+  <header class="grid grid-cols-2 gap-3 lg:flex px-3 lg:px-6 lg:px-8 max-w-screen-xl mx-auto mt-2 lg:mt-14 items-center" style="">
 
     <section class="mt-2 lg:mt-0">
       <router-link to="/" class="font-sigmar inline-block scale-90 origin-left">
