@@ -44,7 +44,6 @@
 		<div class="md:w-1/2 md:pl-7 lg:pl-16 mt-6 md:mt-0 py-6 lg:border-l border-gray-500">
 			<h1 class="text-2xl md:text-4xl font-roboto">Checkout</h1>
 
-
 			<div class="bg-tomato p-4 rounded-xl mt-6 md:mt-10 text-sm text-white">
 				<p>
 					<b>Please make sure you understand what you’re paying for</b>
@@ -63,9 +62,13 @@
 			<p class="text-sm mt-3">
 				This email address will be used to send you the stripes you’ve ordered, and in no other way ever
 			</p>
-			<input type="email" v-model="email" name="" class="mt-3 w-full rounded border-gray-400"
-			       :class="[emailError? 'ring-1 ring-tomato border-tomato':'']"
-			       :title="emailError? 'Email invalid' : ''">
+			<input
+				type="email"
+				v-model="email"
+				placeholder="Your email address"
+				class="mt-3 w-full rounded border-gray-400"
+				:class="[emailError? 'ring-1 ring-tomato border-tomato':'']"
+				:title="emailError? 'Email invalid' : ''">
 			<GooglePayButton v-if="cart.subtotal" :price="cart.subtotal" @paid="checkout" class="mt-4"/>
 			<button @click="showToast.error('Not yet, sorry')" class="w-full bg-primary rounded text-white text-sm font-bold p-2 mt-3">
 				Pay with Apple
@@ -93,7 +96,7 @@ import { useRouter, useRoute } from 'vue-router'
 // import {showToast} from '@/plugins/toast'
 
 
-import { computed, ref, inject } from 'vue'
+import { computed, ref, inject, watch } from 'vue'
 import { useCartStore } from '@/stores/cart'
 import { useProductStore } from '@/stores/products'
 import { useUserStore } from '@/stores/user'
@@ -104,7 +107,10 @@ const router = useRouter()
 const user = useUserStore()
 
 const loading = computed(() => cart.loading)
-const email = ref(user.profile?.email || "hoho@hehe.haha")
+const email = ref(user.profile?.email)
+
+watch(() => user.profile?.email, () => email.value = user.profile?.email)
+
 const emailError = ref(false)
 
 const showToast = inject('showToast')
