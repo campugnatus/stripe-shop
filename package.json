@@ -3,7 +3,7 @@
   "name": "stripeshop",
   "scripts": {
     "dev": "vite",
-    "api": "./node_modules/nodemon/bin/nodemon.js server.js",
+    "api": "./node_modules/nodemon/bin/nodemon.js -i src server.js",
     "build": "vite build",
     "serve": "vite preview"
   },
