@@ -29,10 +29,15 @@
 					{{username}}
 				</div>
 				<div class="flex flex-col-reverse sm:flex-row lg:flex-col-reverse xl:flex-row gap-2">
-					<RatingStars interactive :rating="rating" @set="setRating" class="h-7 text-sky-900/60 hover:text-tomato/80"/>
+					<RatingStars
+						:disabled="loading"
+						interactive
+						:rating="rating"
+						@set="setRating"
+						class="h-7 hover:text-tomato/80 disabled:opacity-60 text-sky-900/60"/>
 				</div>
 			</div>
-			<form @submit.prevent="postReview">
+			<form @submit.prevent="postReview" :disabled="loading">
 				<div class="relative mt-3">
 					<!-- the auto-resizing textarea trick -->
 					<div class="invisible border h-full min-h-[4.5em] p-2.5 w-full whitespace-pre-wrap">
@@ -40,7 +45,8 @@
 					</div>
 					<textarea
 						v-model="text"
-						class="border w-full absolute h-full top-0 left-0 overflow-hidden p-2.5 border-blue-200 rounded  min-h-[4.5em] placeholder:text-sky-900/50 resize-none focus:ring-sky-700/80 focus:border-sky-700/80"
+						:disabled="loading"
+						class="border w-full absolute h-full top-0 left-0 overflow-hidden p-2.5 border-blue-200 rounded  min-h-[4.5em] placeholder:text-sky-900/50 resize-none focus:ring-sky-700/80 focus:border-sky-700/80 disabled:opacity-60"
 						rows="2"
 						placeholder="Write your review here (optional)">
 					</textarea>
@@ -48,12 +54,15 @@
 				<div class="flex justify-end mt-3">
 					<button
 						@click="editing = false"
-						class="flex items-center justify-center mr-2 bg-white border border-blue-200 text-gray-600 hover:text-sky-900 p-3 py-1.5 rounded text-sky-900/70">
+						:disabled="loading"
+						class="flex items-center justify-center mr-2 bg-white border border-blue-200 text-gray-600 hover:text-sky-900 p-3 py-1.5 rounded text-sky-900/70 disabled:opacity-60">
 						Cancel
 					</button>
 					<button
 						type="submit"
-						class="bg-sky-900/60 hover:bg-sky-900/70 p-3 py-1.5 rounded  text-white --text-sky-900/60">
+						:class="{'spinner': loading}"
+						:disabled="loading"
+						class="bg-sky-900/60 hover:bg-sky-900/70 p-3 py-1.5 rounded text-white">
 						Submit review
 					</button>
 				</div>
@@ -106,11 +115,15 @@ function edit () {
 	rating.value = props.review?.rating || 0
 }
 
+const loading = ref(false)
+
 function postReview () {
 	if (rating.value === 0) {
 		showToast.error("Please rate the product")
 		return
 	}
+
+	loading.value = true
 
 	productStore.postReview({
 		rating: rating.value,
@@ -121,6 +134,7 @@ function postReview () {
 		showToast.success("Your review has been posted!")
 		editing.value = false
 	})
+	.finally(() => loading.value = false)
 }
 
 function setRating (val) {
