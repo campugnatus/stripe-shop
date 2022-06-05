@@ -48,7 +48,7 @@
 
 		<div class="flex items-center mt-4">
 			<RatingStars :rating="product?.rating" class="h-8 loading:grayout"/>
-			<div class="text-2xl md:text-3xl font-bold ml-6 font-roboto loading:grayout loading:w-12 loading:h-8">
+			<div class="text-2xl md:text-3xl font-bold ml-6 font-roboto loading:grayout loading:w-20 loading:h-8">
 				{{Number(product?.rating).toFixed(1)}}
 			</div>
 			<div class="ml-4 sm:hidden text-gray-500 loading:grayout">
@@ -59,9 +59,13 @@
 			</div>
 		</div>
 
+		<div v-if="loadingReviews" class="h-[50vh] flex items-center justify-center font-pacifico text-3xl animate-pulse">
+			Loading reviews...
+		</div>
+
 		<div
-			v-if="lg"
-			class="lg:grid lg:grid-cols-2 gap-6 mt-8 -mx-4 sm:mx-0">
+			v-else-if="lg"
+			class="lg:grid lg:grid-cols-2 gap-6 mt-8 -mx-4 sm:mx-0 mb-32">
 
 			<div class="space-y-6">
 				<NewReview :id="productId" :review="my"/>
@@ -74,12 +78,14 @@
 
 		<div
 			v-else
-			class="mt-8 -mx-4 sm:mx-0 space-y-4">
+			class="mt-8 -mx-4 sm:mx-0 space-y-4 mb-32">
 			<NewReview :id="productId" :review="my"/>
 			<UserReview v-for="review in others" :review="review"/>
 		</div>
+	</section>
 
-		<h1 class="text-3xl sm:text-4xl mt-32 font-roboto">You may also like</h1>
+	<section class="max-w-screen-xl mx-auto px-4 sm:px-6">
+		<h1 class="text-3xl sm:text-4xl font-roboto">You may also like</h1>
 		<Carousel class="mt-6 -mx-4" :ids="productStore.collection('1')"/>
 	</section>
 
@@ -113,6 +119,8 @@ const product = computed(() => productStore.products[productId.value])
 
 productStore.fetchProduct(productId.value)
 productStore.fetchReviews(productId.value)
+
+const loadingReviews = computed(() => !productStore.reviews[productId.value])
 
 const reviews = computed(() => productStore.reviews[productId.value] || [])
 const my = computed(() => reviews.value.find(rev => rev.userId === userStore.profile?.id))
