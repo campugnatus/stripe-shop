@@ -29,7 +29,7 @@
 					{{username}}
 				</div>
 				<div class="flex flex-col-reverse sm:flex-row lg:flex-col-reverse xl:flex-row gap-2">
-					<RatingStars interactive :rating="rating" @set="setRating" class="h-7 text-sky-900/60 hover:text-sky-900/70"/>
+					<RatingStars interactive :rating="rating" @set="setRating" class="h-7 text-sky-900/60 hover:text-tomato/80"/>
 				</div>
 			</div>
 			<form @submit.prevent="postReview">
