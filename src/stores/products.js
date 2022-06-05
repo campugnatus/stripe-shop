@@ -9,6 +9,7 @@ import api from '@/api.js'
 export const useProductStore = defineStore('products', {
 	state: () => ({
 		products: {},  // id => product
+		reviews: {},
 		collections: {},
 		order: [],     // ids
 
@@ -48,6 +49,20 @@ export const useProductStore = defineStore('products', {
 			let product = await api.fetchProduct(id)
 			this.products[id] = product
 			return product
+		},
+
+		async fetchReviews (id) {
+			if (this.reviews[id])
+				return
+
+			const reviews = await api.fetchReviews(id)
+			this.reviews[id] = reviews
+		},
+
+		async postReview ({id, rating, text}) {
+			const {reviews, product} = await api.postReview({id, rating, text})
+			this.reviews[id] = reviews
+			this.products[id] = product
 		},
 
 		async fetchCollection (name) {
@@ -130,3 +145,55 @@ export const useProductStore = defineStore('products', {
 		},
 	}
 })
+
+
+/**
+ * State synchronization discussion.
+ *
+ * So, suppose the client has made some modifications to the server state.
+ * Say, they've posted a review of a product. I want to display the changes.
+ *
+ * That includes their review itself and the updated product rating. The
+ * latter is calculated on the server.
+ *
+ * How should I then transfer the updated state to the client?
+ *
+ * * Do we need to respond with the whole newly created "review" object, or
+ *   just an "OK" status? The client knows the data, after all.
+ *
+ * 		Weeell, not in the general case. Their request contains SOME data
+ * 		in it, but the server might add an arbitrary amount of stuff to
+ * 		the resulting object that the clients needs to display it.
+ *
+ * 		SO, we send a request, and the server responds with the "review"
+ * 		object. We can then add it to the list of reviews.
+ *
+ * * There might be some other state updates they might have caused that they
+ *   might want to display, too. Specifically, the updated product rating. Do
+ *   we just include it in the response to their POST?
+ *
+ * 		Well, that might not be enough. What if in the time they were
+ * 		writing their review, some other people wrote some reviews to
+ * 		the same product? In that case, the updated product rating
+ * 		would no longer match the reviews they're seeing on the page
+ * 		(since we haven't sent them the new ones)
+ *
+ * * Okay, FUCK. Should we then refetch the reviews entirely? AND the product?
+ *
+ * 		Maybe? But while we're fetching, should we display a loading state,
+ * 		like usual, as if we had nothing to display at all? Well, that
+ * 		would be weird, given that most of the time the refetched
+ * 		reviews would just match the old ones, and the loading state is
+ * 		disruptive.
+ *
+ * 		OR do we refetch silently in the background? Well, that would be OK
+ * 		if the new state isn't different, but if it is - the user will
+ * 		see a sudden jump when the new content loads. Not ideal.
+ *
+ * * Or not refetch, but send all the updated state in the response?
+ *
+ * 		This way we can use the "posting review" loading state. Which is a
+ * 		more expected UX.
+ *
+ * * To refetch or not to refetch... that is the question.
+ */

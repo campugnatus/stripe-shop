@@ -1,26 +1,31 @@
 Aiming for the MVP now...
 
+* refactoring: extract header buttons into a separate TopRightNav component
+
 2. order history
-3. user comments/ratings
-4. restyle user popup
+   * order history link on the order details page
+3. user reviews/ratings
+   * loading state for the review section
+   * make 'sign in' button clickable
+   * preserve newlines? full markdown? what?
 5. server-side validation
 
 * try this beautifier for tailwind and otherwise?
 
 * login signup
+   * 4-leter code input field should automatically submit upon reaching 4 letters, as we  don't have a  submit  button  there
+   * give new users a random color for their avatars
    * server-side request validation
    * prettify emails we send to the users
-   * bind cart to user login (now it's all in localStorage)
    * auto-focus the first field with an error in it
-   * login form loading states (there are async background checks, after all)
    * maybe refactor login form screens into separate components?
-   * animations
 
 * db
 * server-side request validation
-* user comments
 * deliver what's been ordered
+* every input must have a label? for screenreaderss
 
+* cleanup header/main width/padding responsiveness
 
 * cart to order page transition
 * any error causes the server to crash... this is uh... not ideal

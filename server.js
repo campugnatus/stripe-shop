@@ -721,6 +721,67 @@ api.post('/cart', (req, res, next) => {
 
 
 
+api.post('/reviews', (req, res, next) => {
+	if (!req.user) {
+		res.status(401).send()
+		return
+	}
+
+	const id = req.body.id
+	const product = db.products[id]
+
+	if (!product) {
+		res.status(400).send()
+		return
+	}
+
+	let reviews = db.reviews[id] || []
+	const review = reviews.find(x => x.userId === req.user.id)
+
+	if (review) {
+		// edit the existing review
+		Object.assign(review, {
+			rating: req.body.rating,
+			text: req.body.text,
+			edited: Date.now()
+		})
+	} else {
+		// create new review
+		reviews.push({
+			rating: req.body.rating,
+			text: req.body.text,
+			userId: req.user.id,
+			date: Date.now(),
+		})
+	}
+
+	// TODO: alternatively, these could be calculated on-the-fly every time we get
+	// a product. This would be more expensive computationally, but would exclude
+	// the possibility of inconsistency
+	product.rating = reviews.reduce((acc, rev) => acc+rev.rating, 0) / reviews.length
+	product.nratings = reviews.length
+	product.nreviews = reviews.filter(rev => rev.text).length
+
+	dbPut("review", id, reviews)
+	dbPut("product", id, product)
+
+	res.json({
+		product: product,
+		reviews: reviews.map(viewReview)
+	})
+})
+
+
+
+api.get("/reviews/:id", (req, res, next) => {
+	// we don't expect too many reviews for a product, so we'll just send them all
+	let reviews = db.reviews[req.params.id] || []
+	res.json(reviews.map(viewReview))
+})
+
+
+
+
 function newId () {
 	return new Date().getTime().toString().substr() + '-' + Math.random().toString().substr(-4)
 }
@@ -754,6 +815,7 @@ function mockDB () {
 		products: getProducts(),
 		carts: {},
 		users: {},
+		reviews: {},
 		orders: {
 			"1644421018974-7259": {
 				id: "192874ypriwuhefj",
@@ -821,5 +883,23 @@ function viewUser (user, view) {
 		picture: user.picture,
 		orders: user.orders,
 		cart: user.cart
+	}
+}
+
+function viewReview (review) {
+	const uid = review.userId
+	const user = db.users[review.userId]
+	return {
+		rating: review.rating,
+		text: review.text,
+		date: review.date,
+		edited: review.edited,
+
+		username: user.name,
+		userpic: user.picture,
+		// it's not secret, is it? And it can be used on the client to tell apart
+		// the user's review from the others. Could also be done on the server, but
+		// then every time the user signs out and in agan, we would have to refetch
+		userId: review.userId,
 	}
 }

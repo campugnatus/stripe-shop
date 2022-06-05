@@ -25,6 +25,13 @@ export async function createOrder ({email, items, price, paymentToken}) {
 	.then(response => response.data)
 }
 
+export async function postReview ({id, rating, text}) {
+	return axios.post("/reviews", {id, rating, text}).then(response => response.data)
+}
+
+export async function fetchReviews (id) {
+	return axios(`/reviews/${id}`).then(response => response.data)
+}
 
 
 
@@ -193,6 +200,8 @@ export default {
 	abortSearch,
 	subscribe,
 	fetchProduct,
+	postReview,
+	fetchReviews,
 	fetchOrder,
 	fetchUser,
 	userExists,
