@@ -11,13 +11,11 @@ window.axios = axios
 
 
 export async function fetchProduct (id) {
-	return axios('/products/' + id)
-	.then(response => response.data)
+	return axios('/products/' + id).then(response => response.data)
 }
 
 export async function fetchOrder (id) {
-	return axios(`/orders/${id}`)
-	.then(response => response.data)
+	return axios(`/orders/${id}`).then(response => response.data)
 }
 
 export async function createOrder ({email, items, price, paymentToken}) {
