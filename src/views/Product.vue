@@ -117,8 +117,12 @@ const lg = breakpoints.greater('lg')
 const productId = computed(() => route.params.id)
 const product = computed(() => productStore.products[productId.value])
 
-productStore.fetchProduct(productId.value)
-productStore.fetchReviews(productId.value)
+watch(route, () => {
+	productStore.fetchProduct(productId.value)
+	productStore.fetchReviews(productId.value)
+}, {
+	immediate: true
+})
 
 const loadingReviews = computed(() => !productStore.reviews[productId.value])
 
