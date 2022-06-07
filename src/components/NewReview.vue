@@ -52,8 +52,18 @@
 					</textarea>
 				</div>
 				<div class="flex justify-end mt-3">
+					<a
+						class="text-sky-900/50 hover:underline flex items-center mr-auto"
+						href="https://commonmark.org/help/"
+						target="_blank"
+						title="Well, some of it">
+						
+						Markdown enabled
+						<ExternalLinkIcon class="ml-1 h-4"/>
+					</a>
 					<button
 						@click="editing = false"
+						type="button"
 						:disabled="loading"
 						class="flex items-center justify-center mr-2 bg-white border border-blue-200 text-gray-600 hover:text-sky-900 p-3 py-1.5 rounded text-sky-900/70 disabled:opacity-60">
 						Cancel
@@ -83,12 +93,12 @@
 <script setup>
 import RatingStars from '@/components/RatingStars.vue'
 import UserReview from '@/components/UserReview.vue'
-import {StarIcon, UserCircleIcon, PencilIcon, } from '@heroicons/vue/solid'
-import {PencilIcon as HollowPencilIcon, PencilAltIcon} from '@heroicons/vue/outline'
-import {useProductStore} from '@/stores/products.js'
-import {useUserStore} from '@/stores/user.js'
-import {showToast} from '@/plugins/toast'
-import {ref, computed} from 'vue'
+import { StarIcon, UserCircleIcon, PencilIcon, QuestionMarkCircleIcon, } from '@heroicons/vue/solid'
+import { PencilIcon as HollowPencilIcon, PencilAltIcon, ExternalLinkIcon } from '@heroicons/vue/outline'
+import { useProductStore } from '@/stores/products.js'
+import { useUserStore } from '@/stores/user.js'
+import { showToast } from '@/plugins/toast'
+import { ref, computed } from 'vue'
 
 const props = defineProps({
 	id: {
