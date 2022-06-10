@@ -103,6 +103,7 @@
 					leave-from="opacity-100 scale-100"
 					leave-to="opacity-0 scale-95">
 					<DialogPanel class="w-80 h-[444px] shadow-xl bg-white rounded border">
+
 						<section
 							v-if="showing === 'signup'"
 							class="h-full flex flex-col justify-between">
@@ -127,25 +128,25 @@
 										focus
 										v-model="signupForm.email"
 										placeholder="Email address"
-										:error="signupV.email.$errors[0]?.$message"/>
+										:error="signupErrors.email"/>
 
 									<LoginInput
 										v-model="signupForm.name"
 										placeholder="Your name"
-										:error="signupV.name.$errors[0]?.$message"
+										:error="signupErrors.name"
 										info="The way you'd like us to call you in the emails we send you. This is also how your name will appear in the comments you leave here."/>
 
 									<LoginInput
 										password
 										v-model="signupForm.password"
 										placeholder="Password"
-										:error="signupV.password.$errors[0]?.$message"/>
+										:error="signupErrors.password"/>
 
 									<LoginInput
 										password
 										v-model="signupForm.confirm"
 										placeholder="Confirm password"
-										:error="signupV.confirm.$errors[0]?.$message"/>
+										:error="signupErrors.confirm"/>
 
 									<button
 										type="submit"
@@ -174,11 +175,11 @@
 								<form @submit.prevent="verifyCode" class="text-center">
 									<input
 										type="text"
-										v-model="code"
+										v-model="verificationForm.code"
 										v-focus
 										:disabled="loading"
 										:class="{
-											'border-tomato focus:border-tomato focus:ring-tomato': codeError,
+											'border-tomato focus:border-tomato focus:ring-tomato': verificationErrors.code,
 											'opacity-50': loading
 										}"
 										class="h-full p-0 font-sigmar text-center text-4xl w-44 tracking-wide lowercase rounded"
@@ -351,13 +352,11 @@ import {
 import SignInWithGoogleButton from '@/components/SignInWithGoogleButton.vue'
 import { useUserStore } from '@/stores/user.js'
 import { showToast } from '@/plugins/toast'
+import SignupModal from './SignupModal.vue'
 import { ref, watch, reactive, computed } from 'vue'
 import api from '@/api.js'
 
 import LoginInput from '@/components/LoginInput.vue'
-
-import useVuelidate from '@vuelidate/core'
-import { required, email, sameAs, minLength, helpers, alpha } from '@vuelidate/validators'
 
 const userStore = useUserStore()
 
@@ -366,7 +365,6 @@ const showing = ref("login")
 // we use one variable for all the different loading states present here...
 // let's see how that goes :)
 const loading = ref(false)
-
 
 const showModal = ref(false)
 let formResetTimer
@@ -390,6 +388,50 @@ function closeModal () {
 function openModal () {
 	clearTimeout(formResetTimer)
 	showModal.value = true
+}
+
+
+const errorMsgs = {
+	"name": {
+		"undefined":   "Please enter your name",
+		"empty":       "Please enter your name",
+		"too short":   "Looks like too short of a name",
+		"too long":    "Come on, your name can't possibly be that long",
+		"regex":       "Field contains forbidden characters"
+	},
+	"email": {
+		"undefined":          "Please enter your email address",
+		"empty":              "Please enter your email address",
+		"user exists":        "User already exists",
+		"user doesn't exist": "User doesn't exist",
+		"format":             "Email address doesn't look right",
+		"no user":            "User doesn't exist",
+	},
+	"password": {
+		"undefined":        "Please enter your password",
+		"empty":            "Please enter your password",
+		"too short":        "Password is too short",
+		"too long":         "Alright, that's too much",
+		"password not set": "Password no set. Try signing in with Google or going the 'forgot password' route",
+		"wrong password":   "Incorrect password"
+	},
+	"confirm": {
+		"undefined":   "Please confirm your password",
+		"no match":    "Passwords don't match"
+	},
+	"code": {
+		"undefined":  "Please enter the code we've sent you",
+		"regex":      "Incorrect code",
+		"wrong code": "Incorrect code",
+	}
+}
+
+function handleFormErrors (err, model) {
+	for (let [field, short] of Object.entries(err)) {
+		const msg = errorMsgs[field][short]
+		model[field] = msg
+		showToast.error(msg)
+	}
 }
 
 
@@ -431,66 +473,24 @@ const loginErrors = reactive({
 	password: undefined
 })
 
-const loginValid = computed(() => {
-	for (let err of Object.values(loginErrors))
-		if (err !== undefined)
-			return false
-
-	return true
-})
-
-
-function loginVerify () {
-	// reset the errors
-	Object.keys(loginErrors).forEach(key => loginErrors[key] = undefined)
-
-	if (!loginForm.password) {
-		loginErrors.password = "Please enter the password"
-	}
-
-	if (!loginForm.email) {
-		loginErrors.email = "Please enter your email address"
-	}
-	else if (!loginForm.email.match(/\@/)) {
-		loginErrors.email = "Email address doesn't look right"
-	}
-}
 
 async function login () {
 	loading.value = true
-	loginVerify()
+	clearForm(loginErrors)
 
-	if (!loginValid.value) {
-		Object.values(loginErrors).forEach(msg => msg && showToast.error(msg))
-		loading.value = false
-		return
-	}
-
-	userStore.login({
+	userStore.loginPassword({
 		email: loginForm.email,
 		password: loginForm.password
 	})
 	.then(() => {
 		closeModal()
 		reset()
+	}, e => {
+		handleFormErrors(e.response.data, loginErrors)
 	})
 	.catch(e => {
-		if (e.response?.data === "no user") {
-			showToast.error("User doesn't exist")
-			loginErrors.email = "User doesn't exist"
-		}
-		else if (e.response?.data === "wrong password") {
-			showToast.error("Incorrect password")
-			loginErrors.password = "Incorrect password"
-		}
-		else if (e.response?.data === "password not set") {
-			showToast.error("Password not set. Try signing in with Google or go the 'forgot password' route")
-			loginErrors.password = "Password not set"
-		}
-		else {
-			console.error("Login failed", e, e.response)
-			showToast.error("Oops! Something went wrong")
-		}
+		showToast.error("Oops! Something went wrong...")
+		console.error(e)
 	})
 	.finally(() => loading.value = false)
 }
@@ -514,93 +514,39 @@ const signupForm = reactive({
 	confirm: undefined,
 })
 
-const signupValidators = {
-	email: {
-		required: helpers.withMessage(
-			"Email address is required",
-			required
-		),
-		$lazy: true,
-		email: helpers.withMessage(
-			"Email address doesn't look right",
-			email
-		),
-		isUnique: helpers.withMessage(
-			"User already exists",
-			helpers.withAsync(async function (value) {
-				if (value === '') return true
-				const exists = await api.userExists(value)
-				return !exists
-			})
-		)
-	},
-	name: {
-		required: helpers.withMessage(
-			"Please enter your name",
-			required
-		),
-	},
-	password: {
-		required: helpers.withMessage(
-			"Password is required",
-			required
-		),
-		$lazy: true,
-		minLength: helpers.withMessage(
-			"Password is too short",
-			minLength(6)
-		)
-	},
-	confirm: {
-		required: helpers.withMessage(
-			"Password confirmation is required",
-			required
-		),
-		$lazy: true,
-		sameAsPassword: helpers.withMessage(
-			"Passwords don't match",
-			sameAs(computed(() => signupForm.password))
-		)
-	},
-}
+const signupErrors = reactive({
+	email: undefined,
+	name: undefined,
+	password: undefined,
+	confirm: undefined,
+})
 
-const signupV = useVuelidate(signupValidators, signupForm)
 let emailVerificationToken
 
 async function signup () {
 	loading.value = true
-
-	// verify that the data is ok
-	const valid = await signupV.value.$validate()
-
-	if (!valid) {
-		signupV.value.$errors.forEach(error => showToast.error(error.$message))
-		loading.value = false
-		return
-	}
+	clearForm(signupErrors)
 
 	userStore.signup({
 		email: signupForm.email,
 		name: signupForm.name,
-		password: signupForm.password
+		password: signupForm.password,
+		confirm: signupForm.confirm,
 	})
-
 	.then(tkn => {
 		emailVerificationToken = tkn
 		showing.value = "confirm"
+	}, e => {
+		handleFormErrors(e.response.data, signupErrors)
 	})
-
 	.catch(e => {
-		if (e.response && e.response.data.match(/exists/)) {
-			showToast.error("User already exists")
-		} else {
-			console.log("Sign up failed:", e, e.response)
-			showToast.error("Oops! Sign up failed")
-		}
+		showToast.error("Oops! Something went wrong...")
+		console.error(e)
 	})
-
 	.finally(() => loading.value = false)
 }
+
+
 
 
 
@@ -611,27 +557,32 @@ async function signup () {
  * Email verification
  */
 
+const verificationForm = reactive({
+	code: undefined
+})
+
+const verificationErrors = reactive({
+	code: undefined
+})
+
 const code = ref()
 const codeError = ref(false)
 
 async function verifyCode () {
 	loading.value = true
 
-	userStore.verifyCode(code.value, emailVerificationToken)
+	userStore.verifyCode(verificationForm.code, emailVerificationToken)
 
 	.then(() => {
 		reset()
 		showing.value = "welcome"
+	}, e => {
+		handleFormErrors(e.response.data, verificationErrors)
 	})
 
-	.catch(err => {
-		if (err.response?.data?.match(/code/)) {
-			codeError.value = "Nope"
-			showToast.error("Incorrect code")
-		}
-		else {
-			showToast.error("Something went wrong")
-		}
+	.catch(e => {
+		showToast.error("Oops! Something went wrong...")
+		console.error(e)
 	})
 
 	.finally(() => loading.value = false)
@@ -641,58 +592,41 @@ async function verifyCode () {
 
 
 
+
+
 /**
  * Forgot password?
  */
 
-const resetEmail = ref()
-const resetEmailError = ref()
-const resetEmailValid = computed(() => !resetEmailError.value)
+
+const forgotForm = reactive({
+	email: undefined
+})
+
+const forgotErrors = reactive({
+	email: undefined
+})
+
 let passwordResetToken
-
-
-function verifyResetEmail () {
-	resetEmailError.value = undefined
-
-	if (!resetEmail.value) {
-		resetEmailError.value = "Please enter your email address"
-		return false
-	}
-	else if (!resetEmail.value.match(/\@/)) {
-		resetEmailError.value = "Email address doesn't look right"
-		return false
-	}
-	return true
-}
 
 
 async function requestResetEmail () {
 	loading.value = true
-	verifyResetEmail()
+	clearForm(forgotErrors)
 
-	if (!resetEmailValid.value) {
-		showToast.error(resetEmailError.value)
-		loading.value = false
-		return
-	}
-
-	api.requestPasswordResetEmail(resetEmail.value)
+	api.requestPasswordResetEmail(forgotForm.email)
 
 	.then(token => {
 		showToast.info("Now check your email!")
 		passwordResetToken = token
 		showing.value = 'reset'
+	}, e => {
+		handleFormErrors(e.response.data, forgotErrors)
 	})
 
 	.catch(e => {
-		if (e.response?.data === "user doesn't exist") {
-			// TODO: should the server just return the value we show to the user?
-			showToast.error("User doesn't exist")
-			resetEmailError.value = "User doesn't exist"
-		} else {
-			showToast.error("Something went wrong")
-			resetEmailError.value = undefined
-		}
+		showToast.error("Oops! Something went wrong...")
+		console.error(e)
 	})
 
 	.finally(() => loading.value = false)
@@ -719,53 +653,16 @@ const resetErrors = reactive({
 	confirm: undefined,
 })
 
-const resetFormValid = computed(() => {
-	for (let err of Object.values(resetErrors))
-		if (err !== undefined)
-			return false
-
-	return true
-})
-
-
-function verifyResetForm () {
-	Object.keys(resetErrors).forEach(key => resetErrors[key] = undefined)
-
-	if (!resetForm.code) {
-		resetErrors.code = "Please enter the code"
-	}
-
-	if (!resetForm.password) {
-		resetErrors.password = "Please enter the password"
-	}
-	else if (resetForm.password.length < 6) {
-		resetErrors.password = "Password is too short"
-	}
-
-	if (!resetForm.confirm) {
-		resetErrors.password = "Please confirm the password"
-	}
-	else if (resetForm.password !== resetForm.confirm) {
-		resetErrors.confirm = "Passwords don't match"
-	}
-}
-
 
 async function resetPassword () {
 	loading.value = true
-
-	verifyResetForm()
-
-	if (!resetFormValid.value) {
-		Object.values(resetErrors).forEach(msg => msg && showToast.error(msg))
-		loading.value = false
-		return
-	}
+	clearForm(resetErrors)
 
 	api.resetPassword({
 		token: passwordResetToken,
 		code: resetForm.code,
 		password: resetForm.password,
+		confirm: resetForm.confirm
 	})
 
 	.then(() => {
@@ -773,16 +670,13 @@ async function resetPassword () {
 		reset()
 		if (userStore.signedIn) closeModal()
 		else showing.value = 'login'
+	}, e => {
+		handleFormErrors(e.response.data, resetErrors)
 	})
 
 	.catch(e => {
-		if (e.response?.data === "bad code") {
-			showToast.error("Incorrect code")
-			resetErrors.code = "Incorrect code"
-		}
-		else {
-			showToast.error("Something went wrong")
-		}
+		showToast.error("Oops! Something went wrong...")
+		console.error(e)
 	})
 
 	.finally(() => loading.value = false)
@@ -794,12 +688,11 @@ async function resetPassword () {
 
 
 
-
 async function changePassword (close) {
 	// I don't understand why it doesn't happen automatically
 	close()
 
-	resetEmail.value = userStore.profile.email
+	forgotForm.email = userStore.profile.email
 	await requestResetEmail()
 	showing.value = 'reset'
 	openModal()
@@ -819,31 +712,28 @@ async function changePassword (close) {
 
 function reset () {
 	clearForm(signupForm)
-	signupV.value.$reset()
-
 	clearForm(loginForm)
 	clearForm(loginErrors)
+	clearForm(verificationForm)
+	clearForm(verificationErrors)
 	emailVerificationToken = undefined
 
 	clearForm(resetForm)
 	clearForm(resetErrors)
 	passwordResetToken = undefined
 
-	code.value = undefined
-	codeError.value = undefined
-
-	resetEmailError.value = undefined
-	resetEmail.value = undefined
+	clearForm(forgotForm)
+	clearForm(forgotErrors)
 
 	showing.value = "login"
-
-	function clearForm(form) {
-		for (let key of Object.keys(form)) {
-			form[key] = undefined
-		}
-	}
 }
 
+
+function clearForm(form) {
+	for (let key of Object.keys(form)) {
+		form[key] = undefined
+	}
+}
 
 const vFocus = {
   mounted: (el) => el.focus()

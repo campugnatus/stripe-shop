@@ -6,6 +6,9 @@ const port = 3002
 const axios = require('axios')
 const jose = require('jose')
 
+const v = require('./validators.js')
+const validateBody = v.validateBody
+
 const { createProxyMiddleware } = require('http-proxy-middleware')
 
 const { exec, spawn } = require('child_process')
@@ -251,49 +254,58 @@ api.get('/products/:id', function (req, res, next) {
 
 
 // create a new order
-api.post('/orders', async function (req, res, next) {
-	// TODO: validate input
+api.post('/orders',
 
-	const orderId = newId()
-	let order = {
-		id: orderId,
-		price: req.body.price,
-		email: req.body.email,
-		items: req.body.items,
-		status: [
-			{
-				status: "created",
-				date: new Date().getTime()
-			},
-		]
+	validateBody({
+		price: v.price,
+		email: v.email,
+		items: v.cartItems
+	}),
+
+	async function (req, res, next) {
+		// TODO: validate input
+
+		const orderId = newId()
+		let order = {
+			id: orderId,
+			price: req.body.price,
+			email: req.body.email,
+			items: req.body.items,
+			status: [
+				{
+					status: "created",
+					date: new Date().getTime()
+				},
+			]
+		}
+
+		dbPut("order", orderId, order)
+		res.json(order)
+
+		if (req.user) {
+			req.user.orders.unshift(order.id)
+			dbPut("user", req.user.id, req.user)
+		}
+
+
+		//
+		// simulate further order handling
+		//
+
+		await new Promise((resolve, reject) => setTimeout(() => resolve(), 10000))
+		order.status.push({
+			status: "paid",
+			date: new Date().getTime()
+		})
+		dbPut("order", orderId, order)
+
+		await new Promise((resolve, reject) => setTimeout(() => resolve(), 10000))
+		await packOrder(order.id)
+
+		await new Promise((resolve, reject) => setTimeout(() => resolve(), 10000))
+		await shipOrder(order.id)
 	}
-
-	dbPut("order", orderId, order)
-	res.json(order)
-
-	if (req.user) {
-		req.user.orders.unshift(order.id)
-		dbPut("user", req.user.id, req.user)
-	}
-
-
-	//
-	// simulate further order handling
-	//
-
-	await new Promise((resolve, reject) => setTimeout(() => resolve(), 10000))
-	order.status.push({
-		status: "paid",
-		date: new Date().getTime()
-	})
-	dbPut("order", orderId, order)
-
-	await new Promise((resolve, reject) => setTimeout(() => resolve(), 10000))
-	await packOrder(order.id)
-
-	await new Promise((resolve, reject) => setTimeout(() => resolve(), 10000))
-	await shipOrder(order.id)
-})
+)
 
 
 api.get('/orders/:id', function (req, res, next) {
@@ -358,89 +370,100 @@ async function createZip(productIds) {
 
 
 
+api.post('/login_google',
+
+	validateBody({
+		jwt: v.jwt
+	}),
+
+	async function (req, res, next) {
+		//
+		// Decode the JWT
+		//
+
+		// get Google's public keys
+		const {data: jwks} = await axios.get("https://www.googleapis.com/oauth2/v3/certs")
+
+		const decoded = await verifyToken(req.body.jwt, jwks.keys[0]) ||
+		await verifyToken(req.body.jwt, jwks.keys[1])
 
 
+		if (!decoded) {
+			res.status(400).json({jwt: "couldn't verify the JWT"})
+			return
+		}
 
-api.post('/login', async function (req, res, next) {
-	if (req.body.jwt)
-		loginGoogle(req, res, next)
-	else if (req.body.password)
-		loginPassword(req, res, next)
-	else
-		res.status(400).send("no credentials")
-})
+		const payload = decoded.payload
 
+		if (payload.aud !== google_client_id) {
+			res.status(400).json({jwt: "bad token: client id doesn't match"})
+			return
+		}
 
-async function loginGoogle (req, res, next) {
-	//
-	// Decode the JWT
-	//
+		//
+		// get user data from the DB
+		//
 
-	// get Google's public keys
-	const {data: jwks} = await axios.get("https://www.googleapis.com/oauth2/v3/certs")
+		const user = findUserByEmail(payload.email) || createUser({
+			email: payload.email,
+			picture: payload.picture,
+			name: payload.name
+		})
 
-	const decoded = await verifyToken(req.body.jwt, jwks.keys[0]) ||
-	await verifyToken(req.body.jwt, jwks.keys[1])
+		//
+		// Log in
+		//
 
+		// log the user in: set the session cookie
+		req.session.user = user.id
 
-	if (!decoded) {
-		res.status(400).send("couldn't verify the JWT")
-		return
+		// send back user data
+		res.json(viewUser(user))
 	}
+)
 
-	const payload = decoded.payload
 
-	if (payload.aud !== google_client_id) {
-		res.status(400).send("bad token: client id doesn't match")
-		return
+
+api.post('/login_password',
+
+	// TODO: should we pose any constraints on credentials during login? Trying to
+	// avoid a situation where a user signed up with some credentials and then we
+	// made the contstraints tighter, making them unable to log into their
+	// (already existing) account
+	validateBody({
+		email: v.email,
+		password: v.password
+	}),
+
+	async function (req, res, next) {
+		const user = findUserByEmail(req.body.email)
+
+		if (!user) {
+			res.status(403).json({email: "no user"})
+			return
+		}
+
+		if (!user.hash) {
+			res.status(403).json({password: "password not set"})
+			return
+		}
+
+		if (!checkPassword(req.body.password, user.hash)) {
+			res.status(403).json({password: "wrong password"})
+			return
+		}
+
+		// log the user in: set the session cookie
+		req.session.user = user.id
+
+		// send back user data
+		res.json(viewUser(user))
 	}
-
-	//
-	// get user data from the DB
-	//
-
-	const user = findUserByEmail(payload.email) || createUser({
-		email: payload.email,
-		picture: payload.picture,
-		name: payload.name
-	})
-
-	//
-	// Log in
-	//
-
-	// log the user in: set the session cookie
-	req.session.user = user.id
-
-	// send back user data
-	res.json(viewUser(user))
-}
+)
 
 
-async function loginPassword (req, res, next) {
-	const user = findUserByEmail(req.body.email)
 
-	if (!user) {
-		res.status(403).send("no user")
-		return
-	}
 
-	if (!user.hash) {
-		res.status(403).send("password not set")
-		return
-	}
-
-	if (!checkPassword(req.body.password, user.hash)) {
-		res.status(403).send("wrong password")
-		return
-	}
-
-	// log the user in: set the session cookie
-	req.session.user = user.id
-
-	// send back user data
-	res.json(viewUser(user))
-}
 
 
 async function verifyToken (jwt, jwk) {
@@ -513,97 +536,146 @@ api.post('/logout', function (req, res, next) {
 
 
 
-api.post('/signup', function (req, res, next) {
-	const { email, name, password } = req.body
+api.post('/signup',
 
-	if(findUserByEmail(email)) {
-		res.status(400).send("user exists")
-		return
+	validateBody({
+		email: v.email,
+		name: v.username,
+		password: v.password,
+		confirm: v.defined,
+	}),
+
+	function (req, res, next) {
+
+		const { email, name, password } = req.body
+
+		if (findUserByEmail(email)) {
+			res.status(400).json({email: "user exists"})
+			return
+		}
+
+		if (req.body.password !== req.body.confirm) {
+			res.status(400).json({confirm: "no match"})
+			return
+		}
+
+		const code = gen4LetterCode()
+		console.log("email verification code:", code)
+		const token = createToken({email, name, password, code})
+
+		let info = emailTransport.sendMail({
+		  from: '"Stripe Shop" <noreply@stripeshop>', // sender address
+		  to: email, // list of receivers
+		  subject: "Email verification", // Subject line
+		  text: "Your code is "+code, // plain text body
+		  // html: "<b>Hello world?</b>", // html body
+		})
+
+		res.status(200).send(token)
 	}
-
-	const code = gen4LetterCode()
-	console.log("email verification code:", code)
-	const token = createToken({email, name, password, code})
-
-	let info = emailTransport.sendMail({
-	  from: '"Stripe Shop" <noreply@stripeshop>', // sender address
-	  to: email, // list of receivers
-	  subject: "Email verification", // Subject line
-	  text: "Your code is "+code, // plain text body
-	  // html: "<b>Hello world?</b>", // html body
-	})
-
-	res.status(200).send(token)
-})
+)
 
 
-api.post('/confirm', function (req, res, next) {
-	const {email, name, password, code} = decodeToken(req.body.token)
-	const userCode = req.body.code
+api.post('/confirm',
 
-	if (userCode.toLowerCase() !== code) {
-		res.status(403).send("bad code")
-		return
+	validateBody({
+		token: v.token,
+		code: v.fourLetterCode
+	}),
+
+	(req, res, next) => {
+
+		const {email, name, password, code} = decodeToken(req.body.token)
+		const userCode = req.body.code
+
+		if (userCode.toLowerCase() !== code) {
+			res.status(403).json({code: "wrong code"})
+			return
+		}
+
+		const hash = hashPassword(password)
+		const user = createUser({email, name, hash})
+
+		// log the user in: set the session cookie
+		req.session.user = user.id
+
+		res.json(viewUser(user))
 	}
-
-	const hash = hashPassword(password)
-	const user = createUser({email, name, hash})
-
-	// log the user in: set the session cookie
-	req.session.user = user.id
-
-	res.json(viewUser(user))
-})
+)
 
 
 
-api.post('/request_password_reset', (req, res, next) => {
-	const email = req.body.email
+api.post('/request_password_reset',
 
-	if(!findUserByEmail(email)) {
-		res.status(401).send("user doesn't exist")
-		return
+	validateBody({
+		email: v.email,
+	}),
+
+	(req, res, next) => {
+
+		const email = req.body.email
+
+		if(!findUserByEmail(email)) {
+			res.status(401).json({email: "user doesn't exist"})
+			return
+		}
+
+		const code = gen4LetterCode()
+		console.log("password reset code:", code)
+		const token = createToken({email, code})
+
+		let info = emailTransport.sendMail({
+		  from: '"Stripe Shop" <noreply@stripeshop>', // sender address
+		  to: email, // list of receivers
+		  subject: "Password reset request", // Subject line
+		  text: "Your password reset code is "+code, // plain text body
+		  // html: "<b>Hello world?</b>", // html body
+		})
+
+		res.send(token)
 	}
-
-	const code = gen4LetterCode()
-	console.log("password reset code:", code)
-	const token = createToken({email, code})
-
-	let info = emailTransport.sendMail({
-	  from: '"Stripe Shop" <noreply@stripeshop>', // sender address
-	  to: email, // list of receivers
-	  subject: "Password reset request", // Subject line
-	  text: "Your password reset code is "+code, // plain text body
-	  // html: "<b>Hello world?</b>", // html body
-	})
-
-	res.send(token)
-})
+)
 
 
 
-api.post('/password_reset', (req, res, next) => {
-	const {code, token, password} = req.body
-	const {email, code: rightCode} = decodeToken(token)
+api.post('/password_reset',
 
-	if (code !== rightCode) {
-		res.status(401).send("bad code")
-		return
+	validateBody({
+		code: v.fourLetterCode,
+		token: v.token,
+		password: v.password,
+		confirm: v.defined,
+	}),
+
+	(req, res, next) => {
+
+		const {code, token, password} = req.body
+		const {email, code: rightCode} = decodeToken(token)
+
+		if (code !== rightCode) {
+			res.status(401).json({code: "wrong code"})
+			return
+		}
+
+		if (req.body.password !== req.body.confirm) {
+			res.status(400).json({confirm: "no match"})
+			return
+		}
+
+		const user = findUserByEmail(email)
+
+		if (!user) {
+			res.status(500)
+			return
+		}
+
+		const hash = hashPassword(password)
+		user.hash = hash
+		dbPut("user", user.id, user)
+
+		res.status(200).send("ok")
 	}
-
-	const user = findUserByEmail(email)
-
-	if (!user) {
-		res.status(500)
-		return
-	}
-
-	const hash = hashPassword(password)
-	user.hash = hash
-	dbPut("user", user.id, user)
-
-	res.status(200).send("ok")
-})
+)
 
 
 
@@ -701,75 +773,88 @@ api.get('/cart', (req, res, next) => {
 })
 
 
-api.post('/cart', (req, res, next) => {
-	if (!req.user) {
-		res.status(400).send("not logged in")
-		return
+api.post('/cart',
+
+	validateBody({
+		items: v.cartItems
+	}),
+
+	(req, res, next) => {
+
+		if (!req.user) {
+			res.status(400).send("not logged in")
+			return
+		}
+
+		const cart = db.carts[req.user.cart]
+		cart.items = req.body.items
+
+		dbPut("cart", req.user.cart, cart)
+
+		res.send("ok")
 	}
-
-	const cart = db.carts[req.user.cart]
-	cart.items = req.body.items
-
-	dbPut("cart", req.user.cart, cart)
-
-	res.send("ok")
-})
+)
 
 
 
+api.post('/reviews',
 
+	validateBody({
+		id:     v.productId,
+		rating: v.reviewRating,
+		text:   v.reviewText
+	}),
 
+	(req, res, next) => {
+		if (!req.user) {
+			res.status(401).send("not logged in")
+			return
+		}
 
+		const id = req.body.id
+		const product = db.products[id]
 
-api.post('/reviews', (req, res, next) => {
-	if (!req.user) {
-		res.status(401).send()
-		return
-	}
+		if (!product) {
+			res.status(400).json({id: "product doesn't exist"})
+			return
+		}
 
-	const id = req.body.id
-	const product = db.products[id]
+		let reviews = db.reviews[id] || []
+		const review = reviews.find(x => x.userId === req.user.id)
 
-	if (!product) {
-		res.status(400).send()
-		return
-	}
+		if (review) {
+			// edit the existing review
+			Object.assign(review, {
+				rating: req.body.rating,
+				text: req.body.text,
+				edited: Date.now()
+			})
+		} else {
+			// create new review
+			reviews.push({
+				rating: req.body.rating,
+				text: req.body.text,
+				userId: req.user.id,
+				date: Date.now(),
+			})
+		}
 
-	let reviews = db.reviews[id] || []
-	const review = reviews.find(x => x.userId === req.user.id)
+		// TODO: alternatively, these could be calculated on-the-fly every time we get
+		// a product. This would be more expensive computationally, but would exclude
+		// the possibility of inconsistency
+		product.rating = reviews.reduce((acc, rev) => acc+rev.rating, 0) / reviews.length
+		product.nratings = reviews.length
+		product.nreviews = reviews.filter(rev => rev.text).length
 
-	if (review) {
-		// edit the existing review
-		Object.assign(review, {
-			rating: req.body.rating,
-			text: req.body.text,
-			edited: Date.now()
+		dbPut("review", id, reviews)
+		dbPut("product", id, product)
+
+		res.json({
+			product: product,
+			reviews: reviews.map(viewReview)
 		})
-	} else {
-		// create new review
-		reviews.push({
-			rating: req.body.rating,
-			text: req.body.text,
-			userId: req.user.id,
-			date: Date.now(),
-		})
 	}
-
-	// TODO: alternatively, these could be calculated on-the-fly every time we get
-	// a product. This would be more expensive computationally, but would exclude
-	// the possibility of inconsistency
-	product.rating = reviews.reduce((acc, rev) => acc+rev.rating, 0) / reviews.length
-	product.nratings = reviews.length
-	product.nreviews = reviews.filter(rev => rev.text).length
-
-	dbPut("review", id, reviews)
-	dbPut("product", id, product)
-
-	res.json({
-		product: product,
-		reviews: reviews.map(viewReview)
-	})
-})
+)
 
 
 
@@ -903,3 +988,5 @@ function viewReview (review) {
 		userId: review.userId,
 	}
 }
+
+

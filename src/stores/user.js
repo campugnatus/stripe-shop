@@ -73,9 +73,19 @@ export const useUserStore = defineStore('user', {
 		},
 
 
-		async login ({jwt, email, password}) {
+		async loginGoogle ({jwt}) {
 			this.loading = true
-			const user = await api.login({jwt, email, password})
+			const user = await api.loginGoogle({jwt})
+			this.loading = false
+			if (!user) return
+
+			this.setUser(user)
+			useCartStore().init()
+		},
+
+		async loginPassword ({email, password}) {
+			this.loading = true
+			const user = await api.login({email, password})
 			this.loading = false
 			if (!user) return
 
@@ -92,8 +102,10 @@ export const useUserStore = defineStore('user', {
 		},
 
 
-		async signup ({email, name, password}) {
-			return await api.signup({email, name, password})
+		async signup ({email, name, password, confirm}) {
+			let x = await api.signup({email, name, password, confirm})
+			log("hop?", x)
+			return x
 			// next, the server sends the user an email with a verification code
 		},
 
@@ -177,7 +189,7 @@ export function useOrderUpdates (order) {
 		}
 
 		// pause for the animation purposes
-		await new Promise(resolve => setTimeout(() => resolve(), 800))
+		await new Promise(resolve => setTimeout(() => resolve(), 2800))
 
 		res.push(reactive(waitingStatus[last.status]))
 		updates.value = res.reverse()

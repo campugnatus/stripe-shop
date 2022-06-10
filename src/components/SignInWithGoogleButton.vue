@@ -32,7 +32,7 @@ onMounted(async () => {
 
 async function googleSignInCallback (response) {
   loading.value = true
-  userStore.login({jwt: response.credential})
+  userStore.loginGoogle({jwt: response.credential})
     .then(() => {
       emit('signIn')
       showToast.success("Successfully logged in!")

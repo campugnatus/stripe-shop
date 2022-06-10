@@ -46,16 +46,22 @@ export async function logout () {
 	return axios.post('/logout').then(response => response.data)
 }
 
-export async function login ({jwt, email, password}) {
+export async function loginGoogle ({jwt}) {
+	return axios.post('/login_google', {jwt}).then(response => response.data)
+}
+
+export async function loginPassword ({email, password}) {
 	return axios.post('/login', {
-		jwt,
 		email,
 		password
 	}).then(response => response.data)
 }
 
-export async function signup ({email, name, password}) {
-	return axios.post('/signup', {email, name, password}).then(r => r.data)
+export async function signup ({email, name, password, confirm}) {
+	return axios.post('/signup', {email, name, password, confirm}).then(r => {
+		log("hoha?", r, r.data)
+		return r.data
+	})
 }
 
 export async function userExists(email) {
@@ -70,8 +76,8 @@ export async function requestPasswordResetEmail(email) {
 	return axios.post('/request_password_reset', {email}).then(r => r.data)
 }
 
-export async function resetPassword({token, code, password}) {
-	return axios.post('/password_reset', {token, code, password}).then(r => r.data)
+export async function resetPassword({token, code, password, confirm}) {
+	return axios.post('/password_reset', {token, code, password, confirm}).then(r => r.data)
 }
 
 export async function saveCart (items) {
@@ -203,7 +209,8 @@ export default {
 	fetchOrder,
 	fetchUser,
 	userExists,
-	login,
+	loginGoogle,
+	loginPassword,
 	logout,
 	signup,
 	saveCart,
