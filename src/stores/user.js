@@ -85,7 +85,7 @@ export const useUserStore = defineStore('user', {
 
 		async loginPassword ({email, password}) {
 			this.loading = true
-			const user = await api.login({email, password})
+			const user = await api.loginPassword({email, password})
 			this.loading = false
 			if (!user) return
 
@@ -103,9 +103,7 @@ export const useUserStore = defineStore('user', {
 
 
 		async signup ({email, name, password, confirm}) {
-			let x = await api.signup({email, name, password, confirm})
-			log("hop?", x)
-			return x
+			return await api.signup({email, name, password, confirm})
 			// next, the server sends the user an email with a verification code
 		},
 
@@ -184,7 +182,6 @@ export function useOrderUpdates (order) {
 		}
 
 		if (!waitingStatus[last.status]) {
-			// log("here?", last.status)
 			return
 		}
 
@@ -193,7 +190,6 @@ export function useOrderUpdates (order) {
 
 		res.push(reactive(waitingStatus[last.status]))
 		updates.value = res.reverse()
-		// log("updates", JSON.stringify(updates, null, 4))
 	}, {
 		immediate: true,
 		deep: true

@@ -432,7 +432,7 @@ api.post('/login_password',
 	// (already existing) account
 	validateBody({
 		email: v.email,
-		password: v.password
+		password: v.defined
 	}),
 
 	async function (req, res, next) {
@@ -616,7 +616,7 @@ api.post('/request_password_reset',
 		const email = req.body.email
 
 		if(!findUserByEmail(email)) {
-			res.status(401).json({email: "user doesn't exist"})
+			res.status(401).json({email: "no user"})
 			return
 		}
 

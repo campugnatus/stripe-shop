@@ -393,19 +393,18 @@ function openModal () {
 
 const errorMsgs = {
 	"name": {
-		"undefined":   "Please enter your name",
-		"empty":       "Please enter your name",
-		"too short":   "Looks like too short of a name",
-		"too long":    "Come on, your name can't possibly be that long",
-		"regex":       "Field contains forbidden characters"
+		"undefined":        "Please enter your name",
+		"empty":            "Please enter your name",
+		"too short":        "Looks like too short of a name",
+		"too long":         "Come on, your name can't possibly be that long",
+		"regex":            "Name contains forbidden characters"
 	},
 	"email": {
-		"undefined":          "Please enter your email address",
-		"empty":              "Please enter your email address",
-		"user exists":        "User already exists",
-		"user doesn't exist": "User doesn't exist",
-		"format":             "Email address doesn't look right",
-		"no user":            "User doesn't exist",
+		"undefined":        "Please enter your email address",
+		"empty":            "Please enter your email address",
+		"user exists":      "User already exists",
+		"format":           "Email address doesn't look right",
+		"no user":          "User doesn't exist",
 	},
 	"password": {
 		"undefined":        "Please enter your password",
@@ -416,15 +415,16 @@ const errorMsgs = {
 		"wrong password":   "Incorrect password"
 	},
 	"confirm": {
-		"undefined":   "Please confirm your password",
-		"no match":    "Passwords don't match"
+		"undefined":        "Please confirm your password",
+		"no match":         "Passwords don't match"
 	},
 	"code": {
-		"undefined":  "Please enter the code we've sent you",
-		"regex":      "Incorrect code",
-		"wrong code": "Incorrect code",
+		"undefined":        "Please enter the code we've sent you",
+		"regex":            "Incorrect code",
+		"wrong code":       "Incorrect code",
 	}
 }
+
 
 function handleFormErrors (err, model) {
 	for (let [field, short] of Object.entries(err)) {
@@ -435,6 +435,26 @@ function handleFormErrors (err, model) {
 }
 
 
+function onSubmitWrapper (form, errors, submitter) {
+	return function onSubmit () {
+		loading.value = true
+		clearForm(errors)
+
+		submitter()
+		.catch(e => {
+			if (e.response?.data)
+				handleFormErrors(e.response.data, errors)
+			else {
+				throw e
+			}
+		})
+		.catch(e => {
+			showToast.error("Oops! Something went wrong...")
+			console.error(e)
+		})
+		.finally(() => loading.value = false)
+	}
+}
 
 
 /**
@@ -473,11 +493,7 @@ const loginErrors = reactive({
 	password: undefined
 })
 
-
-async function login () {
-	loading.value = true
-	clearForm(loginErrors)
-
+const login = onSubmitWrapper(loginForm, loginErrors, () =>
 	userStore.loginPassword({
 		email: loginForm.email,
 		password: loginForm.password
@@ -485,17 +501,8 @@ async function login () {
 	.then(() => {
 		closeModal()
 		reset()
-	}, e => {
-		handleFormErrors(e.response.data, loginErrors)
 	})
-	.catch(e => {
-		showToast.error("Oops! Something went wrong...")
-		console.error(e)
-	})
-	.finally(() => loading.value = false)
-}
-
-
+)
 
 
 
@@ -523,10 +530,8 @@ const signupErrors = reactive({
 
 let emailVerificationToken
 
-async function signup () {
-	loading.value = true
-	clearForm(signupErrors)
 
+const signup = onSubmitWrapper(signupForm, signupErrors, () =>
 	userStore.signup({
 		email: signupForm.email,
 		name: signupForm.name,
@@ -536,18 +541,8 @@ async function signup () {
 	.then(tkn => {
 		emailVerificationToken = tkn
 		showing.value = "confirm"
-	}, e => {
-		handleFormErrors(e.response.data, signupErrors)
 	})
-	.catch(e => {
-		showToast.error("Oops! Something went wrong...")
-		console.error(e)
-	})
-	.finally(() => loading.value = false)
-}
-
-
-
+)
 
 
 
@@ -565,29 +560,14 @@ const verificationErrors = reactive({
 	code: undefined
 })
 
-const code = ref()
-const codeError = ref(false)
-
-async function verifyCode () {
-	loading.value = true
-
-	userStore.verifyCode(verificationForm.code, emailVerificationToken)
-
-	.then(() => {
-		reset()
-		showing.value = "welcome"
-	}, e => {
-		handleFormErrors(e.response.data, verificationErrors)
-	})
-
-	.catch(e => {
-		showToast.error("Oops! Something went wrong...")
-		console.error(e)
-	})
-
-	.finally(() => loading.value = false)
-}
-
+const verifyCode = onSubmitWrapper(verificationForm, verificationErrors, () =>
+	userStore
+		.verifyCode(verificationForm.code, emailVerificationToken)
+		.then(() => {
+			reset()
+			showing.value = "welcome"
+		})
+)
 
 
 
@@ -609,29 +589,14 @@ const forgotErrors = reactive({
 
 let passwordResetToken
 
-
-async function requestResetEmail () {
-	loading.value = true
-	clearForm(forgotErrors)
-
+const requestResetEmail = onSubmitWrapper(forgotForm, forgotErrors, () =>
 	api.requestPasswordResetEmail(forgotForm.email)
-
 	.then(token => {
 		showToast.info("Now check your email!")
 		passwordResetToken = token
 		showing.value = 'reset'
-	}, e => {
-		handleFormErrors(e.response.data, forgotErrors)
 	})
-
-	.catch(e => {
-		showToast.error("Oops! Something went wrong...")
-		console.error(e)
-	})
-
-	.finally(() => loading.value = false)
-}
-
+)
 
 
 
@@ -653,36 +618,20 @@ const resetErrors = reactive({
 	confirm: undefined,
 })
 
-
-async function resetPassword () {
-	loading.value = true
-	clearForm(resetErrors)
-
+const resetPassword = onSubmitWrapper(resetForm, resetErrors, () =>
 	api.resetPassword({
 		token: passwordResetToken,
 		code: resetForm.code,
 		password: resetForm.password,
 		confirm: resetForm.confirm
 	})
-
 	.then(() => {
 		showToast.success("Your new password has been set")
 		reset()
 		if (userStore.signedIn) closeModal()
 		else showing.value = 'login'
-	}, e => {
-		handleFormErrors(e.response.data, resetErrors)
 	})
-
-	.catch(e => {
-		showToast.error("Oops! Something went wrong...")
-		console.error(e)
-	})
-
-	.finally(() => loading.value = false)
-}
-
-
+)
 
 
 

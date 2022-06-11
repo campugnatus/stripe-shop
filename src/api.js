@@ -51,7 +51,7 @@ export async function loginGoogle ({jwt}) {
 }
 
 export async function loginPassword ({email, password}) {
-	return axios.post('/login', {
+	return axios.post('/login_password', {
 		email,
 		password
 	}).then(response => response.data)
@@ -59,7 +59,6 @@ export async function loginPassword ({email, password}) {
 
 export async function signup ({email, name, password, confirm}) {
 	return axios.post('/signup', {email, name, password, confirm}).then(r => {
-		log("hoha?", r, r.data)
 		return r.data
 	})
 }
