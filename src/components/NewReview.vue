@@ -144,6 +144,10 @@ function postReview () {
 		showToast.success("Your review has been posted!")
 		editing.value = false
 	})
+	.catch(e => {
+		showToast.error("Oops... Something went wrong")
+		console.error(e)
+	})
 	.finally(() => loading.value = false)
 }
 
