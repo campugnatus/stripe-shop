@@ -427,12 +427,12 @@ api.post('/login_google',
 api.post('/login_password',
 
 	// TODO: should we pose any constraints on credentials during login? Trying to
-	// avoid a situation where a user signed up with some credentials and then we
-	// made the contstraints tighter, making them unable to log into their
-	// (already existing) account
+	// avoid the situation where a user had signed up with some credentials and
+	// then we made the contstraints tighter, making them unable to log into
+	// their(already existing) account
 	validateBody({
 		email: v.email,
-		password: v.defined
+		password: v.all(v.defined, v.nonempty, v.maxlen(256))
 	}),
 
 	async function (req, res, next) {

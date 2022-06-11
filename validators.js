@@ -174,44 +174,22 @@ function reviewText (val) {
 }
 
 
-module.exports = {
-	price,
-	email,
-	username,
-	password,
-	cartItem,
-	amount,
-	jwt,
-	token,
-	fourLetterCode,
-	productId,
-	reviewRating,
-	reviewText,
-	validateBody,
-
-	all,
-	defined,
-	nonempty,
-	min,
-	max,
-	number,
-	string,
-	object
-}
-
-
-
 // So... we make no attempt to make the error messages displayable to the end
 // user "as is". No way that could be done well in the general case. So... we
 // just provide some error codes for the client to deal with
 
-function min (x, y) {
-	x >= y || panic ("too small")
-}
 
-function max (x, y) {
+const min = curry(function (x, y) {
+	x >= y || panic ("too small")
+})
+
+const max = curry(function (x, y) {
 	x < y || panic ("too big")
-}
+})
+
+const type = curry(function (x, y) {
+	typeof x === y || panic ("not a " + y)
+})
 
 function number (x) {
 	typeof x === 'number' || panic ("not a number")
@@ -225,16 +203,17 @@ function object (x) {
 	typeof x === 'object' || panic ("not an object")
 }
 
-function oneof (x, list) {
+const oneof = curry(function (x, list) {
 	list.findIndex(el => el === x) !== -1 || panic ("")
-}
+})
 
-function minlen (x, l) {
+const minlen = curry(function (x, l) {
 	x.length >= l || panic ("too short")
-}
-function maxlen (x, l) {
+})
+
+const maxlen = curry(function (x, l) {
 	x.length < l || panic ("too long")
-}
+})
 
 function nonempty (val) {
 	spacesRegex.test(val) && panic ("empty")
@@ -244,9 +223,15 @@ function defined (val) {
 	typeof val === 'undefined' && panic ("undefined")
 }
 
-function regex (x, re) {
+const regex = curry(function (x, re) {
 	re.test(x) || panic ("regex")
-}
+})
+
+
+
+
+
+
 
 function panic (msg) {
 	// it's just that 'throw' is a statement and I want to use it inside of an
@@ -255,7 +240,26 @@ function panic (msg) {
 }
 
 
+// Supposendly useful for constructing custom validators, e.g.
+//
+// customValidator = v.all(v.defined, v.minlen(6), v.maxlen(256), v.regex(someRegex))
+//
+// Really, we don't need it :)
 
+function curry (fn) {
+	return function curried (...args) {
+		if (args.length === 2) {
+			// just call the original, nothing fancy
+			fn(...args)
+		}
+		else if (args.length === 1) {
+			// return a function with one argument baked into it
+			return function (val) {
+				fn(val, args[0])
+			}
+		}
+	}
+}
 
 
 
@@ -281,3 +285,31 @@ function panic (msg) {
 //
 // But it would seem that this must be a concern of the viewing logic, not of
 // the validating logic. Which is why we chose to respond with error codes.
+
+module.exports = {
+	price,
+	email,
+	username,
+	password,
+	cartItem,
+	amount,
+	jwt,
+	token,
+	fourLetterCode,
+	productId,
+	reviewRating,
+	reviewText,
+	validateBody,
+
+	all,
+	defined,
+	nonempty,
+	min,
+	max,
+	number,
+	string,
+	object,
+	minlen,
+	maxlen,
+}
+
