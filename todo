@@ -1,53 +1,58 @@
 Aiming for the MVP now...
 
+* 9 stripe
+* node path resolution?
+* transactions
+* full text search!
+* mouse doesn't focut element through the toast container... thought I have fixed it?
+* are all DB operations async? Do I have to await them?
+* cart form validation status indicate (bad email?)
+* push all this to github
+* deploy to the server
+
 * refactoring: extract header buttons into a separate TopRightNav component
 
 2. order history
    * order history link on the order details page
 3. user reviews/ratings
-   * loading state for the review section
    * make 'sign in' button clickable
-   * preserve newlines? full markdown? what?
-5. server-side validation
 
 * try this beautifier for tailwind and otherwise?
+
+* extract shit into modules on the server
+* make tags on the product page clickable
+
+* off-price stripes
+   * with a crack
+   * with a dent
+   * with a chip
+   * with an abrasion
+
+* make stripes on the frontpage hoverable (and clickable!)
+* svg logo
+* about
+* third one
 
 * login signup
    * 4-leter code input field should automatically submit upon reaching 4 letters, as we  don't have a  submit  button  there
    * give new users a random color for their avatars
-   * server-side request validation
    * prettify emails we send to the users
    * auto-focus the first field with an error in it
    * maybe refactor login form screens into separate components?
 
 * db
-* server-side request validation
-* deliver what's been ordered
 * every input must have a label? for screenreaderss
 
 * cleanup header/main width/padding responsiveness
+   * create a layout component?
+
+* 'focused'  state  ring on all elements
 
 * cart to order page transition
 * any error causes the server to crash... this is uh... not ideal
 
-
-* do we do user login now?
-   * It's a non-essential feature though, the store should be perfectly functional without it
-   * same for user reviews
-      * and it's impossible to do the latter without the former, so...
-   * 'my orders' page
-
-* core functionality
-   * send an email with the purchased stripes attached
-   * refunds? later
-
 * search/catalogue
       * clear filters btn
-
-* DB
-   * SQlite + prisma?
-   * redis?
-   * firebase?
 
 * loading state
    * there's text selectable behind the grayedout areas... people (or screenreaders) might accidentally see!
@@ -64,8 +69,6 @@ Aiming for the MVP now...
    * main menu active state
    * main page search
 
-* server-side request validation
-* validate forms with vuelidate or somethin
 * cart: dropdowns can't handle more than 9, but it's possible to set more than than through the buttons elsewhere
 * extract button styles into a separate class
 ? clear cart animation
