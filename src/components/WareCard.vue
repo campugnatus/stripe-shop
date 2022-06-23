@@ -31,7 +31,7 @@
         <span class="text-2xl text-gray-700 mr-3 font-semibold">
           ${{price}}
         </span>
-        <AddToCartButton v-if="props.id" small :pid="props.id" class="text-sm flex-grow"/>
+        <AddToCartButton v-if="props.id" small :pid="props.id" class="text-sm flex-grow max-w-[171px]"/>
       </div>
     </div>
   </div>
