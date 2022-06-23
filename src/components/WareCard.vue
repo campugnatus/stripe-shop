@@ -40,10 +40,7 @@
 <script setup>
 import RatingStars from '@/components/RatingStars.vue'
 import AddToCartButton from '@/components/AddToCartButton.vue'
-// import {  } from '@heroicons/vue/solid'
 import { ChatAltIcon } from '@heroicons/vue/outline'
-
-
 import { useProductStore } from '@/stores/products'
 import { useCartStore } from '@/stores/cart'
 import { computed, watch, onMounted } from 'vue'

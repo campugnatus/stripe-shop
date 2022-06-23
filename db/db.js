@@ -437,7 +437,7 @@ const stmtInsertOrderItem = db.prepare(`
     )
 `)
 
-const stmtUpdateOrderPrice = db.prepare(`
+const stmtSetOrderPrice = db.prepare(`
     UPDATE shop_order
     SET price = (
         SELECT sum(price)
@@ -459,7 +459,7 @@ function createOrder ({userId, email, items}) {
         })
     }
 
-    stmtUpdateOrderPrice.run({orderId})
+    stmtSetOrderPrice.run({orderId})
     orderPushStatus(orderId, "created")
 
     return getOrder(orderId)
