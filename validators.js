@@ -357,6 +357,7 @@ module.exports = {
 	maxlen,
 	optional,
 	oneof,
-	listOf
+	listOf,
+	regex
 }
 

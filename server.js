@@ -110,7 +110,7 @@ api.use(function delay (req, res, next) {
 api.get('/products/search/',
 
 	validateQuery({
-		text: v.optional(v.all(v.string, v.minlen(3), v.maxlen(64))),
+		text: v.optional(v.all(v.string, v.maxlen(64), v.regex(/^[\w\s-]*$/))),
 		from: v.optional(v.all(v.min(0), v.max(9999))),
 		to:   v.optional(v.all(v.min(0), v.max(9999))),
 
@@ -126,7 +126,7 @@ api.get('/products/search/',
 
 	function (req, res, next) {
 		res.json(DB.searchProducts({
-			words:   wordify(req.query.text)  || [],
+			words:   req.query.text,
 			from:    parseInt(req.query.from) || 0,
 			to:      parseInt(req.query.to)   || 24,
 			sort:    req.query.sort           || "default",
@@ -135,11 +135,6 @@ api.get('/products/search/',
 			number:  req.query.number,
 			tags:    req.query.tags
 		}))
-
-		function wordify(string) {
-			if (!string) return undefined
-			return string.split(/\s+/)
-		}
 	}
 )
 

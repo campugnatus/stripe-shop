@@ -10,7 +10,7 @@ const products = require('../stripes.json')
 const insertProduct = db.prepare(`
     INSERT OR IGNORE
     INTO product
-    VALUES ($product_id, $title, $description, $rating, $price, $filename, $place)
+    VALUES ($id, $title, $description, $price, $filename, $place)
 `)
 
 const insertTag = db.prepare(`
@@ -25,6 +25,16 @@ const insertTagProduct = db.prepare(`
     VALUES ($tag_id, $product_id)
 `)
 
+const insertFTS = db.prepare(`
+    INSERT OR IGNORE INTO product_fts
+    VALUES (
+        $id,
+        $title,
+        $description,
+        $tags
+    )
+`)
+
 for (let i = 0; i < products.length; i++) {
     let p = products[i]
 
@@ -33,10 +43,9 @@ for (let i = 0; i < products.length; i++) {
     //
 
     insertProduct.run({
-        product_id: p.id,
+        id: p.id,
         title: p.title,
         description: p.description,
-        rating: p.rating,
         price: p.price,
         filename: p.filename,
         place: i
@@ -60,4 +69,15 @@ for (let i = 0; i < products.length; i++) {
             product_id: p.id
         })
     }
+
+    //
+    // insert the product into the full-text search virtual table
+    //
+
+    insertFTS.run({
+        id: p.id,
+        title: p.title,
+        description: p.description,
+        tags: p.tags.join(" ")
+    })
 }

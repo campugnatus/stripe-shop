@@ -73,30 +73,41 @@ function searchProducts ({words, from, to, sort, colors, shapes, number, tags}) 
     }
 
     const search = db.prepare(`
-        WITH filtered as (
-            SELECT id, row_number() over (order by ${sortBy}) as row
-            FROM product p LEFT JOIN rating r ON p.id = r.product_id
-            WHERE
-                ${shapes? filter(shapes) : "TRUE"}
-                AND
-                ${colors? filter(colors) : "TRUE"}
-                AND
-                ${number? filter(number) : "TRUE"}
-                AND
-                ${tags? filter(tags) : "TRUE"}
-        ),
+        WITH
+            searched as (${
+                words && words.length ? `
+                    SELECT *
+                    FROM product_fts f JOIN product p ON p.id = f.id
+                    WHERE product_fts MATCH $searchTerms
+                ` : `
+                    SELECT * FROM product
+                `
+            }),
 
-        sliced as (
-            SELECT * FROM filtered
-            ORDER BY row
-            LIMIT $limit OFFSET $offset
-        ),
+            filtered as (
+                SELECT id, row_number() over (order by ${sortBy}) as row
+                FROM searched p LEFT JOIN rating r ON p.id = r.product_id
+                WHERE
+                    ${shapes? filter(shapes) : "TRUE"}
+                    AND
+                    ${colors? filter(colors) : "TRUE"}
+                    AND
+                    ${number? filter(number) : "TRUE"}
+                    AND
+                    ${tags? filter(tags) : "TRUE"}
+            ),
 
-        prepended as (
-            SELECT count(*) as id, 0 as row FROM filtered
-            UNION
-            SELECT * FROM sliced
-        )
+            sliced as (
+                SELECT * FROM filtered
+                ORDER BY row
+                LIMIT $limit OFFSET $offset
+            ),
+
+            prepended as (
+                SELECT count(*) as id, 0 as row FROM filtered
+                UNION
+                SELECT * FROM sliced
+            )
 
         SELECT id from prepended
         ORDER BY row
@@ -108,6 +119,7 @@ function searchProducts ({words, from, to, sort, colors, shapes, number, tags}) 
         number || [],
         tags   || [],
         {
+            searchTerms: words,
             limit: to-from,
             offset: from
         }

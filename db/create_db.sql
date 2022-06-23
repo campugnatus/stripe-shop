@@ -14,6 +14,9 @@ create table product (
 );
 
 
+-- full text search
+create virtual table product_fts using fts5(product_id, title, description, tags);
+
 create table tag (
 	id text not null primary key
 );
