@@ -12,6 +12,7 @@
     "@heroicons/vue": "^1.0.5",
     "@vueuse/core": "^8.4.2",
     "axios": "^0.26.1",
+    "better-sqlite3": "^7.5.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "date-fns": "^2.28.0",

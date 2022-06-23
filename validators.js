@@ -6,13 +6,31 @@ const validator = require('validator')
 
 const tokenRegex = /^[0-9a-f]+.[0-9a-f]+$/
 const usernameRegex = /^(\p{Letter}|\p{Number}|[ ,.'-])+$/u
-const freeformRegex = /^.+$/u
+const freeformRegex = /^.+$/um // TODO: exclude non-printing characters, at least
 const productIdRegex = /^\d{3,5}:\d{3,5}$/
 const fourLetterCodeRegex = /^\w{4,4}$/
 const spacesRegex = /^\s*$/
 
 
 // express.js middleware
+
+function validateQuery (schema) {
+	return function validatorMiddleware (req, res, next) {
+		let errors
+
+		try {
+			objectSchema(req.query, schema)
+		} catch (e) {
+			errors = e
+		}
+
+		if (errors) {
+			res.status(400).json(errors)
+		}
+		else
+			next()
+	}
+}
 
 function validateBody (schema) {
 	return function validatorMiddleware (req, res, next) {
@@ -24,8 +42,9 @@ function validateBody (schema) {
 			errors = e
 		}
 
-		if (errors)
+		if (errors) {
 			res.status(400).json(errors)
+		}
 		else
 			next()
 	}
@@ -82,6 +101,11 @@ function optional (validator) {
 	}
 }
 
+
+
+
+
+
 function price (val) {
 	defined(val)
 	number(val)
@@ -114,7 +138,7 @@ function password (val) {
 
 
 function cartItems (val) {
-	return listOf(cartItem)
+	listOf(cartItem)
 }
 
 
@@ -173,6 +197,20 @@ function reviewText (val) {
 	regex(val, freeformRegex)
 }
 
+function tag (val) {
+	defined(val)
+	string(val)
+	minlen(1)
+	maxlen(50)
+	regex(val, /^[\w\s_-]+$/)
+}
+
+function tags(val) {
+	listOf(tag)
+}
+
+
+
 
 // So... we make no attempt to make the error messages displayable to the end
 // user "as is". No way that could be done well in the general case. So... we
@@ -224,6 +262,7 @@ function defined (val) {
 }
 
 const regex = curry(function (x, re) {
+	console.log("text regex", re, x)
 	re.test(x) || panic ("regex")
 })
 
@@ -287,11 +326,15 @@ function curry (fn) {
 // the validating logic. Which is why we chose to respond with error codes.
 
 module.exports = {
+	validateBody,
+	validateQuery,
+
 	price,
 	email,
 	username,
 	password,
 	cartItem,
+	cartItems,
 	amount,
 	jwt,
 	token,
@@ -299,7 +342,8 @@ module.exports = {
 	productId,
 	reviewRating,
 	reviewText,
-	validateBody,
+	tag,
+	tags,
 
 	all,
 	defined,
@@ -311,5 +355,8 @@ module.exports = {
 	object,
 	minlen,
 	maxlen,
+	optional,
+	oneof,
+	listOf
 }
 

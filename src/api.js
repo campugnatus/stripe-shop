@@ -19,7 +19,7 @@ export async function fetchOrder (id) {
 }
 
 export async function createOrder ({email, items, price, paymentToken}) {
-	return axios.post("/orders", {email, items, price, paymentToken})
+	return axios.post("/orders", {email, items, price: parseFloat(price), paymentToken})
 	.then(response => response.data)
 }
 

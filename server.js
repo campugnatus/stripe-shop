@@ -8,6 +8,7 @@ const jose = require('jose')
 
 const v = require('./validators.js')
 const validateBody = v.validateBody
+const validateQuery = v.validateQuery
 
 const { createProxyMiddleware } = require('http-proxy-middleware')
 
@@ -18,6 +19,7 @@ const crypto = require('crypto')
 const cookieParser = require('cookie-parser')
 const cookieSession = require('cookie-session')
 
+const DB = require('./db/db.js')
 
 const secret = 'This should be taken from somewhere like an environment variable'
 const secret24 = crypto.scryptSync(secret, 'salt', 24)
@@ -39,13 +41,16 @@ api.use(cookieSession({ secret: 'this is added to git, how secret can it be?' })
 
 
 
-api.use(function authorize (req, res, next) {
+
+
+
+api.use(function authenticate (req, res, next) {
 	const userId = req.session.user
 
 	if (userId) {
-		const user = db.users[userId]
+		const user = DB.getUser(userId)
 		if (!user)
-			req.session = null
+			req.session = null // log out non-existent user
 		else
 			req.user = user
 	}
@@ -53,6 +58,12 @@ api.use(function authorize (req, res, next) {
 	next()
 })
 
+function ensureAuth (req, res, next) {
+	if (req.user)
+		next()
+	else
+		res.send("not logged in")
+}
 
 api.use(express.json())
 
@@ -64,51 +75,25 @@ api.use(express.json())
 
 const google_client_id = "464350742513-rv3421qgq91ugsn72g1busodgehjol0p.apps.googleusercontent.com";
 
-const db = mockDB()
 
-function dbPut (bucket, id, object) {
-	broadcast({bucket, id, object})
-	db[bucket+'s'][id] = object
-}
-
-
-const subscribers = {
-	order: {},
-}
-
+// pub/sub endpoint
 api.ws('/subscribe', (ws, req) => {
 	ws.on('message', function message (m) {
 		const {tag, bucket, id} = JSON.parse(m)
-		if (tag === "subscribe") {
-			if (!subscribers[bucket][id]) subscribers[bucket][id] = []
-			subscribers[bucket][id].push(ws)
-		}
+		if (tag !== "subscribe") return
+
+		DB.subscribe(bucket, id, function (object) {
+			if (ws.readyState !== 1) return "unsubscribe"
+			console.log("ws send", bucket, id, object)
+			ws.send(JSON.stringify({bucket, id, object}))
+		})
 	})
 })
 
-function broadcast ({bucket, id, object}) {
-	if (!subscribers[bucket])
-		return
-
-	let socks = subscribers[bucket][id]
-
-	if (!socks)
-		// got off easy
-		return
-
-	socks = socks.filter(ws => ws.readyState === 1)
-	subscribers[bucket][id] = socks
-
-	for (let ws of socks) {
-		ws.send(JSON.stringify({bucket, id, object}))
-	}
-}
 
 
 
-
-
-app.use(function logResuests (req, res, next) {
+app.use(function logger (req, res, next) {
 	console.log(req.method, req.url, req.query)
 	next()
 })
@@ -118,136 +103,56 @@ api.use(function delay (req, res, next) {
 	// loading states
 	setTimeout(() => {
 		next()
-	}, 2000)
+	}, 0)
 })
 
 
-api.get('/products/search/', function (req, res, next) {
-	// TODO: validate parameters
+api.get('/products/search/',
 
+	validateQuery({
+		text: v.optional(v.all(v.string, v.minlen(3), v.maxlen(64))),
+		from: v.optional(v.all(v.min(0), v.max(9999))),
+		to:   v.optional(v.all(v.min(0), v.max(9999))),
 
-	const query = {
-		words:   wordify(req.query.text) || [],
-		from:    req.query.from          || 0,
-		to:      req.query.to            || 30,
-		sort:    req.query.sort          || "default",
-		colors:  req.query.color         || [],
-		shapes:  req.query.shape         || [],
-		number:  req.query.number        || [],
-		tags:    req.query.tags          || []
-	}
+		sort: v.optional(v.oneof([
+			"default", "price-descend", "rating-descend", "price-ascend"
+		])),
 
-	const filtered = filterProducts(query, Object.values(db.products))
-	const sorted = sortProducts(filtered, query.sort)
-	const sliced = sorted.slice(query.from, query.to)
+		colors: v.optional(v.tags),
+		shapes: v.optional(v.tags),
+		number: v.optional(v.tags),
+		tags:   v.optional(v.tags)
+	}),
 
-	res.json({
-		order:    sliced.map(p => p.id),
-		products: sliced.reduce((acc, p) => {acc[p.id] = p; return acc}, {}),
-		more: query.to < sorted.length
-	})
+	function (req, res, next) {
+		res.json(DB.searchProducts({
+			words:   wordify(req.query.text)  || [],
+			from:    parseInt(req.query.from) || 0,
+			to:      parseInt(req.query.to)   || 24,
+			sort:    req.query.sort           || "default",
+			colors:  req.query.color,
+			shapes:  req.query.shape,
+			number:  req.query.number,
+			tags:    req.query.tags
+		}))
 
-
-
-
-	function wordify(string) {
-		if (!string) return undefined
-		return string.split(/\s+/)
-	}
-
-	function filterProducts(query, products) {
-		return products.filter(product => {
-			return    matchWords(product, query.words)
-			       && matchColor(product, query.colors)
-			       && matchNumber(product, query.number)
-			       && matchShape(product, query.shapes)
-			       && matchTags(product, query.tags)
-		})
-	}
-
-	function matchWords(product, words) {
-		const string = JSON.stringify(product)
-
-		for (let word of words) {
-			if (!string.match(new RegExp(word, 'i'))) {
-				return false
-			}
+		function wordify(string) {
+			if (!string) return undefined
+			return string.split(/\s+/)
 		}
-		return true
 	}
-
-	function matchColor(product, colors) {
-		return matchTagsOR(product, colors)
-	}
-
-	function matchShape(product, shapes) {
-		return matchTagsOR(product, shapes)
-	}
-
-	function matchNumber (product, numbers) {
-		return matchTagsOR(product, numbers)
-	}
-
-	function matchTags(product, tags) {
-		return matchTagsAND(product, tags)
-	}
-
-	function matchTagsAND (product, tags) {
-		let verdict = true
-
-		for (let tag of tags)
-			verdict = verdict && !!product.tags.find(t => t === tag)
-
-		return verdict
-	}
-
-	function matchTagsOR (product, tags) {
-		if (tags.length === 0) return true
-
-		for (let tag of tags)
-			for (let tag2 of product.tags)
-				if (tag === tag2)
-					return true
-
-		return false
-	}
-
-	function sortProducts(products, order) {
-		if (order === "default")
-			return products
-
-		return products.sort((a, b) => {
-			if (order === "price-descend") {
-				if (a.price === b.price) return 0
-				if (a.price > b.price)   return -1
-				if (a.price < b.price)   return 1
-			}
-			else if (order === "price-ascend") {
-				if (a.price === b.price) return 0
-				if (a.price > b.price)   return 1
-				if (a.price < b.price)   return -1
-			}
-			else if (order === "rating-descend") {
-				if (a.rating === b.rating) return 0
-				if (a.rating > b.rating)   return -1
-				if (a.rating < b.rating)   return 1
-			}
-			else {
-				throw new Error ("invalid sort order")
-			}
-		})
-	}
-})
+)
 
 
 
 
-// get product by id
+
 api.get('/products/:id', function (req, res, next) {
-	if (!db.products[req.params.id])
-		res.sendStatus(404)
+	const product = DB.getProduct(req.params.id)
 
-	res.json(db.products[req.params.id])
+	if (!product) res.sendStatus(404)
+
+	res.json(product)
 })
 
 
@@ -263,41 +168,22 @@ api.post('/orders',
 	}),
 
 	async function (req, res, next) {
-		// TODO: validate input
 
-		const orderId = newId()
-		let order = {
-			id: orderId,
-			price: req.body.price,
+		const order = DB.createOrder({
+			userId: req.user ? req.user.id : undefined,
 			email: req.body.email,
-			items: req.body.items,
-			status: [
-				{
-					status: "created",
-					date: new Date().getTime()
-				},
-			]
-		}
+			items: req.body.items
+		})
 
-		dbPut("order", orderId, order)
 		res.json(order)
-
-		if (req.user) {
-			req.user.orders.unshift(order.id)
-			dbPut("user", req.user.id, req.user)
-		}
-
 
 		//
 		// simulate further order handling
 		//
 
 		await new Promise((resolve, reject) => setTimeout(() => resolve(), 10000))
-		order.status.push({
-			status: "paid",
-			date: new Date().getTime()
-		})
-		dbPut("order", orderId, order)
+
+		DB.orderPushStatus(order.id, "paid")
 
 		await new Promise((resolve, reject) => setTimeout(() => resolve(), 10000))
 		await packOrder(order.id)
@@ -309,7 +195,8 @@ api.post('/orders',
 
 
 api.get('/orders/:id', function (req, res, next) {
-	let order = db.orders[req.params.id]
+	const order = DB.getOrder(req.params.id)
+
 	if (order)
 		res.json(order)
 	else
@@ -325,29 +212,18 @@ api.get('/package/:id', (req, res, next) => {
 
 
 async function packOrder (id) {
-	let order = db.orders[id]
-
+	const order = DB.getOrder(id)
 	let productIds = order.items.map(item => item.productId)
+	// TODO: should this be done inside of db.js?
 	let filename = await createZip(productIds)
-	order.package = filename
 
-	order.status.push({
-		status: "packed",
-		date: new Date().getTime()
-	})
-
-	dbPut("order", id, order)
+	DB.orderPutPackage(id, filename)
+	DB.orderPushStatus(id, "packed")
 }
 
 
 async function shipOrder (id) {
-	let order = db.orders[id]
-
-	order.status.push({
-		status: "shipped",
-		date: new Date().getTime()
-	})
-	dbPut("order", id, order)
+	DB.orderPushStatus(id, "shipped")
 }
 
 
@@ -404,7 +280,7 @@ api.post('/login_google',
 		// get user data from the DB
 		//
 
-		const user = findUserByEmail(payload.email) || createUser({
+		const user = DB.findUserByEmail(payload.email) || DB.createUser({
 			email: payload.email,
 			picture: payload.picture,
 			name: payload.name
@@ -418,7 +294,7 @@ api.post('/login_google',
 		req.session.user = user.id
 
 		// send back user data
-		res.json(viewUser(user))
+		res.json(user)
 	}
 )
 
@@ -436,19 +312,20 @@ api.post('/login_password',
 	}),
 
 	async function (req, res, next) {
-		const user = findUserByEmail(req.body.email)
+		const user = DB.findUserByEmail(req.body.email)
 
 		if (!user) {
 			res.status(403).json({email: "no user"})
 			return
 		}
 
-		if (!user.hash) {
+		if (!DB.userHasPassword(user.id)) {
+			// could happen if the user was created the 'login with google' way
 			res.status(403).json({password: "password not set"})
 			return
 		}
 
-		if (!checkPassword(req.body.password, user.hash)) {
+		if (!DB.userCheckPassword(user.id, req.body.password)) {
 			res.status(403).json({password: "wrong password"})
 			return
 		}
@@ -457,7 +334,7 @@ api.post('/login_password',
 		req.session.user = user.id
 
 		// send back user data
-		res.json(viewUser(user))
+		res.json(user)
 	}
 )
 
@@ -474,56 +351,7 @@ async function verifyToken (jwt, jwk) {
 }
 
 
-// return user or undefiend
 
-function findUserByEmail (email) {
-	return Object.values(db.users).find(user =>	user.email === email)
-}
-
-
-function createUser ({email, picture, name, hash}) {
-	const cart = {
-		id: newUuid(),
-		items: []
-	}
-	dbPut("cart", cart.id, cart)
-
-	const user = {
-		id: newUuid(),
-		cart: cart.id,
-		orders: [],
-		email,
-		picture,
-		name,
-		hash,
-	}
-
-	dbPut("user", user.id, user)
-	return user
-}
-
-
-function hashPassword (password) {
-	password = password.normalize()
-
-	const salt = crypto.randomBytes(16).toString("hex")
-	const hash = crypto.scryptSync(password, salt, 64).toString("hex")
-
-	return hash + "." + salt
-}
-
-function checkPassword(password, digest) {
-	password = password.normalize()
-
-	const [_, hash, salt] = digest.match(/^(.+)\.(.+)$/)
-	const hash2 = crypto.scryptSync(password, salt, 64).toString("hex")
-
-	return hash2 === hash
-}
-
-function dummyCheck () {
-	crypto.scryptSync("dummy", "dumber", 64).toString("hex")
-}
 
 
 api.post('/logout', function (req, res, next) {
@@ -549,7 +377,7 @@ api.post('/signup',
 
 		const { email, name, password } = req.body
 
-		if (findUserByEmail(email)) {
+		if (DB.findUserByEmail(email)) {
 			res.status(400).json({email: "user exists"})
 			return
 		}
@@ -576,7 +404,7 @@ api.post('/signup',
 )
 
 
-api.post('/confirm',
+api.post('/confirm', // TODO: rename to confirm_email for clarity sake
 
 	validateBody({
 		token: v.token,
@@ -593,13 +421,12 @@ api.post('/confirm',
 			return
 		}
 
-		const hash = hashPassword(password)
-		const user = createUser({email, name, hash})
+		const user = DB.createUser({email, name, password})
 
 		// log the user in: set the session cookie
 		req.session.user = user.id
 
-		res.json(viewUser(user))
+		res.json(user)
 	}
 )
 
@@ -665,13 +492,11 @@ api.post('/password_reset',
 		const user = findUserByEmail(email)
 
 		if (!user) {
-			res.status(500)
+			res.status(500) // this shouldn't happen
 			return
 		}
 
-		const hash = hashPassword(password)
-		user.hash = hash
-		dbPut("user", user.id, user)
+		DB.userSetPassword(password)
 
 		res.status(200).send("ok")
 	}
@@ -740,18 +565,13 @@ function decodeToken (token) {
 
 
 
-api.get('/user', async function (req, res, next) {
-	if (!req.user) {
-		res.send("not logged in")
-		return
-	}
-
-	res.json(viewUser(req.user))
+api.get('/user', ensureAuth, async function (req, res, next) {
+	res.json(req.user)
 })
 
 
 api.get('/userexists/:email', async function (req, res, next) {
-	const user = findUserByEmail(req.params.email)
+	const user = DB.findUserByEmail(req.params.email)
 	res.send(!!user)
 })
 
@@ -761,36 +581,22 @@ api.get('/userexists/:email', async function (req, res, next) {
 
 
 
-api.get('/cart', (req, res, next) => {
-	if (!req.user) {
-		res.status(400).send("not logged in")
-		return
-	}
-
-	const cart = db.carts[req.user.cart]
-
+api.get('/cart', ensureAuth, (req, res, next) => {
+	const cart = DB.getUserCart(req.user.id)
 	res.json(cart.items)
 })
 
 
 api.post('/cart',
 
+	ensureAuth,
+
 	validateBody({
 		items: v.cartItems
 	}),
 
 	(req, res, next) => {
-
-		if (!req.user) {
-			res.status(400).send("not logged in")
-			return
-		}
-
-		const cart = db.carts[req.user.cart]
-		cart.items = req.body.items
-
-		dbPut("cart", req.user.cart, cart)
-
+		DB.saveCart(req.user.id, req.body.items)
 		res.send("ok")
 	}
 )
@@ -799,6 +605,8 @@ api.post('/cart',
 
 api.post('/reviews',
 
+	ensureAuth,
+
 	validateBody({
 		id:     v.productId,
 		rating: v.reviewRating,
@@ -806,52 +614,11 @@ api.post('/reviews',
 	}),
 
 	(req, res, next) => {
-		if (!req.user) {
-			res.status(401).send("not logged in")
-			return
-		}
-
-		const id = req.body.id
-		const product = db.products[id]
-
-		if (!product) {
-			res.status(400).json({id: "product doesn't exist"})
-			return
-		}
-
-		let reviews = db.reviews[id] || []
-		const review = reviews.find(x => x.userId === req.user.id)
-
-		if (review) {
-			// edit the existing review
-			Object.assign(review, {
-				rating: req.body.rating,
-				text: req.body.text,
-				edited: Date.now()
-			})
-		} else {
-			// create new review
-			reviews.push({
-				rating: req.body.rating,
-				text: req.body.text,
-				userId: req.user.id,
-				date: Date.now(),
-			})
-		}
-
-		// TODO: alternatively, these could be calculated on-the-fly every time we get
-		// a product. This would be more expensive computationally, but would exclude
-		// the possibility of inconsistency
-		product.rating = reviews.reduce((acc, rev) => acc+rev.rating, 0) / reviews.length
-		product.nratings = reviews.length
-		product.nreviews = reviews.filter(rev => rev.text).length
-
-		dbPut("review", id, reviews)
-		dbPut("product", id, product)
+		DB.saveReview(req.body.id, req.user.id, req.body.rating, req.body.text)
 
 		res.json({
-			product: product,
-			reviews: reviews.map(viewReview)
+			product: DB.getProduct(req.body.id),
+			reviews: DB.getReviews(req.body.id)
 		})
 	}
 )
@@ -859,17 +626,13 @@ api.post('/reviews',
 
 
 api.get("/reviews/:id", (req, res, next) => {
-	// we don't expect too many reviews for a product, so we'll just send them all
-	let reviews = db.reviews[req.params.id] || []
-	res.json(reviews.map(viewReview))
+	// we don't expect too many reviews per product, so we're sending them all
+	res.json(DB.getReviews(req.params.id))
 })
 
 
 
 
-function newId () {
-	return new Date().getTime().toString().substr() + '-' + Math.random().toString().substr(-4)
-}
 
 
 // this one is different from newId() in that it's supposed to be harder to
@@ -886,65 +649,7 @@ function newUuid () {
 	return hash
 }
 
-function getProducts () {
-	let list = require('./stripes.json')
-	let res = {}
-	for (let prod of list) {
-		res[prod.id] = prod
-	}
-	return res
-}
 
-function mockDB () {
-	return {
-		products: getProducts(),
-		carts: {},
-		users: {},
-		reviews: {},
-		orders: {
-			"1644421018974-7259": {
-				id: "192874ypriwuhefj",
-				email: "zhopa@zhopa.zhopa",
-				//package: "MC44MTA1NDU1NTQ2Mjc4",
-				price: 10.5,
-				status: [
-				{
-					status: "created",
-					date: 1644412815,
-				},
-				{
-					status: "paid",
-					date: 1644414815,
-				},
-				{
-					status: "shipped",
-					date: 1644416815,
-				},
-				{
-					status: "refund requested",
-					date: 1644418815,
-				},
-				{
-					status: "refunded",
-					date: 1644420815,
-				},
-				],
-				items: [
-				{
-					productId: "617:1384",
-					price: 2.99, // frozen
-					amount: 4,
-				},
-				{
-					productId: "644:3569",
-					price: 1.49,
-					amount: 1
-				}
-				]
-			}
-		},
-	}
-}
 
 
 app.use('/api', api)
@@ -958,35 +663,3 @@ app.use('*', createProxyMiddleware({
 app.listen(port, () => {
   console.log(`Stripe shop listening on port ${port}`)
 })
-
-
-function viewUser (user, view) {
-	return {
-		id: user.id,
-		name: user.name,
-		email: user.email,
-		picture: user.picture,
-		orders: user.orders,
-		cart: user.cart
-	}
-}
-
-function viewReview (review) {
-	const uid = review.userId
-	const user = db.users[review.userId]
-	return {
-		rating: review.rating,
-		text: review.text,
-		date: review.date,
-		edited: review.edited,
-
-		username: user.name,
-		userpic: user.picture,
-		// it's not secret, is it? And it can be used on the client to tell apart
-		// the user's review from the others. Could also be done on the server, but
-		// then every time the user signs out and in agan, we would have to refetch
-		userId: review.userId,
-	}
-}
-
-
