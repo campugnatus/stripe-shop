@@ -63,10 +63,6 @@ export async function signup ({email, name, password, confirm}) {
 	})
 }
 
-export async function userExists(email) {
-	return axios.get('/userexists/'+email).then(r => r.data)
-}
-
 export async function verifyCode(code, token) {
 	return axios.post('/confirm/', {token, code}).then(r => r.data)
 }
@@ -207,7 +203,6 @@ export default {
 	fetchReviews,
 	fetchOrder,
 	fetchUser,
-	userExists,
 	loginGoogle,
 	loginPassword,
 	logout,

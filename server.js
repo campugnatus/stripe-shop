@@ -564,17 +564,6 @@ api.get('/user', ensureAuth, async function (req, res, next) {
 })
 
 
-api.get('/userexists/:email', async function (req, res, next) {
-	const user = DB.findUserByEmail(req.params.email)
-	res.send(!!user)
-})
-
-
-
-
-
-
-
 api.get('/cart', ensureAuth, (req, res, next) => {
 	const cart = DB.getUserCart(req.user.id)
 	res.json(cart.items)
