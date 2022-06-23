@@ -47,6 +47,7 @@ import { ChatAltIcon } from '@heroicons/vue/outline'
 import { useProductStore } from '@/stores/products'
 import { useCartStore } from '@/stores/cart'
 import { computed, watch, onMounted } from 'vue'
+import { formatPrice } from '@/utils'
 
 const props = defineProps({
   id: {
@@ -60,7 +61,7 @@ const cartStore = useCartStore()
 
 const product = computed(() => productStore.products[props.id])
 const loading = computed(() => product.value === undefined)
-const price = computed(() => product.value? Number(product.value.price).toFixed(2) : undefined)
+const price = computed(() => formatPrice(product.value?.price))
 
 watch(props, () => {
   props.id && productStore.fetchProduct(props.id)

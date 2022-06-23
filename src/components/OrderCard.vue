@@ -15,7 +15,7 @@
 					</tr>
 					<tr>
 						<td class="pr-6 p-1 text-base text-gray-500">Total amount</td>
-						<td class="p-1">${{order.price}}</td>
+						<td class="p-1">${{formatPrice(order.price)}}</td>
 					</tr>
 				</table>
 			</section>
@@ -71,7 +71,7 @@ import OrderStatus from '@/components/OrderStatus.vue'
 import { ref, watch, computed } from 'vue'
 import { DownloadIcon } from '@heroicons/vue/solid'
 import { useUserStore, useOrderUpdates } from '@/stores/user'
-import {formatDate} from '@/utils'
+import { formatDate, formatPrice } from '@/utils'
 import api from '@/api'
 
 const props = defineProps({

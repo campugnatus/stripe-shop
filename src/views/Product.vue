@@ -105,6 +105,7 @@ import { useProductStore } from '@/stores/products'
 import { useUserStore } from '@/stores/user'
 import { useRouter, useRoute } from 'vue-router'
 import { ref, watch, computed } from 'vue'
+import { formatPrice } from '@/utils'
 
 const userStore = useUserStore()
 const productStore = useProductStore()
@@ -133,7 +134,7 @@ const odd = computed(() => others.value.filter((el, i) => i%2 === 1))
 const even = computed(() => others.value.filter((el, i) => i%2 === 0))
 
 const loading = computed(() => product.value === undefined)
-const price =   computed(() => product.value? Number(product.value.price).toFixed(2) : undefined)
+const price =   computed(() => formatPrice(product.value?.price))
 
 const title = useTitle(computed(() => product.value?.title || "..."), {titleTemplate: '%s | Stripe shop'})
 </script>

@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { useProductStore } from '@/stores/products'
 import { useUserStore } from '@/stores/user'
 import api from '@/api.js'
-
+import { formatPrice } from '@/utils'
 
 export const useCartStore = defineStore('cart', {
 	state: () => ({
@@ -28,10 +28,12 @@ export const useCartStore = defineStore('cart', {
 					return undefined
 			}
 
-			return state.items.reduce((sum, {productId, amount}) => {
+			let sum = state.items.reduce((sum, {productId, amount}) => {
 				let product = productStore.products[productId]
 				return sum + amount*product.price
-			}, 0).toFixed(2)
+			}, 0)
+
+			return formatPrice(sum)
 		},
 	},
 

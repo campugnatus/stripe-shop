@@ -23,7 +23,7 @@
 			<div class="grid grid-cols-2 mt-4" style="grid-template-columns: auto auto;">
 				<div>Order ID:</div>    <div>{{orderId}}</div>
 				<div>Deliver to:</div>  <div :class="{'grayout': loading}">{{order?.email}}</div>
-				<div>Total price:</div> <div :class="{'grayout w-16': loading}">${{order?.price}}</div>
+				<div>Total price:</div> <div :class="{'grayout w-16': loading}">${{formatPrice(order?.price)}}</div>
 				<div class="pt-4 col-span-2">
 					<a
 						:href="packageURL"
@@ -91,7 +91,7 @@ import {  } from '@heroicons/vue/outline'
 import { useProductStore } from '@/stores/products'
 import { useUserStore, useOrderUpdates } from '@/stores/user'
 import api from '@/api.js'
-import {formatDate} from '@/utils'
+import { formatDate, formatPrice } from '@/utils'
 import { useRouter, useRoute } from 'vue-router'
 
 const productStore = useProductStore()

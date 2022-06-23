@@ -43,6 +43,7 @@ import { useProductStore } from '@/stores/products'
 import { useCartStore } from '@/stores/cart'
 import { computed, toRefs, ref, reactive } from 'vue'
 import { XIcon } from '@heroicons/vue/outline'
+import { formatPrice } from '@/utils'
 
 const props = defineProps({
 	item: {
@@ -58,9 +59,9 @@ const cart = useCartStore()
 productStore.fetchProduct(item.productId)
 
 const product = computed(() => productStore.products[item.productId])
-const total = computed(() => (item.amount*product.value?.price).toFixed(2))
+const total = computed(() => formatPrice(item.amount*product.value?.price))
 const loading = computed(() => product.value === undefined)
-const price = computed(() => product.value? Number(product.value.price).toFixed(2) : undefined)
+const price = computed(() => formatPrice(product.value?.price))
 
 function setAmount (evt) {
 	cart.setAmount(item.productId, parseInt(evt.target.value))

@@ -33,3 +33,10 @@ export function formatDateShort (timestamp) {
 	else
 		return format (date, 'MMM do, yyyy')
 }
+
+export function formatPrice (float) {
+	if (float === undefined)
+		return undefined
+
+	return Number(float).toFixed(2)
+}
