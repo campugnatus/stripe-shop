@@ -186,7 +186,7 @@ export function useOrderUpdates (order) {
 		}
 
 		// pause for the animation purposes
-		await new Promise(resolve => setTimeout(() => resolve(), 2800))
+		await new Promise(resolve => setTimeout(() => resolve(), 1000))
 
 		res.push(reactive(waitingStatus[last.status]))
 		updates.value = res.reverse()
