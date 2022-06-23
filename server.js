@@ -84,7 +84,6 @@ api.ws('/subscribe', (ws, req) => {
 
 		DB.subscribe(bucket, id, function (object) {
 			if (ws.readyState !== 1) return "unsubscribe"
-			console.log("ws send", bucket, id, object)
 			ws.send(JSON.stringify({bucket, id, object}))
 		})
 	})
