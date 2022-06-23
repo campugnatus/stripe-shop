@@ -81,7 +81,7 @@
 	</div>
 
 	<div v-else-if="review">
-		<UserReview :review="review" class="border-b-0 rounded-b-none bg-blue-50 border-blue-200"/>
+		<UserReview :review="review" class="border-b-0 rounded-b-none !bg-blue-50 border-blue-200"/>
 		<button
 			@click="edit()"
 			class="w-full bg-blue-50 border rounded-b border-blue-200 flex justify-center items-center p-2 text-blue-900/40 hover:bg-blue-100 hover:text-blue-900/50 group">
