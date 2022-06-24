@@ -436,7 +436,7 @@ api.post('/request_password_reset',
 
 		const email = req.body.email
 
-		if(!findUserByEmail(email)) {
+		if(!DB.findUserByEmail(email)) {
 			res.status(401).json({email: "no user"})
 			return
 		}
@@ -483,14 +483,14 @@ api.post('/password_reset',
 			return
 		}
 
-		const user = findUserByEmail(email)
+		const user = DB.findUserByEmail(email)
 
 		if (!user) {
 			res.status(500) // this shouldn't happen
 			return
 		}
 
-		DB.userSetPassword(password)
+		DB.userSetPassword(user.id, password)
 
 		res.status(200).send("ok")
 	}
