@@ -211,8 +211,10 @@ async function packOrder (id) {
 	// TODO: should this be done inside of db.js?
 	let filename = await createZip(productIds)
 
-	DB.orderPutPackage(id, filename)
-	DB.orderPushStatus(id, "packed")
+	DB.transaction(() => {
+		DB.orderPutPackage(id, filename)
+		DB.orderPushStatus(id, "packed")
+	})
 }
 
 
@@ -433,7 +435,6 @@ api.post('/request_password_reset',
 	}),
 
 	(req, res, next) => {
-
 		const email = req.body.email
 
 		if(!DB.findUserByEmail(email)) {

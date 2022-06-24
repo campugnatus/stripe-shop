@@ -31,14 +31,14 @@ const stmtGetTags = db.prepare(`
 // catalogue), as it makes us run a separate query for each product, while
 // in the absense of tags we could fetch a product in a single query
 
-function getProduct (productId) {
+const getProduct = db.transaction((productId) => {
     const p = stmtGetProduct.get(productId)
     if (!p) return undefined
 
     p.tags = stmtGetTags.all(productId)
 
     return p
-}
+})
 
 
 
@@ -48,7 +48,8 @@ function getProduct (productId) {
 
 // this is just... gross
 
-function searchProducts ({words, from, to, sort, colors, shapes, number, tags}) {
+const searchProducts =
+    db.transaction(({words, from, to, sort, colors, shapes, number, tags}) => {
 
     const sortBy = {
         "default": "p.place",
@@ -139,7 +140,7 @@ function searchProducts ({words, from, to, sort, colors, shapes, number, tags}) 
         products,
         more: total > to
     }
-}
+})
 
 
 
@@ -180,8 +181,24 @@ const stmtEditReview = db.prepare(`
     WHERE product_id = $productId AND user_id = $userId
 `)
 
-function saveReview (productId, userId, rating, text) {
-    try {
+// I feel like there ought to be a more direct way to do that
+const stmtReviewExists = db.prepare(`
+    SELECT count(*)
+    FROM review
+    WHERE product_id = $productId AND user_id = $userId
+`).pluck(true)
+
+
+const saveReview = db.transaction((productId, userId, rating, text) => {
+    if (stmtReviewExists.get({productId, userId}))
+        stmtEditReview.run({
+            productId,
+            userId,
+            rating,
+            text,
+            edited: Date.now()
+        })
+    else
         stmtCreateReview.run({
             productId,
             userId,
@@ -189,20 +206,7 @@ function saveReview (productId, userId, rating, text) {
             text,
             date: Date.now()
         })
-    }
-    catch (e) {
-        if (e.code === 'SQLITE_CONSTRAINT_UNIQUE')
-            stmtEditReview.run({
-                productId,
-                userId,
-                rating,
-                text,
-                edited: Date.now()
-            })
-        else
-            throw(e)
-    }
-}
+})
 
 
 
@@ -221,13 +225,13 @@ const stmtGetCartItems = db.prepare(`
     WHERE cart_id = ?
 `)
 
-function getUserCart (userId) {
+const getUserCart = db.transaction((userId) => {
     const cartId = stmtGetCartId.get(userId)
     const items = stmtGetCartItems.all(cartId)
     return {
         items
     }
-}
+})
 
 
 
@@ -245,10 +249,10 @@ const stmtInsertCartItem = db.prepare(`
     VALUES (?, ?, ?)
 `)
 
-// TODO: I guess in this relational model it would be a better fit to make
+// TODO: I guess in the relational model it would be a better fit to make
 // separate events for adding an item, removing an item, and so forth...
 
-function saveCart (userId, items) {
+const saveCart = db.transaction((userId, items) => {
     const cartId = stmtGetCartId.get(userId)
 
     // Delete all the previous items
@@ -258,7 +262,7 @@ function saveCart (userId, items) {
     for (let item of items) {
         stmtInsertCartItem.run(cartId, item.productId, item.amount)
     }
-}
+})
 
 
 
@@ -278,7 +282,7 @@ const stmtOrderIds = db.prepare(`
     WHERE user_id = ?
 `)
 
-function getUser (userId) {
+const getUser = db.transaction((userId) => {
     const user = stmtGetUser.get(userId)
 
     if (!user) return undefined
@@ -289,7 +293,7 @@ function getUser (userId) {
     user.orders = orderIds
 
     return user
-}
+})
 
 
 
@@ -322,7 +326,7 @@ const stmtCreateCart = db.prepare(`
     VALUES (?)
 `)
 
-function createUser ({email, picture, name, password}) {
+const createUser = db.transaction(({email, picture, name, password}) => {
     const info = stmtCreateUser.run(
         name,
         email,
@@ -334,7 +338,7 @@ function createUser ({email, picture, name, password}) {
     stmtCreateCart.run(userId)
 
     return getUser(userId)
-}
+})
 
 
 
@@ -398,7 +402,7 @@ function userHasPassword (userId) {
 // all over the database making me reassemble it piece by piece back together
 // again every time I need to take a look at it.
 
-function getOrder (orderId) {
+const getOrder = db.transaction((orderId) => {
     const order = db
           .prepare(`SELECT * FROM shop_order WHERE id = ?`)
           .get(orderId)
@@ -415,7 +419,7 @@ function getOrder (orderId) {
     order.status = updates
 
     return order
-}
+})
 
 
 
@@ -447,7 +451,7 @@ const stmtSetOrderPrice = db.prepare(`
     WHERE id = $orderId
 `)
 
-function createOrder ({userId, email, items}) {
+const createOrder = db.transaction(({userId, email, items}) => {
     const orderId = newId()
     const info = stmtCreateOrder.run(orderId, userId, email)
 
@@ -463,7 +467,7 @@ function createOrder ({userId, email, items}) {
     orderPushStatus(orderId, "created")
 
     return getOrder(orderId)
-}
+})
 
 
 
@@ -563,6 +567,9 @@ function newId () {
 
 
 
+function transaction (f) {
+    db.transaction(f)()
+}
 
 
 
@@ -589,5 +596,7 @@ module.exports  = {
     orderPutPackage,
 
     subscribe,
-    broadcast
+    broadcast,
+
+    transaction
 }
