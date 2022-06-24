@@ -20,7 +20,7 @@
 	</section>
 
 	<section class="md:px-6 flex container mx-auto lg:mt-32 items-start">
-		<aside class="w-64 h-screen font-roboto flex-shrink-0 hidden lg:block">
+		<aside class="w-64 font-roboto flex-shrink-0 hidden lg:block">
 			<fieldset class="disabled:opacity-60">
 				<h2 class="text-2xl mb-2">Sorting</h2>
 				<select @change="changeSort" v-model="filters.sort"
