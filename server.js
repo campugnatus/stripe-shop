@@ -109,7 +109,7 @@ api.use(function delay (req, res, next) {
 api.get('/products/search/',
 
 	validateQuery({
-		text: v.optional(v.all(v.string, v.maxlen(64), v.regex(/^[\w\s-]*$/))),
+		text: v.optional(v.all(v.string, v.maxlen(64))),
 		from: v.optional(v.all(v.min(0), v.max(9999))),
 		to:   v.optional(v.all(v.min(0), v.max(9999))),
 
@@ -125,7 +125,7 @@ api.get('/products/search/',
 
 	function (req, res, next) {
 		res.json(DB.searchProducts({
-			words:   req.query.text,
+			words:   req.query.text? req.query.text.replace(/[^\w\d-]/g, "") : undefined,
 			from:    parseInt(req.query.from) || 0,
 			to:      parseInt(req.query.to)   || 24,
 			sort:    req.query.sort           || "default",

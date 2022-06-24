@@ -62,13 +62,12 @@
 			<p class="text-sm mt-3">
 				This email address will be used to send you the stripes you’ve ordered, and in no other way ever
 			</p>
-			<input
-				type="email"
-				v-model="email"
-				placeholder="Your email address"
-				class="mt-3 w-full rounded border-gray-400"
-				:class="[emailError? 'ring-1 ring-tomato border-tomato':'']"
-				:title="emailError? 'Email invalid' : ''">
+			<LoginInput
+				focus
+				v-model="form.email"
+				:error="errors.email"
+				class="mt-3 w-full"
+				placeholder="Your email address"/>
 			<GooglePayButton v-if="cart.subtotal" :price="cart.subtotal" @paid="checkout" class="mt-4"/>
 			<button @click="showToast.error('Not yet, sorry')" class="w-full bg-primary rounded text-white text-sm font-bold p-2 mt-3">
 				Pay with Apple
@@ -93,10 +92,13 @@ import GooglePayButton from '@/components/GooglePayButton.vue'
 import {   } from '@heroicons/vue/outline'
 import {ReplyIcon, TrashIcon } from '@heroicons/vue/solid'
 import { useRouter, useRoute } from 'vue-router'
+
+import LoginInput from '@/components/LoginInput.vue'
+import { onSubmitWrapper } from '@/utils'
 // import {showToast} from '@/plugins/toast'
 
 
-import { computed, ref, inject, watch } from 'vue'
+import { computed, ref, inject, watch, reactive } from 'vue'
 import { useCartStore } from '@/stores/cart'
 import { useProductStore } from '@/stores/products'
 import { useUserStore } from '@/stores/user'
@@ -107,11 +109,6 @@ const router = useRouter()
 const user = useUserStore()
 
 const loading = computed(() => cart.loading)
-const email = ref(user.profile?.email)
-
-watch(() => user.profile?.email, () => email.value = user.profile?.email)
-
-const emailError = ref(false)
 
 const showToast = inject('showToast')
 
@@ -123,45 +120,34 @@ const showToast = inject('showToast')
  * Checkout
  */ 
 
+const form = reactive({
+	email: undefined
+})
+
+watch(() => user.profile?.email, x => form.email = form.email || x)
+
+const errors = reactive({
+	email: undefined
+})
+
 const checkoutLoading = ref(false)
 
-async function checkout(paymentToken) {
 
-	emailError.value = !checkEmail()
-	if (emailError.value) {
-		showToast.error("The email address you entered is invalid")
-		return;
-	}
+const checkout = onSubmitWrapper({
+	form,
+	errors,
+	loading: checkoutLoading,
 
-	try {
-		checkoutLoading.value = true
-		const orderId = await cart.checkout({email: email.value, paymentToken})
-		showToast.success("OK! Your order has been created!")
-		router.push("/order/" + orderId)
-	}
-
-	catch (error) {
-		if (!error.response) {
-			showToast.error("Oops! Something went wrong...")
-			throw new Error(error)
-		}
-
-		if (error.response.data.message === "OUT_OF_STOCK") {
-			const ids = error.response.data.ids
-			showToast.error("Oops! Some of the products are already out of stock!")
-			// refetch the products that are out of stock (or are they just included with the error?)
-		}
-	}
-
-	finally {
-		checkoutLoading.value = false
-	}
-}
-
-function checkEmail () {
-	// TODO: probably Vuelidate or something
-	return !!email.value
-}
+	onSubmit: (paymentToken) =>
+		cart.checkout({
+			email: form.email,
+			paymentToken
+		})
+		.then(orderId => {
+			showToast.success("OK! Your order has been created!")
+			router.push("/order/" + orderId)
+		})
+})
 </script>
 
 

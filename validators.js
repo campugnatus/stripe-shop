@@ -116,6 +116,7 @@ function price (val) {
 function email (val) {
 	defined(val)
 	string(val)
+	nonempty(val)
 
 	validator.isEmail(val) || panic("format")
 }

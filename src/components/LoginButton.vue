@@ -357,6 +357,7 @@ import { ref, watch, reactive, computed } from 'vue'
 import api from '@/api.js'
 
 import LoginInput from '@/components/LoginInput.vue'
+import { onSubmitWrapper } from '@/utils'
 
 const userStore = useUserStore()
 
@@ -391,70 +392,7 @@ function openModal () {
 }
 
 
-const errorMsgs = {
-	"name": {
-		"undefined":        "Please enter your name",
-		"empty":            "Please enter your name",
-		"too short":        "Looks like too short of a name",
-		"too long":         "Come on, your name can't possibly be that long",
-		"regex":            "Name contains forbidden characters"
-	},
-	"email": {
-		"undefined":        "Please enter your email address",
-		"empty":            "Please enter your email address",
-		"user exists":      "User already exists",
-		"format":           "Email address doesn't look right",
-		"no user":          "User doesn't exist",
-	},
-	"password": {
-		"undefined":        "Please enter your password",
-		"empty":            "Please enter your password",
-		"too short":        "Password is too short",
-		"too long":         "Alright, that's too much",
-		"password not set": "Password no set. Try signing in with Google or going the 'forgot password' route",
-		"wrong password":   "Incorrect password"
-	},
-	"confirm": {
-		"undefined":        "Please confirm your password",
-		"no match":         "Passwords don't match"
-	},
-	"code": {
-		"undefined":        "Please enter the code we've sent you",
-		"regex":            "Incorrect code",
-		"wrong code":       "Incorrect code",
-	}
-}
 
-
-function handleFormErrors (err, model) {
-	for (let [field, short] of Object.entries(err)) {
-		const msg = errorMsgs[field][short]
-		model[field] = msg
-		showToast.error(msg)
-	}
-}
-
-
-function onSubmitWrapper (form, errors, submitter) {
-	return function onSubmit () {
-		loading.value = true
-		clearForm(errors)
-
-		submitter()
-		.catch(e => {
-			if (e.response?.data)
-				handleFormErrors(e.response.data, errors)
-			else {
-				throw e
-			}
-		})
-		.catch(e => {
-			showToast.error("Oops! Something went wrong...")
-			console.error(e)
-		})
-		.finally(() => loading.value = false)
-	}
-}
 
 
 /**
@@ -493,16 +431,21 @@ const loginErrors = reactive({
 	password: undefined
 })
 
-const login = onSubmitWrapper(loginForm, loginErrors, () =>
-	userStore.loginPassword({
-		email: loginForm.email,
-		password: loginForm.password
-	})
-	.then(() => {
-		closeModal()
-		reset()
-	})
-)
+const login = onSubmitWrapper({
+	form: loginForm,
+	errors: loginErrors,
+	loading,
+
+	onSubmit: () =>
+		userStore.loginPassword({
+			email: loginForm.email,
+			password: loginForm.password
+		})
+		.then(() => {
+			closeModal()
+			reset()
+		})
+})
 
 
 
@@ -531,18 +474,23 @@ const signupErrors = reactive({
 let emailVerificationToken
 
 
-const signup = onSubmitWrapper(signupForm, signupErrors, () =>
-	userStore.signup({
-		email: signupForm.email,
-		name: signupForm.name,
-		password: signupForm.password,
-		confirm: signupForm.confirm,
-	})
-	.then(tkn => {
-		emailVerificationToken = tkn
-		showing.value = "confirm"
-	})
-)
+const signup = onSubmitWrapper({
+	form: signupForm,
+	errors: signupErrors,
+	loading,
+
+	onSubmit: () =>
+		userStore.signup({
+			email: signupForm.email,
+			name: signupForm.name,
+			password: signupForm.password,
+			confirm: signupForm.confirm,
+		})
+		.then(tkn => {
+			emailVerificationToken = tkn
+			showing.value = "confirm"
+		})
+})
 
 
 
@@ -560,14 +508,19 @@ const verificationErrors = reactive({
 	code: undefined
 })
 
-const verifyCode = onSubmitWrapper(verificationForm, verificationErrors, () =>
-	userStore
+const verifyCode = onSubmitWrapper({
+	form: verificationForm,
+	errors: verificationErrors,
+	loading,
+
+	onSubmit: () =>
+		userStore
 		.verifyCode(verificationForm.code, emailVerificationToken)
 		.then(() => {
 			reset()
 			showing.value = "welcome"
 		})
-)
+})
 
 
 
@@ -589,14 +542,19 @@ const forgotErrors = reactive({
 
 let passwordResetToken
 
-const requestResetEmail = onSubmitWrapper(forgotForm, forgotErrors, () =>
-	api.requestPasswordResetEmail(forgotForm.email)
-	.then(token => {
-		showToast.info("Now check your email!")
-		passwordResetToken = token
-		showing.value = 'reset'
-	})
-)
+const requestResetEmail = onSubmitWrapper({
+	form: forgotForm,
+	errors: forgotErrors,
+	loading,
+
+	onSubmit: () =>
+		api.requestPasswordResetEmail(forgotForm.email)
+		.then(token => {
+			showToast.info("Now check your email!")
+			passwordResetToken = token
+			showing.value = 'reset'
+		})
+})
 
 
 
@@ -618,20 +576,25 @@ const resetErrors = reactive({
 	confirm: undefined,
 })
 
-const resetPassword = onSubmitWrapper(resetForm, resetErrors, () =>
-	api.resetPassword({
-		token: passwordResetToken,
-		code: resetForm.code,
-		password: resetForm.password,
-		confirm: resetForm.confirm
-	})
-	.then(() => {
-		showToast.success("Your new password has been set")
-		reset()
-		if (userStore.signedIn) closeModal()
-		else showing.value = 'login'
-	})
-)
+const resetPassword = onSubmitWrapper({
+	form: resetForm,
+	errors: resetErrors,
+	loading,
+
+	onSubmit: () =>
+		api.resetPassword({
+			token: passwordResetToken,
+			code: resetForm.code,
+			password: resetForm.password,
+			confirm: resetForm.confirm
+		})
+		.then(() => {
+			showToast.success("Your new password has been set")
+			reset()
+			if (userStore.signedIn) closeModal()
+			else showing.value = 'login'
+		})
+})
 
 
 
