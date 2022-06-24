@@ -75,8 +75,10 @@ export const useUserStore = defineStore('user', {
 
 		async loginGoogle ({jwt}) {
 			this.loading = true
+
 			const user = await api.loginGoogle({jwt})
-			this.loading = false
+				.finally(() => this.loading = false)
+
 			if (!user) return
 
 			this.setUser(user)
@@ -85,8 +87,10 @@ export const useUserStore = defineStore('user', {
 
 		async loginPassword ({email, password}) {
 			this.loading = true
+
 			const user = await api.loginPassword({email, password})
-			this.loading = false
+				.finally(() => this.loading = false)
+
 			if (!user) return
 
 			this.setUser(user)
@@ -111,7 +115,7 @@ export const useUserStore = defineStore('user', {
 		async verifyCode (code, token) {
 			this.loading = true
 			const user = await api.verifyCode(code, token)
-			this.loading = false
+				.finally(() => this.loading = false)
 			this.setUser(user)
 		},
 
