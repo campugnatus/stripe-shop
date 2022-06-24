@@ -262,7 +262,6 @@ function defined (val) {
 }
 
 const regex = curry(function (x, re) {
-	console.log("text regex", re, x)
 	re.test(x) || panic ("regex")
 })
 
