@@ -92,8 +92,8 @@ api.ws('/subscribe', (ws, req) => {
 
 
 
-app.use(function logger (req, res, next) {
-	console.log(req.method, req.url, req.query)
+api.use(function logger (req, res, next) {
+	console.log(req.method, req.url, req.method === "GET" ? req.query : req.body)
 	next()
 })
 
