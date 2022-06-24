@@ -55,7 +55,7 @@ const props = defineProps({
 const type = computed(() => props.toast.type)
 const emits = defineEmits(['close'])
 
-const timeout = computed(() => props.toast.message.length*100) 
+const timeout = computed(() => 1000 + props.toast.message.length*100)
 setTimeout(() => emits('close'), Math.max(timeout.value, 3000))
 </script>
 
