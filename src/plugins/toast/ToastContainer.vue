@@ -1,6 +1,6 @@
 <template>
 	<TransitionGroup tag="ul" name="toaster"
-	                 class="fixed top-0 left-0 pb-10 h-full overflow-visible flex flex-col-reverse gap-4 bottom-10 left-0 h-full z-50"
+	                 class="fixed w-0 top-0 left-0 pb-10 h-full overflow-visible flex flex-col-reverse gap-4 bottom-10 left-0 h-full z-50"
 	                 @before-leave="beforeLeave">
 
 		<ToastAlert v-for="toast in toasts.list"
@@ -30,7 +30,7 @@ function beforeLeave(el) {
 
 <style>
 /*
-	So... I wasn't able to make the animations work well with transition-group
+	So... I couldn't make the animations work well with transition-group
 	and css transitions. Not sure who's the culprit, but the symptoms are as
 	follows
 
