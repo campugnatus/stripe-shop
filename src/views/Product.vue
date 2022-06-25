@@ -28,11 +28,12 @@
 			</div>
 
 			<div class="mt-3 mb-6 loading:grayout space-y-2">
-				<span
-					v-for="tag in product?.tags"
-					class="inline-block text-sm p-1 px-2 bg-gray-200 rounded mr-2 text-gray-600 whitespace-nowrap">
+				<a
+					:href="'/catalogue?filter='+tag"
+					v-for="tag in presentableTags"
+					class="inline-block product-tag">
 					{{tag}}
-				</span>
+				</a>
 			</div>
 
 			<div class="mt-auto text-lg loading:grayout loading:w-32">
@@ -124,6 +125,11 @@ watch(route, () => {
 }, {
 	immediate: true
 })
+
+const presentableTags = computed(() => product.value?.tags?.filter(function (tag) {
+	if (tag.match(/^\d+$/)) return false
+	return true
+}))
 
 const loadingReviews = computed(() => !productStore.reviews[productId.value])
 

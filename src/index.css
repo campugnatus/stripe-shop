@@ -5,6 +5,7 @@
 @tailwind utilities;
 
 @layer utilities {
+
 	.scrollbar-off {
 		/* supposedly, adds nice overscroll on ios */
 		-webkit-overflow-scrolling: touch; 
@@ -15,6 +16,7 @@
 		/* IE 11 */
 		-ms-overflow-style: none;
 	}
+
 	.scrollbar-off::-webkit-scrollbar {
 		/* chrome etc */
 		display: none;
@@ -97,5 +99,12 @@
 		100% {
 			background-position: 0px;
 		}
+	}
+
+
+
+
+	.product-tag {
+		@apply text-sm py-1 px-2 bg-gray-200 hover:bg-gray-300 rounded mr-2 text-gray-600 whitespace-nowrap;
 	}
 }

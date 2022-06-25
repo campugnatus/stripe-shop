@@ -1,6 +1,21 @@
 import {format, differenceInCalendarDays, differenceInYears } from 'date-fns'
 import { showToast } from '@/plugins/toast'
 
+
+
+
+
+
+
+export function capitalize (string) {
+	return string.charAt(0).toUpperCase() + string.slice(1)
+}
+
+
+
+
+
+
 export function formatDate (timestamp) {
 	const date = new Date(timestamp)
 	const now = new Date()
