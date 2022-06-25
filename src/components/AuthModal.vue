@@ -132,9 +132,9 @@
 								<fieldset :disabled="loading" :class="{'opacity-50': loading}">
 									<LoginInput
 										focus
-										v-model="resetEmail"
+										v-model="forgotForm.email"
 										placeholder="Email address"
-										:error="resetEmailError"/>
+										:error="forgotErrors.email"/>
 									<button
 										type="submit"
 										:class="{'spinner': loading}"
@@ -515,8 +515,11 @@ const resetPassword = onSubmitWrapper({
 
 function reset () {
 	clearForm(signupForm)
+	clearForm(signupErrors)
+
 	clearForm(loginForm)
 	clearForm(loginErrors)
+
 	clearForm(verificationForm)
 	clearForm(verificationErrors)
 	emailVerificationToken = undefined
