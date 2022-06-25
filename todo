@@ -1,26 +1,18 @@
-Aiming for the MVP now...
-
-* 9 stripe
 * node path resolution?
-* transactions
-* full text search!
-* mouse doesn't focut element through the toast container... thought I have fixed it?
-* are all DB operations async? Do I have to await them?
-* cart form validation status indicate (bad email?)
 * push all this to github
 * deploy to the server
 
+? make full-text search search among reviews, as well? or not?
+
 * refactoring: extract header buttons into a separate TopRightNav component
+? make a button to switch between AND and OR in the filters
 
 2. order history
    * order history link on the order details page
-3. user reviews/ratings
-   * make 'sign in' button clickable
 
 * try this beautifier for tailwind and otherwise?
 
 * extract shit into modules on the server
-* make tags on the product page clickable
 
 * off-price stripes
    * with a crack
@@ -40,7 +32,6 @@ Aiming for the MVP now...
    * auto-focus the first field with an error in it
    * maybe refactor login form screens into separate components?
 
-* db
 * every input must have a label? for screenreaderss
 
 * cleanup header/main width/padding responsiveness
@@ -81,3 +72,5 @@ Aiming for the MVP now...
 * makes all the logos uniform
 * mention image authors in the gallery?
 ? typescript
+
+* 9 stripe
