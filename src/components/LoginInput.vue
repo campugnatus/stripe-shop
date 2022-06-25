@@ -29,7 +29,7 @@
 			@input="emit('update:modelValue', $event.target.value)"
 			:value="modelValue"
 			:placeholder="placeholder"
-			:class="{'peer border-tomato focus:border-tomato focus:ring-tomato': error}"
+			:class="{'peer !border-tomato focus:border-tomato focus:ring-tomato': error}"
 			class="text-sm w-full rounded border-gray-400"/>
 
 		<div class="absolute opacity-0 peer-focus:opacity-100 -top-3 peer-focus:transition-all peer-focus:-top-full right-0 border border-red-300 rounded z-[-1] shadow-lg peer-focus:z-30">
