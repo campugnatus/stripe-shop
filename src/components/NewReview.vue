@@ -1,14 +1,15 @@
 <template>
 	<div
 		v-if="!userStore.signedIn"
-		class="border-2 rounded border-dashed h-[86px] flex justify-center items-center text-xl text-gray-400">
+		@click="eventBus.emit('open-auth-modal')"
+		class="border-2 rounded border-dashed h-[86px] flex justify-center items-center text-xl text-gray-400 hover:border-gray-300 hover:text-gray-500 cursor-pointer">
 		Sign in to leave a review
 	</div>
 
 	<button
 		v-else-if="!editing && !review"
 		@click="edit()"
-		class="w-full border-2 rounded border-dashed h-[86px] flex justify-center items-center text-xl text-gray-400 hover:border-gray-300 hover:text-gray-500">
+		class="w-full border-2 rounded border-dashed h-[86px] flex justify-center items-center text-xl text-gray-400 ">
 		Like this stripe? Leave a review!
 	</button>
 
@@ -99,6 +100,7 @@ import { useProductStore } from '@/stores/products.js'
 import { useUserStore } from '@/stores/user.js'
 import { showToast } from '@/plugins/toast'
 import { ref, computed } from 'vue'
+import { eventBus } from '@/utils'
 
 const props = defineProps({
 	id: {

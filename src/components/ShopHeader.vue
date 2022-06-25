@@ -34,7 +34,7 @@
     </section>
 
     <section class="row-start-1 col-start-2 flex justify-end flex-shrink-0 lg:space-x-4">
-      <LoginButton/>
+      <UserButton/>
       <CartButton/>
     </section>
   </header>
@@ -42,7 +42,7 @@
 
 <script setup>
 import CartButton from '@/components/CartButton.vue'
-import LoginButton from '@/components/LoginButton.vue'
+import UserButton from '@/components/UserButton.vue'
 import { ref, watch, onMounted } from 'vue'
 import { useRouter, useRoute, onBeforeRouteUpdate } from 'vue-router'
 import { useProductStore } from '@/stores/products'

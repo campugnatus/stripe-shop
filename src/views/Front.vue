@@ -47,7 +47,7 @@
             <div class="pt-2">search</div>
           </button>
 
-          <LoginButton/>
+          <UserButton/>
           <CartButton/>
         </section>
       </nav>
@@ -485,7 +485,7 @@
 
 <script setup>
 import CartButton from '@/components/CartButton.vue'
-import LoginButton from '@/components/LoginButton.vue'
+import UserButton from '@/components/UserButton.vue'
 import WareCard from '@/components/WareCard.vue'
 import Carousel from '@/components/Carousel.vue'
 import GalleryCarousel from '@/components/GalleryCarousel.vue'

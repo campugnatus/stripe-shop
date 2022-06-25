@@ -5,12 +5,14 @@
     <!-- <button @click="wsConnect" class="bg-primary text-white p-2">subscribe</button> -->
   </div>
   <router-view></router-view>
+  <AuthModal/>
 </template>
 
 <script setup>
 import {showToast} from '@/plugins/toast'
 import api from '@/api.js'
 
+import AuthModal from '@/components/AuthModal.vue'
 function wsConnect () {
   api.subscribe("order", '1644421018974-7259', (m) => {
     console.log("MESSAGE!", m)

@@ -1,7 +1,12 @@
 import {format, differenceInCalendarDays, differenceInYears } from 'date-fns'
 import { showToast } from '@/plugins/toast'
+import mitt from 'mitt'
 
 
+
+
+
+export const eventBus = mitt()
 
 
 
