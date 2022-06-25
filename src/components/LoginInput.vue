@@ -11,10 +11,10 @@
 				leave-active-class="transition duration-150 ease-in"
 				leave-from-class="translate-y-0 opacity-100"
 				leave-to-class="translate-y-1 opacity-0">
-				<PopoverPanel class="rounded border border-gray-400 absolute shadow-lg top-[calc(100%+8px)] right-0 z-20">
+				<PopoverPanel class="rounded absolute shadow-lg top-[calc(100%+8px)] right-0 z-20">
 					<div class="relative isolate">
-						<div class="absolute bg-white h-3 w-3 border border-gray-400 rotate-45 top-[-6px] right-3 shadow-xl"></div>
-						<div class="p-3 bg-white isolate rounded --text-white --bg-primary">
+						<div class="absolute bg-gray-500 h-3 w-3 border border-gray-600 rotate-45 top-[-6px] right-3 shadow-xl"></div>
+						<div class="p-3 bg-gray-500 isolate rounded text-white">
 							The way you'd like us to call you in the emails we send you.
 							This is also how your name will appear in the comments you leave here.
 						</div>
