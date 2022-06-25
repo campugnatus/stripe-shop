@@ -1,19 +1,31 @@
 <template>
+	<HeaderButton
+		v-if="!userStore.signedIn"
+		:loading="userStore.loading"
+		:title="userStore.shortName"
+		@click="eventBus.emit('open-auth-modal')"
+		:disabled="userStore.loading">
+
+		<template #icon>
+			<UserCircleOutlineIcon/>
+		</template>
+
+		Sign in
+	</HeaderButton>
+
 	<Popover v-if="userStore.signedIn" v-slot="{ close }" class="relative z-20">
-		<PopoverButton class="group p-2" :title="userStore.shortName">
-			<div class="flex justify-center">
-				<img
-					v-if="userStore.profile.picture"
-					:src="userStore.profile.picture"
-					class="h-10 lg:h-11 rounded-full border-transparent border-4 group-hover:border-blue-300">
-				<UserCircleIcon
-					v-else
-					class="h-10 lg:h-11 text-tomato"/>
-			</div>
-			<div v-if="userStore.signedIn" class="lg:mt-2 text-center w-20 truncate">
+		<PopoverButton>
+			<HeaderButton :title="userStore.shortName">
+				<template #icon>
+					<img
+						v-if="userStore.profile.picture"
+						:src="userStore.profile.picture"
+						class="rounded-full border-transparent border-4 group-hover:border-blue-300">
+					<UserCircleIcon v-else class="text-tomato"/>
+				</template>
+
 				{{userStore.shortName}}
-			</div>
-			<div v-else class="lg:mt-2 text-center"> Sign in </div>
+			</HeaderButton>
 		</PopoverButton>
 
 		<transition
@@ -79,22 +91,6 @@
 			</PopoverPanel>
 		</transition>
 	</Popover>
-
-	<button
-		v-if="!userStore.signedIn"
-		class="group p-2"
-		:title="userStore.shortName"
-		@click="eventBus.emit('open-auth-modal')"
-		:disabled="userStore.loading">
-
-		<div class="flex justify-center">
-			<div :class="{'grayout before:rounded-full': userStore.loading}">
-				<UserCircleOutlineIcon class="h-10 lg:h-11 text-gray-600 stroke-1"/>
-			</div>
-		</div>
-		<div v-if="userStore.signedIn" class="lg:pt-2 text-center w-20 truncate">{{userStore.shortName}}</div>
-		<div v-else class="lg:mt-2 text-center" :class="{'grayout': userStore.loading}">Sign in</div>
-	</button>
 </template>
 
 <script setup>
@@ -124,6 +120,7 @@ import { ref, watch, reactive, computed } from 'vue'
 import { showToast } from '@/plugins/toast'
 import { eventBus } from '@/utils'
 import { useUserStore } from '@/stores/user.js'
+import HeaderButton from '@/components/HeaderButton.vue'
 
 const userStore = useUserStore()
 const loading = ref(false)

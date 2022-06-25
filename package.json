@@ -39,7 +39,7 @@
     "cookie-session": "^2.0.0",
     "nodemon": "^2.0.15",
     "postcss": "^8.4.6",
-    "tailwindcss": "^3.0.23",
+    "tailwindcss": "^3.1.4",
     "vite": "^2.4.2"
   }
 }
