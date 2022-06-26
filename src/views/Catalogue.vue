@@ -37,11 +37,7 @@
 						type="checkbox"
 						:name="color"
 						:id="color"
-						:class="[
-							`bg-${colorClass[color]}`,
-							`text-${colorClass[color]}`,
-							`focus:ring-${colorClass[color]}`
-						]"
+						:class="[colorClass[color]]"
 						class="mr-3 rounded-full border-none">
 
 					{{capitalize(color)}}
@@ -142,14 +138,15 @@ const loadingMore = computed(() => productStore.appending)
 // make it multiple of 12 so that it spans nicely across 2, 3 or 4 columns
 const PAGE_SIZE = 12*4
 
+// can't generate tailwind class names programmatically
 const colorClass = {
-	gray:   "gray-700",
-	red:    "tomato",
-	green:  "emerald-600",
-	blue:   "cyan-600",
-	yellow: "yellow-200",
-	orange: "orange",
-	brown:  "yellow-800",
+	gray:   "bg-gray-700    text-gray-700    focus:ring-gray-700",
+	red:    "bg-tomato      text-tomato      focus:ring-tomato",
+	green:  "bg-emerald-600 text-emerald-600 focus:ring-emerald-600",
+	blue:   "bg-cyan-600    text-cyan-600    focus:ring-cyan-600",
+	yellow: "bg-yellow-200  text-yellow-200  focus:ring-yellow-200",
+	orange: "bg-orange      text-orange      focus:ring-orange",
+	brown:  "bg-yellow-800  text-yellow-800  focus:ring-yellow-800",
 }
 
 const filters = reactive({
