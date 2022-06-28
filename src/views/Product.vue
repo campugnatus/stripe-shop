@@ -104,8 +104,8 @@ import AddToCartButton from '@/components/AddToCartButton.vue'
 import { breakpointsTailwind, useBreakpoints, useTitle } from '@vueuse/core'
 import { useProductStore } from '@/stores/products'
 import { useUserStore } from '@/stores/user'
-import { useRouter, useRoute } from 'vue-router'
-import { ref, watch, computed } from 'vue'
+import { useRouter, useRoute, onBeforeRouteUpdate } from 'vue-router'
+import { ref, watch, computed, nextTick } from 'vue'
 import { formatPrice } from '@/utils'
 
 const userStore = useUserStore()
@@ -119,12 +119,26 @@ const lg = breakpoints.greater('lg')
 const productId = computed(() => route.params.id)
 const product = computed(() => productStore.products[productId.value])
 
-watch(route, () => {
-	productStore.fetchProduct(productId.value)
-	productStore.fetchReviews(productId.value)
-}, {
-	immediate: true
+
+
+
+
+function init (route) {
+	productStore.fetchProduct(route.params.id)
+	productStore.fetchReviews(route.params.id)
+}
+
+init(route)
+onBeforeRouteUpdate(async (to, from) => {
+	// a tricky point here is that the 'route' variable here points to the old
+	// route still, and as a consequence all the computed variables have old
+	// values. So we can't rely on updated values inside of this callback
+	init(to)
 })
+
+
+
+
 
 const presentableTags = computed(() => product.value?.tags?.filter(function (tag) {
 	if (tag.match(/^\d+$/)) return false
