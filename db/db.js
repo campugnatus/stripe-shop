@@ -300,14 +300,15 @@ const getUser = db.transaction((userId) => {
 
 
 
-const stmtFindUserByEmail = db.prepare(`
-    SELECT id, name, email, picture
+const stmtFindUserIdByEmail = db.prepare(`
+    SELECT id
     FROM user
     WHERE email = ?
-`)
+`).pluck(true)
 
 function findUserByEmail (email) {
-    return stmtFindUserByEmail.get(email)
+    const userId = stmtFindUserIdByEmail.get(email)
+    return getUser(userId)
 }
 
 
