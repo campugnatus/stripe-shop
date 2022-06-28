@@ -18,12 +18,20 @@
 	</section>
 
 	<section class="md:px-6 flex container mx-auto lg:mt-32 items-start">
-		<aside class="w-64 font-roboto flex-shrink-0 hidden lg:block">
+		<aside class="w-64 pr-12 font-roboto flex-shrink-0 hidden lg:block">
 			<fieldset class="disabled:opacity-60">
 
-				<h2 class="text-2xl mb-2">Sorting</h2>
+				<h2 class="text-2xl mb-2 flex items-center justify-between">
+					Sorting
+					<button
+						v-if="filtersOn"
+						class="text-sm flex text-blue-600"
+						@click="clearFilters">
+						Clear filters
+					</button>
+				</h2>
 				<select @change="changeSort" v-model="filters.sort"
-				        class="bg-white border px-2 py-1 rounded border-gray-400" >
+				        class="bg-white w-full border px-2 py-1 rounded border-gray-400" >
 					<option value="default">Default</option>
 					<option value="rating-descend">Highest rated first</option>
 					<option value="price-ascend">Cheapest first</option>
@@ -68,6 +76,7 @@
 						{{tag}}
 					</button>
 				</div>
+
 			</fieldset>
 		</aside>
 
@@ -184,6 +193,29 @@ const filters = reactive({
 	text: undefined,
 	sort: "default",
 })
+
+
+const filtersOn = computed(() => {
+	for (let group of Object.values(filters)) {
+		if (typeof group !== 'object') continue
+
+		for (let [tagname, isOn] of Object.entries(group))
+			if (isOn)
+				return true
+	}
+	return false
+})
+
+function clearFilters () {
+	for (let [key, group] of Object.entries(filters)) {
+		if (typeof group !== 'object') continue
+
+		for (let [tagname, isOn] of Object.entries(group))
+			if (isOn)
+				filters[key][tagname] = false
+	}
+}
+
 
 onMounted(() => init(route))
 onBeforeRouteUpdate(to => init(to))
