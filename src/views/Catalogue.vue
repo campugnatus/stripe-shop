@@ -1,5 +1,5 @@
 <template>
-	<ShopHeader :text="filters.text" @reset="filters.text = undefined"/>
+	<ShopHeader class="!max-w-screen-2xl" :text="filters.text" @reset="filters.text = undefined"/>
 
 	<section class="sm:container lg:hidden w-80 mx-auto px-3 md:px-6 mt-32 mb-5 flex justify-between">
 		<div>
@@ -17,7 +17,7 @@
 		</button>
 	</section>
 
-	<section class="md:px-6 flex container mx-auto lg:mt-32 items-start">
+	<section class="md:px-6 flex max-w-screen-2xl mx-auto lg:mt-32 items-start">
 		<aside class="w-64 pr-12 font-roboto flex-shrink-0 hidden lg:block">
 			<fieldset class="disabled:opacity-60">
 

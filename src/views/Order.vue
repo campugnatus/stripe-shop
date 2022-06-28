@@ -17,8 +17,15 @@
 		class="grid md:grid-cols-2 gap-y-12 mb-32 max-w-screen-lg mx-auto px-4 sm:px-6 mt-20 lg:mt-32"
 		:class="{loading}">
 
+		<section v-if="userStore.signedIn" class="col-span-2">
+			<router-link class="inline-flex text-blue-600 hover:underline" to="/orders">
+				<ReplyIcon class="h-5 mr-2"/>
+				My orders
+			</router-link>
+		</section>
+
 		<section class="font-mono">
-			<h1 class="text-3xl">Order details</h1>
+			<h1 class="text-4xl">Order details</h1>
 
 			<div class="grid grid-cols-2 mt-4" style="grid-template-columns: auto auto;">
 				<div>Order ID:</div>    <div>{{orderId}}</div>
@@ -39,7 +46,7 @@
 			</div>
 		</section>
 
-		<section class="md:mx-auto">
+		<section class="md:ml-auto">
 			<TransitionGroup
 				tag="ul"
 				name="hist"
@@ -86,7 +93,7 @@ import OrderStatus from '@/components/OrderStatus.vue'
 import Carousel from '@/components/Carousel.vue'
 import { useTitle } from '@vueuse/core'
 import { ref, watch, computed, reactive, isRef, watchEffect } from 'vue'
-import { DownloadIcon, CheckCircleIcon} from '@heroicons/vue/solid'
+import { DownloadIcon, CheckCircleIcon, ReplyIcon} from '@heroicons/vue/solid'
 import {  } from '@heroicons/vue/outline'
 import { useProductStore } from '@/stores/products'
 import { useUserStore, useOrderUpdates } from '@/stores/user'
