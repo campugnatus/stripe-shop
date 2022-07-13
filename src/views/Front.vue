@@ -1,17 +1,17 @@
 <template>
   <!-- the long stripe -->
   <svg id="gallery-svg" width="100%" height="5000px" class="hidden sm:block absolute top-0 left-0 z-[-1] text-orange">
-    <path fill="none" stroke-dashoffset="5000" stroke-dasharray="5000" stroke="currentColor" stroke-width="23" id="long1" ref="long1" :d="d"/>
+    <path fill="none" stroke-dashoffset="5000" stroke-dasharray="5000" stroke="currentColor" stroke-width="27" id="long1" ref="long1" :d="d"/>
   </svg>
 
   <header class="w-full h-[calc(100vh+1px)] max-h-[1000px] overflow-hidden relative shadow-2xl border-b relative border-gray-400 bg-white">
 
     <div class="absolute overflow-hidden inset-0">
-      <img src="/bds2.png" class="max-w-none absolute right-0 h-[480px] md:h-[640px] lg:h-[920px] top-[calc(44%+60px)] sm:top-[calc(44%+50px)] md:top-[calc(44%+20px)] lg:top-[calc(44%-150px)] xl:top-[calc(44%-270px)] 2xl:top-[calc(44%-360px)]">
+      <img src="/bds2.png" class="max-w-none absolute right-0 h-[480px] md:h-[640px] lg:h-[920px] top-[calc(50%+60px)] sm:top-[calc(44%+50px)] md:top-[calc(44%+20px)] lg:top-[calc(44%-150px)] xl:top-[calc(44%-270px)] 2xl:top-[calc(44%-360px)]">
     </div>
 
     <div class="absolute font-pacifico text-2xl sm:text-3xl xl:text-4xl rotate-[-31deg] text-white
-                top-[calc(44%+200px)] right-[0px]
+                top-[calc(50%+200px)] right-[0px]
                 sm:top-[calc(44%+260px)] sm:right-[80px]
                 md:top-[calc(44%+270px)] md:right-[130px]
                 lg:top-[calc(44%+230px)] lg:right-[160px]
@@ -21,48 +21,32 @@
     </div>
 
     <main class="max-w-screen-xl h-full mx-auto relative flex flex-col">
-      <nav class="absolute w-full right-0 flex justify-between p-10 sm:p-16 z-10">
+      <nav class="absolute w-full right-0 flex items-start justify-between p-10 sm:p-16 z-10">
         <section class="sm:pl-12 lg:pl-24 flex flex-col justify-center items-start">
-          <router-link to="/catalogue" class="hidden sm:inline text-lg uppercase">catalogue</router-link>
-          <a class="hidden sm:inline text-lg uppercase">about</a>
-          <a class="hidden sm:inline text-lg uppercase">third one</a>
-          <button class="sm:hidden text-sm">
-            <div class="flex justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 lg:h-11 lg:w-11" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </div>
-            <div class="pt-2">menu</div>
-          </button>
+          <router-link to="/catalogue" class="text-lg uppercase">catalogue</router-link>
+          <a class="text-lg uppercase">about</a>
+          <a class="text-lg uppercase">third one</a>
         </section>
 
-        <section class="space-x-4 md:space-x-7 flex items-center">
+        <section class="--space-x-4 md:space-x-7 flex flex-col-reverse sm:flex-row items-center">
           <UserButton/>
           <CartButton/>
         </section>
       </nav>
 
       <!-- logo -->
-      <div class="flex-grow relative">
-        <div class="text-left absolute left-[50%] translate-x-[-50%] lg:left-0 lg:translate-x-0 lg:ml-[151px] translate-y-[-50%] top-[44%] w-max">
-          <div class="font-pacifico text-2xl sm:text-[30px] mb-1">Welcome to the</div>
-          <div class="leading-[64px] sm:leading-[88px]">
-            <div class="font-sigmar text-6xl sm:text-[78px] tracking-[0.185em]">
-              STR
-              <span class="inline-block mx-[-0.4em] text-transparent relative">
-                <div class="absolute bg-[hsl(43deg,97%,61%)] --bg-orange w-[22px] sm:w-[26px] h-[500px] bottom-[5px] left-[3px] sm:left-[5px]">
-                </div>
-                <div class="absolute rotate-45 bg-white w-[26px] h-[26px] bottom-[-14px] left-[1px] sm:left-[5px]"></div>
-                I
-              </span>
-              PE
-            </div>
-            <div class="font-sigmar text-[90px] sm:text-[118px] tracking-[0.075em] relative z-20">SH<span class="">O</span>P</div>
-          </div>
-        </div>
-      </div>
+      <img src="/logo/logo-front-full.svg" class="absolute w-[466px] bottom-[40%] left-[50%] translate-x-[-50%] lg:left-0 lg:translate-x-0 p-6 lg:ml-32"/>
     </main>
   </header>
+
+
+
+
+
+
+
+
+
 
 
   <section class="flex overflow-scroll lg:justify-center scrollbar-off items-start">
@@ -97,7 +81,18 @@
   </section>
 
 
-  <section id="galleries" class="w-full sm:mt-32 2xl:mt-44 relative">
+
+
+
+
+
+
+
+
+
+
+
+  <section id="galleries" class="w-full sm:mt-72 2xl:mt-96 relative">
     <GalleryCarousel id="gallery1" ref="gallery1" class="h-[200px] 2xl:h-[256px] w-full">
         <div class="h-full flex-shrink-0 w-[calc(50%-106px)] sm:w-[calc(50%-146px)]"></div>
         
@@ -110,7 +105,7 @@
 
         
         <div class="hidden sm:block min-w-[26px] xl:mx-2 h-full relative">
-          <div id="beacon-1" class="absolute top-8 2xl:top-0 left-1/2"></div>
+          <div id="beacon-1" class="absolute -top-10 2xl:top-[-100px] left-1/2"></div>
           <div id="beacon-2" class="absolute bottom-0 left-1/2 h-0 w-0 bg-red-600"></div>
         </div>
 
@@ -299,7 +294,7 @@
       <div class="flex-shrink-0 invisible h-full w-8"></div>
     </GalleryCarousel>
 
-    <div class="hidden sm:flex max-w-[320px] min-h-[400px] mx-auto relative flex items-center h-[400px] lg:h-[500px] xl:h-[600px]">
+    <div class="hidden sm:flex max-w-[320px] min-h-[400px] mx-auto relative flex items-center h-[600px] xl:h-[700px]">
       <div id="beacon-7" class="absolute bottom-[380px]"></div>
       <div class="font-pacifico text-2xl lg:text-3xl leading-[1.7em] lg:leading-[1.7em] ml-20 -mt-10">
         Your<br>
@@ -347,15 +342,15 @@
 
   <section class="hidden md:block relative mt-[-110px] h-[700px] w-full">
     <h2 class="absolute font-pacifico text-3xl md:top-[32%] xl:text-4xl xl:top-[35%] xl:top-[36%] left-1/2 -translate-x-1/2 -translate-y-1/2 leading-normal lg:leading-normal xl:leading-normal" ref="allsorts" id="allsorts">
-      All sorts, any kind<br>
-      for any kind of cause
+      All sorts, <span class="font-sigmar">any</span> kind<br>
+      for <span class="font-sigmar">any</span> kind of cause
     </h2>
 
     <object @load="init_fromleft_tweens" data="fromleft.svg" type="image/svg+xml" ref="fromleft" class="absolute z-[-1] origin-right scale-75 xl:scale-100 top-5 -translate-x-10 xl:top-20 right-1/2 xl:translate-x-[-5%]"></object>
 
     <object @load="init_fromright_tweens" data="fromright2.svg" type="image/svg+xml" ref="fromright" class="absolute z-[-1] translate-y-[-32%]  scale-75 xl:scale-100 translate-x-[-14%] left-1/2 xl:translate-x-[-5%]"></object>
 
-    <div id="beacon-b" class="absolute bg-red-600 left-2/3 bottom-[35%]"></div>
+    <div id="beacon-b" class="absolute left-2/3 bottom-[35%]"></div>
   </section>
 
 
@@ -366,7 +361,7 @@
 
 
 
-  <section class="relative md:mt-52 xl:mt-[270px]">
+  <section class="relative md:mt-96 xl:mt-[470px]">
     <div class="relative hidden mt-48 md:mt-0 sm:block w-0 h-1 mx-auto">
       <h1 class="absolute translate-y-[-210px] lg:translate-y-[-230px] translate-x-[-200px] rotate-[-15deg] w-max" >
         <div class="font-pacifico text-3xl lg:text-4xl">See what our</div>
@@ -374,8 +369,8 @@
         <div class="font-pacifico text-3xl lg:text-4xl mt-2 ml-56">have to <span ref="say" class="say inline-block translate-x-[3px] origin-left --rotate-[15deg]">say!</span></div>
       </h1>
 
-      <svg id="comments-line" width="1370" height="2500" class="absolute translate-y-[-600px] translate-x-[-330px] z-[-1] text-orange" viewBox="0 0 1358 2500" fill="none">
-        <path stroke="currentColor" stroke-dasharray="4000" stroke-dashoffset="4000" stroke-width="23" ref="long2" id="long2" :d="d2"/>
+      <svg id="comments-line" width="1315" height="2627" class="absolute translate-y-[-912px] translate-x-[-330px] z-[-1] text-orange" viewBox="0 0 1358 2500" fill="none">
+        <path stroke="currentColor" stroke-dasharray="4000" stroke-dashoffset="4000" stroke-width="27" ref="long2" id="long2" :d="d2"/>
       </svg>
     </div>
 
@@ -431,14 +426,14 @@
 
 
 
-  <section class="mx-auto max-w-screen-xl mt-[135px] md:mt-48">
+  <section class="mx-auto max-w-screen-xl mt-[135px] md:mt-72">
     <h1 class="flex justify-center">
       <div class="w-max ml-[-10%]">
         <div class="font-pacifico text-4xl">Also,</div>
         <div ref="sale" id="sale" class="font-sigmar text-6xl sm:text-7xl origin-left rotate-[-17deg] ml-12 mt-5">
           SA<span class="text-orange">L</span>E!
         </div>
-        <div id="beacon-a" class="ml-28"></div>
+        <div id="beacon-a" class="ml-28 -translate-y-4 translate-x-4"></div>
       </div>
     </h1>
 
@@ -538,7 +533,7 @@ function adaptLong1() {
   d.value = `
     M ${p[0].x} ${p[0].y}
 
-    L ${p[0].x+25} ${p['babulka'].y}
+    L ${p[0].x+25} ${p['babulka'].y+100}
     L ${p[1].x} ${p[1].y-70}
 
     V${p[1].y}
@@ -570,12 +565,12 @@ function adaptLong2() {
   };
 
   d2.value = `
-    M 1357,13.5915
-    C 1141.95,12.2621 485.702,-6.0206 564.5,124.798 
-    C 795.499,508.298 39.282737,386.74897 17.83495,614.1455
-    C -1.7234663,821.51031 11.6698,1434.28 17.6699,1683.78 
-    C23.6699,1933.28 ${a.x-214}, ${a.y+79} ${a.x}, ${a.y}
-    c 214,-79.5 179.5,-52 173.5,-38.5
+    M 1366,11.5
+    C 624,11.5, 512.877,83.612, 588,224.5
+    C 881,774, 22.745,601.352, 17.753,856.303
+    C 13.769,1059.702, 13.674,1818.28, 19.674,2067.78
+    C 25.674,2317.28, ${a.x-214}, ${a.y+79} ${a.x}, ${a.y}
+    c214,-79.5,179.5,-52,173.5,-38.5
   `;
 }
 
@@ -752,7 +747,7 @@ function init_long_animations () {
 
 
   let len = long1.value.getTotalLength();
-  let tail = 1600;
+  let tail = 1900;
   gsap.timeline({
     scrollTrigger: {
       preventOverlaps: "long",
@@ -880,7 +875,7 @@ function init_long_animations () {
   }, {
     ease: "back.out(5)",
     rotation: -18
-  }, "-=0.7");
+  }, "-=0.4");
 }
 </script>
 
