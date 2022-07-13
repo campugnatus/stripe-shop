@@ -7,15 +7,10 @@
 		</button>
 
 		<section class="md:flex justify-center xs:max-w-md md:max-w-screen-xl mx-auto pt-32 gap-20 px-4 --space-x-20">
+
 			<section class="hidden xl:block">
-				<router-link to="/" class="font-sigmar inline-block scale-75 origin-top-left">
-				  <div class="text-[26px] lg:text-4xl tracking-[5px] lg:tracking-[6px] mb-[-16px] lg:mb-[-4px] relative">
-				    <!-- <div class="w-2 h-52 absolute bg-orange right-[41%] bottom-[14%]"></div> -->
-				    STR<span class="">I</span>PE
-				  </div>
-				  <div class="text-[34px] lg:text-5xl tracking-[8px]">
-				    SHOP
-				  </div>
+				<router-link to="/" class="font-sigmar block">
+					<img src="/logo/logo-short-mono.svg" class="w-36 mr-12"/>
 				</router-link>
 			</section>
 
