@@ -1,0 +1,44 @@
+services:
+  setup:
+    image: node
+    volumes:
+      - node_modules:/app/node_modules
+      # - stripeshop_db:/db
+      - .:/app
+    environment:
+      - NODE_ENV=dev
+
+      - API_HOST=api
+      - API_PORT=3002
+
+      - APP_HOST=app
+      - APP_PORT=3000
+
+    working_dir: /app
+    command: npm install; chown -R node:node node_modules
+
+  app:
+    depends_on:
+      setup:
+        condition: service_completed_successfully
+    extends:
+      service: setup
+    ports:
+      # exposed for vite to be able to open a websocket there...
+      # is there a more civil way?
+      - 3000:3000
+    command: npx vite --host
+
+  api:
+    depends_on:
+      setup:
+        condition: service_completed_successfully
+    extends:
+      service: setup
+    ports:
+      - 3002:3002
+    command: npm run api
+
+volumes:
+  node_modules:
+  # stripeshop_db:

@@ -1,7 +1,6 @@
 import axios from "axios"
 
-// TODO: get this from an ENV variable or somethin 
-axios.defaults.baseURL = "http://localhost:3002/api"
+axios.defaults.baseURL = "/api"
 export const baseURL = axios.defaults.baseURL
 
 // for debugging purposes, TODO: turn off in production
@@ -129,7 +128,9 @@ export function abortSearch () {
 // websocket for the pubsub
 let ws
 
-const wshost = "ws://localhost:3002/api/"
+// so that it works both in dev and prod modes. For http(s) we could (and we
+// do) just say '/api', but here we need to specify the protocol, so...
+const wshost = `ws://${document.location.host}/api/`
 
 // we keep track of our subscriptions for the sole purpose of avoiding having
 // multiple subscriptions to the same object... which, theoretically, might

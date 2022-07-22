@@ -2,7 +2,6 @@ const express = require('express')
 const app = express()
 const ws = require('express-ws')(app)
 const cors = require('cors')
-const port = 3002
 const axios = require('axios')
 const jose = require('jose')
 
@@ -68,8 +67,18 @@ function ensureAuth (req, res, next) {
 api.use(express.json())
 
 // api.use(cors({
-// 	// origin: "*", // TODO: restrict only to my domains?
-// 	origin: "http://localhost:3000",
+// 	// for browser to respect the Set-Cookie header in a cross-origin request, one
+// 	// must set Access-Control-Allow-Credentials
+// 	//
+// 	// Access-Control-Allow-Credentials isn't allowed when
+// 	// Access-Control-Allow-Origin == "*",
+// 	//
+// 	// Chrome won't set the cookie if the domain contains a port,
+// 	//
+// 	// see https://stackoverflow.com/questions/46288437/set-cookies-for-cross-origin-requests
+
+// 	origin: "*", // TODO: restrict only to my domains?
+// 	// origin: "http://localhost:3000",
 // 	credentials: true
 // }))
 
@@ -638,12 +647,29 @@ function newUuid () {
 
 app.use('/api', api)
 
-app.use('*', createProxyMiddleware({
-	// TODO: in prod, serve static files from here
-	target: 'http://localhost:3000', // vite endpoint, with HMR and all
-}))
+// During development, we serve everything from here, proxying static requests
+// to vite, thus getting hot module reloading and all. In production, it's the
+// other way around: we serve everything with nginx, proxying api calls here.
+//
+// As to WHY this is so convoluted... I dunno really, why is it always like
+// that? Seriously, though...
+//
+// * Trying to avoid dealing with CORS (kinda complicated when you're trying to
+//   do authentication)
+// * You can't proxy with vite
+// * In prod, it's much faster to proxy with nginx than with express
 
+if (process.env.NODE_ENV === "dev") {
+	app.use('*', createProxyMiddleware({
+		// vite endpoint
+		target: `http://${process.env.APP_HOST}:${process.env.APP_PORT}`
+	}))
+}
 
-app.listen(port, () => {
-  console.log(`Stripe shop listening on port ${port}`)
+app.listen(process.env.API_PORT, () => {
+  console.log(``)
+  console.log(`==================================`)
+  console.log(`Stripe shop listening on port ${process.env.API_PORT}`)
+  console.log(`==================================`)
+  console.log(``)
 })
