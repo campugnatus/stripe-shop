@@ -1,7 +1,9 @@
 const crypto = require('crypto')
 const path = require('path')
 
-const db = require('better-sqlite3')(path.resolve(__dirname, "stripeshop.db"), {
+const dbPath = path.resolve(process.env.DB_FILE)
+
+const db = require('better-sqlite3')(dbPath, {
     fileMustExist: true,
     verbose: function (statement) {
         // console.log(statement)

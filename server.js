@@ -657,7 +657,27 @@ app.use('/api', api)
 // * Trying to avoid dealing with CORS (kinda complicated when you're trying to
 //   do authentication)
 // * You can't proxy with vite
-// * In prod, it's much faster to proxy with nginx than with express
+// * In prod, it's much faster to proxy with nginx
+
+if (!process.env.APP_HOST) {
+	console.error("error: APP_HOST environment variable undefined")
+	process.exit(1)
+}
+
+if (!process.env.API_HOST) {
+	console.error("error: API_HOST environment variable undefined")
+	process.exit(1)
+}
+
+if (!process.env.APP_PORT) {
+	console.error("error: APP_PORT environment variable undefined")
+	process.exit(1)
+}
+
+if (!process.env.API_PORT) {
+	console.error("error: API_PORT environment variable undefined")
+	process.exit(1)
+}
 
 if (process.env.NODE_ENV === "dev") {
 	app.use('*', createProxyMiddleware({
