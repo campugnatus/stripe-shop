@@ -20,12 +20,11 @@ RUN npm install --production
 # Well i don't know... let's FOR NOW just do that manually, a then we'll see
 
 COPY dist dist
-
 COPY server.js .
 COPY db db
 COPY validators.js .
-# we're also going to serve static files with express, FOR NOW
 
+# TODO: should these be here or in docker-compose.yml?
 ENV STATIC_PATH=/app/dist
 ENV NODE_ENV=production
 ENV DB_FILE=/app/db/stripeshop.db

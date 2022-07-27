@@ -1,0 +1,14 @@
+services:
+  stripeshop:
+    image: stripeshop
+    # volumes:
+      # - stripeshop_db:/app/db
+    # networks:k
+    #   - stripeshop
+    ports:
+      - 3002:3002
+    working_dir: /app
+
+# volumes:
+#   stripeshop_db:
+#     external: true

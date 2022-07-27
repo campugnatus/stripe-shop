@@ -27,8 +27,7 @@ case "$1" in
 
 	stage)
 		# trying to emulate production environment as closely as possible
-		docker run -p 3002:3002 -it stripeshop
-		# I guess we should do it via docker-compose?
+		docker-compose -f docker-compose.prod.yml up --remove-orphans
 	;;
 
 	deploy)
