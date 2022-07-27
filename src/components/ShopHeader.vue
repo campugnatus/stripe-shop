@@ -9,7 +9,7 @@
 
     <section class="row-start-2 col-span-2 flex lg:flex-col lg:justify-around lg:ml-10 xl:ml-20 flex-shrink-0 font-roboto text- space-x-4 lg:space-x-0 uppercase">
       <router-link class="" to="/catalogue">catalogue</router-link>
-      <router-link class="" to="#">about</router-link>
+      <router-link class="" to="/about">about</router-link>
       <button @click="thurd" class="text-left uppercase">third one</button>
     </section>
 

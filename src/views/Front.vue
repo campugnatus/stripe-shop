@@ -22,9 +22,10 @@
 
     <main class="max-w-screen-xl h-full mx-auto relative flex flex-col">
       <nav class="absolute w-full right-0 flex items-start justify-between p-10 sm:p-16 z-10">
-        <section class="sm:pl-12 lg:pl-24 flex flex-col justify-center items-start">
-          <router-link to="/catalogue" class="text-lg uppercase">catalogue</router-link>
-          <a class="text-lg uppercase">about</a>
+        <section
+          class="sm:pl-12 lg:pl-24 flex flex-col justify-center items-start text-lg uppercase">
+          <router-link to="/catalogue">catalogue</router-link>
+          <router-link to="/about">about</router-link>
           <a class="text-lg uppercase">third one</a>
         </section>
 
