@@ -61,7 +61,7 @@ function ensureAuth (req, res, next) {
 	if (req.user)
 		next()
 	else
-		res.send("not logged in")
+		res.status(401).send("not logged in")
 }
 
 api.use(express.json())
