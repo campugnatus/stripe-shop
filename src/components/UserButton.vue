@@ -36,7 +36,7 @@
 			leave-from-class="translate-y-0 opacity-100"
 			leave-to-class="-translate-y-1 opacity-0">
 
-			<PopoverPanel class="fixed inset-0 bottom-auto w-full sm:absolute z-10 sm:w-80 sm:top-[calc(100%+0.6em)] sm:inset-auto sm:right-3 shadow-xl bg-white rounded sm:border border-gray-300">
+			<PopoverPanel class="fixed inset-0 bottom-auto w-full sm:absolute z-10 sm:w-80 sm:top-[calc(100%+1em)] sm:inset-auto sm:right-1 shadow-xl bg-white rounded sm:border border-gray-300">
 				<div class="h-6 w-6 absolute right-6 rotate-45 -top-3 bg-gray-100 border border-gray-300 z-[-1]">
 					<!-- triangle -->
 				</div>
