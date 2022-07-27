@@ -115,7 +115,7 @@
         </div>
 
         <div class="gallery-tile">
-          <img src="socks.png" class="h-full">
+          <img src="/socks.png" class="h-full">
         </div>
 
         <div class="gallery-tile">
@@ -223,10 +223,10 @@
         <img src="/zebras2.png" class="h-full">
       </div>
       <div class="gallery-tile">
-        <img src="lemur.png" class="h-full">
+        <img src="/lemur.png" class="h-full">
       </div>
       <div class="gallery-tile py-20">
-        <img src="bees.png" class="h-full">
+        <img src="/bees.png" class="h-full">
       </div>
       <div class="flex-shrink-0 text-2xl md:text-3xl px-2 md:px-10 font-pacifico flex justify-center items-center w-min">
         ...in bugs
