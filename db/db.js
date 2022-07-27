@@ -1,6 +1,10 @@
 const crypto = require('crypto')
 const path = require('path')
 
+if (!process.env.DB_FILE) {
+    throw "DB_FILE environment variable undefined"
+}
+
 const dbPath = path.resolve(process.env.DB_FILE)
 
 const db = require('better-sqlite3')(dbPath, {

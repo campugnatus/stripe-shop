@@ -659,31 +659,41 @@ app.use('/api', api)
 // * You can't proxy with vite
 // * In prod, it's much faster to proxy with nginx
 
-if (!process.env.APP_HOST) {
-	console.error("error: APP_HOST environment variable undefined")
-	process.exit(1)
-}
 
-if (!process.env.API_HOST) {
-	console.error("error: API_HOST environment variable undefined")
-	process.exit(1)
-}
+if (process.env.NODE_ENV === "production") {
+	if (!process.env.STATIC_PATH) {
+		throw "STATIC_PATH environment variable undefined"
+	}
 
-if (!process.env.APP_PORT) {
-	console.error("error: APP_PORT environment variable undefined")
-	process.exit(1)
+	app.use(express.static(process.env.STATIC_PATH))
 }
+else /* development */ {
+	if (!process.env.APP_HOST) {
+		console.error("error: APP_HOST environment variable undefined")
+		process.exit(1)
+	}
 
-if (!process.env.API_PORT) {
-	console.error("error: API_PORT environment variable undefined")
-	process.exit(1)
-}
+	// if (!process.env.API_HOST) {
+	// 	console.error("error: API_HOST environment variable undefined")
+	// 	process.exit(1)
+	// }
 
-if (process.env.NODE_ENV === "dev") {
+	if (!process.env.APP_PORT) {
+		console.error("error: APP_PORT environment variable undefined")
+		process.exit(1)
+	}
+
 	app.use('*', createProxyMiddleware({
 		// vite endpoint
 		target: `http://${process.env.APP_HOST}:${process.env.APP_PORT}`
 	}))
+}
+
+
+
+if (!process.env.API_PORT) {
+	console.error("error: API_PORT environment variable undefined")
+	process.exit(1)
 }
 
 app.listen(process.env.API_PORT, () => {
