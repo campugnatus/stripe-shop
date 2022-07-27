@@ -15,6 +15,8 @@ import Product from './views/Product.vue'
 import Order from './views/Order.vue'
 import OrderHistory from './views/OrderHistory.vue'
 import Catalogue from './views/Catalogue.vue'
+import About from './views/About.vue'
+
 
 const app = createApp(App)
 
@@ -36,6 +38,7 @@ const router = createRouter({
 		{ path: '/order/:id', component: Order },
 		{ path: '/orders', component: OrderHistory },
 		{ path: '/cart', component: Cart },
+		{ path: '/about', component: About },
 	]
 })
 
