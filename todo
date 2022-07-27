@@ -1,14 +1,27 @@
-* node path resolution?
+В очередь, сукины дети! В очередь!
+
+* logging
+* get real email server
+* re-import stripes from figma
 * push all this to github
+* docker
 * deploy to the server
 
-? make full-text search search among reviews, as well? or not?
+* use nginx for serving static files
+   * in the meantime, we'll just serve everything with express.js
+* product updates in a production database
 
-* refactoring: extract header buttons into a separate TopRightNav component
-? make a button to switch between AND and OR in the filters
+* what's the source of truth for hostnames, port numbers, file paths used in the server?
+   * docker-compose.yml?
+   * hard-coded?
 
-2. order history
-   * order history link on the order details page
+* spurious POST /cart on page load
+* get /cart 'not logged in' fucks everything up
+* put API and APP in separate directories?
+*SSL
+
+* cart email address doesn't get filled in (thought it worked?)
+* fix front page page title
 
 * try this beautifier for tailwind and otherwise?
 
@@ -21,9 +34,10 @@
    * with an abrasion
 
 * make stripes on the frontpage hoverable (and clickable!)
-* svg logo
+
 * about
 * third one
+   * make them both clickable
 
 * login signup
    * 4-leter code input field should automatically submit upon reaching 4 letters, as we  don't have a  submit  button  there
@@ -34,16 +48,7 @@
 
 * every input must have a label? for screenreaderss
 
-* cleanup header/main width/padding responsiveness
-   * create a layout component?
-
-* 'focused'  state  ring on all elements
-
-* cart to order page transition
 * any error causes the server to crash... this is uh... not ideal
-
-* search/catalogue
-      * clear filters btn
 
 * loading state
    * there's text selectable behind the grayedout areas... people (or screenreaders) might accidentally see!
@@ -56,9 +61,6 @@
    * stripes
    * main page gallery
 
-* looks
-   * main menu active state
-   * main page search
 
 * cart: dropdowns can't handle more than 9, but it's possible to set more than than through the buttons elsewhere
 * extract button styles into a separate class
@@ -74,3 +76,7 @@
 ? typescript
 
 * 9 stripe
+
+? make full-text search search among reviews, as well? or not?
+? make a button to switch between AND and OR in the filters
+? cart to order page transition
