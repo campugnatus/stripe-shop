@@ -99,7 +99,7 @@ function beforeLeave(el) {
 
 @keyframes toast-leave {
 	0% {
-		transfrom: translate(0, 0) scale(1);
+		transform: translate(0, 0) scale(1);
 	}
 	80% {
 		transform: scaleX(1.1) scaleY(0.9);
