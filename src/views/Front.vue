@@ -4,6 +4,13 @@
     <path fill="none" stroke-dashoffset="5000" stroke-dasharray="5000" stroke="currentColor" stroke-width="27" id="long1" ref="long1" :d="d"/>
   </svg>
 
+  <header v-if="false" class="w-full h-[calc(100vh+1px)] relative max-h-[1000px] overflow-hidden shadow-2xl border-b border-gray-400 bg-white">
+    <main class="max-w-screen-xl h-full mx-auto relative">
+      <img src="/pics/telka-gory-bw.jpg" class="absolute h-full max-w-[100vw] translate-x-[-46%] left-[66%]"/>
+      <img src="/logo/logo-front-stripeless.svg" class="absolute translate-y-[-50%] top-[47.2%] w-[391px] left-[11.2%]"/>
+    </main>
+  </header>
+
   <header class="w-full h-[calc(100vh+1px)] max-h-[1000px] overflow-hidden relative shadow-2xl border-b relative border-gray-400 bg-white">
 
     <div class="absolute overflow-hidden inset-0">
