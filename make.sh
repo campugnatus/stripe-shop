@@ -30,6 +30,26 @@ case "$1" in
 		docker-compose -f docker-compose.prod.yml up --remove-orphans
 	;;
 
+	setup-prod)
+		# stripeshop runs in docker, listening on 127.0.0.1:3002
+		# to make it visible to the outer world one must use a reverse-proxy,
+		# nginx config is included
+		#
+		# make sure nginx is installed
+		# nginx -v
+		#
+		# add nginx.conf to sites-enabled
+		# cp nginx.conf /etc/nginx/sites-available/stripeshop
+		# cd /etc/nginx/sites-enabled
+		# ln -s ../sites-available/stripeshop .
+		#
+		# create log directory
+		# mkdir /var/log/stripeshop for nginx to be able to write logs there
+		#
+		# restart nginx
+		# sudo systemctl restart nginx
+	;;
+
 	deploy)
 		echo "uh.. coming soon? :)"
 	;;

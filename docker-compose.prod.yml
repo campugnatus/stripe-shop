@@ -6,7 +6,7 @@ services:
     # networks:k
     #   - stripeshop
     ports:
-      - 3002:3002
+      - 127.0.0.1:3002:3002
     working_dir: /app
 
 # volumes:
