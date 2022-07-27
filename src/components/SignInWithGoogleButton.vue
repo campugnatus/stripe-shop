@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted, defineEmits } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { useUserStore } from '@/stores/user.js'
 import { showToast } from '@/plugins/toast'
 
