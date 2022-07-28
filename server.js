@@ -665,7 +665,11 @@ if (process.env.NODE_ENV === "production") {
 		throw "STATIC_PATH environment variable undefined"
 	}
 
-	app.use(express.static(process.env.STATIC_PATH))
+	app.use(express.static(path.resolve(process.env.STATIC_PATH)))
+
+	app.get('/*', (req, res) => {
+		res.sendFile(path.resolve(process.env.STATIC_PATH, 'index.html'));
+	})
 }
 else /* development */ {
 	if (!process.env.APP_HOST) {
