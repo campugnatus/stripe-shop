@@ -5,7 +5,7 @@ services:
       - .:/app
       - ./db:/db
     environment:
-      - NODE_ENV=dev
+      - NODE_ENV=development
 
       - API_HOST=api
       - API_PORT=3002
@@ -13,6 +13,9 @@ services:
       - APP_HOST=app
       - APP_PORT=3000
 
+      - STATIC_SERVER=vite
+
+      - STATIC_PATH=./dist
       - DB_FILE=/db/stripeshop.db
 
     working_dir: /app

@@ -645,6 +645,9 @@ function newUuid () {
 
 
 
+
+
+
 app.use('/api', api)
 
 // During development, we serve everything from here, proxying static requests
@@ -655,55 +658,67 @@ app.use('/api', api)
 // that? Seriously, though...
 //
 // * Trying to avoid dealing with CORS (kinda complicated when you're trying to
-//   do authentication)
+//   do authentication) makes us place both APP and API on the same server. See
+//   https://stackoverflow.com/questions/46288437/set-cookies-for-cross-origin-requests
 // * You can't proxy with vite
-// * In prod, it's much faster to proxy with nginx
+// * In prod, it's much faster to serve static files with nginx and proxy API
+//   calls to express
+
+const APP_PORT = process.env.APP_PORT || 3000
+const APP_HOST = process.env.APP_HOST || "localhost"
+const API_PORT = process.env.API_PORT || 3002
+const API_HOST = process.env.API_HOST || "localhost"
+const STATIC_PATH = process.env.STATIC_PATH || "."
+
+// one of: express, vite, nginx (hi typescript)
+const STATIC_SERVER = process.env.STATIC_SERVER ||
+	process.env.NODE_ENV === "production"	  ? "express" :
+	process.env.NODE_ENV === "development"	? "vite" : ""
 
 
-if (process.env.NODE_ENV === "production") {
-	if (!process.env.STATIC_PATH) {
-		throw "STATIC_PATH environment variable undefined"
-	}
 
-	app.use(express.static(path.resolve(process.env.STATIC_PATH)))
 
+// Serving static files ourselves
+
+if (STATIC_SERVER === "express") {
+	app.use(express.static(path.resolve(STATIC_PATH)))
 	app.get('/*', (req, res) => {
-		res.sendFile(path.resolve(process.env.STATIC_PATH, 'index.html'));
+		res.sendFile(path.resolve(STATIC_PATH, 'index.html'));
 	})
 }
-else /* development */ {
-	if (!process.env.APP_HOST) {
-		console.error("error: APP_HOST environment variable undefined")
-		process.exit(1)
-	}
 
-	// if (!process.env.API_HOST) {
-	// 	console.error("error: API_HOST environment variable undefined")
-	// 	process.exit(1)
-	// }
+// Forwarding to vite
 
-	if (!process.env.APP_PORT) {
-		console.error("error: APP_PORT environment variable undefined")
-		process.exit(1)
-	}
-
+else if (STATIC_SERVER === "vite") {
 	app.use('*', createProxyMiddleware({
-		// vite endpoint
-		target: `http://${process.env.APP_HOST}:${process.env.APP_PORT}`
+		target: `http://${APP_HOST}:${APP_PORT}`
 	}))
 }
 
 
+// Chilling behind a proxy
 
-if (!process.env.API_PORT) {
-	console.error("error: API_PORT environment variable undefined")
-	process.exit(1)
+else if (STATIC_SERVER === "nginx") {
+	// nothing for us to do
 }
 
-app.listen(process.env.API_PORT, () => {
-  console.log(``)
-  console.log(`==================================`)
-  console.log(`Stripe shop listening on port ${process.env.API_PORT}`)
-  console.log(`==================================`)
-  console.log(``)
+else {
+	throw "invalid STATIC_SERVER environment variable"
+}
+
+
+
+
+app.listen(API_PORT, () => {
+	console.log()
+	console.log(`Stripe shop API listening on port ${API_PORT}`)
+
+	if (STATIC_SERVER === "express")
+		console.log(`Serving static files from here, as well`)
+	if (STATIC_SERVER === "vite")
+		console.log(`Proxying static requests to ${APP_HOST}:${APP_PORT}`)
+	if (STATIC_SERVER === "nginx")
+		console.log(`Not serving static files. Are we behind a proxy?`)
+
+	console.log()
 })
