@@ -4,6 +4,7 @@ const ws = require('express-ws')(app)
 const cors = require('cors')
 const axios = require('axios')
 const jose = require('jose')
+const logger = require('morgan')
 
 const v = require('./validators.js')
 const validateBody = v.validateBody
@@ -39,8 +40,7 @@ api.use(cookieParser())
 api.use(cookieSession({ secret: 'this is added to git, how secret can it be?' }))
 
 
-
-
+app.use(logger(process.env.NODE_ENV === "development" ? "dev" : "combined"))
 
 
 api.use(function authenticate (req, res, next) {
@@ -101,10 +101,10 @@ api.ws('/subscribe', (ws, req) => {
 
 
 
-api.use(function logger (req, res, next) {
-	console.log(req.method, req.url, req.method === "GET" ? req.query : req.body)
-	next()
-})
+// api.use(function logger (req, res, next) {
+// 	console.log(req.method, req.url, req.method === "GET" ? req.query : req.body)
+// 	next()
+// })
 
 api.use(function delay (req, res, next) {
 	// simulate network delay during development for the obviousness of the
