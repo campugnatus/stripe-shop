@@ -1,22 +1,52 @@
 // import stripes info and images from figma
-//
-// USAGE
-//
-// node get_stripes.js -- download and parse the stripes' metadata and write
-// stripes.json and order.json to the disk
-// 
-// node get_stripes.js svg -- same as above, but also download the stripes'
-// svgs
 
 // TODO: store the secret securely? Or just use OAuth2 instead
 // 208446-68c2c832-cc21-4ad0-84a4-71c895a77859
 
-const axios = require('axios');
-const fs = require('fs');
-const figmaToken = '208446-68c2c832-cc21-4ad0-84a4-71c895a77859';
-const stripesNodeId = '439:1077';
+const usage = `
 
-main();
+USAGE
+	node get_stripes.js [--svg] [<output directory>]
+
+	--svg	also download the svgs of the stipes and put them in
+			"svg" subdirectory of the output path
+
+`
+
+const axios = require('axios')
+const fs = require('fs')
+const path = require('path')
+const figmaToken = '208446-68c2c832-cc21-4ad0-84a4-71c895a77859'
+const stripesNodeId = '439:1077'
+
+const [getSVGs, outputDir] = parseParams()
+
+main()
+
+
+
+
+
+
+
+
+function parseParams () {
+	const args = process.argv.slice(2)
+	let svgs, outputDir
+
+	if (args[0] === "--svg") {
+		svgs = true
+		args.shift()
+	}
+
+	outputDir = args[0]
+	if (!outputDir) {
+		console.log(usage)
+		process.exit(1)
+	}
+	return [svgs, outputDir]
+}
+
 
 async function main () {
 
@@ -30,11 +60,10 @@ async function main () {
 			ids: [stripesNodeId].join(',')
 		},
 	}).catch(error => {
-		if (error.response)
-			console.error("Couldn't get the parent node:", error.response.statusText)
-		else 
-			console.error("Couldn't get the parent node:", error.code)
-
+		console.error(
+			"Couldn't get the parent node:",
+			error.response ? error.response.statusText : error.code
+		)
 		throw error
 	})
 	
@@ -47,13 +76,17 @@ async function main () {
 		.filter(obj => obj !== null)
 
 
-
 	console.log("Writing stripes metadata to disk...")
-	fs.writeFileSync('stripes.json', JSON.stringify(stripe_metadata, null, 4))
+	fs.writeFileSync(
+		path.resolve(outputDir, 'stripes.json'),
+		JSON.stringify(stripe_metadata, null, 4)
+	)
 
 
-	let arg = process.argv[2]
-	if (arg === "svg") {
+	if (getSVGs) {
+		// create a directory for the SVGs if one doesn't exist yet
+		fs.mkdirSync(path.resolve(outputDir, "svg"), {recursive: true})
+
 		console.log("Requesting image URLs...")
 		let id_to_metadata = stripe_metadata.reduce((acc, stripe) => {
 			acc[stripe.id] = stripe
@@ -68,10 +101,11 @@ async function main () {
 		console.log("Writing the SVGs to disk...")
 		for (const [id, promise] of Object.entries(id_to_promise)) {
 			let {data: svg} = await promise
-			fs.writeFileSync('svg/' + id + ".svg", svg)
+			fs.writeFileSync(
+				path.resolve(outputDir, "svg", `${id}.svg`),
+				svg
+			)
 		}
-	} else if (arg) {
-		console.log("Bad argument")
 	}
 
 	console.log("All done... whew!")
