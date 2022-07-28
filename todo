@@ -1,24 +1,26 @@
 В очередь, сукины дети! В очередь!
 
-* logging
+* SSL
+
+* favicon
+* the fuck's with the logo's font on mobile?
 * get real email server
 * re-import stripes from figma
 * push all this to github
-* docker
 * deploy to the server
 
 * use nginx for serving static files
    * in the meantime, we'll just serve everything with express.js
-* product updates in a production database
+* product updates in the production database
 
 * what's the source of truth for hostnames, port numbers, file paths used in the server?
    * docker-compose.yml?
    * hard-coded?
+      * probably not the best idea, esp if they appear in more than one place
 
 * spurious POST /cart on page load
 * get /cart 'not logged in' fucks everything up
 * put API and APP in separate directories?
-*SSL
 
 * cart email address doesn't get filled in (thought it worked?)
 * fix front page page title
