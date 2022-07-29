@@ -5,7 +5,7 @@ services:
       - STATIC_SERVER=express
     volumes:
       - stripeshop_db:/app/db
-    # networks:k
+    # networks:
     #   - stripeshop
     ports:
       - 127.0.0.1:3002:3002
