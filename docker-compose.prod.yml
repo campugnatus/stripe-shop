@@ -1,6 +1,8 @@
 services:
   stripeshop:
     image: stripeshop
+    environment:
+      - STATIC_SERVER=express
     volumes:
       - stripeshop_db:/app/db
     # networks:k
