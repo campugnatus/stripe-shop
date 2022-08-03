@@ -136,7 +136,7 @@
 
         
         <div class="gallery-tile">
-          <img src="https://cdn.pixabay.com/photo/2016/12/14/11/34/socks-1906060_960_720.jpg" class="h-full">
+          <img src="/socks-1906060_960_720.jpg" class="h-full">
         </div>
         
         <div class="gallery-tile">
@@ -146,10 +146,10 @@
           <img src="/fence.png" class="h-full">
         </div>
         <div class="gallery-tile">
-          <img src="https://images.pexels.com/photos/1098764/pexels-photo-1098764.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" class="h-full">
+          <img src="/pexels-photo-1098764.jpeg" class="h-full">
         </div>
         <div class="gallery-tile">
-          <img src="https://images.pexels.com/photos/1591930/pexels-photo-1591930.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" class="h-full">
+          <img src="/pexels-photo-1591930.jpeg" class="h-full">
         </div>
         <div class="gallery-tile">
           <img src="https://images.unsplash.com/photo-1586574208875-cd77c2bfb851?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80" class="h-full">
@@ -189,7 +189,7 @@
       </div>
 
       <div class="gallery-tile relative">
-        <img src="https://images.pexels.com/photos/3876417/pexels-photo-3876417.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" class="h-full">
+        <img src="/pexels-photo-3876417.jpeg" class="h-full">
         <div class="absolute w-full pb-6 h-24 font-pacifico text-white bottom-10 text-3xl flex items-center justify-center">
           in<br> agriculture
         </div>
@@ -208,7 +208,7 @@
       </div>
       
       <div class="gallery-tile">
-        <img src="https://images.pexels.com/photos/2820587/pexels-photo-2820587.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" class="h-full">
+        <img src="/pexels-photo-2820587.jpeg" class="h-full">
       </div>
 
 
@@ -254,7 +254,7 @@
 
 
       <div class="gallery-tile relative">
-        <img src="https://cdn.pixabay.com/photo/2016/11/23/15/36/close-up-1853572_960_720.jpg" class="h-full">
+        <img src="/close-up-1853572_960_720.jpg" class="h-full">
         <div class="absolute bottom-0 w-full h-16 mb-16 font-pacifico text-3xl flex items-center justify-start ml-8 text-white">
           in<br> music
         </div>
@@ -270,7 +270,7 @@
       </div>
 
       <div class="gallery-tile relative">
-        <img src="https://images.pexels.com/photos/728824/pexels-photo-728824.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" class="h-full">
+        <img src="/pexels-photo-728824.jpeg" class="h-full">
         <div class="absolute bottom-[55%] left-[10%] font-pacifico text-3xl flex items-center justify-center text-white rotate-[-30deg]">
           in<br> transport
       </div>
@@ -286,13 +286,13 @@
       </div>
 
       <div class="gallery-tile">
-        <img src="https://images.pexels.com/photos/1436697/pexels-photo-1436697.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" class="h-full">
+        <img src="/pexels-photo-1436697.webp" class="h-full">
       </div>
       <div class="gallery-tile">
         <img src="/motorcycle.png" class="h-full">
       </div>
       <div class="gallery-tile">
-        <img src="https://images.pexels.com/photos/1571134/pexels-photo-1571134.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" class="h-full">
+        <img src="/pexels-photo-1571134.jpeg" class="h-full">
       </div>
       <div class="sm:hidden font-pacifico text-2xl leading-[1.7em] mx-10 min-w-max">
         Your<br>
