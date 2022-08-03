@@ -28,12 +28,12 @@ const secret24 = crypto.scryptSync(secret, 'salt', 24)
 const nodemailer = require("nodemailer")
 
 const emailTransport = nodemailer.createTransport({
-  host: "smtp.mailtrap.io",
-  port: 2525,
-  auth: {
-    user: "4544d25b466838",
-    pass: "02bad9670588c0"
-  }
+	host: "smtp.mailtrap.io",
+	port: 2525,
+	auth: {
+		user: "4544d25b466838",
+		pass: "02bad9670588c0"
+	}
 })
 
 const api = express.Router()
@@ -66,6 +66,7 @@ function ensureAuth (req, res, next) {
 }
 
 api.use(express.json())
+
 
 // api.use(cors({
 // 	// for browser to respect the Set-Cookie header in a cross-origin request, one
