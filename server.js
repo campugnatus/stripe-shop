@@ -685,7 +685,7 @@ const STATIC_PATH = process.env.STATIC_PATH || "."
 // one of: express, vite, nginx (hi typescript)
 const STATIC_SERVER = process.env.STATIC_SERVER || (
 	process.env.NODE_ENV === "production"	  ? "express" :
-	process.env.NODE_ENV === "development"	? "vite" : ""
+	process.env.NODE_ENV === "development"	? "vite" : "express"
 )
 
 
