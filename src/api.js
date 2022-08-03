@@ -130,7 +130,8 @@ let ws
 
 // so that it works both in dev and prod modes. For http(s) we could (and we
 // do) just say '/api', but here we need to specify the protocol, so...
-const wshost = `ws://${document.location.host}/api/`
+const schema = location.protocol === "https:" ? "wss" : "ws"
+const wshost = `${schema}://${document.location.host}/api/ws`
 
 // we keep track of our subscriptions for the sole purpose of avoiding having
 // multiple subscriptions to the same object... which, theoretically, might

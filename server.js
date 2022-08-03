@@ -1,10 +1,11 @@
 const express = require('express')
 const app = express()
-const ws = require('express-ws')(app)
 const cors = require('cors')
 const axios = require('axios')
 const jose = require('jose')
 const logger = require('morgan')
+const {parse} = require('url')
+const websocket = require('ws')
 
 const v = require('./validators.js')
 const validateBody = v.validateBody
@@ -83,23 +84,6 @@ api.use(express.json())
 // }))
 
 const google_client_id = "464350742513-rv3421qgq91ugsn72g1busodgehjol0p.apps.googleusercontent.com";
-
-
-// pub/sub endpoint
-api.ws('/subscribe', (ws, req) => {
-	ws.on('message', function message (m) {
-		const {tag, bucket, id} = JSON.parse(m)
-		if (tag !== "subscribe") return
-
-		DB.subscribe(bucket, id, function (object) {
-			if (ws.readyState !== 1) return "unsubscribe"
-			ws.send(JSON.stringify({bucket, id, object}))
-		})
-	})
-})
-
-
-
 
 // api.use(function logger (req, res, next) {
 // 	console.log(req.method, req.url, req.method === "GET" ? req.query : req.body)
@@ -725,9 +709,7 @@ else {
 }
 
 
-
-
-app.listen(API_PORT, () => {
+const server = app.listen(API_PORT, () => {
 	console.log()
 	console.log(`Stripe shop API listening on port ${API_PORT}`)
 
@@ -740,3 +722,52 @@ app.listen(API_PORT, () => {
 
 	console.log()
 })
+
+
+
+
+
+/*
+ * Well, all this websocket stuff isn't very elegant.
+ * I tried using express-ws, but it didn't work sell with SSL + nginx reverse-proxy
+ */
+
+const wsServer = new websocket.Server({ noServer: true });
+
+server.on('socket', (socket) => {
+
+})
+
+server.on('upgrade', (req, socket, head) => {
+	wsServer.handleUpgrade(req, socket, head, socket => {
+		wsServer.emit('connection', socket, req);
+	});
+})
+
+wsServer.on('connection', function (socket, request) {
+	const { pathname } = parse(request.url);
+
+	if (pathname === "/api/ws/subscribe") {
+		pubsubSubscribe(socket)
+	}
+	else if (pathname === "/api/ws/wstest") {
+		socket.on('message', message => console.log(message));
+	}
+	else {
+		// TODO: how do I return a 404 to the user here?
+		socket.terminate()
+	}
+});
+
+
+function pubsubSubscribe (socket) {
+	socket.on('message', function message (m) {
+		const {tag, bucket, id} = JSON.parse(m)
+		if (tag !== "subscribe") return
+
+		DB.subscribe(bucket, id, function (object) {
+			if (socket.readyState !== 1) return "unsubscribe"
+			socket.send(JSON.stringify({bucket, id, object}))
+		})
+	})
+}
