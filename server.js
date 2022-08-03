@@ -115,6 +115,11 @@ api.use(function delay (req, res, next) {
 })
 
 
+// api.use((req, res, next) => {
+// 	res.set('Content-Security-Policy-Report-Only', "default-src 'self' https://pay.google.com https://accounts.googlec.com; img-src *; report-uri /api/csp_report")
+// 	next()
+// })
+
 api.get('/products/search/',
 
 	validateQuery({
@@ -397,11 +402,11 @@ api.post('/signup',
 		const token = createToken({email, name, password, code})
 
 		let info = emailTransport.sendMail({
-		  from: '"Stripe Shop" <noreply@stripeshop>', // sender address
-		  to: email, // list of receivers
-		  subject: "Email verification", // Subject line
-		  text: "Your code is "+code, // plain text body
-		  // html: "<b>Hello world?</b>", // html body
+			from: '"Stripe Shop" <noreply@stripeshop>', // sender address
+			to: email, // list of receivers
+			subject: "Email verification", // Subject line
+			text: "Your code is "+code, // plain text body
+			// html: "<b>Hello world?</b>", // html body
 		})
 
 		res.status(200).send(token)
