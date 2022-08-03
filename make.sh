@@ -4,6 +4,10 @@
 
 set -e
 
+if [[ ! -f package.json ]]; then
+	echo "Must be run at the project's root"
+fi
+
 case "$1" in
 	dev)
 		docker-compose -f docker-compose.dev.yml up --remove-orphans
@@ -21,8 +25,7 @@ case "$1" in
 	;;
 
 	build)
-		npx vite build
-		docker build -t stripeshop .
+		docker build -t kotomka/stripeshop .
 	;;
 
 	stage)
@@ -51,6 +54,10 @@ case "$1" in
 	;;
 
 	deploy)
-		echo "uh.. coming soon? :)"
+		set -x
+		docker push kotomka/stripeshop
+		scp docker-compose.prod.yml shadoy@shevchuk.net:
+		ssh shadoy@shevchuk.net docker pull kotomka/stripeshsop
+		ssh shadoy@shevchuk.net docker-compose -f docker-compose.prod.yml up --remove-orphans --detach
 	;;
 esac

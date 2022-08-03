@@ -646,6 +646,18 @@ function newUuid () {
 
 
 
+// the endpoint for posting Content Security Policy violation reports, see e.g.
+// https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP#sample_violation_report
+api.post('/csp_report',
+	express.json({type: "application/csp-report"}),
+	(req, res, next) => {
+		console.log("CSP report", req.body)
+		res.sendStatus(200)
+	}
+)
+
+
+
 
 
 app.use('/api', api)

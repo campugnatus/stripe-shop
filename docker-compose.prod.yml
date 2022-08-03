@@ -1,16 +1,22 @@
+name:
+  stripeshop
+
 services:
   stripeshop:
-    image: stripeshop
+    image: kotomka/stripeshop
+    restart: on-failure
     environment:
       - STATIC_SERVER=express
+      - NODE_ENV=production
     volumes:
-      - stripeshop_db:/app/db
+      - db:/db
     # networks:
     #   - stripeshop
     ports:
       - 127.0.0.1:3002:3002
-    working_dir: /app
+    command:
+      node server.js
 
 volumes:
-  stripeshop_db:
+  db:
 #     external: true

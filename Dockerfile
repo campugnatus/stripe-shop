@@ -1,45 +1,61 @@
-FROM node:18-bullseye
+# syntax=docker/dockerfile:1
+
+FROM node:18-bullseye AS builder
+
+# TODO: should these be here or in docker-compose.yml?
+ENV DB_FILE=/db/stripeshop.db
+ENV STATIC_PATH=/app/dist
+ENV NODE_ENV=development
+ENV API_PORT=3002
 
 WORKDIR /app
 
-# don't npm install on every build, let docker cache it
 COPY package.json package-lock.json ./
-RUN npm install --production
+RUN npm install
+
+RUN mkdir scripts
+COPY scripts ./scripts/
+
+RUN mkdir /db
+#RUN node scripts/get_stripes.js --svg stripes.json
+RUN node scripts/create_db.js "$DB_FILE" scripts/create_db.sql
+COPY stripes.json .
+RUN node scripts/populate_db.js "$DB_FILE" ./stripes.json
+VOLUME /db
+
+COPY . .
+RUN npx vite build
+
+# COPY server.js .
+# COPY db.js .
+# COPY validators.js .
+
+#CMD node server.js
+
+EXPOSE $API_PORT
 
 
-# what should we do about DB?
-# 1. the server should create one for itself if there isn't one
-#	* that task itself involves some knowledge that isn't any of the server's
-#     business, like importing products from figma
-# 	* I guess we could just ship an empty DB within the image?
-# 	* Still, I feel that it shouldn't be any of the containers business
-#
-# 2. the server should just expect it to be there
-#	that is, our deployment scripts must create it if there isn't one
-#
-# Well i don't know... let's FOR NOW just do that manually, a then we'll see
 
-COPY dist dist
-COPY server.js .
-COPY db db
-COPY validators.js .
+FROM node:18-alpine
 
-# TODO: should these be here or in docker-compose.yml?
+ENV DB_FILE=/db/stripeshop.db
 ENV STATIC_PATH=/app/dist
 ENV NODE_ENV=production
-ENV DB_FILE=/app/db/stripeshop.db
 ENV API_PORT=3002
 
-CMD node server.js
+WORKDIR /app
 
-EXPOSE 3002
+COPY package.json package-lock.json ./
+RUN npm install
 
-# COPY scripts/setup_prod.sh .
-# RUN ./setupd_prod.sh
+RUN mkdir /db
+COPY --from=builder "$DB_FILE" "$DB_FILE"
 
-#COPY . .
-#CMD npm run dev
-#CMD npx vite --port 3000 --host
-#EXPOSE 3000
+RUN mkdir dist
+COPY --from=builder /app/dist dist/
 
-#VOLUME /db /app
+COPY server.js .
+COPY db.js .
+COPY validators.js .
+
+EXPOSE $API_PORT
