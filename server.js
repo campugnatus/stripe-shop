@@ -19,7 +19,7 @@ const crypto = require('crypto')
 const cookieParser = require('cookie-parser')
 const cookieSession = require('cookie-session')
 
-const DB = require('./db/db.js')
+const DB = require('./db.js')
 
 const secret = 'This should be taken from somewhere like an environment variable'
 const secret24 = crypto.scryptSync(secret, 'salt', 24)
