@@ -57,7 +57,7 @@ case "$1" in
 		set -x
 		docker push kotomka/stripeshop
 		scp docker-compose.prod.yml shadoy@shevchuk.net:
-		ssh shadoy@shevchuk.net docker pull kotomka/stripeshsop
+		ssh shadoy@shevchuk.net docker pull kotomka/stripeshop
 		ssh shadoy@shevchuk.net docker-compose -f docker-compose.prod.yml up --remove-orphans --detach
 	;;
 esac
