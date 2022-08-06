@@ -1,13 +1,31 @@
 В очередь, сукины дети! В очередь!
 
-* SSL
+* scoped CSS & markdown
 
-* favicon
+* actually ship orders
+* flash of unstyled content?
+* server.sj: extract email stuff into a separate module
+* deploy rollback...
+   * without docker hub that would be trivial
+      * I'm sure there's a way
+* exim tls default port?
+* SPF, DKIM, etc
+* 'couldn't load product' error when trying to search from the "about" page
+* secrets!
+  * figma token is stored not securely in the code
+
+* where to store deliverable .zips in prod? in a volume?
+   * what about not storing them at all?
+* bulk loading for products?
+* password scrambling in logs?
+* add <link rel="canonical"> to index.html
+* upgrade vite to version 3
+
+* GSAP scroll trigger sucks ass
 * the fuck's with the logo's font on mobile?
 * get real email server
 * re-import stripes from figma
 * push all this to github
-* deploy to the server
 
 * use nginx for serving static files
    * in the meantime, we'll just serve everything with express.js
@@ -19,7 +37,6 @@
       * probably not the best idea, esp if they appear in more than one place
 
 * spurious POST /cart on page load
-* get /cart 'not logged in' fucks everything up
 * put API and APP in separate directories?
 
 * cart email address doesn't get filled in (thought it worked?)
