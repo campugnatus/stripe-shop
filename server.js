@@ -27,14 +27,32 @@ const secret24 = crypto.scryptSync(secret, 'salt', 24)
 
 const nodemailer = require("nodemailer")
 
-const emailTransport = nodemailer.createTransport({
-	host: "smtp.mailtrap.io",
-	port: 2525,
-	auth: {
-		user: "4544d25b466838",
-		pass: "02bad9670588c0"
+
+
+
+if (!process.env.SMTP_FROM) throw "SMTP_FROM environment variable undefined"
+if (!process.env.SMTP_SERVER) throw "SMTP_SERVER environment variable undefined"
+if (!process.env.SMTP_PORT) throw "SMTP_PORT environment variable undefined"
+
+const nodemailerArgs = {
+	host: process.env.SMTP_SERVER,
+	port: process.env.SMTP_PORT || 25,
+	auth: process.env.SMTP_USER && {
+		user: process.env.SMTP_USER,
+		pass: process.env.SMTP_PASSWORD
+	},
+	secure: false,
+	tls: {
+		rejectUnauthorized: false
 	}
-})
+}
+
+const emailTransport = nodemailer.createTransport(nodemailerArgs)
+
+
+
+
+
 
 const api = express.Router()
 api.use(cookieParser())
@@ -387,7 +405,7 @@ api.post('/signup',
 		const token = createToken({email, name, password, code})
 
 		let info = emailTransport.sendMail({
-			from: '"Stripe Shop" <noreply@stripeshop>', // sender address
+			from: `"Stripe Shop" <${process.env.SMTP_FROM}>`, // sender address
 			to: email, // list of receivers
 			subject: "Email verification", // Subject line
 			text: "Your code is "+code, // plain text body
@@ -446,7 +464,7 @@ api.post('/request_password_reset',
 		const token = createToken({email, code})
 
 		let info = emailTransport.sendMail({
-		  from: '"Stripe Shop" <noreply@stripeshop>', // sender address
+			from: `"Stripe Shop" <${process.env.SMTP_FROM}>`, // sender address
 		  to: email, // list of receivers
 		  subject: "Password reset request", // Subject line
 		  text: "Your password reset code is "+code, // plain text body

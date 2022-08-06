@@ -7,6 +7,12 @@ services:
     environment:
       - NODE_ENV=development
 
+      - SMTP_SERVER=smtp.mailtrap.io
+      - SMTP_PORT=2525
+      - SMTP_USER=4544d25b466838
+      - SMTP_PASSWORD=02bad9670588c0
+      - SMTP_FROM=info@stripeshop.top
+
       - API_HOST=api
       - API_PORT=3002
 

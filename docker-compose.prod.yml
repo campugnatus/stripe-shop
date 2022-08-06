@@ -6,17 +6,26 @@ services:
     image: kotomka/stripeshop
     restart: on-failure
     environment:
-      - STATIC_SERVER=express
       - NODE_ENV=production
+      - STATIC_SERVER=express
+
+      - SMTP_SERVER=localhost
+      - SMTP_PORT=25
+      - SMTP_FROM=info@stripeshop.top
+
     volumes:
       - db:/db
-    # networks:
-    #   - stripeshop
+    network_mode: "host"
     ports:
       - 127.0.0.1:3002:3002
+    # networks:
+      # stripeshop: {}
+    # extra_hosts:
+    #   - "host.docker.internal:host-gateway"
+    # stdin_open: true # docker run -i
+    # tty: true        # docker run -t
     command:
       node server.js
 
 volumes:
   db:
-#     external: true
