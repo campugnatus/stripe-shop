@@ -85,7 +85,7 @@ const searchProducts =
             searched as (${
                 words && words.length ? `
                     SELECT *
-                    FROM product_fts f JOIN product p ON p.id = f.id
+                    FROM product_fts f JOIN product p ON p.id = f.product_id
                     WHERE product_fts MATCH $searchTerms
                 ` : `
                     SELECT * FROM product
