@@ -11,10 +11,14 @@ create table product (
 	price real,
 	filename text,
 	place integer -- its place in the default order (sort by default)
+
+	-- !=0 means the product isn't being sold anymore, is not shown in
+	-- the catalogue and is only kept around for the sake of DB consistency
+	archived integer
 );
 
 
--- full text search
+-- full text search (fts)
 create virtual table product_fts using fts5(product_id, title, description, tags);
 
 create table tag (

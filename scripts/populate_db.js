@@ -39,25 +39,25 @@ const products = JSON.parse(fs.readFileSync(stripesPath))
 
 
 const insertProduct = db.prepare(`
-    INSERT OR IGNORE
+    INSERT OR REPLACE
     INTO product
-    VALUES ($id, $title, $description, $price, $filename, $place)
+    VALUES ($id, $title, $description, $price, $filename, $place, false)
 `)
 
 const insertTag = db.prepare(`
-    INSERT OR IGNORE
+    INSERT OR REPLACE
     INTO tag
     VALUES (?)
 `)
 
 const insertTagProduct = db.prepare(`
-    INSERT OR IGNORE
+    INSERT OR REPLACE
     INTO tag_product_bridge
     VALUES ($tag_id, $product_id)
 `)
 
 const insertFTS = db.prepare(`
-    INSERT OR IGNORE INTO product_fts
+    INSERT OR REPLACE INTO product_fts
     VALUES (
         $id,
         $title,
@@ -66,7 +66,19 @@ const insertFTS = db.prepare(`
     )
 `)
 
-console.log(`Going to populate the DB with ${products.length} products...`)
+
+db.transaction(function resetProducts () {
+    db.exec(`
+        DELETE from tag_product_bridge;
+        DELETE from tag;
+        DELETE from product_fts;
+
+        UPDATE product
+        SET archived = 1
+    `)
+})()
+
+console.log(`(Re?)populating the DB with ${products.length} products...`)
 
 db.transaction(() => {
     for (let i = 0; i < products.length; i++) {
