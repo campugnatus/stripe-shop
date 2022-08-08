@@ -17,6 +17,7 @@ case "$1" in
 		docker run --rm \
 		-v "$(pwd)/db:/db" \
 		-v "$(pwd):/app" \
+		--add-host=docker.host.internal:host-gateway \
 		-w /app -it \
 		-p 3000:3000 \
 		-p 3002:3002 \
