@@ -106,7 +106,7 @@ import { useUserStore } from '@/stores/user'
 const cart = useCartStore()
 const products = useProductStore()
 const router = useRouter()
-const user = useUserStore()
+const userStore = useUserStore()
 
 const loading = computed(() => cart.loading)
 
@@ -124,7 +124,11 @@ const form = reactive({
 	email: undefined
 })
 
-watch(() => user.profile?.email, x => form.email = form.email || x)
+watch(() => userStore.profile?.email, x => {
+	form.email = x || ""
+}, {
+	immediate: true
+})
 
 const errors = reactive({
 	email: undefined
