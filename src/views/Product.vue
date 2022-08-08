@@ -36,8 +36,9 @@
 				</a>
 			</div>
 
-			<div class="mt-auto text-lg loading:grayout loading:w-32">
-				<span class="text-2xl font-bold">5</span> left in stock
+			<div class="mt-auto text-lg loading:grayout loading:w-32 flex items-center">
+				<span>In stock:</span>
+				<span class="ml-2 text-3xl text-gray-700 font-bold">∞</span>
 			</div>
 
 			<AddToCartButton :pid="productId" class="sm:w-64 mt-2 text-lg loading:grayout"/>
