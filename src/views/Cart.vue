@@ -44,13 +44,27 @@
 		<div class="md:w-1/2 md:pl-7 lg:pl-16 mt-6 md:mt-0 py-6 lg:border-l border-gray-500">
 			<h1 class="text-2xl md:text-4xl font-roboto">Checkout</h1>
 
-			<div class="bg-tomato p-4 rounded-xl mt-6 md:mt-10 text-sm text-white">
+			<div class="bg-sky-700/40 p-4 rounded-xl mt-6 md:mt-10 text-sm text-white">
+				<p>
+					<b>The Google Pay button is in test mode</b>
+				</p>
+
+				<p class="mt-4">
+					Which means that it looks like a real one and swims like a real one, and quacks like a real one, except that you won't get charged. There's no way for you to tell, though :-\
+				</p>
+
+				<p class="mt-4">
+					So I guess you'll just have to trust me on this one...
+				</p>
+			</div>
+
+			<div class="hidden bg-tomato p-4 rounded-xl mt-6 md:mt-10 text-sm text-white">
 				<p>
 					<b>Please make sure you understand what you’re paying for</b>
 				</p>
 
 				<p class="mt-4">
-					This is a joke shop, but it is functional. If you checkout, you <b>will be charged</b>. You’ll get an email with a joke or two and a .zip archive containing the images of the stripes you’ve ordered, the same images that you see here on the website. 
+					This is a joke shop, but it is functional. If you checkout, you <b>will be charged</b>. You’ll get an email with a joke or two and a .zip archive containing the images of the stripes you’ve ordered, the same images that you see here on the website.
 				</p>
 
 				<p class="mt-4">
@@ -60,14 +74,14 @@
 
 			<h2 class="text-xl md:text-2xl mt-8 md:mt-14">Your email address</h2>
 			<p class="text-sm mt-3">
-				This email address will be used to send you the stripes you’ve ordered, and in no other way ever
+				This email address will be used to send you the stripes you’ve ordered, and in no other way ever.
 			</p>
 			<LoginInput
 				focus
 				v-model="form.email"
 				:error="errors.email"
 				class="mt-3 w-full"
-				placeholder="Your email address"/>
+				placeholder="Your email address (optional)"/>
 			<GooglePayButton v-if="cart.subtotal" :price="cart.subtotal" @paid="checkout" class="mt-4"/>
 			<button @click="showToast.error('Not yet, sorry')" class="w-full bg-primary rounded text-white text-sm font-bold p-2 mt-3">
 				Pay with Apple
