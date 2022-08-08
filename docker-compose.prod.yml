@@ -13,8 +13,11 @@ services:
       - SMTP_PORT=25
       - SMTP_FROM=info@stripeshop.top
 
+      - BASE_URL=https://stripeshop.top
+
     volumes:
       - db:/db
+      - zips:/app/zips
     network_mode: "host"
     ports:
       - 127.0.0.1:3002:3002
@@ -29,3 +32,4 @@ services:
 
 volumes:
   db:
+  zips:

@@ -24,6 +24,8 @@ services:
       - STATIC_PATH=./dist
       - DB_FILE=/db/stripeshop.db
 
+      - BASE_URL=http://localhost:3002
+
     working_dir: /app
     command: ./scripts/setup_dev.sh
 

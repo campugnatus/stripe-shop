@@ -174,7 +174,7 @@ api.post('/orders',
 
 	validateBody({
 		price: v.price,
-		email: v.email,
+		email: v.optional(v.email),
 		items: v.cartItems
 	}),
 
@@ -192,17 +192,86 @@ api.post('/orders',
 		// simulate further order handling
 		//
 
-		await new Promise((resolve, reject) => setTimeout(() => resolve(), 10000))
+		await new Promise((resolve, reject) => setTimeout(() => resolve(), 1000))
 
 		DB.orderPushStatus(order.id, "paid")
 
-		await new Promise((resolve, reject) => setTimeout(() => resolve(), 10000))
+		await new Promise((resolve, reject) => setTimeout(() => resolve(), 1000))
 		await packOrder(order.id)
 
-		await new Promise((resolve, reject) => setTimeout(() => resolve(), 10000))
-		await shipOrder(order.id)
+		await new Promise((resolve, reject) => setTimeout(() => resolve(), 1000))
+		await shipOrder(order.id, order.email)
 	}
 )
+
+
+async function packOrder (id) {
+	const order = DB.getOrder(id)
+	let productIds = order.items.map(item => item.productId)
+	// TODO: should this be done inside of db.js?
+	let filename = await createZip(productIds)
+
+	DB.transaction(() => {
+		DB.orderPutPackage(id, filename)
+		DB.orderPushStatus(id, "packed")
+	})
+}
+
+// take in product ids, make an archive, return its name (without the
+// extension)
+
+async function createZip(productIds) {
+	let filenames = productIds.map(id => `svg/${id}.svg`).join(' ')
+	let archiveName = newUuid()
+
+	return new Promise ((resolve, reject) => {
+		exec(`zip -j zips/${archiveName}.zip ${filenames}`, (err, stdout, stderr) => {
+			resolve(archiveName)
+		})
+	})
+}
+
+
+async function shipOrder (id, email) {
+	if (email)
+		emailTransport.sendMail({
+			from: `"Stripe Shop" <${process.env.SMTP_FROM}>`, // sender address
+			to: email, // list of receivers
+			subject: "Thanks for your order!", // Subject line
+			text: orderNotificationText(id)
+		})
+
+	DB.orderPushStatus(id, "shipped")
+}
+
+
+const orderNotificationText = (id) =>
+
+`Hello!
+
+Thank you for making a purchase in Stripe Shop!
+
+In case you're wondering, your Order ID is ${id}
+
+To view your order and download the ordered products, please follow the link:
+
+${process.env.BASE_URL}/order/${id}
+
+
+We hope your stripes serve you well.
+
+If you encounter any issues with your stripes, please let us know!
+
+Wishing you all the best,
+
+The Stripe Shop team
+which is a single person, really
+uh... me!`
+
+
+
+
+
 
 
 api.get('/orders/:id', function (req, res, next) {
@@ -220,39 +289,6 @@ api.get('/package/:id', (req, res, next) => {
 	}, err => {
 	})
 })
-
-
-async function packOrder (id) {
-	const order = DB.getOrder(id)
-	let productIds = order.items.map(item => item.productId)
-	// TODO: should this be done inside of db.js?
-	let filename = await createZip(productIds)
-
-	DB.transaction(() => {
-		DB.orderPutPackage(id, filename)
-		DB.orderPushStatus(id, "packed")
-	})
-}
-
-
-async function shipOrder (id) {
-	DB.orderPushStatus(id, "shipped")
-}
-
-
-// take in product ids, make an archive, return its name (without the
-// extension)
-
-async function createZip(productIds) {
-	let filenames = productIds.map(id => `svg/${id}.svg`).join(' ')
-	let archiveName = newUuid()
-
-	return new Promise ((resolve, reject) => {
-		exec(`zip -j zips/${archiveName}.zip ${filenames}`, (err, stdout, stderr) => {
-			resolve(archiveName)
-		})
-	})
-}
 
 
 

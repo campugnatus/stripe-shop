@@ -94,7 +94,7 @@ function all (...validators) {
 
 function optional (validator) {
 	return function (val) {
-		if (val === undefined)
+		if (val === undefined || val === "")
 			return
 		else
 			validator(val)
