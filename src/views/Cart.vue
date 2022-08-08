@@ -83,9 +83,6 @@
 				class="mt-3 w-full"
 				placeholder="Your email address (optional)"/>
 			<GooglePayButton v-if="cart.subtotal" :price="cart.subtotal" @paid="checkout" class="mt-4"/>
-			<button @click="showToast.error('Not yet, sorry')" class="w-full bg-primary rounded text-white text-sm font-bold p-2 mt-3">
-				Pay with Apple
-			</button>
 		</div>
 	</main>
 
