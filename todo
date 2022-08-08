@@ -1,46 +1,41 @@
 В очередь, сукины дети! В очередь!
 
-* scoped CSS & markdown
-
 * actually ship orders
-* flash of unstyled content?
+* fix front page page title
+   * the fuck's with the logo's font on mobile?
+
+* footer
+* about
+   * scoped CSS & markdown
+
+
+* push all this to github
+   * secrets!
+     * figma token is stored not securely in the code
+
 * server.sj: extract email stuff into a separate module
 * deploy rollback...
    * without docker hub that would be trivial
       * I'm sure there's a way
-* exim tls default port?
-* SPF, DKIM, etc
-* 'couldn't load product' error when trying to search from the "about" page
-* secrets!
-  * figma token is stored not securely in the code
 
+* meditate on the log format a little bit
 * where to store deliverable .zips in prod? in a volume?
    * what about not storing them at all?
 * bulk loading for products?
 * password scrambling in logs?
+   * for now there's no passwords in logs at all
 * add <link rel="canonical"> to index.html
-* upgrade vite to version 3
+* ? upgrade vite to version 3
 
+* flash of unstyled content?
+* handle archived products
 * GSAP scroll trigger sucks ass
-* the fuck's with the logo's font on mobile?
-* get real email server
-* re-import stripes from figma
-* push all this to github
 
 * use nginx for serving static files
    * in the meantime, we'll just serve everything with express.js
-* product updates in the production database
-
-* what's the source of truth for hostnames, port numbers, file paths used in the server?
-   * docker-compose.yml?
-   * hard-coded?
-      * probably not the best idea, esp if they appear in more than one place
 
 * spurious POST /cart on page load
 * put API and APP in separate directories?
-
-* cart email address doesn't get filled in (thought it worked?)
-* fix front page page title
 
 * try this beautifier for tailwind and otherwise?
 
@@ -53,10 +48,6 @@
    * with an abrasion
 
 * make stripes on the frontpage hoverable (and clickable!)
-
-* about
-* third one
-   * make them both clickable
 
 * login signup
    * 4-leter code input field should automatically submit upon reaching 4 letters, as we  don't have a  submit  button  there
