@@ -10,7 +10,7 @@ create table product (
 	description text,
 	price real,
 	filename text,
-	place integer -- its place in the default order (sort by default)
+	place integer, -- its place in the default order (sort by default)
 
 	-- !=0 means the product isn't being sold anymore, is not shown in
 	-- the catalogue and is only kept around for the sake of DB consistency
