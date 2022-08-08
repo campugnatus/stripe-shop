@@ -44,7 +44,7 @@
 		<div class="md:w-1/2 md:pl-7 lg:pl-16 mt-6 md:mt-0 py-6 lg:border-l border-gray-500">
 			<h1 class="text-2xl md:text-4xl font-roboto">Checkout</h1>
 
-			<div class="bg-sky-700/40 p-4 rounded-xl mt-6 md:mt-10 text-sm text-white">
+			<div class="bg-sky-800/40 p-4 rounded-xl mt-6 md:mt-10 text-sm text-white">
 				<p>
 					<b>The Google Pay button is in test mode</b>
 				</p>
