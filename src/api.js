@@ -1,6 +1,9 @@
-import axios from "axios"
+import a from "axios"
 
-axios.defaults.baseURL = "/api"
+const axios = a.create({
+  baseURL: '/api'
+});
+
 export const baseURL = axios.defaults.baseURL
 
 // for debugging purposes, TODO: turn off in production
