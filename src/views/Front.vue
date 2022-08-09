@@ -59,8 +59,8 @@
 
   <section class="flex overflow-scroll lg:justify-center scrollbar-off items-start">
     <div class="lg:w-[1700px] hidden lg:flex justify-end flex-shrink-0">
-      <object @load="init_fromunder1_tweens" data="fromunder.svg" type="image/svg+xml" ref="fromunder1" class="z-[-1] lg:h-[500px] lg:-mt-14 2xl:h-[580px] 2xl:-mt-20"></object>
-    </div>
+      <FromUnder class="origin-right lg:scale-[89%] lg:-translate-y-20 2xl:scale-100 2xl:-translate-y-16 2xl:-translate-x-2"/>
+   </div>
 
     <div class="sm:ml-8">
       <div id="beacon-0" class="mx-auto"></div>
@@ -84,7 +84,7 @@
     </div>
 
     <div class="w-[1250px] md:w-[1400px] lg:w-[1700px] flex flex-shrink-0 overflow-hidden pr-8">
-      <object @load="init_fromunder2_tweens" data="fromunder.svg" type="image/svg+xml" ref="fromunder2" class="z-[-1] h-[400px] -mt-10 sm:h-[450px] lg:h-[460px] lg:-mt-18 2xl:h-[560px] 2xl:-mt-28"></object>
+      <FromUnder class="origin-left -translate-y-28 md:-translate-y-24 lg:scale-[85%] lg:-translate-y-24 2xl:scale-100 2xl:-translate-y-28"/>
     </div>
   </section>
 
@@ -354,9 +354,9 @@
       for <span class="font-sigmar">any</span> kind of cause
     </h2>
 
-    <object @load="init_fromleft_tweens" data="fromleft.svg" type="image/svg+xml" ref="fromleft" class="absolute z-[-1] origin-right scale-75 xl:scale-100 top-5 -translate-x-10 xl:top-20 right-1/2 xl:translate-x-[-5%]"></object>
+    <FromLeft class="absolute origin-right scale-75 xl:scale-100 top-5 -translate-x-10 xl:top-20 right-1/2 xl:translate-x-[-5%]"/>
 
-    <object @load="init_fromright_tweens" data="fromright2.svg" type="image/svg+xml" ref="fromright" class="absolute z-[-1] translate-y-[-32%]  scale-75 xl:scale-100 translate-x-[-14%] left-1/2 xl:translate-x-[-5%]"></object>
+    <FromRight class="absolute translate-y-[-32%]  scale-75 xl:scale-100 translate-x-[-14%] left-1/2 xl:translate-x-[-5%]"/>
 
     <div id="beacon-b" class="absolute left-2/3 bottom-[35%]"></div>
   </section>
@@ -488,6 +488,10 @@ import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import {nextTick, ref, onMounted, onUnmounted, computed} from 'vue';
 import { useProductStore } from '@/stores/products'
+import FromUnder from '@/components/FromUnder.vue'
+import FromLeft from '@/components/FromLeft.vue'
+import FromRight from '@/components/FromRight.vue'
+
 
 const productStore = useProductStore()
 
@@ -603,103 +607,6 @@ onMounted(() => {
 
 const long1 = ref(null);
 const long2 = ref(null);
-
-const fromunder1 = ref(null);
-const fromunder2 = ref(null);
-
-function init_fromunder1_tweens() {
-  let svg1 = fromunder1.value.getSVGDocument().getElementsByTagName('svg')[0];
-  init_fromunder_tweens(svg1);
-}
-
-function init_fromunder2_tweens () {
-  let svg2 = fromunder2.value.getSVGDocument().getElementsByTagName('svg')[0];
-  init_fromunder_tweens(svg2);
-}
-
-function init_fromunder_tweens(svg) {
-  for (let path of svg.children) {
-    const delay = Math.random()%0.9; 
-    const angle = Math.random()*10;
-    const sign = Math.sign(Math.random()-0.5);
-
-    gsap.timeline({
-      scrollTrigger: {
-        trigger: "#seconds"
-      }
-    })
-    .from(path, {
-      delay: delay,
-      duration: 0.2,
-      y: -500,
-    })
-    .from(path, {
-      delay: delay+0.05,
-      duration: 0.4,
-      ease:"back.out(2)",
-      rotate: sign*angle
-    }, 0);
-  }
-}
-
-
-const fromleft = ref(null);
-const fromright = ref(null);
-
-function init_fromleft_tweens() {
-  const svg = fromleft.value.getSVGDocument().getElementsByTagName('svg')[0];
-  for (let path of svg.children) {
-    const delay = Math.random()%0.9; 
-    const angle = Math.random()*5;
-
-    gsap.timeline({
-      scrollTrigger: {
-        trigger: "#allsorts",
-        start: "bottom 80%"
-      },
-    })
-    .from(path, {
-      delay: delay,
-      duration: 0.25,
-      ease: "power1.out",
-      x: -900,
-    })
-    .from(path, {
-      delay: delay+0.2,
-      duration: 0.80,
-      ease: "elastic.out(1, 0.5)",
-      rotate: -5
-    }, 0)
-  }
-}
-
-function init_fromright_tweens() {
-  const svg = fromright.value.getSVGDocument().getElementsByTagName('svg')[0];
-  for (let path of svg.children) {
-    const delay = Math.random()%0.9; 
-    const angle = Math.random()*5;
-
-    gsap.timeline({
-      scrollTrigger: {
-        trigger: "#allsorts",
-        start: "bottom 80%"
-      }
-    })
-    .from(path, {
-      delay: delay,
-      duration: 0.25,
-      ease: "power1.out",
-      x: 1100,
-    })
-    .from(path, {
-      delay: delay+0.2,
-      transformOrigin: "right",
-      duration: 0.80,
-      ease: "elastic.out(1, 0.5)",
-      rotate: 5
-    }, 0)
-  }
-}
 
 
 let spirals = ref(null)
