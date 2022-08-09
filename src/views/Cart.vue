@@ -114,6 +114,9 @@ import { useCartStore } from '@/stores/cart'
 import { useProductStore } from '@/stores/products'
 import { useUserStore } from '@/stores/user'
 
+import {useTitle} from '@vueuse/core'
+const title = useTitle("Cart", { titleTemplate: '%s • Stripe shop' })
+
 const cart = useCartStore()
 const products = useProductStore()
 const router = useRouter()

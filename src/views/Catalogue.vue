@@ -134,6 +134,9 @@ import { showToast } from '@/plugins/toast'
 import { capitalize } from '@/utils'
 import { FilterIcon } from '@heroicons/vue/outline'
 
+import {useTitle} from '@vueuse/core'
+const title = useTitle("Catalogue", { titleTemplate: '%s • Stripe shop' })
+
 const productStore = useProductStore()
 const router = useRouter()
 const route = useRoute()

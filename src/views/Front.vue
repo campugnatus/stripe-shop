@@ -493,6 +493,9 @@ import FromLeft from '@/components/FromLeft.vue'
 import FromRight from '@/components/FromRight.vue'
 
 
+import {useTitle} from '@vueuse/core'
+const title = useTitle("Stripe Shop")
+
 const productStore = useProductStore()
 
 

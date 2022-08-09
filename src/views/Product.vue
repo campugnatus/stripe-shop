@@ -120,6 +120,10 @@ const lg = breakpoints.greater('lg')
 const productId = computed(() => route.params.id)
 const product = computed(() => productStore.products[productId.value])
 
+const title = useTitle(
+	computed(() => product.value?.title || "..."),
+	{ titleTemplate: '%s • Stripe shop' }
+)
 
 
 
@@ -157,7 +161,6 @@ const even = computed(() => others.value.filter((el, i) => i%2 === 0))
 const loading = computed(() => product.value === undefined)
 const price =   computed(() => formatPrice(product.value?.price))
 
-const title = useTitle(computed(() => product.value?.title || "..."), {titleTemplate: '%s | Stripe shop'})
 </script>
 
 <style>

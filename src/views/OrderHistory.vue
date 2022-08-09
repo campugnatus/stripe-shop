@@ -41,7 +41,7 @@ import {useTitle} from '@vueuse/core'
 import {useUserStore} from '@/stores/user'
 import {useProductStore} from '@/stores/products'
 
-const title = useTitle("Order history", { titleTemplate: '%s | Stripe shop' })
+const title = useTitle("Order history", { titleTemplate: '%s • Stripe shop' })
 
 const userStore = useUserStore()
 const productStore = useProductStore()

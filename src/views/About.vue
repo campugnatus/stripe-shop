@@ -16,6 +16,10 @@ import ShopFooter from '@/components/ShopFooter.vue'
 import ShopHeader from '@/components/ShopHeader.vue'
 import { computed } from 'vue'
 
+import { useTitle } from '@vueuse/core'
+const title = useTitle("About", {titleTemplate: '%s • Stripe shop'})
+
+
 const dirty = computed(() => marked.parse(raw))
 const clean = computed(() => DOMPurify.sanitize(dirty.value, { USE_PROFILES: { html: true } }))
 

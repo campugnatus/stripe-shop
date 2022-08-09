@@ -105,7 +105,7 @@ const productStore = useProductStore()
 const userStore = useUserStore()
 const router = useRouter()
 const route = useRoute()
-const title = useTitle("Order details", { titleTemplate: '%s | Stripe shop' })
+const title = useTitle("Order details", { titleTemplate: '%s • Stripe shop' })
 
 const orderId = computed(() => route.params.id)
 const order = computed(() => userStore.orders[orderId.value])
