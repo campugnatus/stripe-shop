@@ -93,13 +93,13 @@ export async function fetchCart (items) {
  */
 
 // in the axios documentation they recommend the new AbortController way of
-// request cancellation. However, I couldn't make it work, so I'm falling
+// request cancellation, but I couldn't make it work, so I'm falling
 // back to the old deprecated way
-let CancelToken
+let CancelToken = a.CancelToken
 let source
 
 export async function searchProducts (query) {
-	CancelToken = axios.CancelToken
+	// CancelToken = axios.CancelToken
 	source = CancelToken.source()
 
 	return axios('/products/search', {
