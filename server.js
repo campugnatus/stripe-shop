@@ -249,6 +249,7 @@ const orderNotificationText = (id) =>
 
 `Hello!
 
+
 Thank you for making a purchase in Stripe Shop!
 
 In case you're wondering, your Order ID is ${id}
@@ -262,11 +263,12 @@ We hope your stripes serve you well.
 
 If you encounter any issues with your stripes, please let us know!
 
+
 Wishing you all the best,
 
 The Stripe Shop team
-which is a single person, really
-uh... me!`
+which is uh... just me
+`
 
 
 
