@@ -1,4 +1,8 @@
 <template>
+  <div class="fixed px-4 py-1 bg-primary text-white origin-top-left -rotate-90 left-0 top-1/2 z-40 text-sm">
+    work in progress
+  </div>
+
   <div class="fixed top-0 right-0 flex flex-col gap-4">
     <!-- <button @click="showTttoast" class="bg-primary text-white p-2">show toast</button> -->
     <!-- <button @click="hideTttoast" class="bg-primary text-white p-2">hide toast</button> -->
