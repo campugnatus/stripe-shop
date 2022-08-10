@@ -7,7 +7,7 @@
       </router-link>
     </section>
 
-    <section class="row-start-2 col-span-2 flex lg:flex-col lg:justify-around lg:ml-10 xl:ml-20 flex-shrink-0 font-roboto text- space-x-4 lg:space-x-0 uppercase">
+    <section class="row-start-2 col-span-2 flex lg:flex-col lg:justify-around lg:ml-10 xl:ml-20 flex-shrink-0 font-roboto text- space-x-4 lg:space-x-0">
       <router-link class="" to="/catalogue">catalogue</router-link>
       <router-link class="" to="/about">about</router-link>
       <button @click="eventBus.emit('thurd')" class="text-left">third one</button>
