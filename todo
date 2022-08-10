@@ -1,19 +1,25 @@
 В очередь, сукины дети! В очередь!
 
-* actually ship orders
-* fix front page page title
-   * the fuck's with the logo's font on mobile?
 
-* footer
-* about
-   * scoped CSS & markdown
+--------------------------------------------
+LATER
 
+* front page redesign
+* fake users/comments
+   * avatars?
+
+* there's no fucking SALE...
+* browse our catalogue / shop stripes buttons
 
 * push all this to github
    * secrets!
      * figma token is stored not securely in the code
 
-* server.sj: extract email stuff into a separate module
+
+* Send better emails
+* sql migration management/automation
+
+* server.js: extract email stuff into a separate module
 * deploy rollback...
    * without docker hub that would be trivial
       * I'm sure there's a way
