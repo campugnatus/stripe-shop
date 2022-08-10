@@ -33,7 +33,7 @@
           class="sm:pl-12 lg:pl-24 flex flex-col justify-center items-start text-lg uppercase">
           <router-link to="/catalogue">catalogue</router-link>
           <router-link to="/about">about</router-link>
-          <a class="text-lg uppercase">third one</a>
+          <button @click="eventBus.emit('thurd')" class="text-lg uppercase">third one</button>
         </section>
 
         <section class="--space-x-4 md:space-x-7 flex flex-col-reverse sm:flex-row items-center">
@@ -491,6 +491,7 @@ import { useProductStore } from '@/stores/products'
 import FromUnder from '@/components/FromUnder.vue'
 import FromLeft from '@/components/FromLeft.vue'
 import FromRight from '@/components/FromRight.vue'
+import { eventBus } from '@/utils'
 
 
 import {useTitle} from '@vueuse/core'

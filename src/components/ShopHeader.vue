@@ -10,7 +10,7 @@
     <section class="row-start-2 col-span-2 flex lg:flex-col lg:justify-around lg:ml-10 xl:ml-20 flex-shrink-0 font-roboto text- space-x-4 lg:space-x-0 uppercase">
       <router-link class="" to="/catalogue">catalogue</router-link>
       <router-link class="" to="/about">about</router-link>
-      <button @click="thurd" class="text-left uppercase">third one</button>
+      <button @click="eventBus.emit('thurd')" class="text-left">third one</button>
     </section>
 
     <!-- search box -->
@@ -43,6 +43,7 @@ import { useProductStore } from '@/stores/products'
 import {} from '@heroicons/vue/solid'
 import {SearchIcon, XIcon} from '@heroicons/vue/outline'
 import {showToast} from '@/plugins/toast'
+import { eventBus } from '@/utils'
 
 const productStore = useProductStore()
 const router = useRouter()
@@ -74,31 +75,6 @@ function resetSearch () {
   emit('reset')
 }
 
-
-const thurds = [
-  "Oh, this one...",
-  "This one doesn't do anything",
-  "Nothing useful, anyway",
-  "Really, I just needed a third menu item",
-  "I thought of making it do some fun stuff",
-  "But haven't gotten around to it, yet",
-  "So for now it just does this",
-  "Wastes your time with a meaningless conversation",
-  "On the other hand, doesn't this whole site do just that?",
-  "Well, at least nobody's forcing this upon you",
-  "Hopefully",
-  "It's your choice whether you read it or not",
-  "I suspect, though, that even if you do...",
-  "It's not because you like what you're reading",
-  "But rather because you want to see how it ends",
-  "It's the same as when you force yourself to finish a movie you're not enjoying",
-  "Even if you don't expect it to get any better",
-  "Cuz you're not a quitter!",
-]
-
-function thurd() {
-  showToast.info(thurds.shift())
-}
 </script>
 
 <style>

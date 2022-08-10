@@ -11,6 +11,7 @@
 <script setup>
 import {showToast} from '@/plugins/toast'
 import api from '@/api.js'
+import { eventBus } from '@/utils'
 
 import AuthModal from '@/components/AuthModal.vue'
 function wsConnect () {
@@ -38,6 +39,37 @@ function showTttoast() {
 function hideTttoast() {
   hides.shift()()
 }
+
+
+
+
+
+const thurds = [
+  "Oh, this one...",
+  "This one doesn't do anything",
+  "Nothing useful, anyway",
+  "Really, I just needed a third menu item",
+  "I thought of making it do some fun stuff",
+  "But haven't gotten around to it, yet",
+  "So for now it just does this",
+  "Wastes your time with a meaningless conversation",
+  "On the other hand, doesn't this whole site do just that?",
+  "Well, at least nobody's forcing this upon you",
+  "Hopefully",
+  "It's your choice whether you read it or not",
+  "I suspect, though, that even if you do...",
+  "It's not because you like what you're reading",
+  "But rather because you want to see how it ends",
+  "It's the same as when you force yourself to finish a movie you're not enjoying",
+  "Even if you don't expect it to get any better",
+  "Cuz you're not a quitter!",
+]
+
+function thurd() {
+  showToast.info(thurds.shift())
+}
+
+eventBus.on('thurd', thurd)
 
 </script>
 
