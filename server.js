@@ -192,14 +192,14 @@ api.post('/orders',
 		// simulate further order handling
 		//
 
-		await new Promise((resolve, reject) => setTimeout(() => resolve(), 1000))
+		await new Promise((resolve, reject) => setTimeout(() => resolve(), 5000))
 
 		DB.orderPushStatus(order.id, "paid")
 
-		await new Promise((resolve, reject) => setTimeout(() => resolve(), 1000))
+		await new Promise((resolve, reject) => setTimeout(() => resolve(), 5000))
 		await packOrder(order.id)
 
-		await new Promise((resolve, reject) => setTimeout(() => resolve(), 1000))
+		await new Promise((resolve, reject) => setTimeout(() => resolve(), 5000))
 		await shipOrder(order.id, order.email)
 	}
 )
