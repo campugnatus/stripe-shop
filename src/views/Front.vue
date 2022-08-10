@@ -100,7 +100,7 @@
 
 
 
-  <section id="galleries" class="w-full sm:mt-72 2xl:mt-96 relative">
+  <section id="galleries" class="w-full sm:mt-48 xl:mt-52 2xl:mt-96 relative">
     <GalleryCarousel id="gallery1" ref="gallery1" class="h-[200px] 2xl:h-[256px] w-full">
         <div class="h-full flex-shrink-0 w-[calc(50%-106px)] sm:w-[calc(50%-146px)]"></div>
         
@@ -227,20 +227,19 @@
         <img src="/fish.png" class="h-full">
       </div>
       <div class="gallery-tile">
-        <img src="/zebras2.png" class="h-full">
-      </div>
-      <div class="gallery-tile">
         <img src="/lemur.png" class="h-full">
       </div>
-      <div class="gallery-tile py-20">
-        <img src="/bees.png" class="h-full">
+      <div class="gallery-tile">
+        <img src="/zebras2.png" class="h-full">
+      </div>
+
+      <div class="gallery-tile">
+        <img src="/zhuchok2.png" class="h-16">
       </div>
       <div class="flex-shrink-0 text-2xl md:text-3xl px-2 md:px-10 font-pacifico flex justify-center items-center w-min">
-        ...in bugs
+        in bugs
       </div>
-      <div class="hidden gallery-tile py-32">
-        <img src="/zhuchok2.png" class="h-full">
-      </div>
+
       <div class="flex-shrink-0 invisible h-full w-8"></div>
     </GalleryCarousel>
 
@@ -269,31 +268,34 @@
         <img src="/road.png" class="h-full">
       </div>
 
+      <div class="gallery-tile">
+        <img src="https://images.unsplash.com/photo-1530127676576-acdb8fbb5690?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1934&q=80" class="h-full">
+      </div>
+
       <div class="gallery-tile relative">
         <img src="/pexels-photo-728824.jpeg" class="h-full">
         <div class="absolute bottom-[55%] left-[10%] font-pacifico text-3xl flex items-center justify-center text-white rotate-[-30deg]">
           in<br> transport
-      </div>
         </div>
+      </div>
+
+      <div class="gallery-tile">
+        <img src="/motorcycle.png" class="h-full">
+      </div>
+
 
       <div class="gallery-tile">
         <img src="https://images.unsplash.com/photo-1543839482-a95d35fc5a77?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=675&q=80" class="h-full">
       </div>
 
-
-      <div class="gallery-tile">
-        <img src="https://images.unsplash.com/photo-1530127676576-acdb8fbb5690?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1934&q=80" class="h-full">
-      </div>
-
       <div class="gallery-tile">
         <img src="/pexels-photo-1436697.webp" class="h-full">
       </div>
-      <div class="gallery-tile">
-        <img src="/motorcycle.png" class="h-full">
-      </div>
+
       <div class="gallery-tile">
         <img src="/pexels-photo-1571134.jpeg" class="h-full">
       </div>
+
       <div class="sm:hidden font-pacifico text-2xl leading-[1.7em] mx-10 min-w-max">
         Your<br>
         imagination<br>
@@ -445,13 +447,13 @@
       </div>
     </h1>
 
-    <h2 class="text-4xl mt-16 m-6 mb-2 font-sigmar -rotate-6 origin-left">-50%</h2>
+    <h2 class="text-4xl mt-16 m-6 mb-2 font-sigmar -rotate-6 origin-left">simple</h2>
     <Carousel :ids="productStore.collection('1')" class=""/>
 
-    <h2 class="text-4xl m-6 mt-16 mb-2 font-sigmar -rotate-6 origin-left">-25%</h2>
+    <h2 class="text-4xl m-6 mt-16 mb-2 font-sigmar -rotate-6 origin-left">funky</h2>
     <Carousel :ids="productStore.collection('2')" class=""/>
 
-    <h2 class="text-3xl m-6 mt-16 mb-2 font-sigmar -rotate-6 origin-left">Limited offer!</h2>
+    <h2 class="text-3xl m-6 mt-16 mb-2 font-sigmar -rotate-6 origin-left">quirky</h2>
     <Carousel :ids="productStore.collection('3')" class=""/>
   </section>
 
@@ -465,12 +467,20 @@
     <div class="mt-40">
       <div class="font-sigmar text-xl sm:text-2xl">our motto</div>
       <div class="font-pacifico text-xl sm:text-2xl">&mdash; Are you gonna buy something?</div>
-      <div class="font-pacifico text-xl sm:text-2xl">&mdash; Nah, I'm just browsing</div>
+      <div class="font-pacifico text-xl sm:text-2xl">&mdash; Nah, I'm just
+        <a class="text-tomato" href="/catalogue">browsing</a>
+      </div>
     </div>
   </section>
 
 
-
+  <section class="hidden flex justify-center my-48">
+    <a
+      href="/catalogue"
+      class="p-4 px-6 bg-primary text-white font-sigmar text-xl rounded">
+      browse our catalogue
+    </a>
+  </section>
 
 
   <ShopFooter/>
