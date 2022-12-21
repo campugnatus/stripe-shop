@@ -676,6 +676,7 @@ api.get("/reviews/:id", (req, res, next) => {
 
 // this one is different from newId() in that it's supposed to be harder to
 // read, but harder to guess
+// TODO: use 'uuid' npm package
 
 function newUuid () {
 	const secret = 'abcdefgh' // TODO: secret

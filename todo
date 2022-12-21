@@ -1,10 +1,24 @@
 В очередь, сукины дети! В очередь!
 
+* markdown icon istead of "markdown enabled"
 
---------------------------------------------
-LATER
+* SSG: server-side generation
+   * Nuxt?
+   * vite ssg plugin? <- i'm leaning on this
+
+* investigate and probably turn on SQLite WAL mode
+
+* 'about' padding
+
+* no-text reviews show up in the comments count on the product card
+* if google pay fails to load, show something in its stead
+
+* review form mobile layout
+* 'load more' on mobile leaves you on the bottom of the page
+* make number of comments on the product card clickable
 
 * front page redesign
+
 * fake users/comments
    * avatars?
 
@@ -15,9 +29,8 @@ LATER
    * secrets!
      * figma token is stored not securely in the code
 
-
 * Send better emails
-* sql migration management/automation
+* sql migrations management/automation
 
 * server.js: extract email stuff into a separate module
 * deploy rollback...
@@ -31,10 +44,12 @@ LATER
 * password scrambling in logs?
    * for now there's no passwords in logs at all
 * add <link rel="canonical"> to index.html
-* ? upgrade vite to version 3
+* ? upgrade vite to version 4
 
 * flash of unstyled content?
 * handle archived products
+   * like, what happens if the user has bought something and those products
+     got changed/removed from the shop after that?
 * GSAP scroll trigger sucks ass
 
 * use nginx for serving static files
@@ -43,17 +58,15 @@ LATER
 * spurious POST /cart on page load
 * put API and APP in separate directories?
 
-* try this beautifier for tailwind and otherwise?
+* maybe try this beautifier for tailwind and otherwise?
 
 * extract shit into modules on the server
 
-* off-price stripes
+* off-price stripes ideas
    * with a crack
    * with a dent
    * with a chip
    * with an abrasion
-
-* make stripes on the frontpage hoverable (and clickable!)
 
 * login signup
    * 4-leter code input field should automatically submit upon reaching 4 letters, as we  don't have a  submit  button  there
@@ -85,7 +98,6 @@ LATER
 ? animate price changes in cart
 ? loading indicators on the images
 * SALE/recommended/collections and such
-* main page logo stripe?
 * the top image loads too long on mobile, same for the fonts. What are we gonna do about it?
 * makes all the logos uniform
 * mention image authors in the gallery?
@@ -96,3 +108,14 @@ LATER
 ? make full-text search search among reviews, as well? or not?
 ? make a button to switch between AND and OR in the filters
 ? cart to order page transition
+
+
+
+
+* I feel we need more play with the longest stripe
+   * a place where it fills up the background behind some white-on-white message
+   * something with a lot of wiggles...
+   * spirals in the gallery
+   * breaking into many small stripes and reassembling again?
+* do we abandon the idea of the longest stripe going from the top to the gallery?
+* how exactly to do "in ..." titles?

@@ -59,6 +59,7 @@ window.assert = function (cond, msg = "Assertion failed") {
 // A simple wrapper directive around the intersection observer API. Takes a method as
 // an argument, which is supposed to be called when the given element
 // intersects the viewport.
+// TODO: put it in its own file
 
 const observers = {};
 app.directive('intersect', {
