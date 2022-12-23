@@ -19,7 +19,6 @@
     "date-fns": "^2.28.0",
     "dompurify": "^2.3.8",
     "express": "^4.17.2",
-    "express-ws": "^5.0.2",
     "gsap": "^3.9.1",
     "http-proxy-middleware": "^2.0.6",
     "jose": "^4.6.0",
