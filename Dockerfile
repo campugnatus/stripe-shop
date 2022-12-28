@@ -83,7 +83,7 @@ VOLUME /db
 
 RUN mkdir dist
 COPY --from=builder /app/dist dist/
-COPY server.js db.js validators.js .
+COPY server.js db.js validators.js ./
 
 EXPOSE $API_PORT
 
