@@ -649,7 +649,7 @@ api.post('/reviews',
 	validateBody({
 		id:     v.productId,
 		rating: v.reviewRating,
-		text:   v.reviewText
+		text:   v.optional(v.reviewText)
 	}),
 
 	(req, res, next) => {
