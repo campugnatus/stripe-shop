@@ -67,6 +67,8 @@ case "$1" in
 		source prod.env
 		docker build \
 			--build-arg USERID=$USERID \
+			--build-arg DB_FILE=$DB_FILE \
+			--target production \
 			-t kotomka/stripeshop \
 			.
 	;;

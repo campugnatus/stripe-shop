@@ -5,16 +5,8 @@ services:
   stripeshop:
     image: kotomka/stripeshop
     restart: on-failure
-    environment:
-      - NODE_ENV=production
-      - STATIC_SERVER=express
-
-      - SMTP_SERVER=localhost
-      - SMTP_PORT=25
-      - SMTP_FROM=info@stripeshop.top
-
-      - BASE_URL=https://stripeshop.top
-
+    env_file:
+      - prod.env
     volumes:
       - db:/db
       - zips:/app/zips

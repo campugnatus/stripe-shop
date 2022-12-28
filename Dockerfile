@@ -42,33 +42,24 @@ WORKDIR /app
 
 FROM node:18-bullseye AS builder
 WORKDIR /app
-
-# TODO: should these be here or in docker-compose.yml?
-ENV DB_FILE=/db/stripeshop.db
-ENV STATIC_PATH=/app/dist
-ENV NODE_ENV=development
-ENV API_PORT=3002
+ARG DB_FILE
 
 COPY package.json package-lock.json ./
 RUN npm ci
 
-RUN mkdir scripts
-COPY scripts ./scripts/
+COPY scripts scripts
 
 RUN mkdir /db
+#TODO: get_stripes is too expensive, should probably make it idempotent and
+#uncomment this
 #RUN node scripts/get_stripes.js --svg stripes.json
-RUN node scripts/create_db.js "$DB_FILE" scripts/create_db.sql
 COPY stripes.json .
+
+RUN node scripts/create_db.js "$DB_FILE" scripts/create_db.sql
 RUN node scripts/populate_db.js "$DB_FILE" ./stripes.json
-
-
-VOLUME /db
 
 COPY . .
 RUN npx vite build
-
-EXPOSE $API_PORT
-
 
 
 
@@ -77,27 +68,24 @@ EXPOSE $API_PORT
 #
 
 FROM node:18-alpine as production
-
-ENV DB_FILE=/db/stripeshop.db
-ENV STATIC_PATH=/app/dist
-ENV NODE_ENV=production
-ENV API_PORT=3002
+ARG API_PORT
+ARG DB_FILE
 
 WORKDIR /app
 
 COPY package.json package-lock.json ./
-RUN npm install
+RUN npm ci --omit=dev
 
 RUN mkdir /db
 COPY --from=builder "$DB_FILE" "$DB_FILE"
+RUN chown -R node:node /db
+VOLUME /db
 
 RUN mkdir dist
 COPY --from=builder /app/dist dist/
-
-COPY server.js .
-COPY db.js .
-COPY validators.js .
-
-# TODO: USER
+COPY server.js db.js validators.js .
 
 EXPOSE $API_PORT
+
+# don't run things as root
+USER node
