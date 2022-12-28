@@ -1,6 +1,7 @@
+TODO: check the dependencies somewhere in scripts?
+
 Prerequisites:
 	* docker v20.10.17, docker-compose v2.6.0
-
 
 The entry point is ./make.sh
 

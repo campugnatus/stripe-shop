@@ -1,5 +1,23 @@
 В очередь, сукины дети! В очередь!
 
+* can we not leave dangling container/images behind?
+* tests :-O
+
+* what do I do with SMTP server in the stagin environment?
+   * just use mailtrap
+   * package exim with all you app...
+      * oh fffffuck
+
+* auth
+   * are we sure user can't do anything harmful before having veryfied email?
+   * how can we filter bots/idiots?
+
+* build
+   * npm scripts aren't the entry point, make.sh is. This might be confusing
+     as people (me included) are used to npm scripts being the entry point
+     and might instinctively try to run them (and who's there to stop them?)
+     only to discover that something confusingly doesn't work.
+
 * markdown icon istead of "markdown enabled"
 
 * SSG: server-side generation
