@@ -728,6 +728,7 @@ const APP_HOST = process.env.APP_HOST || "localhost"
 const API_PORT = process.env.API_PORT || 3002
 const API_HOST = process.env.API_HOST || "localhost"
 const STATIC_PATH = process.env.STATIC_PATH || "."
+let startMsg
 
 // one of: express, vite, nginx (hi typescript)
 const STATIC_SERVER = process.env.STATIC_SERVER || (
@@ -737,29 +738,33 @@ const STATIC_SERVER = process.env.STATIC_SERVER || (
 
 
 
-
+//
 // Serving static files ourselves
-
+//
 if (STATIC_SERVER === "express") {
+	startMsg = `Serving static files from here, as well`
 	app.use(express.static(path.resolve(STATIC_PATH)))
 	app.get('/*', (req, res) => {
 		res.sendFile(path.resolve(STATIC_PATH, 'index.html'));
 	})
 }
 
+//
 // Forwarding to vite
-
+//
 else if (STATIC_SERVER === "vite") {
+	startMsg = `Proxying static requests to ${APP_HOST}:${APP_PORT}`
 	app.use('*', createProxyMiddleware({
 		target: `http://${APP_HOST}:${APP_PORT}`
 	}))
 }
 
-
+//
 // Chilling behind a proxy
-
+//
 else if (STATIC_SERVER === "nginx") {
 	// nothing for us to do
+	startMsg = `Not serving static files. Are we behind a proxy?`
 }
 
 else {
@@ -770,14 +775,7 @@ else {
 const server = app.listen(API_PORT, () => {
 	console.log()
 	console.log(`Stripe shop API listening on port ${API_PORT}`)
-
-	if (STATIC_SERVER === "express")
-		console.log(`Serving static files from here, as well`)
-	if (STATIC_SERVER === "vite")
-		console.log(`Proxying static requests to ${APP_HOST}:${APP_PORT}`)
-	if (STATIC_SERVER === "nginx")
-		console.log(`Not serving static files. Are we behind a proxy?`)
-
+	console.log(startMsg)
 	console.log()
 })
 
@@ -787,7 +785,7 @@ const server = app.listen(API_PORT, () => {
 
 /*
  * Well, all this websocket stuff isn't very elegant.
- * I tried using express-ws, but it didn't work sell with SSL + nginx reverse-proxy
+ * I tried using express-ws, but it didn't work well with SSL + nginx reverse-proxy
  */
 
 const wsServer = new websocket.Server({ noServer: true });
