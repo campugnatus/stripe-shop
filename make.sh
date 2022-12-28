@@ -21,7 +21,7 @@ else
 fi
 
 COMPOSE="$COMPOSE_CMD
-	--env-file docker-compose.dev.env
+	--env-file dev.env
 	-f docker-compose.dev.yml
 "
 
@@ -64,7 +64,7 @@ case "$1" in
 	;;
 
 	build)
-		source docker-compose.dev.env
+		source prod.env
 		docker build \
 			--build-arg USERID=$USERID \
 			-t kotomka/stripeshop \
