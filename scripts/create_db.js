@@ -10,18 +10,25 @@ USAGE
 const dbPath = process.argv[2]
 const migrationPath = process.argv[3]
 
-if (!dbPath || !migrationPath) {
+if (!dbPath) {
+	console.log("Error: db file not specified")
+	console.log(usage)
+	process.exit(1)
+}
+
+if (!migrationPath) {
+	console.log("Error: migration file not specified")
 	console.log(usage)
 	process.exit(1)
 }
 
 if (!fs.existsSync(migrationPath)) {
-	console.log("Migration file doesnt exist:", migrationPath)
+	console.log("Error: migration file doesnt exist:", migrationPath)
 	process.exit(1)
 }
 
 if (fs.existsSync(dbPath)) {
-	console.log("Skip creating the database: file already exists:", dbPath)
+	console.log("Error: skip creating the database: file already exists:", dbPath)
 	process.exit(0) // it's okay though
 }
 

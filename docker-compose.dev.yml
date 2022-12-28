@@ -6,8 +6,9 @@ services:
       args:
         - USERID=$USERID
     environment:
-      # forward from the environment. That's kinda ugly, but we need
-      # them here as well as in the services below
+      # forward from the environment. That's kinda ugly (compared to just
+      # using the env_file option) but we need them here as well as in the
+      # services below, so...
       - NODE_ENV
       - SMTP_SERVER
       - SMTP_PORT

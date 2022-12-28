@@ -34,6 +34,8 @@ case "$1" in
 	api) $COMPOSE run --rm --service-ports api ;;
 	app) $COMPOSE run --rm --service-ports app ;;
 
+	# for some manual control, e.g. you might want to call
+	# sudo ./make.sh compose logs base -f
 	compose) shift 1; $COMPOSE $@ ;;
 
 	clean)
@@ -41,26 +43,27 @@ case "$1" in
 		rm -r db
 	;;
 
+	# for the times when you want to do something inside of the container,
+	# like npm install
 	console)
-		# for the times when you want to do something inside of the
-		# container... like npm install
 
 		# -i = interactive
 		# -t = open terminal
 		# -v = volume
 		# -w = working dir inside the container
 		# -p expose port on the host
-		docker run --rm \
-		-v "$(pwd)/db:/db" \
-		-v "$(pwd):/app" \
-		--env-file docker-compose.dev.env \
-		--add-host=docker.host.internal:host-gateway \
-		-w /app -it \
-		-p 3000:3000 \
-		-p 3002:3002 \
-		-u node \
-		stripeshop-base \
-		/bin/bash
+		docker run \
+			--rm \
+			-v "$(pwd)/db:/db" \
+			-v "$(pwd):/app" \
+			--env-file dev.env \
+			--add-host=docker.host.internal:host-gateway \
+			-w /app -it \
+			-p 3000:3000 \
+			-p 3002:3002 \
+			-u node \
+			stripeshop-base \
+			/bin/bash
 	;;
 
 	build)
