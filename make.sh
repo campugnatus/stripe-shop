@@ -2,6 +2,7 @@
 
 # this is the entry point for the whole lifecycle of the project
 
+# abandon ship at the first sign of trouble
 set -e
 
 if [[ ! -f package.json ]]; then
@@ -12,7 +13,8 @@ fi
 # there, as there are no bind mount during the build stage, nor in
 # docker-compose.yml, as we can only declare constants there. Sooo we set it
 # right here.
-export USERID=$(stat -c %u package.json)
+USERID=$(stat -c %u package.json)
+export USERID
 
 if [[ -n $(which docker-compose) ]]; then
 	COMPOSE_CMD="docker-compose"
@@ -36,7 +38,7 @@ case "$1" in
 
 	# for some manual control, e.g. you might want to call
 	# sudo ./make.sh compose logs base -f
-	compose) shift 1; $COMPOSE $@ ;;
+	compose) shift 1; $COMPOSE "$@" ;;
 
 	clean)
 		rm -r node_modules
@@ -69,8 +71,8 @@ case "$1" in
 	build)
 		source prod.env
 		docker build \
-			--build-arg USERID=$USERID \
-			--build-arg DB_FILE=$DB_FILE \
+			--build-arg USERID="$USERID" \
+			--build-arg DB_FILE="$DB_FILE" \
 			--target production \
 			-t kotomka/stripeshop \
 			.
