@@ -15,7 +15,7 @@
     "@heroicons/vue": "^1.0.5",
     "@vueuse/core": "^8.4.2",
     "axios": "^0.26.1",
-    "better-sqlite3": "^7.6.2",
+    "better-sqlite3": "^8.0.0",
     "cookie-parser": "^1.4.6",
     "cookie-session": "^2.0.0",
     "cors": "^2.8.5",
