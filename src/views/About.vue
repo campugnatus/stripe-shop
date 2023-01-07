@@ -2,11 +2,11 @@
 	<ShopHeader/>
 
 	<article
-		class="max-w-screen-md mx-auto md:px-6 lg:mt-32 about-markdown-rendered"
+		class="max-w-screen-md mx-auto px-4 sm:px-6 lg:mt-32 about-markdown-rendered"
 		v-html="clean">
 	</article>
 
-	<div class="max-w-screen-md mx-auto md:px-6 text-right text-sm leading-6">
+	<div class="max-w-screen-md mx-auto px-4 sm:px-6 text-right text-sm leading-6">
 		<pre>
 		Andrey Shevchuk
 		campugnatus@gmail.com
