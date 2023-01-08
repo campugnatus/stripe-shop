@@ -13,12 +13,14 @@
         </h1>
       </router-link>
 
-      <div class="mt-1 mb-1 flex items-center">
+      <div class="mt-1 mb-1 flex items-center justify-between">
         <RatingStars :rating="product?.rating" class="h-5 loading:grayout" :title="product?.rating"/>
-        <span class="ml-auto loading:grayout loading:w-6">{{product?.nreviews || 0}}</span>
-        <div class="loading:grayout">
-          <ChatAltIcon class="ml-1 h-6 text-gray-700"/>
-        </div>
+        <router-link class="inline-flex" :to="`/product/${product?.id}#comments`">
+          <span class="ml-auto loading:grayout loading:w-6">{{product?.nreviews || 0}}</span>
+          <span class="loading:grayout">
+            <ChatAltIcon class="ml-1 h-6 text-gray-700"/>
+          </span>
+        </router-link>
       </div>
 
       <div class="flex-grow">

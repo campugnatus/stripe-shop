@@ -45,7 +45,7 @@
 		</div>
 	</main>
 
-	<section class="max-w-screen-xl mx-auto mt-32 px-4 sm:px-6" :class="{'loading': loading}">
+	<section id="comments" class="max-w-screen-xl mx-auto mt-32 px-4 sm:px-6" :class="{'loading': loading}">
 		<h1 class="text-2xl sm:text-3xl">User reviews</h1>
 
 		<div class="flex items-center mt-4">
