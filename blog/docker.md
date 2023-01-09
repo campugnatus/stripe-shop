@@ -118,7 +118,7 @@ Now, for the hitches...
 
 1. `docker compose` is distributed both as a standalone binary and as a docker plugin, so on different systems it can be available either as `docker-compose` or `docker compose` and my wrapper script has to account for that.
 
-1. Environment variables that we could previously pass into `docker run` with `--env-file` option now terminate at the .yml file. In order to make them propagate all the way down into the containers, we have to enumerate  them one-by-one with empty values in the `environment` option in the .yml file. Yuck!
+1. Environment variables that we could previously pass into `docker run` with `--env-file` option now terminate at the .yml file. In order to make them propagate all the way down into the containers, [we have to enumerate them one-by-one with empty values in the `environment` option in the .yml file](https://docs.docker.com/compose/environment-variables/#pass-environment-variables-to-containers). Yuck!
 
 1. When running multiple services via `docker compose up`, none of them can receive input on STDOUT, so if any of them are interactive, you'll have to run them one-by-one using `docker compose run`
 
