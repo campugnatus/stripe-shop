@@ -5,24 +5,10 @@ services:
       target: base
       args:
         - USERID=$USERID
-    environment:
-      # forward from the environment. That's kinda ugly (compared to just
-      # using the env_file option) but we need them here as well as in the
-      # services below, so...
-      - NODE_ENV
-      - SMTP_SERVER
-      - SMTP_PORT
-      - SMTP_USER
-      - SMTP_PASSWORD
-      - SMTP_FROM
-      - API_HOST
-      - API_PORT
-      - APP_HOST
-      - APP_PORT
-      - STATIC_SERVER
-      - STATIC_PATH
-      - DB_FILE
-      - BASE_URL
+    env_file:
+        # this is how we pass the environment down into the Dockerfile
+        # (instead of enumerating the variables one-by-one)
+        - $ENV_FILE
     volumes:
       - .:/app
       - ./db:/db

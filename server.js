@@ -22,7 +22,10 @@ const cookieSession = require('cookie-session')
 
 const DB = require('./db.js')
 
-const secret = 'This should be taken from somewhere like an environment variable'
+const secret = process.env.SECRET
+if (!secret) {
+	throw "Error: SECRET environment variable undefined"
+}
 const secret24 = crypto.scryptSync(secret, 'salt', 24)
 
 const nodemailer = require("nodemailer")
@@ -56,7 +59,7 @@ const emailTransport = nodemailer.createTransport(nodemailerArgs)
 
 const api = express.Router()
 api.use(cookieParser())
-api.use(cookieSession({ secret: 'this is added to git, how secret can it be?' }))
+api.use(cookieSession({secret}))
 
 
 app.use(logger(process.env.NODE_ENV === "development" ? "dev" : "combined"))
@@ -101,8 +104,6 @@ api.use(express.json())
 // 	// origin: "http://localhost:3000",
 // 	credentials: true
 // }))
-
-const google_client_id = "464350742513-rv3421qgq91ugsn72g1busodgehjol0p.apps.googleusercontent.com";
 
 // api.use(function logger (req, res, next) {
 // 	console.log(req.method, req.url, req.method === "GET" ? req.query : req.body)
@@ -322,7 +323,13 @@ api.post('/login_google',
 
 		const payload = decoded.payload
 
-		if (payload.aud !== google_client_id) {
+		if (!process.env.GOOGLE_CLIENT_ID) {
+			console.error("Error: GOOGLE_CLIENT_ID environment variable undefined")
+			res.status(500).send()
+			return
+		}
+
+		if (payload.aud !== process.env.GOOGLE_CLIENT_ID) {
 			res.status(400).json({jwt: "bad token: client id doesn't match"})
 			return
 		}
@@ -679,7 +686,6 @@ api.get("/reviews/:id", (req, res, next) => {
 // TODO: use 'uuid' npm package
 
 function newUuid () {
-	const secret = 'abcdefgh' // TODO: secret
 	let buf = Float64Array.from([Math.random(), Math.random(),
 		                           Math.random(), Math.random()])
 	const hash = crypto.createHmac('sha256', secret)

@@ -18,9 +18,15 @@ const buttonContainer = ref(null)
 
 let loading = ref(false)
 
+
 onMounted(async () => {
+  if (!import.meta.env.VITE_GOOGLE_CLIENT_ID) {
+    console.error("VITE_GOOGLE_CLIENT_ID environment variable undefined")
+    return
+  }
+
   google.accounts.id.initialize({
-    client_id: "464350742513-rv3421qgq91ugsn72g1busodgehjol0p.apps.googleusercontent.com",
+    client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
     callback: googleSignInCallback
   })
 

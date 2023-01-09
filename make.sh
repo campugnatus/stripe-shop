@@ -22,8 +22,9 @@ else
 	COMPOSE_CMD="docker compose"
 fi
 
+export ENV_FILE=dev.env
 COMPOSE="$COMPOSE_CMD
-	--env-file dev.env
+	--env-file $ENV_FILE
 	-f docker-compose.dev.yml
 "
 
@@ -73,14 +74,15 @@ case "$1" in
 		docker build \
 			--build-arg USERID="$USERID" \
 			--build-arg DB_FILE="$DB_FILE" \
+			--build-arg VITE_GOOGLE_CLIENT_ID="$VITE_GOOGLE_CLIENT_ID" \
 			--target production \
-			-t kotomka/stripeshop \
+			-t $IMAGE_NAME \
 			.
 	;;
 
 	stage)
 		# trying to emulate production environment as closely as possible
-		docker compose -f docker-compose.prod.yml up --remove-orphans
+		docker compose --env-file prod.env -f docker-compose.prod.yml up --remove-orphans
 	;;
 
 	setup-prod)
@@ -101,14 +103,21 @@ case "$1" in
 		#
 		# restart nginx
 		# sudo systemctl restart nginx
+		#
+		# create prod.env
+
+		# TODO: should all this be further automated? Should I put nginx &
+		# exim in containers, as well?
 	;;
 
 	deploy)
+		source prod.env
 		set -x # print the commands being executed
-		docker push kotomka/stripeshop
-		# TODO: receive user@server from an argument
-		scp docker-compose.prod.yml shadoy@shevchuk.net:
-		ssh shadoy@shevchuk.net docker pull kotomka/stripeshop
-		ssh shadoy@shevchuk.net docker-compose -f docker-compose.prod.yml up --remove-orphans --detach
+		docker push $IMAGE_NAME
+		scp docker-compose.prod.yml $DEPLOY_TARGET:
+		ssh $DEPLOY_TARGET docker pull $IMAGE_NAME
+		ssh $DEPLOY_TARGET [[ ! -f prod.env ]] \
+			&& echo "Warning: 'prod.env' doesn't exist on the server"
+		ssh $DEPLOY_TARGET docker-compose -f docker-compose.prod.yml up --remove-orphans --detach
 	;;
 esac

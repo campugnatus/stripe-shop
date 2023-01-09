@@ -10,11 +10,6 @@ FROM node:18-bullseye as base
 # must be set to UID of the user owning the current directory
 ARG USERID
 
-# We don't call npm as root anymore, but keeping this line as a residue from
-# the times when we did. For some reason, npm couldn't create this directory
-# by itself
-RUN mkdir -p /root/.npm
-
 # We're giving the user 'node' the same UID that the local user owning the
 # current directory has, so that npm can write package-lock.json and the
 # current directory, which are necessary for 'npm install' to work.
@@ -43,6 +38,7 @@ WORKDIR /app
 FROM node:18-bullseye AS builder
 WORKDIR /app
 ARG DB_FILE
+ARG VITE_GOOGLE_CLIENT_ID
 
 COPY package.json package-lock.json ./
 RUN npm ci
@@ -58,6 +54,10 @@ COPY stripes.json .
 RUN node scripts/create_db.js "$DB_FILE" scripts/create_db.sql
 RUN node scripts/populate_db.js "$DB_FILE" ./stripes.json
 
+# If we want variables from prod.env to be available here, we have to declare
+# them individually as ARG or ENV and pass them down here from make.sh
+# using --build-arg. I hate that cuz it's easy to forget one of the steps and
+# nobody will complain -- the variables will just end up undefined.
 COPY . .
 RUN npx vite build
 

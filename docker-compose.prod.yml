@@ -3,7 +3,7 @@ name:
 
 services:
   stripeshop:
-    image: kotomka/stripeshop
+    image: $IMAGE_NAME
     restart: on-failure
     env_file:
       - prod.env
@@ -12,7 +12,7 @@ services:
       - zips:/app/zips
     network_mode: "host"
     ports:
-      - 127.0.0.1:3002:3002
+      - 127.0.0.1:$API_PORT:$API_PORT
     # networks:
       # stripeshop: {}
     # extra_hosts:
