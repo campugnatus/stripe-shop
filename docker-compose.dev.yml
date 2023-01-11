@@ -42,5 +42,5 @@ services:
     # --host option is needed here because otherwise vite listens only on
     #   localhost, and localhost here refers to the container, thus making it
     #   unreachable from the host
-    command: npx vite --host
+    command: npx vite --port $APP_PORT --host
 
