@@ -20,7 +20,7 @@
 					<img
 						v-if="userStore.profile.picture"
 						:src="userStore.profile.picture"
-						class="rounded-full border-transparent border-4 group-hover:border-blue-300">
+						class="rounded-full aspect-square border-transparent border-4 group-hover:border-blue-300">
 					<UserCircleIcon v-else class="text-tomato"/>
 				</template>
 
