@@ -6,8 +6,9 @@ services:
       args:
         - USERID=$USERID
     env_file:
-        # this is how we pass the environment down into the Dockerfile
-        # (instead of enumerating the variables one-by-one)
+        # this is how we pass the environment down into the Dockerfile as well
+        # as to the inheriting services (instead of enumerating the variables
+        # one-by-one)
         - $ENV_FILE
     volumes:
       - .:/app
