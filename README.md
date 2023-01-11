@@ -21,6 +21,11 @@ Prerequisites:
 
 * docker v20.10.17, docker-compose v2.6.0
 
+Copy the environment file and customize it to your needs
+
+	cp example.env dev.env
+	cp example.env prod.env
+
 The entry point is ./make.sh
 
 	./make.sh dev		to run in dev mode with hot reloading

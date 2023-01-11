@@ -5,3 +5,7 @@
 /dist
 /build
 /pics
+
+dev.env
+stage.env
+prod.env

@@ -323,13 +323,13 @@ api.post('/login_google',
 
 		const payload = decoded.payload
 
-		if (!process.env.GOOGLE_CLIENT_ID) {
-			console.error("Error: GOOGLE_CLIENT_ID environment variable undefined")
+		if (!process.env.VITE_GOOGLE_CLIENT_ID) {
+			console.error("Error: VITE_GOOGLE_CLIENT_ID environment variable undefined")
 			res.status(500).send()
 			return
 		}
 
-		if (payload.aud !== process.env.GOOGLE_CLIENT_ID) {
+		if (payload.aud !== process.env.VITE_GOOGLE_CLIENT_ID) {
 			res.status(400).json({jwt: "bad token: client id doesn't match"})
 			return
 		}
