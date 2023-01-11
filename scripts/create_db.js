@@ -23,12 +23,12 @@ if (!migrationPath) {
 }
 
 if (!fs.existsSync(migrationPath)) {
-	console.log("Error: migration file doesnt exist:", migrationPath)
+	console.log("Error: migration file doesn't exist:", migrationPath)
 	process.exit(1)
 }
 
 if (fs.existsSync(dbPath)) {
-	console.log("Error: skip creating the database: file already exists:", dbPath)
+	console.log("Skip creating the database: file already exists:", dbPath)
 	process.exit(0) // it's okay though
 }
 
