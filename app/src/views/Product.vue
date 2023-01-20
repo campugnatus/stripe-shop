@@ -4,7 +4,7 @@
 	<main class="mx-auto mt-20 lg:mt-32 grid md:grid-cols-2 gap-8 lg:gap-16 px-4 sm:px-6" :class="{'loading': loading}">
 		<div class="flex flex-col md:items-end relative overflow-hidden">
 			<div v-if="loading" class="h-full grayout" style="aspect-ratio: 1"></div>
-			<img v-else :src="'/svg/'+product?.filename" class="w-full max-w-[400px]"/>
+			<img v-else :src="'/stripes/svg/'+product?.filename" class="w-full max-w-[400px]"/>
 		</div>
 
 		<div class="min-h-full w-full  flex flex-col max-w-[400px]">

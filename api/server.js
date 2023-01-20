@@ -113,6 +113,7 @@ api.use(express.json())
 api.use(function delay (req, res, next) {
 	// simulate network delay during development for the obviousness of the
 	// loading states
+	// TODO: turn off in prod
 	setTimeout(() => {
 		next()
 	}, 0)
@@ -222,7 +223,7 @@ async function packOrder (id) {
 // extension)
 
 async function createZip(productIds) {
-	let filenames = productIds.map(id => `svg/${id}.svg`).join(' ')
+	let filenames = productIds.map(id => `stripes/svg/${id}.svg`).join(' ')
 	let archiveName = newUuid()
 
 	return new Promise ((resolve, reject) => {

@@ -2,26 +2,35 @@ name:
   stripeshop
 
 services:
-  stripeshop:
-    image: $IMAGE_NAME
+  api:
+    image: $DOCKER_USERNAME/stripeshop-api
     restart: on-failure
+    volumes:
+      - stripes:/app/stripes
+      - db:/app/db
+      - zips:/app/zips
+    ports:
+      - $API_HOST_PORT:$API_PORT
     env_file:
       - prod.env
+    hostname: $API_HOST
+    command: bash -c 'bash scripts/setup-prod.sh && node server.js'
+
+  app:
+    image: $DOCKER_USERNAME/stripeshop-app
+    restart: on-failure
+    depends_on:
+      api:
+        condition: service_started
     volumes:
-      - db:/db
-      - zips:/app/zips
-    network_mode: "host"
+      - stripes:/usr/share/nginx/html/stripes
     ports:
-      - 127.0.0.1:$API_PORT:$API_PORT
-    # networks:
-      # stripeshop: {}
-    # extra_hosts:
-    #   - "host.docker.internal:host-gateway"
-    # stdin_open: true # docker run -i
-    # tty: true        # docker run -t
-    command:
-      node server.js
+      - $APP_HOST_PORT:$APP_PORT
+    env_file:
+      - prod.env
+    hostname: $APP_HOST
 
 volumes:
   db:
   zips:
+  stripes:

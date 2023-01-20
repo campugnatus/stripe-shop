@@ -5,15 +5,11 @@
 # abandon ship at the first sign of trouble
 set -e
 
-if [[ ! -f package.json ]]; then
-	echo "Must be run at the project's root"
-fi
-
 # We use this variable all the way down in the Dockerfile. We can't set it
 # there, as there are no bind mount during the build stage, nor in
 # docker-compose.yml, as we can only declare constants there. Sooo we set it
 # right here.
-USERID=$(stat -c %u package.json)
+USERID=$(stat -c %u .)
 export USERID
 
 if [[ -n $(which docker-compose) ]]; then
@@ -22,9 +18,8 @@ else
 	COMPOSE_CMD="docker compose"
 fi
 
-export ENV_FILE=dev.env
 COMPOSE="$COMPOSE_CMD
-	--env-file $ENV_FILE
+	--env-file dev.env
 	-f docker-compose.dev.yml
 "
 
@@ -50,34 +45,49 @@ case "$1" in
 	# like npm install
 	console)
 
+		$COMPOSE run --rm --service-ports -it setup bash
+
 		# -i = interactive
 		# -t = open terminal
 		# -v = volume
 		# -w = working dir inside the container
 		# -p expose port on the host
-		docker run \
-			--rm \
-			-v "$(pwd)/db:/db" \
-			-v "$(pwd):/app" \
-			--env-file dev.env \
-			--add-host=docker.host.internal:host-gateway \
-			-w /app -it \
-			-p 3000:3000 \
-			-p 3002:3002 \
-			-u node \
-			stripeshop-base \
-			/bin/bash
+		# docker run \
+		# 	--rm \
+		# 	-v "$(pwd)/db:/db" \
+		# 	-v "$(pwd):/app" \
+		# 	--env-file dev.env \
+		# 	--add-host=docker.host.internal:host-gateway \
+		# 	-w /app -it \
+		# 	-p 3000:3000 \
+		# 	-p 3002:3002 \
+		# 	-u node \
+		# 	stripeshop-base \
+		# 	/bin/bash
 	;;
 
 	build)
+		$0 build_api
+		$0 build_app
+	;;
+
+	build_api)
 		source prod.env
 		docker build \
-			--build-arg USERID="$USERID" \
 			--build-arg DB_FILE="$DB_FILE" \
+			--build-arg API_PORT="$API_PORT" \
+			--target production \
+			-t "$DOCKER_USERNAME/stripeshop-api" \
+			api
+	;;
+
+	build_app)
+		source prod.env
+		docker build \
 			--build-arg VITE_GOOGLE_CLIENT_ID="$VITE_GOOGLE_CLIENT_ID" \
 			--target production \
-			-t $IMAGE_NAME \
-			.
+			-t "$DOCKER_USERNAME/stripeshop-app" \
+			app
 	;;
 
 	stage)
@@ -113,11 +123,13 @@ case "$1" in
 	deploy)
 		source prod.env
 		set -x # print the commands being executed
-		docker push $IMAGE_NAME
-		scp docker-compose.prod.yml $DEPLOY_TARGET:
+		docker push "$DOCKER_USERNAME/stripeshop-app"
+		docker push "$DOCKER_USERNAME/stripeshop-api"
+
+		scp docker-compose.prod.yml $DEPLOY_TARGET:docker-compose.yml
 		ssh $DEPLOY_TARGET docker pull $IMAGE_NAME
 		ssh $DEPLOY_TARGET [[ ! -f prod.env ]] \
 			&& echo "Warning: 'prod.env' doesn't exist on the server"
-		ssh $DEPLOY_TARGET docker-compose -f docker-compose.prod.yml up --remove-orphans --detach
+		ssh $DEPLOY_TARGET docker-compose up --remove-orphans --detach
 	;;
 esac

@@ -21,16 +21,13 @@ Prerequisites:
 
 * docker v20.10.17, docker-compose v2.6.0
 
-Copy the environment file and customize it to your needs
-
-	cp example.env dev.env
-	cp example.env prod.env
-
 The entry point is ./make.sh
 
 	./make.sh dev		to run in dev mode with hot reloading
 	./make.sh build		to build docker images for deployment
 	./make.sh stage		to run the containers locally as if in production
+
+Note that you have to have the rights to run docker to do any of the above, e.g. by being a member of the 'docker' group or being root [or something](https://docs.docker.com/engine/install/linux-postinstall/).
 
 # License
 

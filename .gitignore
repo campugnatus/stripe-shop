@@ -1,11 +1,14 @@
-/node_modules*
-/public
-/svg
-/zips
-/dist
-/build
-/pics
+node_modules
+
+api/zips
+api/db
+api/stripes
+
+app/public
+app/dist
+app/pics
+
+/stripes
 
 dev.env
-stage.env
 prod.env

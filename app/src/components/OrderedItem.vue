@@ -1,7 +1,7 @@
 <template>
 	<div class="flex items-center" :class="{loading}">
 		<router-link :to="'/product/'+item.productId" class="shrink-0 loading:grayout">
-			<img :src="'/svg/'+product?.filename" class="h-20 w-20 border loading:border-none border-gray-300"/>
+			<img :src="'/stripes/svg/'+product?.filename" class="h-20 w-20 border loading:border-none border-gray-300"/>
 		</router-link>
 		<div class="ml-4 min-w-0 truncate">
 			<router-link :to="'/product/'+item.productId" class="text-lg loading:grayout loading:w-10 loading:h-20 loading:after:content-[zhopa]">

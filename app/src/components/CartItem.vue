@@ -2,7 +2,7 @@
 	<div class="h-20 w-full flex bg-white" :class="{'loading': loading}">
 		<div class="border border-gray-400 h-full loading:grayout loading:border-none" style="aspect-ratio: 1">
 			<router-link :to="`/product/`+product?.id">
-				<img :src="'/svg/'+product?.filename"/>
+				<img :src="'/stripes/svg/'+product?.filename"/>
 			</router-link>
 		</div>
 		<div class="ml-4 lg:ml-6 py-1 flex flex-col justify-between relative flex-grow overflow-hidden">

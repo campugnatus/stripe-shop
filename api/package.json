@@ -1,0 +1,27 @@
+{
+  "version": "0.0.0",
+  "name": "stripeshop api server",
+  "engines": {
+    "node": "^18.12.1"
+  },
+  "scripts": {
+    "dev": "npx nodemon server.js"
+  },
+  "dependencies": {
+    "axios": "^0.26.1",
+    "better-sqlite3": "^8.0.0",
+    "cookie-parser": "^1.4.6",
+    "cookie-session": "^2.0.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.2",
+    "http-proxy-middleware": "^2.0.6",
+    "jose": "^4.6.0",
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.7.5",
+    "validator": "^13.7.0",
+    "ws": "^8.11.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}

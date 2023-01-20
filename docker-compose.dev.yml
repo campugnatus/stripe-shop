@@ -1,47 +1,56 @@
 services:
-  base:
+  setup:
+    # We use this service as a base for the api and app services as there's
+    # some common setup to be done (user setup and such). The other option
+    # would be to repeat the same setup in their corresponding Dockerfiles
+    # which is fine but not very DRY hoho.
     build:
       context: .
-      target: base
+      target: dev
       args:
         - USERID=$USERID
-    env_file:
-        # this is how we pass the environment down into the Dockerfile as well
-        # as to the inheriting services (instead of enumerating the variables
-        # one-by-one)
-        - $ENV_FILE
     volumes:
       - .:/app
-      - ./db:/db
-    working_dir: /app
-    command: ./scripts/setup_dev.sh
+    env_file:
+      - dev.env
+    command: scripts/setup.sh
 
   api:
-    depends_on:
-      base:
-        condition: service_completed_successfully
     extends:
-      service: base
+      service: setup
+    depends_on:
+      setup:
+        condition: service_completed_successfully
+    env_file:
+      - dev.env
+    volumes:
+      - ./api:/app
+      - ./stripes:/app/stripes
     ports:
       # this is where we're listening for browser connections
-      - $API_PORT:$API_PORT
-    user: node
+      - $API_HOST_PORT:$API_PORT
     hostname: $API_HOST
-    command: npm run api
+    command: bash -c 'scripts/setup.sh && npm run dev'
 
   app:
-    depends_on:
-      base:
-        condition: service_completed_successfully
     extends:
-      service: base
+      service: setup
+    depends_on:
+      setup:
+        condition: service_completed_successfully
+      api:
+        condition: service_started
+    env_file:
+      - dev.env
+    volumes:
+      - ./app:/app
+      - ./stripes:/app/stripes
     ports:
       # exposed for vite to be able to open a websocket there (HMR, yay!)
-      - $APP_PORT:$APP_PORT
-    user: node
+      - $APP_HOST_PORT:$APP_PORT
     hostname: $APP_HOST
     # --host option is needed here because otherwise vite listens only on
     #   localhost, and localhost here refers to the container, thus making it
     #   unreachable from the host
-    command: npx vite --port $APP_PORT --host
+    command: bash -c 'scripts/setup.sh && npm run dev'
 
