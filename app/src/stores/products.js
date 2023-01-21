@@ -38,8 +38,6 @@ export const useProductStore = defineStore('products', {
 
 	actions: {
 		async fetchProduct (id) {
-			assert(id)
-
 			if (this.products[id]) 
 				return this.products[id]
 

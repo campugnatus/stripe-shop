@@ -24,7 +24,6 @@ import ShopFooter from '@/components/ShopFooter.vue'
 import ShopHeader from '@/components/ShopHeader.vue'
 import { computed, onMounted, inject } from 'vue'
 
-
 import { useTitle } from '@vueuse/core'
 useTitle("About", {titleTemplate: inject('titleTemplate')})
 
