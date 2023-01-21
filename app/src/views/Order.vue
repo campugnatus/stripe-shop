@@ -91,8 +91,7 @@ import ShopFooter from '@/components/ShopFooter.vue'
 import OrderedItem from '@/components/OrderedItem.vue'
 import OrderStatus from '@/components/OrderStatus.vue'
 import Carousel from '@/components/Carousel.vue'
-import { useTitle } from '@vueuse/core'
-import { ref, watch, computed, reactive, isRef, watchEffect } from 'vue'
+import { ref, watch, computed, reactive, isRef, watchEffect, inject } from 'vue'
 import { DownloadIcon, CheckCircleIcon, ReplyIcon} from '@heroicons/vue/solid'
 import {  } from '@heroicons/vue/outline'
 import { useProductStore } from '@/stores/products'
@@ -105,7 +104,9 @@ const productStore = useProductStore()
 const userStore = useUserStore()
 const router = useRouter()
 const route = useRoute()
-const title = useTitle("Order details", { titleTemplate: '%s • Stripe shop' })
+
+import { useTitle } from '@vueuse/core'
+useTitle("Order details", {titleTemplate: inject('titleTemplate')})
 
 const orderId = computed(() => route.params.id)
 const order = computed(() => userStore.orders[orderId.value])

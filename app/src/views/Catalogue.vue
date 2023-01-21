@@ -127,7 +127,7 @@
 import WareCard from '@/components/WareCard.vue'
 import ShopHeader from '@/components/ShopHeader.vue'
 import ShopFooter from '@/components/ShopFooter.vue'
-import { computed, ref, watch, onMounted, onBeforeMount, reactive, nextTick } from 'vue'
+import { computed, ref, watch, onMounted, onBeforeMount, reactive, nextTick, inject } from 'vue'
 import { useProductStore } from '@/stores/products'
 import { useRouter, useRoute, onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
 import { showToast } from '@/plugins/toast'
@@ -135,7 +135,7 @@ import { capitalize } from '@/utils'
 import { FilterIcon } from '@heroicons/vue/outline'
 
 import {useTitle} from '@vueuse/core'
-const title = useTitle("Catalogue", { titleTemplate: '%s • Stripe shop' })
+useTitle("Catalogue", {titleTemplate: inject('titleTemplate')})
 
 const productStore = useProductStore()
 const router = useRouter()

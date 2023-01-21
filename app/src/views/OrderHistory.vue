@@ -31,17 +31,17 @@
 </template>
 
 <script setup>
-import { ref, computed, toRefs } from 'vue'
+import { ref, computed, toRefs, inject } from 'vue'
 
 import ShopHeader from '@/components/ShopHeader.vue'
 import ShopFooter from '@/components/ShopFooter.vue'
 import OrderCard from '@/components/OrderCard.vue'
 import Carousel from '@/components/Carousel.vue'
-import {useTitle} from '@vueuse/core'
 import {useUserStore} from '@/stores/user'
 import {useProductStore} from '@/stores/products'
 
-const title = useTitle("Order history", { titleTemplate: '%s • Stripe shop' })
+import {useTitle} from '@vueuse/core'
+useTitle("Order history", {titleTemplate: inject('titleTemplate')})
 
 const userStore = useUserStore()
 const productStore = useProductStore()

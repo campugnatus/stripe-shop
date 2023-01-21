@@ -106,7 +106,7 @@ import { breakpointsTailwind, useBreakpoints, useTitle } from '@vueuse/core'
 import { useProductStore } from '@/stores/products'
 import { useUserStore } from '@/stores/user'
 import { useRouter, useRoute, onBeforeRouteUpdate } from 'vue-router'
-import { ref, watch, computed, nextTick } from 'vue'
+import { ref, watch, computed, nextTick, inject } from 'vue'
 import { formatPrice } from '@/utils'
 
 const userStore = useUserStore()
@@ -120,9 +120,9 @@ const lg = breakpoints.greater('lg')
 const productId = computed(() => route.params.id)
 const product = computed(() => productStore.products[productId.value])
 
-const title = useTitle(
+useTitle(
 	computed(() => product.value?.title || "..."),
-	{ titleTemplate: '%s • Stripe shop' }
+	{ titleTemplate: inject('titleTemplate')}
 )
 
 

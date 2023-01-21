@@ -88,6 +88,9 @@ app.use(createPinia())
 app.use(ToastPlugin)
 app.mount('#app')
 
+// to be used with useTitle from @vueuse
+app.provide('titleTemplate', '%s • Stripe shop')
+
 // const productStore = useProductStore()
 
 // prefetch a page just in case... or should we?

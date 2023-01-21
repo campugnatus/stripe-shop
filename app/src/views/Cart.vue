@@ -115,7 +115,7 @@ import { useProductStore } from '@/stores/products'
 import { useUserStore } from '@/stores/user'
 
 import {useTitle} from '@vueuse/core'
-const title = useTitle("Cart", { titleTemplate: '%s • Stripe shop' })
+useTitle("Cart", { titleTemplate: inject('titleTemplate')})
 
 const cart = useCartStore()
 const products = useProductStore()
