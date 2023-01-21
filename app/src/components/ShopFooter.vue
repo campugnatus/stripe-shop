@@ -10,7 +10,7 @@
 
 			<section class="hidden xl:block">
 				<router-link to="/" class="font-sigmar block">
-					<img src="/logo/logo-short-mono.svg" class="w-36 mr-12"/>
+					<img src="/images/logo/logo-short-mono.svg" class="w-36 mr-12"/>
 				</router-link>
 			</section>
 

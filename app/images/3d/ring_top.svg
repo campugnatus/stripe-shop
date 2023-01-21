@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="164"
+   height="164"
+   fill="none"
+   version="1.1"
+   id="svg3709"
+   sodipodi:docname="ring_top.svg"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)">
+  <metadata
+     id="metadata3715">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs3713" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="2023"
+     inkscape:window-height="1023"
+     id="namedview3711"
+     showgrid="false"
+     inkscape:zoom="3.5915851"
+     inkscape:cx="36.617509"
+     inkscape:cy="82.856273"
+     inkscape:window-x="0"
+     inkscape:window-y="701"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg3709" />
+  <path
+     d="M133.025.3735c3.436 4.3522 4.888 10.434 4.379 17.7205-.703 10.0533-5.07 22.4432-12.981 36.0421-15.824 27.1982-43.0823 54.4509-70.2869 70.2719-13.6017 7.91-25.9944 12.276-36.0498 12.978-7.2928.51-13.3784-.943-17.7328-4.382a95.8772 95.8772 0 0011.1418 13.373c5.7147 5.713 11.9776 10.546 18.614 14.506 8.6619 5.161 22.7547 3.499 38.9075-3.76 16.1527-7.258 34.3332-20.066 51.1852-36.915 16.853-16.849 29.664-35.0266 36.925-51.176 7.26-16.1501 8.916-30.2333 3.754-38.8934h.036c-3.962-6.6355-8.795-12.897-14.511-18.6113A95.9339 95.9339 0 00133.034.3869l-.009-.0134z"
+     fill="#FC0"
+     id="path3707" />
+</svg>

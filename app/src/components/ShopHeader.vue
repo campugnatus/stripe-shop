@@ -3,7 +3,7 @@
 
     <section class="mt-2 lg:mt-0 flex">
       <router-link to="/" class="block w-28 lg:w-36 h-10 lg:h-16 relative">
-        <img src="/logo/logo-top.svg" class="absolute w-full bottom-0">
+        <img src="/images/logo/logo-top.svg" class="absolute w-full bottom-0">
       </router-link>
     </section>
 

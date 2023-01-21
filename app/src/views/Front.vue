@@ -4,17 +4,19 @@
     <path fill="none" stroke-dashoffset="5000" stroke-dasharray="5000" stroke="currentColor" stroke-width="27" id="long1" ref="long1" :d="d"/>
   </svg>
 
+<!--
   <header v-if="false" class="w-full h-[calc(100vh+1px)] relative max-h-[1000px] overflow-hidden shadow-2xl border-b border-gray-400 bg-white">
     <main class="max-w-screen-xl h-full mx-auto relative">
-      <img src="/pics/telka-gory-bw.jpg" class="absolute h-full max-w-[100vw] translate-x-[-46%] left-[66%]"/>
-      <img src="/logo/logo-front-stripeless.svg" class="absolute translate-y-[-50%] top-[47.2%] w-[391px] left-[11.2%]"/>
+      <img src="/images/hero/telka-gory-bw.jpg" class="absolute h-full max-w-[100vw] translate-x-[-46%] left-[66%]"/>
+      <img src="/images/logo/logo-front-stripeless.svg" class="absolute translate-y-[-50%] top-[47.2%] w-[391px] left-[11.2%]"/>
     </main>
   </header>
+-->
 
   <header class="w-full h-[calc(100vh+1px)] max-h-[1000px] overflow-hidden relative shadow-2xl border-b relative border-gray-400 bg-white">
 
     <div class="absolute overflow-hidden inset-0">
-      <img src="/bds2.png" class="max-w-none absolute right-0 h-[480px] md:h-[640px] lg:h-[920px] top-[calc(50%+60px)] sm:top-[calc(44%+50px)] md:top-[calc(44%+20px)] lg:top-[calc(44%-150px)] xl:top-[calc(44%-270px)] 2xl:top-[calc(44%-360px)]">
+      <img src="/images/hero/bds2.png" class="max-w-none absolute right-0 h-[480px] md:h-[640px] lg:h-[920px] top-[calc(50%+60px)] sm:top-[calc(44%+50px)] md:top-[calc(44%+20px)] lg:top-[calc(44%-150px)] xl:top-[calc(44%-270px)] 2xl:top-[calc(44%-360px)]">
     </div>
 
     <div class="absolute font-pacifico text-2xl sm:text-3xl xl:text-4xl rotate-[-31deg] text-white
@@ -43,7 +45,7 @@
       </nav>
 
       <!-- logo -->
-      <img src="/logo/logo-front-full.svg" class="absolute w-[466px] bottom-[40%] left-[50%] translate-x-[-50%] lg:left-0 lg:translate-x-0 p-6 lg:ml-32"/>
+      <img src="/images/logo/logo-front-full.svg" class="absolute w-[466px] bottom-[40%] left-[50%] translate-x-[-50%] lg:left-0 lg:translate-x-0 p-6 lg:ml-32"/>
     </main>
   </header>
 
@@ -118,15 +120,15 @@
         </div>
 
         <div class="lg:ml-6 gallery-tile">
-          <img src="/shirt.png" class="h-full">
+          <img src="/images/gallery/shirt.png" class="h-full">
         </div>
 
         <div class="gallery-tile">
-          <img src="/socks.png" class="h-full">
+          <img src="/images/gallery/socks.png" class="h-full">
         </div>
 
         <div class="gallery-tile">
-          <img src="/walker.png" class="h-full">
+          <img src="/images/gallery/walker.png" class="h-full">
         </div>
         
         <div class="gallery-tile">
@@ -136,29 +138,29 @@
 
         
         <div class="gallery-tile">
-          <img src="/socks-1906060_960_720.jpg" class="h-full">
+          <img src="/images/gallery/socks-1906060_960_720.jpg" class="h-full">
         </div>
         
         <div class="gallery-tile">
           <img src="https://images.unsplash.com/photo-1585499583264-491df5142e83?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1050&q=80" class="h-full">
         </div>
         <div class="gallery-tile">
-          <img src="/fence.png" class="h-full">
+          <img src="/images/gallery/fence.png" class="h-full">
         </div>
         <div class="gallery-tile">
-          <img src="/pexels-photo-1098764.jpeg" class="h-full">
+          <img src="/images/gallery/pexels-photo-1098764.jpeg" class="h-full">
         </div>
         <div class="gallery-tile">
-          <img src="/pexels-photo-1591930.jpeg" class="h-full">
+          <img src="/images/gallery/pexels-photo-1591930.jpeg" class="h-full">
         </div>
         <div class="gallery-tile">
           <img src="https://images.unsplash.com/photo-1586574208875-cd77c2bfb851?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80" class="h-full">
         </div>
         <div class="gallery-tile">
-          <img src="/long_long_fence.png" class="h-full">
+          <img src="/images/gallery/long_long_fence.png" class="h-full">
         </div>
         <div class="gallery-tile">
-          <img src="/house.png" class="h-full">
+          <img src="/images/gallery/house.png" class="h-full">
         </div>
         <div class="flex-shrink-0 invisible h-full w-8"></div>
     </GalleryCarousel>
@@ -166,7 +168,7 @@
     <GalleryCarousel id="gallery2" ref="gallery2" class="h-[333px] 2xl:h-[378px] w-full">
       <div class="flex-shrink-0 xl:w-32"></div>
       <div class="gallery-tile relative">
-        <img src="/rainbow.png" class="">
+        <img src="/images/gallery/rainbow.png" class="">
         <div class="absolute bottom-0 w-full h-16 mb-16 font-pacifico text-3xl flex items-center justify-start ml-8 text-white">
           in<br> weather
         </div>
@@ -189,7 +191,7 @@
       </div>
 
       <div class="gallery-tile relative">
-        <img src="/pexels-photo-3876417.jpeg" class="h-full">
+        <img src="/images/gallery/pexels-photo-3876417.jpeg" class="h-full">
         <div class="absolute w-full pb-6 h-24 font-pacifico text-white bottom-10 text-3xl flex items-center justify-center">
           in<br> agriculture
         </div>
@@ -204,11 +206,11 @@
       </div>
 
       <div class="gallery-tile">
-        <img src="/muzhik.png" class="h-full">
+        <img src="/images/gallery/muzhik.png" class="h-full">
       </div>
       
       <div class="gallery-tile">
-        <img src="/pexels-photo-2820587.jpeg" class="h-full">
+        <img src="/images/gallery/pexels-photo-2820587.jpeg" class="h-full">
       </div>
 
 
@@ -224,17 +226,17 @@
         <img src="https://images.unsplash.com/photo-1501706362039-c06b2d715385?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=835&q=80" class="h-full">
       </div>
       <div class="gallery-tile">
-        <img src="/fish.png" class="h-full">
+        <img src="/images/gallery/fish.png" class="h-full">
       </div>
       <div class="gallery-tile">
-        <img src="/lemur.png" class="h-full">
+        <img src="/images/gallery/lemur.png" class="h-full">
       </div>
       <div class="gallery-tile">
-        <img src="/zebras2.png" class="h-full">
+        <img src="/images/gallery/zebras2.png" class="h-full">
       </div>
 
       <div class="gallery-tile">
-        <img src="/zhuchok2.png" class="h-16">
+        <img src="/images/gallery/zhuchok2.png" class="h-16">
       </div>
       <div class="flex-shrink-0 text-2xl md:text-3xl px-2 md:px-10 font-pacifico flex justify-center items-center w-min">
         in bugs
@@ -248,12 +250,12 @@
       <div class="flex-shrink-0 xl:w-96"></div>
 
       <div class="gallery-tile">
-        <img src="/test.png" class="h-full">
+        <img src="/images/gallery/test.png" class="h-full">
       </div>
 
 
       <div class="gallery-tile relative">
-        <img src="/close-up-1853572_960_720.jpg" class="h-full">
+        <img src="/images/gallery/close-up-1853572_960_720.jpg" class="h-full">
         <div class="absolute bottom-0 w-full h-16 mb-16 font-pacifico text-3xl flex items-center justify-start ml-8 text-white">
           in<br> music
         </div>
@@ -265,7 +267,7 @@
       </div>
 
       <div class="gallery-tile">
-        <img src="/road.png" class="h-full">
+        <img src="/images/gallery/road.png" class="h-full">
       </div>
 
       <div class="gallery-tile">
@@ -273,14 +275,14 @@
       </div>
 
       <div class="gallery-tile relative">
-        <img src="/pexels-photo-728824.jpeg" class="h-full">
+        <img src="/images/gallery/pexels-photo-728824.jpeg" class="h-full">
         <div class="absolute bottom-[55%] left-[10%] font-pacifico text-3xl flex items-center justify-center text-white rotate-[-30deg]">
           in<br> transport
         </div>
       </div>
 
       <div class="gallery-tile">
-        <img src="/motorcycle.png" class="h-full">
+        <img src="/images/gallery/motorcycle.png" class="h-full">
       </div>
 
 
@@ -289,11 +291,11 @@
       </div>
 
       <div class="gallery-tile">
-        <img src="/pexels-photo-1436697.webp" class="h-full">
+        <img src="/images/gallery/pexels-photo-1436697.webp" class="h-full">
       </div>
 
       <div class="gallery-tile">
-        <img src="/pexels-photo-1571134.jpeg" class="h-full">
+        <img src="/images/gallery/pexels-photo-1571134.jpeg" class="h-full">
       </div>
 
       <div class="sm:hidden font-pacifico text-2xl leading-[1.7em] mx-10 min-w-max">
@@ -408,15 +410,15 @@
 
     <div class="h-[450px] max-w-screen-xl my-6 md:mb-16 md:mt-20 mx-auto">
       <div id="spirals" ref="spirals" class="grid grid-cols-8 h-full relative">
-        <img src="/wavy.svg" class="min-w-max scale-[0.75] md:scale-110 col-start-7 md:col-start-5 absolute left-[-50px] top-[250px] md:left-[-650px] md:top-[20px] rotate-[355deg] md:rotate-0">
-        <img src="/ring_top.svg" class="oring skip min-w-max scale-[0.85] md:scale-100 col-start-5 absolute left-[-403px] top-[289px]">
-        <img id="ring" src="/ring_bottom.svg" class="oring skip min-w-max scale-[0.85] md:scale-100 col-start-5 absolute top-[282px] left-[-410px] z-[-10]">
-        <img src="/infinite.svg" class="min-w-max scale-[0.85] md:scale-95 rotate-[-14deg] md:rotate-[-15deg] col-start-5 absolute top-[-20px] left-[-320px] md:left-[-310px] md:top-[0px]">
-        <img src="/ribbon.svg" class="min-w-max scale-[0.85] md:scale-110 col-start-5 absolute left-[-135px] top-[95px] md:left-[-140px] md:top-[200px] rotate-[48deg] md:rotate-0">
-        <img src="/littlespiral.svg" class="min-w-max scale-[0.75] md:scale-100 col-start-6 absolute -rotate-6 top-[-48px] left-[-90px] rotate-[-10deg] md:rotate-0">
-        <img src="/knot.svg" class="min-w-max scale-[0.9] md:scale-100 col-start-6 md:col-start-6 absolute left-[-330px] top-[190px] md:left-[-10px] md:top-[280px] rotate-[-14deg] rotate-[-9deg]">
-        <img src="/longspiral.svg" class="min-w-max scale-[0.75] md:scale-110 col-start-7 md:col-start-6 absolute left-[18px] top-[-220px] md:left-[167px] md:top-[-390px] rotate-6">
-        <img src="/spiral.svg" class="min-w-max scale-[0.75] md:scale-110 col-start-6 md:col-start-7 absolute left-[-113px] top-[225px] md:left-[80px] md:top-[200px]">
+        <img src="/images/3d/wavy.svg" class="min-w-max scale-[0.75] md:scale-110 col-start-7 md:col-start-5 absolute left-[-50px] top-[250px] md:left-[-650px] md:top-[20px] rotate-[355deg] md:rotate-0">
+        <img src="/images/3d/ring_top.svg" class="oring skip min-w-max scale-[0.85] md:scale-100 col-start-5 absolute left-[-403px] top-[289px]">
+        <img id="ring" src="/images/3d/ring_bottom.svg" class="oring skip min-w-max scale-[0.85] md:scale-100 col-start-5 absolute top-[282px] left-[-410px] z-[-10]">
+        <img src="/images/3d/infinite.svg" class="min-w-max scale-[0.85] md:scale-95 rotate-[-14deg] md:rotate-[-15deg] col-start-5 absolute top-[-20px] left-[-320px] md:left-[-310px] md:top-[0px]">
+        <img src="/images/3d/ribbon.svg" class="min-w-max scale-[0.85] md:scale-110 col-start-5 absolute left-[-135px] top-[95px] md:left-[-140px] md:top-[200px] rotate-[48deg] md:rotate-0">
+        <img src="/images/3d/littlespiral.svg" class="min-w-max scale-[0.75] md:scale-100 col-start-6 absolute -rotate-6 top-[-48px] left-[-90px] rotate-[-10deg] md:rotate-0">
+        <img src="/images/3d/knot.svg" class="min-w-max scale-[0.9] md:scale-100 col-start-6 md:col-start-6 absolute left-[-330px] top-[190px] md:left-[-10px] md:top-[280px] rotate-[-14deg] rotate-[-9deg]">
+        <img src="/images/3d/longspiral.svg" class="min-w-max scale-[0.75] md:scale-110 col-start-7 md:col-start-6 absolute left-[18px] top-[-220px] md:left-[167px] md:top-[-390px] rotate-6">
+        <img src="/images/3d/spiral.svg" class="min-w-max scale-[0.75] md:scale-110 col-start-6 md:col-start-7 absolute left-[-113px] top-[225px] md:left-[80px] md:top-[200px]">
       </div>
     </div>
 

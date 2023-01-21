@@ -4,9 +4,9 @@ api/zips
 api/db
 api/stripes
 
-app/public
 app/dist
 app/pics
+app/images/old
 
 /stripes
 
