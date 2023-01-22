@@ -1,5 +1,6 @@
 const crypto = require('crypto')
 const path = require('path')
+const {v4: uuidv4} = require('uuid')
 
 if (!process.env.DB_FILE) {
     throw "DB_FILE environment variable undefined"
@@ -13,6 +14,47 @@ const db = require('better-sqlite3')(dbPath, {
         // console.log(statement)
     }
 })
+
+
+
+
+
+
+// PONDER: Why pre-pack orders at all? Why not reassemble the archive every
+// time on download? Because since the time the user made the order, the
+// stripes they ordered could have been changed or even removed from the
+// catalogue. And we want them to still be able to get their order in spite
+// of that. That said, maybe those concerns are dumb and we should abandon
+// pre-packing and not waste our disk space for those archives that, in all
+// likelihood, nobody will ever need.
+
+async function packOrder (id) {
+    const order = getOrder(id)
+    let productIds = order.items.map(item => item.productId)
+    let filename = await createZip(productIds)
+
+    db.transaction(() => {
+        orderPutPackage(id, filename)
+        orderPushStatus(id, "packed")
+    })
+}
+
+// take in product ids, make an archive, return its name (without the
+// extension)
+
+async function createZip(productIds) {
+    let filenames = productIds.map(id => `stripes/svg/${id}.svg`).join(' ')
+    let archiveName = uuidv4()
+
+    return new Promise ((resolve, reject) => {
+        exec(
+            `zip -j zips/${archiveName}.zip ${filenames}`,
+            (err, stdout, stderr) => resolve(archiveName)
+        )
+    })
+}
+
+
 
 
 
@@ -582,6 +624,8 @@ function transaction (f) {
 
 
 module.exports  = {
+    packOrder,
+
     getUser,
     userSetPassword,
     userCheckPassword,
