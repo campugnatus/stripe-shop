@@ -1,10 +1,16 @@
 В очередь, сукины дети! В очередь!
 
+* page load times
+* stripe update procedure in prod
+* sometimes when fiddling with filters, the page hangs
+
+* spam
+   * our emails seem to end up in spam on gmail
+      * fuck! I hoped we were past that!
+
 * deployment
    * I'm not happy with the half-manual setup we have. It's brittle and poorly documented
-   * have to decide something with the stripes fetching
 
-* can we not leave dangling container/images behind?
 * tests :-O
 
 * what do I do with SMTP server in the stagin environment?
@@ -12,12 +18,12 @@
    * package exim with the app
 
 * auth
-   * are we sure user can't do anything harmful before having veryfied email?
+   * are we sure user can't do anything harmful before having verified email?
    * how can we filter bots/idiots?
 
 * SSG: server-side generation
    * Nuxt?
-   * vite ssg plugin? <- i'm leaning on this
+   * vite ssg plugin? <- i'm leaning toward this
 
 * investigate and probably turn on SQLite WAL mode
 
@@ -39,19 +45,15 @@
 * Send better emails
 * sql migrations management/automation
 
-* server.js: extract email stuff into a separate module
 * deploy rollback...
    * without docker hub that would be trivial
       * I'm sure there's a way
 
 * meditate on the log format a little bit
-* where to store deliverable .zips in prod? in a volume?
-   * what about not storing them at all?
 * bulk loading for products?
 * password scrambling in logs?
    * for now there's no passwords in logs at all
 * add <link rel="canonical"> to index.html
-* ? upgrade vite to version 4
 
 * flash of unstyled content?
 * handle archived products
