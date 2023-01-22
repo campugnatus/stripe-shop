@@ -36,58 +36,40 @@ case "$1" in
 	# sudo ./make.sh compose logs base -f
 	compose) shift 1; $COMPOSE "$@" ;;
 
-	clean)
-		rm -r node_modules
-		rm -r db
-	;;
-
-	# for the times when you want to do something inside of the container,
-	# like npm install
-	console)
-
-		$COMPOSE run --rm --service-ports -it setup bash
-
-		# -i = interactive
-		# -t = open terminal
-		# -v = volume
-		# -w = working dir inside the container
-		# -p expose port on the host
-		# docker run \
-		# 	--rm \
-		# 	-v "$(pwd)/db:/db" \
-		# 	-v "$(pwd):/app" \
-		# 	--env-file dev.env \
-		# 	--add-host=docker.host.internal:host-gateway \
-		# 	-w /app -it \
-		# 	-p 3000:3000 \
-		# 	-p 3002:3002 \
-		# 	-u node \
-		# 	stripeshop-base \
-		# 	/bin/bash
+	console) $COMPOSE run --rm --service-ports -it setup bash ;;
+	connect)
+		case "$2" in
+			api) docker exec -it stripeshop-api-1 bash ;;
+			app) docker exec -it stripeshop-app-1 bash ;;
+		esac
 	;;
 
 	build)
-		$0 build_api
-		$0 build_app
-	;;
+		case "$2" in
+			api)
+				source prod.env
+				docker build \
+					--build-arg DB_FILE="$DB_FILE" \
+					--build-arg API_PORT="$API_PORT" \
+					--target production \
+					-t "$DOCKER_USERNAME/stripeshop-api" \
+					api
+			;;
 
-	build_api)
-		source prod.env
-		docker build \
-			--build-arg DB_FILE="$DB_FILE" \
-			--build-arg API_PORT="$API_PORT" \
-			--target production \
-			-t "$DOCKER_USERNAME/stripeshop-api" \
-			api
-	;;
+			app)
+				source prod.env
+				docker build \
+					--build-arg VITE_GOOGLE_CLIENT_ID="$VITE_GOOGLE_CLIENT_ID" \
+					--target production \
+					-t "$DOCKER_USERNAME/stripeshop-app" \
+					app
+			;;
 
-	build_app)
-		source prod.env
-		docker build \
-			--build-arg VITE_GOOGLE_CLIENT_ID="$VITE_GOOGLE_CLIENT_ID" \
-			--target production \
-			-t "$DOCKER_USERNAME/stripeshop-app" \
-			app
+			*)
+				$0 build api
+				$0 build app
+			;;
+		esac
 	;;
 
 	stage)
