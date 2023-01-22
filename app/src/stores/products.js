@@ -96,7 +96,7 @@ export const useProductStore = defineStore('products', {
 			}
 
 			if (JSON.stringify(query) == this.lastQuery) {
-				log("not going to repeat the same search twice")
+				console.log("not going to repeat the same search twice")
 				return
 			}
 
@@ -105,7 +105,7 @@ export const useProductStore = defineStore('products', {
 			this.appending = query.append ? true : false
 
 			if (this.cache[this.lastQuery]) {
-				log("have the search result cached, don't fetch")
+				console.log("have the search result cached, don't fetch")
 				this.searchPromise = Promise.resolve(this.cache[this.lastQuery])
 			} else {
 				this.searchPromise = api.searchProducts(query)
@@ -123,7 +123,7 @@ export const useProductStore = defineStore('products', {
 				})
 				.catch(error => {
 					if (error === "abort") {
-						log("search aborted")
+						console.log("search aborted")
 						return // don't panic
 					}
 					else {

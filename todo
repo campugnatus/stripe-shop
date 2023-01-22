@@ -2,7 +2,6 @@
 
 * page load times
 * stripe update procedure in prod
-* sometimes when fiddling with filters, the page hangs
 
 * spam
    * our emails seem to end up in spam on gmail
