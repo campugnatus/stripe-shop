@@ -1,6 +1,5 @@
 const path = require('node:path')
 const {parse} = require('node:url')
-const {exec} = require('node:child_process')
 
 const axios = require('axios')
 const jose = require('jose')
@@ -172,8 +171,8 @@ api.post('/orders',
 		await new Promise(resolve => setTimeout(resolve, 5000))
 
 		// Notify the user that their order is ready
-		if (email) emailer.onOrder(email, id)
-		DB.orderPushStatus(id, "shipped")
+		if (order.email) emailer.onOrder(order.email, order.id)
+		DB.orderPushStatus(order.id, "shipped")
 	}
 )
 
@@ -350,7 +349,7 @@ api.post('/confirm', // TODO: rename to confirm_email for clarity sake
 	}),
 
 	(req, res, next) => {
-		const {email, name, password, code} = decodeToken(req.body.token)
+		const {email, name, password, code} = utils.decodeToken(req.body.token)
 		const userCode = req.body.code
 
 		if (userCode.toLowerCase() !== code) {
@@ -404,7 +403,7 @@ api.post('/password_reset',
 
 	(req, res, next) => {
 		const {code, token, password} = req.body
-		const {email, code: rightCode} = decodeToken(token)
+		const {email, code: rightCode} = utils.decodeToken(token)
 
 		if (code !== rightCode) {
 			res.status(401).json({code: "wrong code"})
