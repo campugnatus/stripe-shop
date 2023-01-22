@@ -1,5 +1,6 @@
 const crypto = require('crypto')
 const path = require('path')
+const {exec} = require('node:child_process')
 const {v4: uuidv4} = require('uuid')
 
 if (!process.env.DB_FILE) {
