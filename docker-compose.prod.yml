@@ -14,7 +14,7 @@ services:
     env_file:
       - prod.env
     hostname: $API_HOST
-    command: bash -c 'bash scripts/setup-prod.sh && node server.js'
+    command: bash -c 'bash scripts/setup-prod.sh && npm run prod'
 
   app:
     image: $DOCKER_USERNAME/stripeshop-app

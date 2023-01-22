@@ -5,8 +5,8 @@
     "node": "^18.12.1"
   },
   "scripts": {
-    "dev": "npx nodemon server.js",
-    "prod": "node server.js"
+    "dev": "npx nodemon src/server.js",
+    "prod": "node src/server.js"
   },
   "dependencies": {
     "axios": "^0.26.1",

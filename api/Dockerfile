@@ -17,8 +17,7 @@ COPY package.json package-lock.json ./
 RUN npm ci --omit=dev
 
 COPY scripts scripts
-# TODO: that's overly hardcoded... it won't SCALE, as they say
-COPY server.js db.js validators.js ./
+COPY src src
 
 RUN mkdir /app/db
 RUN mkdir /app/zips
@@ -39,4 +38,4 @@ EXPOSE $API_PORT
 # don't run things as root
 USER node
 
-CMD node server.js
+CMD npm run prod
