@@ -37,10 +37,11 @@ const raw = `
 At the risk of stating the obvious, this is a joke shop. As such, I don't know
 if it's funny or what, but that it's not serious, I hope, raises no doubt.
 
-If you encounter any flaws or have suggestions with regard to either
-visual design, or the UX, or the inner-workings, feel free to let me know
-either by writing me an email or opening an issue on GitHub. If there's
-anything wrong with my English, don't hesitate to mention that, as well :)
+If you encounter any flaws or have suggestions with regard to either visual
+design, or the UX, or the inner-workings, feel free to let me know either by
+writing me an email or [opening an issue on GitHub](https://github.com/campugnatus/stripe-shop/issues/new).
+If there's anything wrong with my English, don't hesitate to mention that, as
+well :)
 
 ## technical overview
 
@@ -81,6 +82,10 @@ I dunno
 
 	.about-markdown-rendered ul {
 		@apply ml-4 list-disc
+	}
+
+	.about-markdown-rendered a {
+		@apply text-tomato font-bold
 	}
 
 	.about-markdown-rendered strong {
