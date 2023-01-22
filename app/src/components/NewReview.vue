@@ -54,7 +54,7 @@
 				</div>
 				<div class="flex justify-end mt-3">
 					<a
-						class="text-sky-900/50 hover:underline flex items-center mr-auto"
+						class="text-sky-900/50 hover:underline hidden sm:flex items-center mr-auto"
 						href="https://commonmark.org/help/"
 						target="_blank"
 						title="Well, some of it">
