@@ -341,7 +341,7 @@ api.post('/signup',
 )
 
 
-api.post('/confirm', // TODO: rename to confirm_email for clarity sake
+api.post('/confirm_email',
 
 	validateBody({
 		token: v.token,

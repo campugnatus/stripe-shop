@@ -66,7 +66,7 @@ export async function signup ({email, name, password, confirm}) {
 }
 
 export async function verifyCode(code, token) {
-	return axios.post('/confirm/', {token, code}).then(r => r.data)
+	return axios.post('/confirm_email', {token, code}).then(r => r.data)
 }
 
 export async function requestPasswordResetEmail(email) {

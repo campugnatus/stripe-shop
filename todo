@@ -17,7 +17,6 @@
    * package exim with the app
 
 * auth
-   * are we sure user can't do anything harmful before having verified email?
    * how can we filter bots/idiots?
 
 * SSG: server-side generation
